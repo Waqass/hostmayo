@@ -1,0 +1,102 @@
+<?php if ( $this->showPendingCCWarning == true ) { ?>
+<div class="alert alert-warning">
+    <?php echo $this->user->lang("You currently have credit cards pending validation. You should %svalidate%s them before you continue.", '<a href="index.php?fuse=clients&controller=user&view=viewusers&filter=99">', '</a>');?>
+</div>
+<?php } ?>
+
+
+<?php if ( isset($this->summary) && $this->summary != '' ) { ?>
+<div class="alert alert-success">
+    <h1 style="color:black;"><?php echo $this->user->lang("Summary");?></h1>
+    <?php echo html_entity_decode($this->summary);?>
+</div>
+<?php } ?>
+
+
+<?php
+    if ($this->passphraseDoNotMatch) { ?>
+        <div class="alert alert-danger">
+            <?php echo $this->user->lang("You have entered an invalid passphrase, please try again");?>
+        </div>
+    <?php
+    }
+
+    if (!$this->passphraseDoNotMatch &&  ($this->phase == 'create_invoice' || $this->phase == 'process_invoice')  ){ ?>
+        <div class="alert alert-success">
+            <?php echo $this->user->lang("Your recurring billing actions are currently in progress"); ?>
+        </div>
+
+        <script data-cfasync="false" type="text/javascript">
+            $(document).ready(function() {
+                <?php if ($this->phase == 'create_invoice') { ?>
+                    startCreateInvoices();
+                <?php } ?>
+                <?php if ($this->phase == 'process_invoice') { ?>
+                    startProcessingInvoices('<?php echo $this->include_declined ?>', '<?php echo $this->passphrase ?>');
+                <?php } ?>
+            });
+        </script>
+
+    <?php } else {
+        ?>
+
+    <?php if ($this->passphraseInLimbo) { ?>
+
+        <div class="alert alert-success">
+            <?php echo $this->inLimboMsg; ?>
+        </div>
+
+    <?php } else {?>
+
+        <form action="index.php" name='generateinvoice' method='GET'>
+            <input type="hidden" name="fuse" value="billing">
+            <input type="hidden" name="controller" value="invoice">
+            <input type="hidden" name="view" value="processinvoices">
+            <input type="hidden" name="batchtype" value="0">
+            <input type="hidden" name="phase" value="create_invoice">
+            <div class="alert ce-alert ce-alert-error" style="padding-bottom:20px;">
+                <div class="alert-header"><?php echo $this->user->lang("Create Invoices");?></div>
+                <p><?php echo $this->user->lang('This task can be automated using the generate invoice service. Please enable it in the %sservice settings%s', '<a href="index.php?fuse=admin&controller=settings&settings=plugins_services&type=Services&view=plugins&setting=invoicegenerator">', '</a>') . '.<br/>' . $this->user->lang('If you do not wish to enable it and generate invoices manually you can do so by clicking on the create invoices button') ?>.</p>
+
+                <button id="performaction" type='submit' class='btn btn-generate-invoices'><span><?php echo $this->user->lang("Create Invoices");?></span></button>
+                <div class="last-generated-date"><?php echo $this->user->lang("Last Generated");?>: <?php echo $this->lastGeneratedDate ?></div>
+            </div>
+
+        </form>
+
+        <form action="index.php" name='generateinvoice' method='GET'>
+        <input type="hidden" name="fuse" value="billing">
+        <input type="hidden" name="controller" value="invoice">
+        <input type="hidden" name="view" value="processinvoices">
+        <input type="hidden" name="batchtype" value="1">
+        <input type="hidden" name="phase" value="process_invoice">
+
+        <div class="alert ce-alert ce-alert-success" style="padding-bottom:20px;">
+                <div class="alert-header"><?php echo $this->user->lang("Process Credit Card Payments");?></div>
+                <p><?php echo $this->user->lang("Click here to process your customer's credit cards for invoices that are due or past-due.")."<br/><em>".$this->user->lang("If your customer's credit card is stored in Clientexec you must enter your passphrase.");?></em></p>
+
+                <div style="padding-top:15px;">
+                    <label class="checkbox">
+                      <input name="include_declined" id="include_declined" type="checkbox" value="1" />&nbsp;<?php echo $this->user->lang("Include invoices previously declined");?>
+                    </label>
+                </div>
+
+                <div id="passphrasediv">
+                    <label class="checkbox">
+                      <input name="include_passphrase" id="include_passphrase" type="checkbox" value="1" />&nbsp;<?php echo $this->user->lang("Process credit cards that require passphrase");?>
+                    </label>
+                    <div style="padding-top:8px; display:none"  id='cc_passphrase'>
+                        <span style="color:red;"><?php echo $this->user->lang("Passphrase");?></span><br>
+                        <input type='password' name='passphrase'>
+                    </div>
+                </div>
+
+                <button id="performaction" type='submit' class='btn btn-generate-invoices'><span><?php echo $this->user->lang("Process Credit Cards");?></span></button>
+                <div class="last-generated-date"><?php echo $this->user->lang("Last Processed");?>: <?php echo $this->lastRunBatch ?></div>
+            </div>
+
+        </form>
+
+    <?php } ?>
+
+<?php } ?>

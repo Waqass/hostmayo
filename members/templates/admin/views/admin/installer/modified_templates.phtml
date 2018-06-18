@@ -1,0 +1,14 @@
+<div style="margin-top:20px; text-align:left">
+    <?php echo $this->user->lang('Please note that you have customized the following files in your installation, and they will be overwritten when the upgrade package is unzipped.') ?>
+    <?php if ($this->canProceed): ?>
+        <br>
+        <?php echo $this->user->lang('You may want to save them before proceeding with the next step, and then merge your changes manually') ?>
+    <?php endif ?>
+    :
+</div>
+<ul style="margin:10px 0 0 50px; text-align:left">
+    <?php foreach ($this->modifiedTemplates as $file): ?>
+      <li><?php echo $this->escape($file) ?></li>
+    <?php endforeach ?>
+</ul>
+

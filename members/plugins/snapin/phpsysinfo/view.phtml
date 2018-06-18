@@ -1,0 +1,275 @@
+<?php if (count($this->servers) == 0) { ?>
+<div class="alert ce-alert ce-alert-error">
+    <b><?php echo $this->user->lang("There are no servers configured for this plugin");?></b><br><?php echo $this->user->lang("If you have a hosted account or server you wish to obtain stats for please submit a support ticket and request your server be added.");?>
+</div>
+<?php  return; } ?>
+
+<select name="servers" onchange=jumpMenu('self',this,0);>
+	<option VALUE="0">-- <?php echo $this->user->lang('Select A Server'); ?> --</option>
+	<?php foreach ( $this->servers as $server) { ?>
+	<option <?php echo $server['selected']; ?> value="index.php?fuse=admin&view=<?php echo $server['view']; ?>&plugin=phpsysinfo&pluginaction=showserver&serverid=<?php echo $server['id']; ?>&controller=snapins&v=view"><?php echo $server['name']; ?></option>
+	<?php  } ?>
+</select>
+
+	<?php if ( $this->serverId > 0 ) { ?>
+
+<style type="text/css">
+	.text {font-family: verdana; font-size: 11px; }
+	.hbg  { background: url(<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/hbg.gif) repeat-y right top; font-family: verdana; font-size: 11px; }
+	.vbg  {background: url(<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/vbg.gif) repeat-x left top; font-family: verdana; font-size: 11px; background-color: #f4f3f3; }
+	.pad { padding: 7px; }
+	.tvert { background: url(<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/tvert.gif) repeat-y left top; }
+</style>
+
+<br>
+<br>
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+	<tr>
+		<td valign="top">
+
+		<!-- Overall information -->
+		<table width="100%" cellspacing="1" cellpadding="0" border="0" bgcolor="#d1d1d1">
+			<tr>
+				<td>
+					<table width="100%" cellspacing="1" cellpadding="0" border="0" bgcolor="#ffffff">
+						<tr>
+							<td>
+								<table width="100%" cellspacing="0" cellpadding="7" border="0" bgcolor="#efefef">
+									<tr>
+										<td class="hbg">
+											<img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/icon-overall.gif" hspace="5" align="absmiddle">
+											<?php echo $this->user->lang('Overall Information'); ?>
+										</td>
+									</tr>
+								</table>
+								<table width="100%" height="1" cellspacing="0" cellpadding="0" border="0" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/hdiv.gif">
+									<tr>
+										<td>
+											<img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="1">
+										</td>
+									</tr>
+								</table>
+
+								<table width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#f4f3f3" class="vbg">
+									<tr>
+										<td class="pad"><?php echo $this->user->lang('Hostname'); ?></td>
+										<td width="2" class="tvert">
+											<img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td><td width="100%" class="pad"><?php echo $this->SYSINFO_HOSTNAME; ?>
+										</td>
+									</tr>
+<tr><td width="100%" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/thor.gif" colspan="3"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="2"></td></tr>
+<tr><td class="pad"><nobr><?php echo $this->user->lang('Listening IP'); ?></nobr></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td><td class="pad"><?php echo $this->SYSINFO_LISTENINGIP; ?></td></tr>
+<tr><td width="100%" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/thor.gif" colspan="3"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="1"></td></tr>
+<tr><td class="pad"><nobr><?php echo $this->user->lang('Kernel Version'); ?></nobr></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td><td class="pad"><?php echo $this->SYSINFO_KERNALVER; ?></td></tr>
+<tr><td width="100%" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/thor.gif" colspan="3"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="2"></td></tr>
+<tr><td class="pad"><nobr><?php echo $this->user->lang('Distro Name'); ?></nobr></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td><td class="pad"><?php echo $this->SYSINFO_DISTRONAME; ?></td></tr>
+<tr><td width="100%" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/thor.gif" colspan="3"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="2"></td></tr>
+<tr><td class="pad"><?php echo $this->user->lang('Uptime'); ?></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td><td class="pad"><?php echo $this->SYSINFO_UPTIME; ?></td></tr>
+<tr><td width="100%" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/thor.gif" colspan="3"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="2"></td></tr>
+<tr><td class="pad"><nobr><?php echo $this->user->lang('Current Users'); ?></nobr></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td><td class="pad"><?php echo $this->SYSINFO_CURRENTUSERS; ?></td></tr>
+<tr><td width="100%" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/thor.gif" colspan="3"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="2"></td></tr>
+<tr><td class="pad"><nobr><?php echo $this->user->lang('Load Averages'); ?></nobr></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td><td class="pad"><?php echo $this->SYSINFO_LOADAVERAGE; ?></td></tr>
+<tr><td width="100%" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/thor.gif" colspan="3"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="2"></td></tr>
+<tr><td class="pad"><nobr></nobr></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td><td class="pad"><?php echo $this->unescape($this->SYSINFO_CPULOAD); ?></td></tr>
+</table>
+
+</td></tr>
+</table>
+</td></tr>
+</table>
+
+<br>
+
+<!-- Network usage -->
+<!-- BEGIN DYNAMIC BLOCK: networkblock -->
+<table width="100%" cellspacing="1" cellpadding="0" border="0" bgcolor="#d1d1d1">
+<tr><td>
+<table width="100%" cellspacing="1" cellpadding="0" border="0" bgcolor="#ffffff">
+<tr><td>
+
+<table width="100%" cellspacing="0" cellpadding="7" border="0" bgcolor="#efefef">
+<tr><td class="hbg"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/icon-network.gif" hspace="5" align="absmiddle"><?php echo $this->user->lang('Network Usage'); ?></td></tr>
+</table>
+
+<!-- divider -->
+<table width="100%" height="1" cellspacing="0" cellpadding="0" border="0" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/hdiv.gif"><tr><td><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="1"></td></tr></table>
+
+<!-- Net Devices -->
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#f4f3f3" class="vbg">
+<tr><td width="25%" class="pad"><b><?php echo $this->user->lang('Device'); ?></b></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td><td align="center" width="25%" class="pad"><b><?php echo $this->user->lang('Received'); ?></b></td><td align="center" width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td><td align="center" width="25%" class="pad"><b><?php echo $this->user->lang('Sent'); ?></b></td><td align="center" width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td><td align="center" width="25%" class="pad"><b><?php echo $this->user->lang('Err/Drop'); ?></b></td></tr>
+
+<!-- BEGIN DYNAMIC BLOCK: netdevices -->
+<tr><td align="center" width="100%" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/thor.gif" colspan="7"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="2"></td></tr>
+<tr><td width="25%" class="pad"><?php echo $this->SYSINFO_DEVICENAME; ?></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td><td align="center" width="25%" class="pad"><?php echo $this->SYSINFO_DEVICERECEIVED; ?></td><td align="center" width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td><td align="center" width="25%" class="pad"><?php echo $this->SYSINFO_DEVICESENT; ?></td><td align="center" width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td><td align="center" width="25%" class="pad"><?php echo $this->SYSINFO_DEVICEERR; ?>/<?php echo $this->SYSINFO_DEVICEDROP; ?></td></tr>
+<!-- END DYNAMIC BLOCK: netdevices -->
+
+<tr><td width="100%" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/thor.gif" colspan="7"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="2"></td></tr>
+</table>
+
+</td></tr>
+</table>
+</td></tr>
+</table>
+<!-- END DYNAMIC BLOCK: networkblock -->
+</td>
+<td width="10"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="15" height="1"></td>
+<td valign="top">
+
+<!-- Hardware information -->
+<table width="100%" cellspacing="1" cellpadding="0" border="0" bgcolor="#d1d1d1">
+<tr><td>
+<table width="100%" cellspacing="1" cellpadding="0" border="0" bgcolor="#ffffff">
+<tr><td>
+
+<table width="100%" cellspacing="0" cellpadding="7" border="0" bgcolor="#efefef">
+<tr><td class="hbg"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/icon-hardware.gif" hspace="5" align="absmiddle"><?php echo $this->user->lang('Hardware Information'); ?></td></tr>
+</table>
+
+<!-- divider -->
+<table width="100%" height="1" cellspacing="0" cellpadding="0" border="0" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/hdiv.gif"><tr><td><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="1"></td></tr></table>
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#f4f3f3" class="vbg">
+<tr><td class="pad"><?php echo $this->user->lang('Processors'); ?></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td><td width="100%" class="pad"><?php echo $this->SYSINFO_PROCESSORS; ?></td></tr>
+<tr><td width="100%" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/thor.gif" colspan="3"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="2"></td></tr>
+<tr><td class="pad"><?php echo $this->user->lang('Model'); ?></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td><td class="pad"><?php echo $this->SYSINFO_CPUMODEL; ?></td></tr>
+<tr><td width="100%" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/thor.gif" colspan="3"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="1"></td></tr>
+<tr><td class="pad"><nobr><?php echo $this->user->lang('CPU Speed'); ?></nobr></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td><td class="pad"><?php echo $this->SYSINFO_CPUSPEED; ?></td></tr>
+<tr><td width="100%" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/thor.gif" colspan="3"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="2"></td></tr>
+<tr><td class="pad"><nobr><?php echo $this->user->lang('Cache Size'); ?></nobr></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td><td class="pad"><?php echo $this->SYSINFO_CPUCACHESIZE; ?></td></tr>
+<tr><td width="100%" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/thor.gif" colspan="3"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="2"></td></tr>
+</table>
+
+</td></tr>
+</table>
+</td></tr>
+</table>
+
+</td>
+</tr>
+</table>
+
+
+<br>
+
+<!-- Memory usage -->
+<table width="100%" cellspacing="1" cellpadding="0" border="0" bgcolor="#d1d1d1">
+<tr><td>
+<table width="100%" cellspacing="1" cellpadding="0" border="0" bgcolor="#ffffff">
+<tr><td>
+
+<table width="100%" cellspacing="0" cellpadding="7" border="0" bgcolor="#efefef">
+<tr><td class="hbg"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/icon-memory.gif" hspace="5" align="absmiddle"><?php echo $this->user->lang('Memory Usage'); ?></td></tr>
+</table>
+
+<!-- divider -->
+<table width="100%" height="1" cellspacing="0" cellpadding="0" border="0" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/hdiv.gif"><tr><td><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="1"></td></tr></table>
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#f4f3f3" class="vbg">
+<tr>
+<td width="20%" class="pad"><b><?php echo $this->user->lang('Type'); ?></b></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td width="20%" class="pad"><b><?php echo $this->user->lang('Percent Capacity'); ?></b></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td align="center" width="20%" class="pad"><b><?php echo $this->user->lang('Free'); ?></b></td><td align="center" width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td align="center" width="20%" class="pad"><b><?php echo $this->user->lang('Used'); ?></b></td><td align="center" width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td align="center" width="20%" class="pad"><b><?php echo $this->user->lang('Size'); ?></b></td>
+</tr>
+<tr><td align="center" width="100%" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/thor.gif" colspan="9"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="2"></td></tr>
+<tr>
+<td width="20%" class="pad"><?php echo $this->user->lang('Physical Memory'); ?></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td width="20%" class="pad"><?php echo $this->unescape($this->SYSINFO_MEMPERCENT); ?></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td align="center" width="20%" class="pad"><?php echo $this->SYSINFO_MEMFREE; ?></td><td align="center" width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td align="center" width="20%" class="pad"><?php echo $this->SYSINFO_MEMUSED; ?></td><td align="center" width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td align="center" width="20%" class="pad"><?php echo $this->SYSINFO_MEMTOTAL; ?></td>
+</tr>
+
+<tr><td align="center" width="100%" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/thor.gif" colspan="9"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="2"></td></tr>
+<tr>
+<td width="20%" class="pad"><?php echo $this->user->lang('- Kernel + applications'); ?></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td width="20%" class="pad"><?php echo $this->unescape($this->SYSINFO_KERNPERCENT); ?></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td align="center" width="20%" class="pad">&nbsp;</td><td align="center" width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td align="center" width="20%" class="pad"><?php echo $this->SYSINFO_KERNUSED; ?></td><td align="center" width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td align="center" width="20%" class="pad">&nbsp;</td>
+</tr>
+<tr><td align="center" width="100%" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/thor.gif" colspan="9"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="2"></td></tr>
+<tr>
+<td width="20%" class="pad"><?php echo $this->user->lang('- Buffers'); ?></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td width="20%" class="pad"><?php echo $this->unescape($this->SYSINFO_BUFFPERCENT); ?></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td align="center" width="20%" class="pad">&nbsp;</td><td align="center" width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td align="center" width="20%" class="pad"><?php echo $this->SYSINFO_BUFFUSED; ?></td><td align="center" width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td align="center" width="20%" class="pad">&nbsp;</td>
+</tr>
+<tr><td align="center" width="100%" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/thor.gif" colspan="9"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="2"></td></tr>
+<tr>
+<td width="20%" class="pad"><?php echo $this->user->lang('- Cached'); ?></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td width="20%" class="pad"><?php echo $this->unescape($this->SYSINFO_CACHPERCENT); ?></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td align="center" width="20%" class="pad">&nbsp;</td><td align="center" width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td align="center" width="20%" class="pad"><?php echo $this->SYSINFO_CACHUSED; ?></td><td align="center" width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td align="center" width="20%" class="pad">&nbsp;</td>
+</tr>
+<tr><td align="center" width="100%" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/thor.gif" colspan="9"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="2"></td></tr>
+<tr>
+<td width="20%" class="pad"><?php echo $this->user->lang('Disk Swap'); ?></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td width="20%" class="pad"><?php echo $this->unescape($this->SYSINFO_SWAPPERCENT); ?></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td align="center" width="20%" class="pad"><?php echo $this->SYSINFO_SWAPFREE; ?></td><td align="center" width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td align="center" width="20%" class="pad"><?php echo $this->SYSINFO_SWAPUSED; ?></td><td align="center" width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td align="center" width="20%" class="pad"><?php echo $this->SYSINFO_SWAPTOTAL; ?></td>
+</tr>
+</table>
+
+</td></tr>
+</table>
+</td></tr>
+</table>
+
+<br>
+
+<!-- Mounted Filesystems -->
+<table width="100%" cellspacing="1" cellpadding="0" border="0" bgcolor="#d1d1d1">
+<tr><td>
+<table width="100%" cellspacing="1" cellpadding="0" border="0" bgcolor="#ffffff">
+<tr><td>
+
+<table width="100%" cellspacing="0" cellpadding="7" border="0" bgcolor="#efefef">
+<tr><td class="hbg"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/icon-filesystem.gif" hspace="5" align="absmiddle"><?php echo $this->user->lang('Mounted Filesystems'); ?></td></tr>
+</table>
+
+<!-- divider -->
+<table width="100%" height="1" cellspacing="0" cellpadding="0" border="0" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/hdiv.gif"><tr><td><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="1"></td></tr></table>
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#f4f3f3" class="vbg">
+<tr>
+<td width="14%" class="pad"><b><?php echo $this->user->lang('Mount'); ?></b></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td width="14%" class="pad"><b><?php echo $this->user->lang('Type'); ?></b></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td width="14%" class="pad"><b><?php echo $this->user->lang('Partition'); ?></b></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td width="14%" class="pad"><b><?php echo $this->user->lang('Percent Capacity'); ?></b></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td width="14%" class="pad" align="center"><b><?php echo $this->user->lang('Free'); ?></b></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td width="14%" class="pad" align="center"><b><?php echo $this->user->lang('Used'); ?></b></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td width="14%" class="pad" align="center"><b><?php echo $this->user->lang('Size'); ?></b></td>
+</tr>
+
+<?php foreach ( $this->mounts as $mount ) { ?>
+<tr><td width="100%" background="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/thor.gif" colspan="13"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="1" height="2"></td></tr>
+<tr>
+<td width="14%" class="pad"><?php echo $mount['SYSINFO_MOUNTPOINT']; ?></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td width="14%" class="pad"><?php echo $mount['SYSINFO_MOUNTTYPE']; ?></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td width="14%" class="pad"><?php echo $mount['SYSINFO_MOUNTPARTITION']; ?></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td width="14%" class="pad"><?php echo $mount['SYSINFO_MOUNTPERCENT']; ?></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td width="14%" class="pad" align="center"><?php echo $mount['SYSINFO_MOUNTFREE']; ?></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td width="14%" class="pad" align="center"><?php echo $mount['SYSINFO_MOUNTUSED']; ?></td><td width="2" class="tvert"><img src="<?php echo CE_Lib::getSoftwareURL(); ?>/plugins/snapin/phpsysinfo/images/zero.gif" width="2" height="1"></td>
+<td width="14%" class="pad" align="center"><?php echo $mount['SYSINFO_MOUNTSIZE']; ?></td>
+</tr>
+<?php } ?>
+</table>
+
+</td></tr>
+</table>
+</td></tr>
+</table>
+
+	<?php
+	if ( isset($this->error) ) {
+		echo $this->user->lang('Error retrieving server information: '); echo $this->error;
+	}
+}
+?>

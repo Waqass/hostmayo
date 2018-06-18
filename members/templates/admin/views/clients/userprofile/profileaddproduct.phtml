@@ -1,0 +1,70 @@
+<label><?php echo $this->user->lang("Product Group");?></label>
+<select name='newProductGroup' class="add-productgroup" style="width:310px;">
+    <option data-productid="0">-- <?php echo $this->user->lang("Select a product group");?> --</option>
+    <?php foreach($this->productgroups as $productgroup) { ?>
+        <option value="<?php echo $productgroup[0];?>"><?php echo $productgroup[1];?></option>
+    <?php } ?>
+</select>
+
+<div id="product-div">
+<label><?php echo $this->user->lang("Product");?></label>
+<select name='newPackage' class="add-product" style="width:310px;">
+    <option>None selected</option>
+</select>
+</div>
+
+<div class="domaininformation">
+    <label><?php echo $this->user->lang("Domain Name");?></label>
+    <input type="text" name='newDomainName' id="newDomainName" class="required" style="width:297px;" />
+    <label class="checkbox">
+      <input type="checkbox" name='isTransfer'> <?php echo $this->user->lang("Check if this is a transfer");?>
+    </label>
+</div>
+
+<script data-cfasync="false" type="text/javascript">
+    $(document).ready(function(){
+        clientexec.postpageload('.richwindow');
+
+        $('.add-productgroup').bind('change',function(){
+            var id = $(this).find(':selected').val();
+            //let's populate
+            userpackages.populateproductcombos(id);
+        });
+
+        $('.add-product').select2('disable');
+
+    });
+
+    userpackages.populateproductcombos = function(id){
+        //let's not do anything if selecing 0
+        if (id == 0) {
+            $('.add-product').select2("disable");
+            return;
+        } else{
+            $('.add-product').select2("enable");
+        }
+
+        $.getJSON('index.php?action=getgroupproducts&fuse=admin&controller=index&productgroup_id='+id,function(data){
+            var json = ce.parseResponse(data);
+
+            //if domain type show the other fields
+            if (json.productGroupType == 3) {
+                $('#product-div').hide();
+                $('.domaininformation').show();
+            } else {
+                $('#product-div').show();
+                $('.domaininformation').hide();
+                $('#newDomainName').val('');
+            }
+
+            $('.add-product option').remove();
+            $(json.results).each(function(key,obj){
+                newoption = $('<option value="'+obj[0]+'">'+obj[1]+'</option>');
+                $('select.add-product').append(newoption);
+            });
+            $('.add-product option').change();
+
+        });
+    };
+
+</script>

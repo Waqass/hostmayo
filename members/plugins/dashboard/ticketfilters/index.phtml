@@ -1,0 +1,21 @@
+<div id="ticketfilters" style="margin: 30px;margin-left:30px;">
+  <ul>
+        <?php foreach($this->filters as $filter): ?>
+            <li>
+                <span class="menu-counter label label-inverse">
+                    <?php echo $filter['ticketfilter_count'] ?>
+                </span>
+                <a href="index.php?fuse=support&view=viewtickets&controller=ticket&searchfilter=<?php echo $this->escape($filter['ticketfilter_id']) ?>">
+                    <?php echo $this->escape($filter['ticketfilter_name']) ?>
+                </a>
+            </li>
+        <?php endforeach ?>
+  </ul>
+  <div id="addTicketFilter" style="margin-top:10px" class="text-right">
+      <a href="#self" class="btn btn-mini" onclick="javascript:createNewFilter();">
+        <i class="icon-plus-sign"></i>&nbsp;&nbsp;&nbsp;
+        <?php echo $this->user->lang('Add Filter') ?>
+      </a>
+  </div>
+</div>
+

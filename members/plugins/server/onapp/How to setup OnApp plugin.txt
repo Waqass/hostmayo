@@ -1,0 +1,36 @@
+This is a step-by-step guide on how to setup the OnApp plugin in ClientExec 4.1:
+
+SETTING UP THE SERVER
+- go to System Setup > Servers
+- add or edit a server
+- in the server window > "General" tab, select "OnApp Plugin" in the dropdown of the "Plugin" field
+- in the server window > "Plugin Configuration" tab, fill the fields as follows:
+* Server URL: URL to the OnApp server, ending with / (slash)
+* Username: Username used to connect to server
+* Password: Password used to connect to server
+* VM Label Custom Field: Enter the name of the package custom field that will hold the VM label for OnApp. For example: VM Label
+* VM Hostname Custom Field: Enter the name of the package custom field that will hold the VM hostname for OnApp. For example: VM Hostname
+* VM Password Custom Field: Enter the name of the package custom field that will hold the VM initial root password for OnApp. For example: VM Password
+
+SETTING UP THE PRODUCT
+- go to System Setup > Products / Addons > Products
+- at the right side of the dropdown field labeled "Product Group", there is a button labeled "+". Press this button to create a new Product Group. This will be required since we will use some custom fields that we want to be used only for this Product Group. I have always set "Type": "Hosting" for this Product Group, but I am not sure if that is OK or not.
+- after creating the Product Group, in System Setup > Products / Addons > Products, use the dropdown field labeled "Product Group" to select your new Product Group.
+- use the "Add Product" button to create the product that will use the server with OnApp plugin
+- in the product window > "Advanced" tab, select your server with OnApp in the dropdown of the "Associated servers" field. If you have setup the OnApp plugin OK, you should see a list of fields that you will need to configure for this product, according to your OnApp especifications. Please note that you can create multiple products using the server with OnApp, and setting different configurations for them in the product window > "Advanced" tab
+
+SETTING UP THE CUSTOM FIELDS REQUIRED FOR THE ONAPP PLUGIN
+- go to System Setup > Products / Addons > Custom Fields
+- create 3 custom fields as follows:
+* Field Name: use the exactly same names you have setup in the "Custom Field" fields of the OnApp plugin. In my example, they were: VM Label, VM Hostname, VM Password
+* Field Description: whatever you want to show to the customer in signup as explanation of what is this field for
+* Type: Text Field
+* Is Required: Yes
+* Admin only: No
+* Include in Signup: Yes
+* Exclude from groups: Select the product group(s) you don't wish to show this custom fields in. Here you will need to select all the Product Groups, except for the one you have created for the OnApp Product
+* Include in identifier: I do not think it would be necesary. I have always set it to No
+
+READY TO USE
+- you should be now ready to use the plugin.
+- once you have placed an order for an OnApp product, you can go to the customer profile, then to the "Products" tab, click on the respective product to see more details, and you will be able to see something like "Settings" and in front of it a dropdown button labeled "Plugin Options". Here is where you will be able to execute actions over the Virtual machine in OnApp.

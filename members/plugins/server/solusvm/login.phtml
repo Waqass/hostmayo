@@ -1,0 +1,24 @@
+<script type="text/javascript">
+    function loginToSolusVM()
+    {
+        RichHTML.mask();
+        $.ajax({
+            url: 'index.php?fuse=clients&action=callpluginaction',
+            success: function(xhr) {
+                var json = ce.parseResponse(xhr);
+                if ( json.hasha && json.hashb ) {
+                    url = '<?php echo $this->serverURL; ?>?_a=' + json.hasha + '&_b=' + json.hashb;
+                    window.location = url;
+                } else {
+                    RichHTML.error(lang('Currently unable to login to SolusVM.'));
+                }
+                RichHTML.unMask();
+            },
+            data: {
+                id: <?php echo $this->packageId; ?>,
+                actioncmd: 'authenticateClient'
+            }
+        });
+
+    }
+</script>

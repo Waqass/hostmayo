@@ -1,0 +1,51 @@
+<div class="fieldwrapper withcolor">
+    <form id="domainadvancedtab">
+
+    <label class="fieldlabel"><?php echo $this->user->lang("Registrar Plugin (Automatic Registration)");?></label>
+    <select name="product-group-plugin" style="width:170px;" id="product-group-plugin">
+    <?php foreach ($this->plugins as $registrar) { ?>
+        <option value="<?php echo $registrar['internalname'];?>" <?php echo ($registrar['internalname'] == $this->registrar) ? "selected" : ""; ?>> <?php echo $registrar['name'];?> </option>
+    <?php } ?>
+    </select><br/><br/>
+
+    <table cellpadding="5" cellspacing="5" style="width:100%">
+        <tr>
+            <td>
+                <label class="checkbox"><input type="checkbox" id="adv_autoInitiateTranfer" name="adv_autoInitiateTranfer" value="1" <?php if ($this->adv_autoInitiateTranfer == 1) echo "checked";?> /> <span class='tip-target' data-html="true" data-placement="right" data-toggle="tooltip"  title="Select to initialize any transfers automatically with out manual intervention.  Your selected plugins for the TLD needs to support this option and you will need to allow 'Transfer' domain orders."><?php echo $this->user->lang("Automatically initiate transfer requests?");?></span></label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="checkbox"><input type="checkbox" id="adv_enableNamesuggest" name="adv_enableNamesuggest" value="1" <?php if ($this->adv_enableNamesuggest == 1) echo "checked";?> /> <span class='tip-target' data-html="true" data-placement="right" data-toggle="tooltip"  title='NameSuggest is only supported on certain plugins, check this box if you wish to enable it. <br>NameSuggest is used to cross-sell additional configured TLDs to your customers.'><?php echo $this->user->lang("Enable NameSuggest?");?></span></label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="checkbox"><input type="checkbox" id="adv_enableNamespinner" name="adv_enableNamespinner" value="1" <?php if ($this->adv_enableNamespinner == 1) echo "checked";?> /> <span class='tip-target' data-html="true" data-placement="right" data-toggle="tooltip"  title='NameSpinner is only available with eNom, check this box if you wish to enable it.'><?php echo $this->user->lang("Enable NameSpinner?");?></span></label>
+            </td>
+        </tr>
+         <tr>
+            <td>
+                <div>
+                    <input type="text" style="text-align:right;width:25px;" value="<?php echo $this->adv_maxNamesuggest;?>" name="adv_maxNamesuggest" id="adv_maxNamesuggest"> <span style="margin-left:6px; font-size: 12px !important;" class='tip-target' data-html="true" data-placement="right" data-toggle="tooltip"  title='Enter the maximum amount of results you wish to display to the customer.'><?php echo $this->user->lang("Max Results");?></span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-actions">
+                    <div class="pull-right">
+                      <button type="submit" class="submit-advancedfordomain btn btn-primary"><?php echo $this->user->lang("Save Changes");?></button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+    </table>
+    </form>
+</div>
+
+
+<script data-cfasync="false" type="text/javascript">
+    clientexec.postpageload('#domainadvancedtab');
+</script>

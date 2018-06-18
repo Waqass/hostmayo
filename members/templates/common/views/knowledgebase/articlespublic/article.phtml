@@ -1,0 +1,185 @@
+<script type="text/javascript">
+    article = {};
+    article.id = <?php echo $this->articleId; ?>;
+    article.isAdmin = <?php echo ($this->gIsAdmin) ? "true" : "false"; ?>;
+</script>
+
+<?php
+    //some defaults
+    $previous_article_id = 0;
+    $next_article_id = 0;
+?>
+
+<?php if ($this->hasArticleComments) {
+    if (count($this->ArticleComments) == 1) {
+        $commentsText = "1 ".$this->user->lang("comment");
+    } else {
+        $commentsText = count($this->ArticleComments)." ".$this->user->lang("comments");
+    }
+ } else {
+    $commentsText = "0 ".$this->user->lang("comments");
+ } ?>
+
+<div class="article_content <?php if ($this->category['is_global_series']) { ?> global_series<?php } ?>">
+<?php if ($this->category['is_global_series']) { ?>
+<div class="left_article_content">
+
+    <?php foreach($this->series as $key=>$articles) { ?>
+        <span class="title"><?php echo $key;?></span>
+        <ul>
+        <?php foreach($articles as $article) { ?>
+            <?php
+                if ($article['art_id'] == $this->articleId) {
+                    $previous_article_id = $article['art_previous_id'];
+                    $previous_article_name = $article['art_previous_name'];
+                    $next_article_id = $article['art_next_id'];
+                    $next_article_name = $article['art_next_name'];
+                    $active_class = "active";
+                    $previousArticle = new KB_Article($previous_article_id);
+                    $nextArticle = new KB_Article($next_article_id);
+                } else {
+                    $active_class = "";
+                }
+            ?>
+
+            <li><a class="<?php echo $active_class;?>" href="<?php echo $article['href']; ?>"><?php echo $article['art_title'];?></a></li>
+            <?php //var_dump($article);?>
+        <?php } ?>
+        </ul>
+    <?php } ?>
+
+</div>
+<?php } ?>
+<div <?php if ($this->category['is_global_series']) { ?>class="right_article_content"<?php } ?>>
+
+<h3><div class="article-title"><?php echo $this->articleName; ?></div></h3>
+<div id="article-meta"><i class="icon-time"></i> <?php echo $this->articleModified; ?> &nbsp;&nbsp;&nbsp;<i class="icon-comments-alt"></i> <a href="#article_comments"><?php echo $this->unescape($commentsText);?></a></div>
+
+<div id="kbarticle">
+    <?php
+        $raw_description = $this->unescape($this->articleDescription);
+        //we need to remap the url as it is hard coded for admin portal
+        if ( $this->seoLinks ) {
+            $this->articleDescription = $raw_description;
+        } else {
+            $this->articleDescription = str_replace(array("../uploads/knowledgebase/", "&lt;br&gt;"),array("uploads/knowledgebase/", "<br>"),$raw_description);
+        }
+    ?>
+    <p><?php echo $this->articleDescription; ?></p>
+</div>
+
+<?php if ($this->userCanRate) { ?>
+    <div id="ratearticle">
+        <h2><?php echo $this->user->lang("How helpful was this article to you?"); ?></h2>
+        <?php if (!$this->alreadyRated) { ?>
+        <span class="rating">
+            <span class='star' data-rating='5'></span><span class='star' data-rating='4'></span><span class='star' data-rating='3'></span><span class='star' data-rating='2'></span><span class='star' data-rating='1'></span>
+        </span>
+        <?php } else { ?>
+            <span class='alert alert-info'><?php echo $this->user->lang("You have already rated this article.");?></span>
+            <br/><br/>
+            <?php //echo $this->articleRating1."&nbsp;/&nbsp;".$this->limitRate."( ".$this->ratePhrase."&nbsp;".$this->user->lang("cast")." )"; ?>
+
+            <?php
+            $rating = explode(".",$this->articleRating1);
+            $part1 = $rating[0];
+            $part2 = (isset($rating[1])) ? $rating[1] : 0;
+            for($x=1; $x<=$this->limitRate; $x++) {
+                if (($x==($part1+1)) && ($part2 > 0)) {
+                    echo '&nbsp;<i class="icon-star-half-empty""></i>';
+                } else if ($x > $part1) {
+                    echo '&nbsp;<i class="icon-star-empty""></i>';
+                } else {
+                    echo '&nbsp;<i class="icon-star"></i>';
+                }
+            }
+            ?>
+        <?php } ?>
+    </div>
+<?php } ?>
+
+
+<?php
+    //let's add series links
+    if (($previous_article_id != 0) || ($next_article_id != 0)) {
+        ?>
+
+            <div class="container-prevnextentry">
+                <?php if ($previous_article_id != 0) { ?>
+                <div class="nav-previous">
+                    <div class="meta-nav">← <?php echo $this->user->lang("Previous article");?></div><a href="<?php echo $previousArticle->generateLink(); ?>" rel="prev"><?php echo $previous_article_name;?></a>
+                </div>
+                <?php } ?>
+                <?php if ($next_article_id != 0) { ?>
+                <div class="nav-next">
+                    <div class="meta-nav"><?php echo $this->user->lang("Next article");?> →</div><a href="<?php echo $nextArticle->generateLink(); ?>" rel="next"><?php echo $next_article_name;?></a>
+                </div>
+                <?php } ?>
+            </div>
+
+            <div style="clear:both"></div>
+
+
+        <?php
+    }
+?>
+
+<?php if ($this->showrelatedtopics) { ?>
+<div class="related-topics-block">
+    <h2><?php echo $this->user->lang("Related Topics"); ?></h2>
+    <ul class="related_articles icons-ul">
+        <?php foreach ($this->relatedTopics as $relatedTopic) { ?>
+            <li>
+                <i class="icon-li icon-file-alt"></i> <a href="<?php echo $relatedTopic['articleRelatedHref']; ?>"><?php echo $relatedTopic['articleRelatedTitle'] ?></a>
+                <?php if (trim($relatedTopic['articleRelatedExcerpt']) != "") { echo "<br/><span class='related-excerpt'>".$relatedTopic['articleRelatedExcerpt']."</span>"; } ?>
+            </li>
+        <?php } ?>
+    </ul>
+</div>
+<?php } ?>
+
+<?php if ($this->hasArticleComments) { ?>
+    <h3 class="comments-title" id="article_comments"><?php echo count($this->ArticleComments)." ".$this->user->lang("Comments"); ?></h3>
+<?php } ?>
+
+<?php foreach ($this->ArticleComments as $articleComment) { ?>
+    <div class="article-comment">
+        <div class="article-comment-icon-wrapper">
+            <img src="<?php echo $articleComment['gravatarURL']; ?>" width="66" height="66" alt="icon" class="ce-default-avatar article-comment-icon" />
+        </div>
+        <div class="article-comment-wrapper">
+            <div class="article-comment-username"><?php echo $articleComment['CommentUser']; ?><br/><span class="article-comment-date"><i class="icon-time"></i> <?php echo $articleComment['dateAdded']; ?></span></div>
+            <p><?php echo nl2br($articleComment['CommentArticle']); ?></p>
+        </div>
+    </div>
+<?php } ?>
+
+
+<?php if ($this->showArticleForm) { ?>
+    <h2 class="comments-title"><?php echo $this->user->lang("Leave a comment"); ?></h2>
+    <form method="GET" action="index.php">
+        <input type="hidden" name="fuse" value="knowledgebase" />
+        <input type="hidden" name="action" value="addcomment" />
+        <input type="hidden" name="controller" value="articles" />
+        <input type="hidden" name="articleId" value="<?php echo $this->articleId; ?>" />
+        <input type="hidden" name="sessionHash" value="<?php echo CE_Lib::getSessionHash(); ?>" />
+        <?php if ($this->gIsAdmin || $this->gCustomerLoggedIn) { ?>
+            <input type="hidden" name="userName" value="<?php echo $this->user->getFullName(); ?>" />
+            <input type="hidden" name="userEmail" value="<?php echo $this->user->getEmail(); ?>" />
+            <div class="alert alert-info add-comment-as"><?php echo $this->user->lang("Add a new comment as")." ".$this->escape($this->user->getFullName()) ?></div>
+        <?php } else { ?>
+            <div class="comment-label"><?php echo $this->user->lang("Your name"); ?></div><input type="text" name="userName" class="comment-name" value="" placeholder="<?php echo $this->user->lang('Your full name') ?>" />
+            <div class="comment-label"><?php echo $this->user->lang("Your email address"); ?></div><input type="text" name="userEmail" class="comment-email" value="" placeholder="<?php echo $this->user->lang('Your E-mail address') ?>" />
+        <?php } ?>
+            <div class="comment-label"><?php echo $this->user->lang("Comment on this article"); ?></div>
+            <textarea id="userComment" name="userComment" rows="6" placeholder="<?php echo $this->user->lang('Type your comment here') ?>"></textarea>
+            <button name="btnSubmitComment" type="submit" class="rich-button" /><span><?php echo $this->user->lang("Add Comment"); ?></span></button>
+    </form>
+<?php } else {?>
+    <div class="alert">
+        <a href="index.php?fuse=home&view=login"><?php echo $this->user->lang("Anonymous posting has been disabled.  Please login or create an account to post comments.");?></a>
+    </div>
+<?php } ?>
+
+</div>
+</div>

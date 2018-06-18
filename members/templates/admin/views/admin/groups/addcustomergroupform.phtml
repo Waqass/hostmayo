@@ -1,0 +1,73 @@
+<input type="hidden" name="livesupportid" id="livesupportid" />
+<table cellpadding="5" cellspacing="0">
+    <tr>
+        <td>
+            <label class="fieldlabel"><?php echo $this->user->lang("Name");?></label>
+            <input class="required" type="text" name="groupName" value="<?php echo $this->name;?>" />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <label class="fieldlabel"><?php echo $this->user->lang("Description");?></label>
+            <textarea name="groupDescription" style="height: 100px"><?php echo $this->description; ?></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <label class="checkbox">
+                <input type="checkbox" name="useDefault" id="useDefault" checked/> <?php echo $this->user->lang('Use Default Group Color?'); ?></td>
+            </label>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <div id="hex_row" style="display: none;">
+                <span id="colour-picker">
+                    <select name="groupColor">
+                    <?php
+                        $cs = array('00', '33', '66', '99', 'CC', 'FF');
+                        for($i=0; $i<6; $i++) {
+                            for($j=0; $j<6; $j++) {
+                                for($k=0; $k<6; $k++) {
+                                    $c = $cs[$i] .$cs[$j] .$cs[$k];
+                                    if ( $this->defaultGroupColor == 0 && '#' . $c == $this->groupColor ) {
+                                        echo "<option value=\"$c\" selected=\"selected\">#$c</option>\n";
+                                    } else {
+                                        echo "<option value=\"$c\">#$c</option>\n";
+                                    }
+                                }
+                            }
+                        }
+                    ?>
+                    </select>
+                </span>
+            </div>
+        </td>
+    </tr>
+</table>
+<input type="hidden" name="isAddGroup" value="1" />
+<input type="hidden" name="groupId" value ="<?php echo $this->groupId; ?>" />
+
+<script data-cfasync="false" type="text/javascript">
+    $(document).ready(function() {
+
+        $('#useDefault').click(function() {
+            if ( $(this).is(':checked') ) {
+                $('#hex_row').hide();
+            } else {
+                $('#hex_row').show();
+            }
+        });
+
+        $('#colour-picker select').colourPicker({
+            ico: '../templates/default/img/colorPicker.gif',
+            title: false
+        });
+
+        <?php if ( $this->defaultGroupColor == 0 ) { ?>
+            $('#useDefault').attr('checked', false);
+            $('#hex_row').show();
+        <?php } ?>
+
+    });
+</script>

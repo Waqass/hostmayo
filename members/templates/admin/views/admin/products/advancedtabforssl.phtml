@@ -1,0 +1,38 @@
+<script data-cfasync="false" text="text/javascript">
+    productview.ssl = {};
+    productview.ssl.certificateId = <?php echo $this->adv_certificateId;?>;
+    productview.ssl.certificateText = "<?php echo $this->adv_certificateText;?>";
+</script>
+<div class="fieldwrapper withcolor">
+    <table cellpadding="5" cellspacing="5" style="width:100%">
+        <tr>
+            <td>
+                <label class="fieldlabel" style="margin-bottom: 10px;"><?php echo $this->user->lang("SSL Registrar");?></label>
+                <div style="position:relative;top:-3px;">
+                <select name="comboRegistrars" style="width:250px;" id="comboRegistrars">
+                    <?php foreach($this->registrars as $registrars) { ?>
+                        <option value="<?php echo $registrars['name'];?>" <?php if($this->adv_registrar == $registrars['name']) echo "selected";?>><?php echo $registrars['name'];?></option>
+                    <?php } ?>
+                </select>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="fieldlabel" style="margin-bottom: 10px;"><?php echo $this->user->lang("SSL Certificates");?></label>
+                <div style="position:relative;top:-3px;">
+                <input data-placeholder="<?php echo $this->adv_certificateText;?>" <?php if (!$this->hadregistrar) echo "disabled";?> type="hidden" name="comboCertificates" style="width:250px;" id="comboCertificates"/>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-actions">
+                    <div class="pull-right">
+                      <button type="submit" class="submit-ssl-advanced btn btn-primary"><?php echo $this->user->lang("Save Changes");?></button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

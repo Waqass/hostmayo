@@ -1,0 +1,16 @@
+<?php echo $this->profileheader($this->customer);?>
+<span class="grid-meta" id="profileAccounts-grid-metadata"></span>
+<div id="gridheader" class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+                <td><button id="addAccountButton" class="rich-button"><span><?php echo $this->user->lang("Add Account");?></span></button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="profileAccounts-grid"></div>
+<div id="profileAccounts-grid-footer" style="display:none;">
+    <button class="rich-button" id="deleteButton"><span><?php echo $this->user->lang("Delete"); ?></span></button>
+</div>

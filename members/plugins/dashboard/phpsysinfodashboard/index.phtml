@@ -1,0 +1,15 @@
+<?php foreach ($this->ServerData as $server) { ?>
+<div style="margin-bottom:10px;  text-align:left; padding-left:20px">
+    <a href="index.php?fuse=<?php echo $server['SERVERSTATUS_FUSE'];?>&amp;view=<?php echo $server['SERVERSTATUS_ACTION'];?>&amp;plugin=phpsysinfo&amp;pluginaction=showserver&amp;serverid=<?php echo $server['SERVERSTATUS_SERVERID'];?>&amp;controller=snapins&amp;v=view" style="font-size:110%">
+        <b>Server: <?php echo $server['SERVERSTATUS_SERVERNAME'];?></b>
+    </a><br/>
+    <b>Load Averages:</b> <?php echo $server['SERVERSTATUS_LOADAVERAGES'];?><br />
+    <b>Uptime:</b> <?php echo $server['SERVERSTATUS_UPTIME'];?><br />
+    <b>Memory utilization:</b> <?php echo $server['SERVERSTATUS_MEMORYUSED'];?>% ( <?php echo $server['SERVERSTATUS_MEMORYCACHED'];?>% cached)<br />
+    <b>Mounts utilizations:</b> <?php echo $server['SERVERSTATUS_MOUNTSUSED'];?>
+</div>
+<?php } ?>
+
+<?php if ($this->showNoServers) {
+    echo "<center style='margin:5px;'><br/><br/>".$this->user->lang("There are no servers configured with stat's url or your phpsysinfo plugin is not enabled.")."</center>";
+ } ?>

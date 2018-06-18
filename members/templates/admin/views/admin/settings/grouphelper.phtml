@@ -1,0 +1,14 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->user->lang($this->settingGroupName).' '.$this->user->lang("Settings"); ?></div>
+  <p class="alert-content"><?php echo $this->user->lang('Select which settings you want to modify. Note that some grid related data is ordered by dragging rows.'); ?></p>
+</div>
+
+<div id="vtabsContainer">
+    <div id="vtabsBar">
+        <?php foreach ($this->channels as $value) { ?>
+            <?php if (isset($value['url'])) { ?>
+            <a href="<?php echo $value['url'];?>"><div class="vtab <?php if(isset($value['active'])) echo $value['active'];?>"><?php echo $value['name'];?></div></a>
+            <?php } ?>
+        <?php } ?>
+    </div>
+</div>

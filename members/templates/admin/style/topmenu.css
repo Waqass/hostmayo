@@ -1,0 +1,269 @@
+/* top level
+--------------------------------------------*/
+.ce-top-menu
+{
+    margin: 0 auto; width: auto;float:left;
+    position    :absolute;
+    left        :80px;
+    z-index:4;
+    height: 36px;
+    background: transparent;
+    list-style: none;
+    padding: 0;
+}
+
+.ce-top-menu li
+{
+    padding: 0;
+    float: left;
+    height: 40px;
+    position: relative;/*delete it if you want submenu to be positioned relative to the whole menu instead of this li element*/
+    color: #EEE;
+    z-index:5;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    border-top: 1px solid transparent;
+}
+
+.ce-top-menu li:hover, .ce-top-menu li.onhover
+{
+    /*border-top:0;*/
+    background-color: #333;
+    /*-moz-box-shadow: inset 0 0 8px rgba(0,0,0, 0.25);
+    -webkit-box-shadow: inset 0 0 8px rgba(0,0,0, 0.25);*/
+    background-image: url("../images/menu/duplex_nav_dropdown_bg.gif");
+    border-left: 1px solid #2B2B2B;
+    border-right: 1px solid #2B2B2B;
+    border-top: 1px solid #2B2B2B;
+}
+.ce-top-menu a
+{
+    padding: 0 12px;
+    line-height: 40px; /*Note: keep this value the same as the height of .ce-top-menu li */
+    font-size: 13px;
+    font-weight: normal;
+    display: inline-block;
+    outline: 0;
+    text-decoration: none;
+    color: #FFF;
+    position: relative;
+}
+
+.ce-top-menu li:hover > a,
+.ce-top-menu li.onhover > a
+{
+    color: #fff;
+}
+
+/*Used to align a top-level item to the right*/
+.ce-top-menu li.menuRight
+{
+    float: right;
+    margin-right: 0px;
+}
+
+/* sub level
+--------------------------------------------*/
+
+.ce-top-menu .drop
+{
+    position: absolute;
+    z-index:5;
+    left: -9999px;
+    color: #ddd;
+    font-weight: 400;
+
+    /*
+    border: 1px solid #DDD;
+    border-bottom:3px solid #990000;
+    background-color: #f5f5f5;
+
+    */
+    top:40px;
+    text-align: left;
+    background-image: url("../images/menu/duplex_nav_dropdown_bg.gif");
+    padding: 20px;
+    padding-top: 10px;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+
+    -moz-border-radius-bottomleft     :3px;
+    -webkit-border-bottom-left-radius :3px;
+    border-bottom-left-radius         :3px;
+    -moz-border-radius-bottomright    :3px;
+    -webkit-border-bottom-right-radius:3px;
+    border-bottom-right-radius        :3px;
+
+
+    /*
+    -o-box-shadow: 0 0 4px rgba(0,0,0,.4);
+    -ms-box-shadow: 0 0 4px rgba(0,0,0,.4);
+    -moz-box-shadow: 0 0 4px rgba(0,0,0,.4);
+    -webkit-box-shadow: 0 0 4px rgba(0,0,0,.4);
+    box-shadow: 0 0 4px rgba(0,0,0,.4);
+    */
+
+    /*border-top: 1px solid #2B2B2B;*/
+    border-left: 2px solid #2B2B2B;
+    border-bottom: 2px solid #2B2B2B;
+    border-right: 2px solid #2B2B2B;
+
+}
+
+.ce-top-menu .drop.hide-drop {
+    display:none;
+}
+
+.ce-top-menu .drop .menu-counter{
+    position:relative;
+    left:-4px;
+}
+
+.ce-top-menu .drop .menu-counter.label-inverse {
+    background-color: #464646
+}
+
+.ce-top-menu .drop a
+{
+    padding-left: 0px;
+    padding-right: 0px;
+    line-height: 26px;
+    font-size: 12px;
+    font-weight: normal;
+    display: block;
+    text-align: left;
+
+    position: static;
+    z-index: 0;
+    background-image:none;
+}
+
+.ce-top-menu li:hover .drop,
+.ce-top-menu li.onhover .drop
+{
+    /*Use this property to change offset of the dropdown*/
+    left: 13px;
+}
+.ce-top-menu li:hover .dropToLeft,
+.ce-top-menu li.onhover .dropToLeft
+{
+    left: auto;
+    /*right: -1px;*/
+    right:0;
+}
+
+/* Elements within the drop down sub-menu
+--------------------------------------------*/
+
+.ce-top-menu div.drop > div {
+    margin-right:45px;
+}
+
+.ce-top-menu div.drop > div:last-of-type {
+    margin-right:0;
+}
+
+.ce-top-menu div.drop div div
+{
+    padding: 5px 10px;
+}
+.ce-top-menu li:hover .drop a, .ce-top-menu li.onhover .drop a
+{
+    background: none;
+    background-image:none;
+    padding:0 0;
+}
+.ce-top-menu div.drop div a
+{
+    line-height: 24px;
+    color: #F7F7F7;
+    font-weight: 400;
+    background:none;
+}
+.ce-top-menu div.drop div a:hover
+{
+    text-decoration:none;
+    cursor:pointer;
+    color:#FF9900;
+}
+
+.ce-top-menu div.left {float:left;}
+
+
+/* CSS3 effects
+--------------------------------------------*/
+.highlight-box .menu-drop-header a{
+    float:left;
+}
+
+.menu-drop-header a{
+    color: #3AADD1 !important;
+    font-size:13px !important;
+    font-weight: 600 !important;
+    border-bottom: 1px solid #444;
+}
+
+.menu-drop-header a:hover {
+    border-bottom: 1px solid #444 !important;
+}
+
+.menu-drop-subitems {
+    clear:both;
+    margin-top: -3px;
+}
+
+.menu-drop-subitems a {
+    text-decoration:none !important;
+    border-bottom: none !important;
+}
+
+.menu-drop-header a:hover{
+    color:#FF9900 !important;
+}
+
+.ce-top-menu li:hover > a .menu-underline,
+.ce-top-menu li.onhover > a .menu-underline {
+    border-top: 2px solid #727272;
+    position: relative;
+    top: -12px;
+}
+
+.ce-top-menu li.active > a .menu-underline {
+    border-top: 2px solid #FF9900;
+    position: relative;
+    top: -12px;
+}
+
+.topmenu-count-label {
+    height: 12px !important;
+    position: relative;
+    left: -12px;
+    text-align: center;
+    padding-left: 4px;
+    padding-right: 4px !important;
+    font-size: 10px;
+    padding-top: 0px;
+}
+
+.highlight-box {
+    text-align: left;
+    background-color: #2B2B2B;
+    padding:10px;
+
+    width: 219px;
+    padding-top: 3px;
+
+}
+
+.pull-right.highlight-box {
+    margin-right: 0px !important;
+}
+
+.highlight-box .menu-drop-header{
+    font-weight: bold;
+    font-size: 14px;
+    padding:0 !important;
+}
+

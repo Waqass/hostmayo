@@ -1,0 +1,40 @@
+<script data-cfasync="false" type="text/javascript">
+function RedirectFilter(value){
+    if(value==1){
+        this.location = "index.php?fuse=admin&controller=settings&view=coupons&type=active&settings=billing";
+    }else{
+        this.location = "index.php?fuse=admin&controller=settings&view=coupons&type=archived&settings=billing";
+    }
+}
+</script>
+
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo lang("Coupons"); ?></div>
+  <p class="alert-content"><?php echo lang("Manage coupon codes."); ?></p>
+</div>
+
+<span class="grid-meta" id="coupons-grid-metadata"></span>
+<div id="gridheader" class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+                <td><a id="addCouponButton" class="rich-button white"><?php echo $this->user->lang("Add Coupon");?></a></td>
+                <td align="left" style="width:100px">
+                    <select style="width:140px;display:none;" name="couponFilter" id="couponFilter" onchange="RedirectFilter(this.value)">
+                        <option <?php echo $this->activeselected;?> value="1"><?php echo $this->user->lang("Active Coupons");?></option>
+                        <option <?php echo $this->archivedselected;?> value="-1"><?php echo $this->user->lang("Archived Coupons");?></option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="coupons-grid"></div>
+<div id="coupons-grid-footer" style="display:none;">
+    <button class="rich-button" id="deleteCouponButton"><span><?php echo $this->user->lang("Delete"); ?></span></button>
+    <button class="rich-button" id="archiveCouponButton"><span><?php echo $this->user->lang("Archive"); ?></span></button>
+</div>
+
+<div class="table-summary-notice" style="margin-bottom:10px;margin-top:10px;">
+    <?php echo $this->user->lang("If you are using PayPal Subscriptions, you should only use recurring coupons if they are indefinite.<br/>If you prorate, percentage coupons will only take affect on setup values, if the coupon has been set for that.");?>
+</div>

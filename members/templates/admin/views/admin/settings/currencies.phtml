@@ -1,0 +1,19 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo lang("Currencies"); ?></div>
+  <p class="alert-content"><?php echo lang("Identify which currencies are supported in your Clientexec."); ?></p>
+</div>
+
+<div class="grid-meta" id="div-currencies-grid-meta"></div>
+<div id="div-gridheader" class="blue-box">
+    <a id="button-addCurrency" class="rich-button white"><?php echo $this->user->lang("Add Currency");?></a>
+</div>
+<div id="div-currencies-grid"></div>
+<div id="div-departments-grid-footer">
+    <button id="button-setDefaultCurrency" class="rich-button"><span><?php echo $this->user->lang('Set Default'); ?></span></button>
+    <button id="button-deleteCurrency" class="rich-button"><span><?php echo $this->user->lang('Delete'); ?></span></button>
+</div>
+<br/>
+<div class="well">
+    <?php echo $this->user->lang('You can not delete the default currency.'); ?><br />
+    <?php echo $this->user->lang('You can not delete currencies that have users assigned to them.'); ?>
+</div>

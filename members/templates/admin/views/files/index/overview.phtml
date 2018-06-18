@@ -1,0 +1,92 @@
+<script type="text/javascript">
+    allClientTypes = <?php echo $this->allClientTypes; ?>;
+    allServers = <?php echo $this->allServers; ?>;
+    allStatuses = <?php echo $this->allStatuses; ?>;
+</script>
+<div class="alert alert-info ce-page-header">
+    <div class="alert-header">Files &amp; Permissions</div>
+    <p class="alert-content">Here is a list of all files accessible to your users and the public. Select a file or directory from the tree on the left to edit it's permissions.</a>
+</div>
+<div><?php echo $this->products; ?></div>
+<div id="actionBar" class="blue-box">
+    <form id="fileupload" method="POST" enctype="multipart/form-data">
+        <div id="buttonAddFile" class="btn btn-small fileinput-button">
+            <span>Add Files</span>
+            <input type="file" name="files[]" multiple />
+        </div>
+    </form>
+    <button id="buttonAddDirectory" class="btn btn-small">
+        <span>Add Directory</span>
+    </button>
+</div>
+<div id="divFileListWrapper">
+    <div id="fileListWrapper">
+        <label for="fileList"></label>
+        <div id="fileList"></div>
+    </div>
+    <div id="divEntryInfo">
+        <ul class="nav nav-tabs">
+            <li class="active"><span data-toggle="tab" data-target="#fileTabInfo">Information</span></li>
+            <li><span data-toggle="tab" data-target="#fileTabPermissions">Permissions</span></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="fileTabInfo">
+                <div id="divFileDetails">
+                    Times Downloaded: <span id="spanDownloads"></span><br />
+                </div>
+                <label for="inputName">Name:</label><input type="text" id="inputName" name="name" /><br />
+                <label for="inputDesc">Description:</label><input type="text" id="inputDesc" name="desc" /><br />
+                <label for="inputNotes">Notes:</label><textarea id="inputNotes" name="notes"></textarea><br />
+            </div>
+            <div class="tab-pane" id="fileTabPermissions">
+                <div class="tip" style="margin-bottom: 10px;">Inherited permissions are displayed as darker options</div><br />
+                <input type="checkbox" id="inputLoggedin" name="Loggedin" class="inline-checkbox" /><label for="inputLoggedin" style="display: inline;">Visible to all logged-in users:</label><br />
+                <input type="checkbox" id="inputPublic" name="Public" class="inline-checkbox" /><label for="inputPublic" style="display: inline;">Visible to guests in public section:</label><br />
+                <img class="information-hover" src="../images/information-button.png" data-toggle="tooltip" title="If specific client types are selected, then it will ONLY be visible to users of those client types" /><label for="inputClientTypesSelect">Visible to the following Client Types:</label><input type="hidden" id="inputClientTypesSelect" name="clientTypesSelect" class="permissions" /><br />
+                <img class="information-hover" src="../images/information-button.png" data-toggle="tooltip" title="If specific users are selected, then it will ONLY be visible to those users" /><label for="inputUsersSelect">Visible to the following specific Users:</label><input type="hidden" id="inputUsersSelect" name="usersSelect" class="permissions" /><br />
+                <img class="information-hover" src="../images/information-button.png" data-toggle="tooltip" title="If specific servers are selected, then it will ONLY be visible to users attached to those servers" /><label for="inputServersSelect">Visible to the following Servers:</label><input type="hidden" id="inputServersSelect" name="serversSelect" class="permissions" /><br />
+                <img class="information-hover" src="../images/information-button.png" data-toggle="tooltip" title="If specific statuses are selected, then it will ONLY be visible to those users of the same status" /><label for="inputStatusSelect">Visible to the following specific status:</label><input type="hidden" id="inputStatusSelect" name="statusSelect" class="permissions" /><br />
+            </div>
+        </div>
+        <button class="btn" id="buttonSave" style="margin-left: 10px;">
+            <span>Save Changes</span>
+        </button>
+        <button class="btn" id="buttonDelete">
+            <span>Delete</span>
+        </button>
+    </div>
+    <div id="divInfoLoadingScreen"><img src="../images/loading.gif" /></div>
+</div>
+<a href="" id="download-link"><i class="icon-download icon-black"></i></a>
+<div id="divUploadWindow" style="display: none;">
+    <div class="fileupload-progress">
+        <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+            <div class="bar" style="width: 0%;"></div>
+        </div>
+        <table class="progress-extended">
+            <thead>
+                <tr>
+                    <th style="width: 21%;">Speed</th>
+                    <th style="width: 28%;">Time Remaining</th>
+                    <th style="width: 16%;">Percent</th>
+                    <th style="width: 35%;">Uploaded</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="progress-extended-speed"></td>
+                    <td class="progress-extended-time"></td>
+                    <td class="progress-extended-percent"></td>
+                    <td class="progress-extended-uploaded"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="progress-extended">&nbsp;</div>
+    </div>
+    <div class="fileupload-queue"></div>
+</div>
+<div class="fileupload-queue-template fileupload-queue-item" style="display: none;">
+    <div class="filename"></div><div class="filesize"></div><div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+        <div class="bar" style="width: 0%;"></div>
+    </div>
+</div>

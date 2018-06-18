@@ -1,0 +1,13 @@
+label {
+    margin-top: 10px;
+    margin-bottom: 0;
+    font-weight: bold;
+}
+
+label.checkbox {
+    font-weight: normal;
+}
+
+.domaininformation {
+    display:none;
+}

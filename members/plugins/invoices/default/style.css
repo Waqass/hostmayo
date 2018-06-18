@@ -1,0 +1,54 @@
+body {
+    font-family:'DejaVuSansCondensed';
+    margin:0 auto;
+}
+
+#logo {
+    padding-top:20px;
+    margin:0;
+}
+
+table {
+    width:100%;
+}
+
+td {
+    padding:8px;
+}
+
+tr.even {
+    background-color:#f9f9f9f;
+}
+
+.invoice-table-header {
+    background-color: #CCCCCC;
+}
+
+.invoice-table-header span {
+    padding-left:10em;
+}
+
+.address-block {
+    margin-top: 20px;
+}
+
+.invoice-entry-description {
+    font-weight: bold;
+}
+
+.invoice-entry-details {
+    font-size: small;
+}
+
+.invoice-header {
+    width: 100%;
+    padding: 5px;
+    text-align: right;
+    font-size: 30px;
+    text-transform: uppercase;
+    color: #888;
+}
+
+.invoice-transactions {
+    font-size: 9px;
+}

@@ -1,0 +1,25 @@
+<table cellpadding="5" cellspacing="0">
+    <tr>
+        <td>
+            <label class="fieldlabel"><?php echo $this->user->lang("Name");?></label>
+            <input class="required" type="text" name="name" style="padding-right:20px;" value="<?php echo $this->name;?>" />
+        </td>
+    </tr>
+
+     <tr>
+        <td colspan="3">
+            <label class="fieldlabel"><?php echo $this->user->lang("Code");?></label>
+            <select name="abrvValue">
+                <?php foreach ( $this->allCodes['currenciescodes'] as $code ) { ?>
+                <option <?php if ($this->selectedCode == $code['code'] ) { ?> selected="selected" <?php } ?> value="<?php echo $code['code']; ?>"><?php echo $code['code']; ?></option>
+                <?php } ?>
+            </select>
+        </td>
+    </tr>
+</table>
+<input type="hidden" name="id" value="<?php echo $this->id; ?>" />
+<script data-cfasync="false" type="text/javascript">
+    $(document).ready(function(){
+        clientexec.postpageload('.richwindow');
+    });
+</script>

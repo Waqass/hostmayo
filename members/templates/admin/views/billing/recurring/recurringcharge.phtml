@@ -1,0 +1,147 @@
+<table cellpadding="5" cellspacing="0">
+    <tr>
+        <td>
+            <label class="fieldlabel"><?php echo $this->user->lang("Select a Billing Type");?></label>
+            <select id="billingtypeid" name="billingtypeid" <?php if(!$this->canEdit){ echo "disabled";} ?> >
+              <?php foreach ( $this->billingTypes as $type ) { ?>
+                <option <?php if ( $this->billingType == $type['id'] ) {?> selected="selected" <?php } ?> value="<?php echo $type['id']; ?>"><?php echo $type['name']; ?></option>
+              <?php } ?>
+            </select>
+        </td>
+        <td>
+             <label class="fieldlabel"><?php echo $this->user->lang("Due Date");?></label>
+             <input class="required datepicker" style="width: 200px" type="text" name="duedate" value="<?php echo $this->duedate; ?>" <?php if(!$this->canEditDate){ echo "disabled";} ?> />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <label class="fieldlabel"><?php echo $this->user->lang("Charge Name");?></label>
+            <input id="name" style="width: 450px" class="required" type="text" name="name" value="<?php echo $this->name; ?>" <?php if(!$this->canEdit){ echo "disabled";} ?> />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <label class="fieldlabel"><?php echo $this->user->lang("Charge Description");?></label>
+            <textarea id="desc" class="required" style="height: 90px" name="desc" <?php if(!$this->canEdit){ echo "disabled";} ?> ><?php echo $this->description; ?></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label class="fieldlabel"><?php echo $this->user->lang("Applies to package");?></label>
+            <select name="appliestoid" <?php if(!$this->canEdit){ echo "disabled";} ?> >
+                <option value="0">None</option>
+                <?php foreach ( $this->packages as $package ) { ?>
+                <option <?php if ( $this->appliesTo == $package['id'] ) { ?> selected="selected" <?php } ?> value="<?php echo $package['id']; ?>"><?php echo $this->escape($package['name']) ?></option>
+                <?php } ?>
+            </select>
+        </td>
+        <td>
+            <label class="fieldlabel"><?php echo $this->user->lang("Price");?></label>
+            <input id="price" type="text" class="price required" name="price" value="<?php echo $this->price; ?>" <?php if(!$this->canEditPrice){ echo "disabled";} ?> />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <input type="checkbox" name="taxable" <?php echo $this->taxableChecked; ?> <?php if(!$this->canEdit){ echo "disabled";} ?> /> <?php echo $this->user->lang('Tax this entry?'); ?> <br/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label class="fieldlabel"><?php echo $this->user->lang("Billing Cycle");?></label>
+            <select name="paymentterm" <?php if(!$this->canEdit){ echo "disabled";} ?> >
+                <option <?php if ( $this->cycle == 1 ) { ?> selected="selected" <?php } ?> value="1"><?php echo $this->user->lang('Monthly'); ?></option>
+                <option <?php if ( $this->cycle == 3 ) { ?> selected="selected" <?php } ?> value="3"><?php echo $this->user->lang('Quarterly'); ?></option>
+                <option <?php if ( $this->cycle == 6 ) { ?> selected="selected" <?php } ?> value="6"><?php echo $this->user->lang('Semi-Annual'); ?></option>
+                <option <?php if ( $this->cycle == 12 ) { ?> selected="selected" <?php } ?> value="12"><?php echo $this->user->lang('Annual'); ?></option>
+                <option <?php if ( $this->cycle == 24 ) { ?> selected="selected" <?php } ?> value="24"><?php echo $this->user->lang('Every 2 Years'); ?></option>
+                <option <?php if ( $this->cycle == 36 ) { ?> selected="selected" <?php } ?> value="36"><?php echo $this->user->lang('Every 3 Years'); ?></option>
+                <option <?php if ( $this->cycle == 48 ) { ?> selected="selected" <?php } ?> value="48"><?php echo $this->user->lang('Every 4 Years'); ?></option>
+                <option <?php if ( $this->cycle == 60 ) { ?> selected="selected" <?php } ?> value="60"><?php echo $this->user->lang('Every 5 Years'); ?></option>
+                <option <?php if ( $this->cycle == 72 ) { ?> selected="selected" <?php } ?> value="72"><?php echo $this->user->lang('Every 6 Years'); ?></option>
+                <option <?php if ( $this->cycle == 84 ) { ?> selected="selected" <?php } ?> value="84"><?php echo $this->user->lang('Every 7 Years'); ?></option>
+                <option <?php if ( $this->cycle == 96 ) { ?> selected="selected" <?php } ?> value="96"><?php echo $this->user->lang('Every 8 Years'); ?></option>
+                <option <?php if ( $this->cycle == 108 ) { ?> selected="selected" <?php } ?> value="108"><?php echo $this->user->lang('Every 9 Years'); ?></option>
+                <option <?php if ( $this->cycle == 120 ) { ?> selected="selected" <?php } ?> value="120"><?php echo $this->user->lang('Every 10 Years'); ?></option>
+            </select>
+        </td>
+        <td>
+            <label class="fieldlabel"><?php echo $this->user->lang("Duration in months");?></label>
+            <input type="text" name="recurringmonths" <?php if(!$this->canEdit){ echo "disabled";} ?> />
+        </td>
+    </tr>
+    <?php if($this->allowNewSubscriptions || $this->subscriptionID){ ?>
+    <tr>
+         <td>
+            <label class="fieldlabel"><?php echo $this->user->lang("Subscription");?></label>
+            <select name="paymentSubscription" <?php if(!$this->canEdit){ echo "disabled";} ?> >
+                <option <?php if ( $this->subscription == 0 ) {?> selected="selected" <?php } ?> value="0"><?php echo $this->user->lang('No subscription'); ?></option>
+                <option <?php if ( $this->subscription == 1 ) {?> selected="selected" <?php } ?> value="1"><?php echo $this->user->lang('Subscription'); ?></option>
+            </select>
+        </td>
+         <td>
+            <?php if($this->subscriptionID){ ?>
+            <label class="fieldlabel"><?php echo $this->user->lang("Subscription ID");?></label>
+            <input type="text" name="subscriptionid" value="<?php echo $this->subscriptionID; ?>" <?php if(!$this->canEdit){ echo "disabled";} ?> />
+            <?php } ?>
+        </td>
+    </tr>
+    <?php } ?>
+</table>
+<input id="id" type="hidden" name="id" value="<?php echo $this->id; ?>" />
+
+<script data-cfasync="false" type="text/javascript">
+    $(document).ready(function() {
+        <?php if(!$this->canEdit && !$this->canEditDate){ ?>
+              $('#rich-button-submit').hide();
+        <?php }else{ ?>
+              $('#rich-button-submit').show();
+        <?php } ?>
+        clientexec.postpageload('.richwindow');
+        if ( $('#id').val() == '0' ) {
+            populateFields($('#billingtypeid').val());
+        }
+
+        $('.price').each(function() {
+            $(this).keydown(function (e) {
+                // Allow: backspace, delete, tab, escape, enter, - and .
+                if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 109, 173, 189, 190]) !== -1 ||
+                     // Allow: Ctrl+A
+                    (e.keyCode == 65 && e.ctrlKey === true) ||
+                     // Allow: home, end, left, right
+                    (e.keyCode >= 35 && e.keyCode <= 39)) {
+                         // let it happen, don't do anything
+                         return;
+                }
+                // Ensure that it is a number and stop the keypress
+                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                    e.preventDefault();
+                }
+            });
+        });
+    });
+
+    $('#billingtypeid').change(function() {
+        var billingId = $(this).val();
+        if ( $('#name').val() != '' ) {
+            RichHTML.msgBox(lang('Your data will be overwritten.  Are you sure you want to replace the text fields with the default content of the selected billing type?'),
+            {
+                type:"confirm"
+            }, function(result) {
+                if(result.btn === lang("Yes")) {
+                    populateFields(billingId);
+                }
+            });
+        } else {
+            populateFields(billingId);
+        }
+    });
+
+    function populateFields(id)
+    {
+        $.get('index.php?fuse=billing&controller=billingtype&action=gettype&id=' + id, function(data) {
+            $('#name').val(data.description);
+            $('#desc').val(data.detail);
+            $('#price').val(data.price);
+        }, 'json');
+    }
+</script>

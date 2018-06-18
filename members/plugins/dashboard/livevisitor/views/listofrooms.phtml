@@ -1,0 +1,54 @@
+<div class="box-content listofrooms">
+        <!-- find me in partials/news_with_icons -->
+
+
+    <?php
+    //icon-comment-alt when room is open
+    foreach($this->rooms as $room) {
+    ?>
+
+    <div class="box-section news with-icons">
+      <div class="avatar"> <a class="btn btn-small dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></a>
+        <ul class="dropdown-menu rooms-dropdown-menu" role="menu" aria-labelledby="dLabel">
+            <li><a data-roomid="<?php echo $room['room']['id'];?>" data-action='closeroom'>Close Room</a></li>
+            <!-- <li><a data-roomid="<?php echo $room['room']['id'];?>" data-action='inviteuser'>Invite User</a></li> -->
+            <li><a data-roomid="<?php echo $room['room']['id'];?>" data-action='clearlogs'>Clear Logs</a></li>
+        </ul>
+      </div>
+
+      <div class="news-time">
+        <span><?php echo date('d', $room['room']['time']);?></span> <?php echo date('M', $room['room']['time']); ?>
+      </div>
+      <div class="news-content">
+        <a href="#" data-roomid="<?php echo $room['room']['id'];?>" class="roomlink">
+            <div class="news-title"><?php echo $room['room']['title'];?></div>
+            <div class="news-text">
+                <?php
+
+                if (count($room['users']) === 0) echo "<i>Room is empty</i>";
+                $strUsers = "";
+                foreach($room['users'] as $user) {
+                    $splitName = explode(" ", $user['fullname']);
+                    if ($user['email'] == $this->email) {
+                        $strUsers .= "<b style='color:rgb(37, 153, 231);'>".$splitName[0]." ".$splitName[1][0]."</b>, ";
+                    } else {
+                        $strUsers .= $splitName[0]." ".$splitName[1][0].", ";
+                    }
+                }
+                echo "<i>".substr($strUsers,0,strlen($strUsers)-2)."</i>";
+
+                 ?>
+            </div>
+        </a>
+      </div>
+    </div>
+
+    <?php } ?>
+
+    <?php if (!$this->rooms): ?>
+      <div id="norooms">
+        <?php echo $this->user->lang('There are no rooms.') ?><br>
+        <?php echo $this->user->lang('You can create a new one pushing %s', '<button class="btn btn-mini" disabled><i class="icon-plus"></i></button>') ?>
+      </div>
+    <?php endif ?>
+</div>

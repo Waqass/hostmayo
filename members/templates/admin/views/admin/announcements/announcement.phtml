@@ -1,0 +1,298 @@
+<style type="text/css">
+    .window-description {
+    	overflow: hidden;
+    }
+    .window-description label {
+    	margin: 0 0 0 10px;
+    }
+    .window-description input[type="text"], .window-description textarea {
+    	margin: 0 0 10px 0;
+    }
+    .window-description .redactor_box {
+    	margin: 0 6px 10px 6px;
+    }
+    .window-description .first-row {
+    	display: inline-block;
+    }
+    .window-description input[type="checkbox"] {
+    	vertical-align: top;
+        margin: 3px 0 0 0;
+    }
+    .window-description label.display-inline {
+    	display: inline-block;
+    	margin: 4px 5px 0 10px;
+    	vertical-align: top;
+    }
+    .select2-results {
+    	max-height: 135px;
+    }
+    .window-description .select2-container {
+    	margin: 0;
+    }
+    .window-description #divSelectTarget {
+    	width: 295px;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .window-description #divSelectTargetOptions {
+    	width: 405px;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+</style>
+
+<?php $languages = CE_Lib::getEnabledLanguages();
+if(count($languages) > 1){
+    $active = true; ?>
+    <ul class="nav nav-pills">
+    <?php foreach($languages as $languageKey => $language){ ?>
+        <li <?php if($active){echo 'class="active"';} ?> >
+            <a <?php if($active){$active = false; echo 'class="default-language-tab"';} ?> href="javascript:void(0)" onclick="announcements.filterBy(this,'<?php echo $languageKey; ?>')"><?php echo $languageKey; ?></a>
+        </li>
+    <?php } ?>
+    </ul>
+<?php } ?>
+
+<div class="first-row" style="width: 545px; margin-right: 5px;">
+    <label for="inputTitle" class="bold"><?php echo $this->user->lang('Title');?>:</label>
+    <?php if(count($languages) > 1){
+        $active = true;
+        foreach($languages as $languageKey => $language){ ?>
+            <span class="language <?php echo $languageKey; ?>" <?php if(!$active){echo 'style="display: none"';} ?> ><input type="text" class="required" name="title<?php echo $languageKey; ?>" <?php if($active){$active = false; echo 'id="mainlanguagetitle"';} ?> style="width: 521px;" value="<?php echo $this->titleLanguages[$languageKey]; ?>" /></span>
+        <?php }
+    }else{ ?>
+        <input type="text" class="required" name="title" id="mainlanguagetitle" style="width: 521px;" value="<?php echo $this->title; ?>" />
+    <?php } ?>
+</div><div class="first-row" style="width: 84px; margin-right: 5px;">
+    <label for="inputDate" class="bold"><?php echo $this->user->lang('Date');?>:</label>
+    <input type="text" class="datepicker" name="date" style="width: 70px;" value="<?php echo $this->postDate; ?>" />
+</div><div class="first-row" style="width: 60px;">
+    <label for="inputTime" class="bold"><?php echo $this->user->lang('Time');?>:</label>
+    <input type="text" class="timepicker" name="time" style="width: 60px;" value="<?php echo $this->postTime; ?>" data-default-time="<?php echo $this->postTime; ?>" />
+</div>
+<label for="textareaExcerpt" class="bold"><?php echo $this->user->lang('Excerpt'); ?>:</label>
+    <?php if(count($languages) > 1){
+        $active = true;
+        foreach($languages as $languageKey => $language){ ?>
+            <span class="language <?php echo $languageKey; ?>" <?php if(!$active){echo 'style="display: none"';} ?> ><textarea name="excerpt<?php echo $languageKey; ?>" <?php if($active){$active = false; echo 'id="mainlanguageexcerpt"';} ?> class="required" style="height: 60px; width: 713px;"><?php echo $this->excerptLanguages[$languageKey];?></textarea></span>
+        <?php }
+    }else{ ?>
+        <textarea name="excerpt" id="mainlanguageexcerpt" class="required" style="height: 60px; width: 713px;"><?php echo $this->excerpt;?></textarea>
+    <?php } ?>
+<label for="textareaContent" class="bold"><?php echo $this->user->lang('Content'); ?>:</label>
+    <?php if(count($languages) > 1){
+        $active = true;
+        foreach($languages as $languageKey => $language){ ?>
+            <span class="language <?php echo $languageKey; ?>" <?php if(!$active){echo 'style="display: none"';} ?> ><textarea data-parent-selector='#announcement-window' name="content<?php echo $languageKey; ?>" <?php if($active){$active = false; echo 'id="mainlanguagecontent"';} ?> class="wysihtml5 required" data-withembed="true" style="height:200px"><?php echo $this->contentLanguages[$languageKey]; ?></textarea></span>
+        <?php }
+    }else{ ?>
+        <textarea data-parent-selector='#announcement-window' name="content" id="mainlanguagecontent" class="wysihtml5 required" data-withembed="true" style="height:200px"><?php echo $this->content; ?></textarea>
+    <?php } ?>
+<div style="position: relative; margin: 0 6px 0 0;">
+<div id="divSelectTarget">
+    <label for="selectRecipientType" class="bold display-inline" ><?php echo $this->user->lang('Audience');?>:</label> <select name="recipientType" id="selectRecipientType">
+        <option value="<?php echo $this->constant['RECIPIENTS_PUBLIC']; ?>" <?php echo $this->recipientType == $this->constant['RECIPIENTS_PUBLIC'] ? 'selected' : '' ?>><?php echo $this->user->lang('Public Announcement'); ?></option>
+        <option value="<?php echo $this->constant['RECIPIENTS_CLIENT_STATUS']; ?>" <?php echo $this->recipientType == $this->constant['RECIPIENTS_CLIENT_STATUS'] ? 'selected' : '' ?>><?php echo $this->user->lang('Select Client Statuses'); ?></option>
+        <option value="<?php echo $this->constant['RECIPIENTS_SERVERS']; ?>" <?php echo $this->recipientType == $this->constant['RECIPIENTS_SERVERS'] ? 'selected' : '' ?>><?php echo $this->user->lang('Select Servers'); ?></option>
+        <option value="<?php echo $this->constant['RECIPIENTS_PRODUCT_GROUPS']; ?>" <?php echo $this->recipientType == $this->constant['RECIPIENTS_PRODUCT_GROUPS'] ? 'selected' : '' ?>><?php echo $this->user->lang('Select Product Groups'); ?></option>
+        <option value="<?php echo $this->constant['RECIPIENTS_PRODUCTS']; ?>" <?php echo $this->recipientType == $this->constant['RECIPIENTS_PRODUCTS'] ? 'selected' : '' ?>><?php echo $this->user->lang('Select Products'); ?></option>
+        <option value="<?php echo $this->constant['RECIPIENTS_CUSTOMER_GROUPS']; ?>" <?php echo $this->recipientType == $this->constant['RECIPIENTS_CUSTOMER_GROUPS'] ? 'selected' : '' ?>><?php echo $this->user->lang('Select Customer Groups'); ?></option>
+    </select>
+</div>
+<div id="divSelectTargetOptions" data-tooltip-error="<?php echo $this->user->lang('Please select targets if specifying, or select Public Announcement'); ?>">
+    <div id="divSelectStatus" <?php echo $this->recipientType != $this->constant['RECIPIENTS_CLIENT_STATUS'] ? 'style="display: none;"' : '' ?>>
+        <label for="selectStatusTarget" class="bold display-inline" style="width: 95px;"><?php echo $this->user->lang('Client Status'); ?>:</label>
+        <input name="statusTarget" type="hidden" id="selectStatusTarget" />
+    </div>
+    <div id="divSelectServer" <?php echo $this->recipientType != $this->constant['RECIPIENTS_SERVERS'] ? 'style="display: none;"' : '' ?>>
+        <label for="selectServerTarget" class="bold display-inline" style="width: 95px;"><?php echo $this->user->lang('Servers'); ?>:</label>
+        <input name="serverTarget" type="hidden" id="selectServerTarget" />
+    </div>
+    <div id="divSelectProductGroup" <?php echo $this->recipientType != $this->constant['RECIPIENTS_PRODUCT_GROUPS'] ? 'style="display: none;"' : '' ?>>
+        <label for="selectProductGroupTarget" class="bold display-inline" style="width: 95px;"><?php echo $this->user->lang('Product Groups'); ?>:</label>
+        <input name="productGroupTarget" type="hidden" id="selectProductGroupTarget" />
+    </div>
+    <div id="divSelectProduct" <?php echo $this->recipientType != $this->constant['RECIPIENTS_PRODUCTS'] ? 'style="display: none;"' : '' ?>>
+        <label for="selectProductTarget" class="bold display-inline" style="width: 95px;"><?php echo $this->user->lang('Products'); ?>:</label>
+        <input name="productTarget" type="hidden" id="selectProductTarget" />
+    </div>
+    <div id="divSelectCustomerGroup" <?php echo $this->recipientType != $this->constant['RECIPIENTS_CUSTOMER_GROUPS'] ? 'style="display: none;"' : '' ?>>
+        <label for="selectCustomerGroupTarget" class="bold display-inline" style="width: 95px;"><?php echo $this->user->lang('Customer Groups'); ?>:</label>
+        <input name="customerGroupTarget" type="hidden" id="selectCustomerGroupTarget" />
+    </div>
+</div>
+</div>
+<div style="position: relative; margin: 40px 6px 0 0;">
+    <label for="inputPublished">
+        <input type="checkbox" name="published" id="inputPublished" <?php echo $this->published == 1 ? 'checked' : '' ?> />
+        <?php echo $this->user->lang('Publish this announcement to the recipients');?>
+    </label>
+    <label for="inputSendEmail" style="display: inline-block;" data-toggle="tooltip" title="<?php echo $this->user->lang('Checking this box will result in the sending of this announcement to all recipients immediately upon hitting Submit.');?>" data-placement="right">
+        <input type="checkbox" name="sendEmail" id="inputSendEmail" />
+        <?php echo $this->user->lang('Email this announcement to the recipients');?>
+    </label>
+    <label for="inputOverrideOptOut" id="labelOverrideOptOut" style="display: none; margin-left: 25px; width: 140px;" data-toggle="tooltip" title="<?php echo $this->user->lang('Use this to force the emailing of this announcement to customers who have opted out of announcements.');?>" data-placement="right">
+        <input type="checkbox" name="overrideOptOut" id="inputOverrideOptOut"/>
+        <span style="text-decoration: underline;"><?php echo $this->user->lang('Override Opt-Out?');?></span>
+    </label>
+</div>
+<script data-cfasync="false" type="text/javascript">
+$(document).ready(function(){
+    clientexec.postpageload('.richwindow');
+
+    announcements.selectStatusTarget = $();
+    announcements.labelOverrideOptOut = $('#labelOverrideOptOut');
+    announcements.divSelectStatus = $('#divSelectStatus');
+    announcements.divSelectServer = $('#divSelectServer');
+    announcements.divSelectProductGroup = $('#divSelectProductGroup');
+    announcements.divSelectProduct = $('#divSelectProduct');
+    announcements.divSelectCustomerGroup = $('#divSelectCustomerGroup');
+    announcements.selectRecipientType = $('#selectRecipientType');
+    announcements.selectStatusTarget = $('#selectStatusTarget');
+    announcements.selectServerTarget = $('#selectServerTarget');
+    announcements.selectProductGroupTarget = $('#selectProductGroupTarget');
+    announcements.selectProductTarget = $('#selectProductTarget');
+    announcements.selectCustomerGroupTarget = $('#selectCustomerGroupTarget');
+    announcements.divSelectTargetOptions = $('#divSelectTargetOptions');
+
+
+    /*
+    announcements.divSelectTargetOptions.tipsy({
+        gravity:   'se',
+        className: 'tipsy-error',
+        trigger:   'manual',
+        title:     'data-tooltip-error'
+    });*/
+
+    $(announcements.selectStatusTarget)
+    .add(announcements.selectServerTarget)
+    .add(announcements.selectProductGroupTarget)
+    .add(announcements.selectProductTarget)
+    .add(announcements.selectCustomerGroupTarget)
+    .focus(function() {
+        //announcements.divSelectTargetOptions.tipsy('hide');
+    });
+
+    announcements.window.options.beforeSubmit = function() {
+        var pass = true;
+        if(!$(".nav-pills li:first").hasClass("active")){
+            $(".default-language-tab").click();
+            if(!$('#mainlanguagetitle').valid()){
+                pass = false;
+            }
+            if(!$('#mainlanguageexcerpt').valid()){
+                pass = false;
+            }
+            if(!$('#mainlanguagecontent').valid()){
+                pass = false;
+            }
+        }
+        switch (parseInt(announcements.selectRecipientType.val())) {
+            case <?php echo $this->constant['RECIPIENTS_CLIENT_STATUS']; ?>: if (announcements.selectStatusTarget.val() == '') { pass = false; } break;
+            case <?php echo $this->constant['RECIPIENTS_SERVERS']; ?>: if (announcements.selectServerTarget.val() == '') { pass = false; } break;
+            case <?php echo $this->constant['RECIPIENTS_PRODUCT_GROUPS']; ?>: if (announcements.selectProductGroupTarget.val() == '') { pass = false; } break;
+            case <?php echo $this->constant['RECIPIENTS_PRODUCTS']; ?>: if (announcements.selectProductTarget.val() == '') { pass = false; } break;
+            case <?php echo $this->constant['RECIPIENTS_CUSTOMER_GROUPS']; ?>: if (announcements.selectCustomerGroupTarget.val() == '') { pass = false; } break;
+        }
+        if (!pass) {
+            //announcements.divSelectTargetOptions.tipsy('show');
+            return false;
+        }
+        announcements.window.mask();
+    }
+
+    announcements.window.options.beforeCancel = function() {
+        //announcements.divSelectTargetOptions.tipsy('hide');
+    }
+
+    announcements.selectRecipientType.change(function() {
+        //announcements.divSelectTargetOptions.tipsy('hide');
+        $(announcements.divSelectStatus)
+         .add(announcements.divSelectServer)
+         .add(announcements.divSelectProductGroup)
+         .add(announcements.divSelectProduct)
+         .add(announcements.divSelectCustomerGroup)
+         .removeClass('required')
+         .val('')
+         .hide()
+        ;
+        switch (parseInt($(this).val())) {
+            case <?php echo $this->constant['RECIPIENTS_CLIENT_STATUS']; ?>: announcements.divSelectStatus.addClass('required').show(); break;
+            case <?php echo $this->constant['RECIPIENTS_SERVERS']; ?>: announcements.divSelectServer.addClass('required').show(); break;
+            case <?php echo $this->constant['RECIPIENTS_PRODUCT_GROUPS']; ?>: announcements.divSelectProductGroup.addClass('required').show(); break;
+            case <?php echo $this->constant['RECIPIENTS_PRODUCTS']; ?>: announcements.divSelectProduct.addClass('required').show(); break;
+            case <?php echo $this->constant['RECIPIENTS_CUSTOMER_GROUPS']; ?>: announcements.divSelectCustomerGroup.addClass('required').show(); break;
+        }
+    });
+    $('#inputSendEmail').click(function() {
+        if ($(this).prop('checked')) {
+            announcements.labelOverrideOptOut.show();
+        } else {
+            announcements.labelOverrideOptOut.hide();
+        }
+    });
+
+    announcements.selectStatusTarget.select2({
+        width: '291px',
+        multiple: true,
+        placeholder: lang('Select Statuses'),
+        data: <?php echo $this->statusOptions; ?>
+    });
+    announcements.selectServerTarget.select2({
+        width: '291px',
+        multiple: true,
+        placeholder: lang('Select Servers'),
+        data: <?php echo $this->serverOptions; ?>
+    });
+    announcements.selectProductGroupTarget.select2({
+        width: '291px',
+        multiple: true,
+        placeholder: lang('Select Package Groups'),
+        data: <?php echo $this->packageGroupOptions; ?>
+    });
+    announcements.selectProductTarget.select2({
+        width: '291px',
+        multiple: true,
+        placeholder: lang('Select Packages'),
+        data: <?php echo $this->packageOptions; ?>
+    });
+    announcements.selectCustomerGroupTarget.select2({
+        width: '291px',
+        multiple: true,
+        placeholder: lang('Select Customer Groups'),
+        data: <?php echo $this->customerGroupOptions; ?>
+    });
+
+    <?php if ($this->id > 0) {
+        switch ($this->recipientType) {
+            case $this->constant['RECIPIENTS_CLIENT_STATUS']:
+                echo 'announcements.divSelectStatus.show(); announcements.selectStatusTarget.addClass("required").select2("data", '.json_encode($this->recipientTargetIDs).');';
+                break;
+            case $this->constant['RECIPIENTS_SERVERS']:
+                echo 'announcements.divSelectServer.show(); announcements.selectServerTarget.addClass("required").select2("data", '.json_encode($this->recipientTargetIDs).');';
+                break;
+            case $this->constant['RECIPIENTS_PRODUCT_GROUPS']:
+                echo 'announcements.divSelectProductGroup.show(); announcements.selectProductGroupTarget.addClass("required").select2("data", '.json_encode($this->recipientTargetIDs).');';
+                break;
+            case $this->constant['RECIPIENTS_PRODUCTS']:
+                echo 'announcements.divSelectProduct.show(); announcements.selectProductTarget.addClass("required").select2("data", '.json_encode($this->recipientTargetIDs).');';
+                break;
+            case $this->constant['RECIPIENTS_CUSTOMER_GROUPS']:
+                echo 'announcements.divSelectCustomerGroup.show(); announcements.selectCustomerGroupTarget.addClass("required").select2("data", '.json_encode($this->recipientTargetIDs).');';
+                break;
+        }
+    } ?>
+
+    announcements.filterBy = function(el,filter) {
+        $(el).closest('.nav-pills').find('li').removeClass('active')
+        $(el).closest('li').addClass('active');
+
+        $('.language').hide();
+        $('.'+filter).show();
+    }
+
+});
+</script>

@@ -1,0 +1,16 @@
+<h2><?php echo $this->user->lang('Account Notes'); ?></h2>
+    <table>
+    <?php foreach ( $this->notes as $note ) { ?>
+    <tr>
+        <td><strong><?php echo $note['subject']; ?></strong>
+        <td><?php echo $this->user->lang('Submitted'); ?></td>
+        <td><?php echo $note['authorAndDate']; ?></td>
+    </tr>
+    <tr>
+        <td colspan="3"><?php echo nl2br($this->escape($note['content'])) ?></td>
+    </tr>
+    <tr>
+        <td colspan="3">&nbsp;</td>
+    </tr>
+    <?php } ?>
+</table>

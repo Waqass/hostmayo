@@ -1,0 +1,76 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->user->lang("SQL Tool"); ?></div>
+  <p class="alert-content"><?php echo $this->user->lang("This tool allows you to query the database tables directly.  This is intended for experienced users who are familiar with SQL queries."); ?></p>
+</div>
+
+<?php if ($this->parseDemoMode) { ?>
+<div class="alert alert-danger">
+  <?php echo $this->user->lang("This option does not work in demo mode");?>
+</div>
+<?php } ?>
+
+<?php foreach ($this->parseExecutedQuery as $parseExecutedQuery) { ?>
+<div class="blue-box">
+  <span class="bold-item"><?php echo $this->user->lang("Query Run");?>:</span> <?php echo $this->escape($parseExecutedQuery['queryRun']) ?>
+</div>
+
+<?php if ($parseExecutedQuery['parseQueryFailed']) { ?>
+<div class="alert alert-danger">
+  <?php echo $this->user->lang("Query Failed");?>: <?php echo $parseExecutedQuery['failedError']; ?>
+</div>
+<?php } ?>
+
+<?php if ($parseExecutedQuery['parseQueryResultStatus']) { ?>
+<div class="alert alert-info">
+  <?php echo $this->user->lang("Query Result");?>: <?php echo $parseExecutedQuery['queryStatus']; ?>
+</div>
+<?php } ?>
+
+<?php if ($parseExecutedQuery['parseQueryResult']) { ?>
+<div class="scrollTable">
+  <table class="data">
+    <thead>
+      <tr>
+        <?php foreach ($parseExecutedQuery['parseQueryResultHeader'] as $columnHeader) { ?>
+        <th><?php echo $columnHeader; ?></th>
+        <?php } ?>
+      </tr>
+    </thead>
+    <tbody>
+      <?php foreach ($parseExecutedQuery['parseQueryResultRow'] as $parseQueryResultRowData) { ?>
+      <tr class="<?php echo $parseQueryResultRowData['rowClass']; ?>">
+        <?php foreach ($parseQueryResultRowData['parseQueryResultRowData'] as $rowData) { ?>
+        <td><?php echo $this->escape($rowData) ?></td>
+        <?php } ?>
+      </tr>
+      <?php } ?>
+    </tbody>
+  </table>
+</div>
+<?php } ?>
+<?php } ?>
+
+<form method="post" id="submitQueryForm" action="index.php?fuse=admin&amp;action=showdatabaseoptions&amp;controller=index">
+  <dl class="form noborder automation-options">
+    <dt>
+      <label><?php echo $this->user->lang("SQL Query");?>:</label>
+    </dt>
+    <dd class="full desc" style="border-bottom:0px;">
+      <span><?php echo $this->user->lang("Enter the SQL queries in the text area.  Each SQL query must end with a semi-colon.");?></span>
+    </dd>
+    <dd class="full" style="padding-bottom:15px;">
+      <textarea name="sqlQueries" cols="75" rows="15"><?php echo $this->sqlQuery ?></textarea>
+    </dd>
+  </dl>
+  <div>
+    <button id="submitQueryButton" class="rich-button"><span><?php echo $this->user->lang("Submit Query");?></span></button>
+  </div>
+</form>
+
+<script data-cfasync="false" type="text/javascript">
+    $(document).ready(function() {
+        $('#submitQueryButton').click(function() {
+            $('#submitQueryForm').submit();
+        })
+    });
+</script>

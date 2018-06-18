@@ -1,0 +1,44 @@
+<div class="alert ce-alert">
+  <div class="inside">
+    <span class="bold-item"><?php echo $this->user->lang('Instructions'); ?>:</span>
+    <ul>
+      <li><?php echo $this->user->lang('Download the WHMCS Export tool'); ?>: <a href="../plugins/import/whmcs/gettool.php">[ <?php echo $this->user->lang('download'); ?> ]</a></li>
+      <li><?php echo $this->user->lang('Upload whmcs2ce.php to your WHMCS root directory.'); ?></li>
+      <li><?php echo $this->user->lang('Open the whmcs2ce.php in a web browser which will allow you to download a .csv.gz file.'); ?></li>
+      <li><?php echo $this->user->lang('Delete the whmcs2ce.php from your WHMCS root directory.'); ?></li>
+      <li><?php echo $this->user->lang('From this tool, select the clientexec.csv.gz file that was downloaded from the whmcs2ce.php and click import.'); ?></li>
+    </ul>
+  </div>
+</div>
+
+<?php if ( isset($this->error) ) { ?>
+<div class="alert ce-alert alert-warning">
+    <?php echo $this->user->lang('File upload failed.'); ?>
+</div>
+<?php } ?>
+
+<?php if ( isset($this->results) ) { ?>
+<div class="alert ce-alert">
+    <span class="bold-item"><?php echo $this->user->lang('Import Results'); ?>:</span>
+    <ul>
+        <li><?php echo $this->numDepartments; ?> <?php echo $this->user->lang("departments added from %s.", "WHMCS"); ?></li>
+        <li><?php echo $this->numAdmins; ?> <?php echo $this->user->lang("admin accounts added from %s.", "WHMCS"); ?></li>
+        <li><?php echo $this->numAccounts; ?> <?php echo $this->user->lang("customer accounts added from %s.", "WHMCS"); ?></li>
+        <li><?php echo $this->numServers; ?> <?php echo $this->user->lang("servers added from %s.", "WHMCS"); ?></li>
+        <li><?php echo $this->numPackagesGroups; ?> <?php echo $this->user->lang("product groups added from %s.", "WHMCS"); ?></li>
+        <li><?php echo $this->numPackages; ?> <?php echo $this->user->lang("products added from %s.", "WHMCS"); ?></li>
+        <li><?php echo $this->numPackagesAddons; ?> <?php echo $this->user->lang("product addons added from %s.", "WHMCS"); ?></li>
+        <li><?php echo $this->numCoupons; ?> <?php echo $this->user->lang("coupons added from %s.", "WHMCS"); ?></li>
+        <li><?php echo $this->numDomains; ?> <?php echo $this->user->lang("client domains added from %s.", "WHMCS"); ?></li>
+        <li><?php echo $this->numHosting; ?> <?php echo $this->user->lang("client packages added from %s.", "WHMCS"); ?></li>
+        <li><?php echo $this->numHostingAddons; ?> <?php echo $this->user->lang("client package addons added from %s.", "WHMCS"); ?></li>
+        <li><?php echo $this->numInvoices; ?> <?php echo $this->user->lang("invoices added from %s.", "WHMCS"); ?></li>
+        <li><?php echo $this->numTickets; ?> <?php echo $this->user->lang("tickets added from %s.", "WHMCS"); ?></li>
+    </ul>
+</div>
+<?php } ?>
+
+<h6><?php echo $this->user->lang('Import WHMCS Exported File'); ?></h6>
+<div><br /><?php echo $this->user->lang('Upload File'); ?>: <input type="file" name="importfile" /></div>
+<br/>
+<button class="rich-button" id="importButton"><span><?php echo $this->user->lang("Import"); ?></span></button>

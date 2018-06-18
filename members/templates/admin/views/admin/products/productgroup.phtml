@@ -1,0 +1,188 @@
+<?php $languages = CE_Lib::getEnabledLanguages();
+if(count($languages) > 1){
+    $active = true; ?>
+    <ul class="nav nav-pills">
+    <?php foreach($languages as $languageKey => $language){ ?>
+        <li <?php if($active){echo 'class="active"';} ?> >
+            <a <?php if($active){$active = false; echo 'class="default-language-tab"';} ?> href="javascript:void(0)" onclick="productview.filterBy(this,'<?php echo $languageKey; ?>')"><?php echo $languageKey; ?></a>
+        </li>
+    <?php } ?>
+    </ul>
+<?php } ?>
+
+<table cellpadding="5" cellspacing="0">
+    <tr>
+        <td>
+            <label class="fieldlabel"><?php echo $this->user->lang("Group Name");?></label>
+            <?php if(count($languages) > 1){
+                $active = true;
+                foreach($languages as $languageKey => $language){ ?>
+                    <span class="language <?php echo $languageKey; ?>" <?php if(!$active){echo 'style="display: none"';} ?> ><input class="required" type="text" style="width:305px;margin-right:17px;" name="product-group-name<?php echo $languageKey; ?>" <?php if($active){$active = false; echo 'id="mainlanguageproduct-group-name"';} ?> style="padding-right:20px;" value="<?php echo $this->nameLanguages[$languageKey];?>" /></span>
+                <?php }
+            }else{ ?>
+                <input class="required" type="text" style="width:305px;margin-right:17px;" name="product-group-name" id="mainlanguageproduct-group-name" style="padding-right:20px;" value="<?php echo $this->name;?>" />
+            <?php } ?>
+        </td>
+        <td colspan="2">
+            <label class="fieldlabel"><span class='tip-target' data-toggle="tooltip" data-html="true" title='Set the Type of this product group:<br><span style="color:yellow">Hosting:</span> Any hosting related products that require server plugins.<br><span style="color:yellow">Domain:</span> Any Domain related products that require registrar plugins.<br><span style="color:yellow">General:</span> Any generic product that does not fall under one of the above types.'><?php echo $this->user->lang("Type");?></span></label>
+            <select name="product-group-type" style="width:253px;" id="product-group-type" <?php if ( $this->disabletype == true ) { ?>disabled="disabled"<?php } ?>>
+                <option value="general" <?php echo ($this->grouptype === "general") ? "selected" : ""; ?>> General </option>
+                <option value="hosting" <?php echo ($this->grouptype === "hosting") ? "selected" : ""; ?>> Hosting </option>
+                <option value="domain" <?php echo ($this->grouptype === "domain") ? "selected" : ""; ?>> Domains </option>
+                <option value="ssl" <?php echo ($this->grouptype === "ssl") ? "selected" : ""; ?>> SSL </option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <label class="fieldlabel"><?php echo $this->user->lang("Description");?></label>
+            <?php if(count($languages) > 1){
+                $active = true;
+                foreach($languages as $languageKey => $language){ ?>
+                    <span class="language <?php echo $languageKey; ?>" <?php if(!$active){echo 'style="display: none"';} ?> ><textarea name="content<?php echo $languageKey; ?>" <?php if($active){$active = false; echo 'id="mainlanguagecontent"';} ?> class="wysihtml5" style="height: 150px;" data-widthembed="true"><?php echo $this->descLanguages[$languageKey];?></textarea></span>
+                <?php }
+            }else{ ?>
+                <textarea name="content" id="mainlanguagecontent" class="wysihtml5" style="height: 150px;" data-widthembed="true"><?php echo $this->desc;?></textarea>
+            <?php } ?>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <table>
+            <tr>
+            <td>
+                <label class="fieldlabel"><span class='tip-target' data-html="true" data-toggle="tooltip" title='Use this setting to change the order in which the Product Groups are displayed on the signup page. <br><span style="color:yellow">Groups are displayed in ascending order e.g. 1-10.</span>'><?php echo $this->user->lang("Group Order");?></span></label>
+                <select name="product-group-order" style="width:100px;" id="product-group-order">
+                    <?php for($x=1; $x<=$this->groupsCount + 1; $x++) {  ?>
+                        <option value="<?php echo $x;?>" <?php echo ($this->groupOrder==$x) ? "selected": "" ;?>> <?php echo $x;?> </option>
+                    <?php } ?>
+                </select>
+            </td>
+            <td style="padding-left: 20px;">
+                <label class="fieldlabel"><?php echo $this->user->lang("Include in Signup");?></label>
+                <select name="product-group-active" style="width:140px;" id="product-group-active">
+                    <option value="1"> <?php echo $this->user->lang("Yes");?> </option>
+                    <option value="0" <?php echo (!$this->inSignup) ? "selected": "" ;?> > <?php echo $this->user->lang("No");?> </option>
+                </select>
+            </td>
+            <td style="padding-left: 20px;">
+                <label class="fieldlabel"><span class='tip-target' data-html="true" data-toggle="tooltip" title='The style used to display products of this group during the order process.'><?php echo $this->user->lang("Product List Style");?></span></label>
+                <select name="product-group-style" style="width:140px;" id="product-group-style">
+                    <?php if ($this->grouptype == "domain") { ?>
+                        <option value="domainsearch" <?php echo ($this->style == "domainsearch") ? "selected": "" ;?> > <?php echo $this->user->lang("Domain Search");?> </option>
+                    <?php } else { ?>
+                        <option value="default"> <?php echo $this->user->lang("Default");?> </option>
+                        <option value="compare" <?php echo ($this->style == "compare") ? "selected": "" ;?> > <?php echo $this->user->lang("Compare");?> </option>
+                    <?php } ?>
+                </select>
+            </td>
+            </tr>
+            </table>
+
+        </td>
+    </tr>
+    <?php if ( $this->grouptype === "domain" ) { ?>
+    <tr>
+        <td colspan="3">
+            <table>
+                <tr>
+                    <td style="width:120px;">
+                        <label class="fieldlabel">
+                            <span class='tip-target' data-html="true" data-toggle="tooltip" title='<?php echo $this->user->lang('Enable this setting to disable selling new domain registrations'); ?>'>
+                                <?php echo $this->user->lang("Disable registrations?");?>
+                            </span>
+                        </label>
+                        <select name="adv_disallowRegister" style="width:100px;" id="adv_disallowRegister">
+                            <option value="1"> <?php echo $this->user->lang("Yes");?> </option>
+                            <option value="0" <?php if ( $this->advanced['disallowRegister'] == 0 ) { ?> selected="selected" <?php } ?>> <?php echo $this->user->lang("No");?> </option>
+                        </select>
+                    </td>
+                     <td style="width:160px;">
+                        <label class="fieldlabel">
+                            <span class='tip-target' data-html="true" data-toggle="tooltip" title='<?php echo $this->user->lang('Enable this setting to allow your customers to manage their own domains when bundling'); ?>'>
+                                <?php echo $this->user->lang("Enable Self Manage?");?>
+                            </span>
+                        </label>
+                        <select name="adv_allowSelfManage" style="width:140px;" id="adv_allowSelfManage">
+                            <option value="1"> <?php echo $this->user->lang("Yes");?> </option>
+                            <option value="0" <?php if ( $this->advanced['allowSelfManage'] == 0 ) { ?> selected="selected" <?php } ?>> <?php echo $this->user->lang("No");?> </option>
+                        </select>
+                    </td>
+                    <td style="width:140px;">
+                        <label class="fieldlabel">
+                            <span class='tip-target' data-html="true" data-toggle="tooltip" title='<?php echo $this->user->lang('Enable this setting to allow your customers to transfer domains'); ?>'>
+                                <?php echo $this->user->lang("Enable Transfers?");?>
+                            </span>
+                        </label>
+                        <select name="adv_allowTransfer" style="width:140px;" id="adv_allowTransfer">
+                            <option value="1"> <?php echo $this->user->lang("Yes");?> </option>
+                            <option value="0" <?php if ( $this->advanced['allowTransfer'] == 0 ) { ?> selected="selected" <?php } ?>> <?php echo $this->user->lang("No");?> </option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <?php } ?>
+    <tr>
+        <td colspan="3">
+            <label class="fieldlabel"><?php echo $this->user->lang("Custom Fields");?></label>
+            <select multiple="multiple" name="product-group-customfields[]" id="product-group-customfields" class="disableSelect2AutoLoad">
+                <?php for($x=0;$x < count($this->allcustomfieldssomeproductgroups); $x++) {
+                    $selected = (in_array($this->allcustomfieldssomeproductgroups[$x]['id'],$this->customFields)) ? "selected" : "";
+                ?>
+                    <option <?php echo $selected;?> value="<?php echo $this->allcustomfieldssomeproductgroups[$x]['id'];?>"><?php echo $this->allcustomfieldssomeproductgroups[$x]['text'];?></option>
+                <?php } ?>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <label class="fieldlabel"><?php echo $this->user->lang("Custom Fields for All Product Groups");?></label>
+            <select multiple="multiple" name="allcustomfieldsallproductgroups[]" id="allcustomfieldsallproductgroups" class="disableSelect2AutoLoad" disabled>
+                <?php for($x=0;$x < count($this->allcustomfieldsallproductgroups); $x++) {?>
+                    <option selected value="<?php echo $this->allcustomfieldsallproductgroups[$x]['id'];?>"><?php echo $this->allcustomfieldsallproductgroups[$x]['text'];?></option>
+                <?php } ?>
+            </select>
+        </td>
+    </tr>
+</table>
+
+<script data-cfasync="false" type="text/javascript">
+    $(document).ready(function(){
+        clientexec.postpageload('.richwindow');
+        $('#product-group-customfields').select2({
+            width: '605px',
+            tokenSeparators: [',']
+        });
+        $('#allcustomfieldsallproductgroups').select2({
+            width: '605px',
+            tokenSeparators: [',']
+        });
+
+        productview.filterBy = function(el,filter) {
+            $(el).closest('.nav-pills').find('li').removeClass('active')
+            $(el).closest('li').addClass('active');
+
+            $('.language').hide();
+            $('.'+filter).show();
+        }
+
+        productview.groupwindow.options.beforeSubmit = function() {
+            var pass = true;
+            if(!$(".nav-pills li:first").hasClass("active")){
+                $(".default-language-tab").click();
+                if(!$('#mainlanguageproduct-group-name').valid()){
+                    pass = false;
+                }
+                if(!$('#mainlanguagecontent').valid()){
+                    pass = false;
+                }
+            }
+            if (!pass) {
+                return false;
+            }
+        }
+
+    });
+</script>

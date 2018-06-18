@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><?php echo $this->user->lang('Clientexec Installer') ?></title>
+    <link rel="Shortcut Icon" href="favicon.ico" />
+    <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Quattrocento+Sans:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="templates/admin/style/install.css" />
+    <script type="text/javascript">
+        var gHash = "<?php echo $this->gHash; ?>";
+    </script>
+    <script type="text/javascript" src="library/utilities/min/index.php?g=installer"></script>
+</head>
+
+<body>
+<div class="install-header"><?php echo $this->user->lang('Clientexec Installer') ?></div>
+
+<center>
+<div id="main" style="width:80%;min-width:900px">
+
+    <div class="well">
+        <table border=0 cellspacing=1 cellpadding=4 style="width:100%;min-width:900px">
+            <tr>
+                <td style="text-align:center">
+        <form method="post" action="index.php?fuse=admin&amp;action=afterfileintegrity&controller=installer">
+            <?php foreach ( $this->formVars as $formVar ) { ?>
+            <input type="hidden" name="<?php echo $formVar['varName']; ?>" value="<?php echo $formVar['varValue']; ?>" />
+            <?php } ?>
+            <table border=0 cellspacing=1 cellpadding=4 width=100%>
+                <?php if ( isset($this->fileIntegrityMissing) ) { ?>
+                <tr>
+                    <td align="center">
+                    <br>
+                        <h2><?php echo $this->user->lang('Warning - The file_integrity.php file is missing') ?>.</h2><br />
+                        <?php echo $this->user->lang('Without it the installer cannot verify the integrity of the files that were uploaded') ?>.<br /><br />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        <?php echo $this->user->lang('What do you want to do?') ?>
+                    </td>
+                </tr>
+                <?php } ?>
+
+                <?php if ( count($this->errors) > 0 ) { ?>
+                <tr>
+                    <td>
+                    <br>
+                        <b><?php echo $this->user->lang('Some files didn\'t pass the file integrity check ') ?>.</b><br />
+                        <b><?php echo $this->user->lang('If the following list contains files you haven\'t customized, please re-upload them again using binary mode in your FTP client') ?>:</b><br />
+                        <ul style="width:500px; margin:20px auto; text-align:left">
+                            <?php foreach ( $this->errors as $error ) { ?>
+                            <li><?php echo $error; ?></li>
+                            <?php } ?>
+                        </ul>
+                    </td>
+                </tr>
+                <?php } ?>
+                <tr>
+                    <td align="center">
+                        <input type="submit" class="btn" value="Check Again" onclick="this.form.action='index.php?fuse=admin&amp;view=checkfileintegrity&controller=installer'; submitonce(this.form); this.form.submit(); return false;" />
+                        <input type="submit" class="btn" value="Ignore"  onclick="submitonce(this.form); this.form.submit(); return false;"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        </table>
+    </div>
+
+
+</div>
+</center>
+</body>
+</html>

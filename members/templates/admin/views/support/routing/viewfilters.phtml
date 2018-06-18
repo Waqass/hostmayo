@@ -1,0 +1,35 @@
+<style type="text/css">
+    #div-filter-list {
+    	overflow-y: scroll;
+    	height: 220px;
+    	border: 1px solid #aaaaaa;
+    	border-radius: 4px;
+    }
+    #s2id_input-header-name .select2-choice {
+    	font-size: 14px;
+    	height: 28px;
+    	border-top-right-radius: 0;
+    	border-bottom-right-radius: 0;
+    }
+    #s2id_input-header-name .select2-choice div {
+    	border-top-right-radius: 0;
+    	border-bottom-right-radius: 0;
+    }
+    .input-append input[type="text"] {
+        border-top-left-radius: 0;
+    	border-bottom-left-radius: 0;
+    }
+    #div-filter-list.select2-container-multi .select2-choices {
+    	border: 0;
+    }
+    #div-filter-list.select2-container-multi .select2-choices li {
+    	float: none;
+    	margin-right: 5px;
+    }
+    .help-icon {
+    	float: right;
+    }
+</style>
+<div class="help-icon" data-toggle="tooltip" data-placement="bottom" title="<?php echo $this->user->lang('Filter rules are based on email header values.').' '.htmlentities($this->user->lang('Format is "headername: content"')).' '.htmlentities($this->user->lang('Emails having the header "headername" that contain the string "content" will be discarded. Rules are applied in an OR fashion.')); ?>"></div>
+<label class="bold" for="textarea-filters"><?php echo $this->user->lang('Enter a list of rules to discard incoming emails'); ?></label>
+<textarea id="textarea-filters" style="height: 272px;" name="filters"><?php echo $this->filters; ?></textarea>

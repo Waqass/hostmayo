@@ -1,0 +1,210 @@
+<ul class="nav nav-pills">
+    <li class="active" >
+        <a href="javascript:void(0)" onclick="supporttickettabs.filterBy(this,'Message')"><?php echo $this->user->lang("Message"); ?></a>
+    </li>
+    <li class="CustomFieldsTab" style="display: none">
+        <a href="javascript:void(0)" onclick="supporttickettabs.filterBy(this,'CustomFields')"><?php echo $this->user->lang("Custom Fields"); ?></a>
+    </li>
+</ul>
+
+
+<span class="tab Message">
+    <table cellpadding="5">
+        <tr>
+            <td>
+                <input type="text" name='subject' dir="auto" placeholder='Ticket title' class='required' />
+            </td>
+        <td>
+        <input type='hidden' data-placeholder="-- apply to ticket type" name="messagetype" id="supportticket-tickettype" onchange="supporttickettabs.loadCustomFields(this.value)"></input>
+        </td>
+        </tr>
+        <tr>
+        <td colspan="2">
+        <textarea id='ticket-message' name='message' class='required' dir="auto" style='height:150px;'><?php echo $this->user->getSignatureText()? "\r\n\r\n\r\n----\r\n" . $this->user->getSignatureText() : '' ?></textarea>
+        </td>
+        </tr>
+    </table>
+
+    <div style="padding-left:7px;">
+        <label class="checkbox" style="padding-left:20px;">
+            <input type="checkbox" name="inNameOfUser" checked="checked" /> <?php echo $this->user->lang("Open ticket in the name of user"); ?>
+        </label>
+        <label class="checkbox" style="padding-left:20px;">
+            <input type="checkbox" name="notifyUser" checked="checked" /> <?php echo $this->user->lang("Notify user"); ?>
+        </label>
+        <label class="checkbox" style="padding-left:20px;">
+            <input type="checkbox" name="internal" /> <?php echo $this->user->lang("Internal"); ?>
+        </label>
+    </div>
+    <div style="padding-left:7px; padding-bottom:7px;">
+        <span class="btn fileinput-button">
+            <i class="icon-paper-clip"></i>&nbsp;&nbsp;<?php echo $this->user->lang("Attachment");?>
+            <input id="file-upload-field" type="file" name="files">
+        </span>
+        <span class="new-attachment-files-window"></span>
+    </div>
+    <div style="padding-left:7px; padding-bottom:7px;" class="ticket-action-attach-file">
+        <?php if ($this->show_attachments) { ?>
+            <div class="file-upload-window-meta"><?php echo $this->user->lang("Max upload file size"); ?>: <?php echo $this->file_upload_size . $this->file_upload_ext; ?></div>
+            <input type="hidden" name="validExtnsWindow" value="<?php echo $this->allowed_ext ?>" />
+        <?php } else { ?>
+            <div class="file-upload-window-meta" style="color:red">
+                <?php if (isset($this->uploadsNotWritable)) { ?>
+                <strong><span class="label label-important"><?php echo $this->user->lang("Warning");?></span> <?php echo $this->user->lang("The directory 'uploads/support' is not writable."); ?></strong>
+                <?php } else { ?>
+                <strong><span class="label label-important"><?php echo $this->user->lang("Warning");?></span> <?php echo $this->user->lang("File uploads in support tickets are disabled."); ?></strong>
+                <?php } ?>
+            </div>
+        <?php } ?>
+    </div>
+    <input type="hidden" name="clientid" value="<?php echo $this->customer->getId(); ?>" />
+
+
+    <?php if (count($this->cannedResponses['responses']) > 0) { ?>
+
+    <div style="padding-left:7px;" class="btn-group btn-group-canned dropup <?php echo $canned_dropup;?>">
+        <button class="btn" type="button"><?php echo $this->user->lang("Apply Canned Reply");?></button>
+        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-scrollable">
+        <?php foreach ($this->cannedResponses['responses'] as $response) { ?>
+            <li><a href="javascript:void(0);" onclick="updateMessage('<?php echo $response['id']; ?>');"><?php echo $this->escape($response['name']) ?></a></li>
+        <?php } ?>
+        </ul>
+    </div>
+    <?php }  ?>
+</span>
+<div class="tab CustomFields" style="padding-left:5px; display: none" id="supportTicketCustomFieldsTab">
+</div>
+
+<script data-cfasync="false" type="text/javascript">
+    //Added to manage tabs
+    supporttickettabs = {};
+    supporttickettabs.filterBy = function(el,filter) {
+        $(el).closest('.nav-pills').find('li').removeClass('active')
+        $(el).closest('li').addClass('active');
+
+        $('.tab').hide();
+        $('.'+filter).show();
+    }
+    //Added to manage tabs
+
+    //Load Custom Fields
+    supporttickettabs.loadCustomFields = function(ticketType) {
+        if (ticketType != '') {
+            if (ticketType != undefined) {
+                $('#supportTicketCustomFieldsTab').empty();
+
+                $.get('index.php?fuse=support&controller=ticket&action=getticketcustomfields',
+                    {
+                        ticketType: ticketType,
+                        ticketId: 0
+                    },function(data){
+                        data = ce.parseResponse(data);
+                        customFields.load(data.fields,function(data) {
+                            $('#supportTicketCustomFieldsTab').append(data);
+                        }, function(){
+                            clientexec.postpageload('.ticket-active-tab');
+                        });
+                        if (data.fields.length > 0) {
+                            //Show tabs
+                            $('.CustomFieldsTab').show();
+                        } else {
+                            //hide tabs
+                            $('.CustomFieldsTab').hide();
+                        }
+                });
+            }
+        } else {
+            //hide tabs
+            $('.CustomFieldsTab').hide();
+        }
+    };
+    //Load Custom Fields
+
+    var userSignature = '';
+    $("#supportticket-tickettype").select2({
+        minimumResultsForSearch:10,
+        width: '200px',
+        allowClear:true,
+        ajax: {
+            url: "index.php?fuse=support&action=gettickettypes&controller=tickettype&addAll=1",
+            dataType: 'json',
+            quietMillis: 0,
+            data: function () {return {}},
+            results: function (data, page) {
+                profilenotes.options = {results:[]};
+                $(data.groups).each(function(index) {
+                    if (this.ticketTypeId != -1) {
+                        name = this.ticketTypeName.toString();
+                        profilenotes.options.results.push({id:this.ticketTypeId.toString(),text:name});
+                    }
+                });
+                return profilenotes.options;
+            }
+        }
+    });
+
+    $("#supportticket-tickettype").on("open", function(){ $('.select2-drop .select2-search').css('display','none'); });
+
+    <?php if($this->user->getSignatureText()): ?>
+        userSignature = $('#ticket-message').text();
+      $('input[name=inNameOfUser]').change(function() {
+        if (this.checked) {
+          RichHTML.info(lang('If you\'re opening the ticket in the name of user, make sure you don\'t include your signature.'));
+        }
+      });
+    <?php endif ?>
+
+    function updateMessage(id)
+    {
+        RichHTML.mask();
+            $.ajax({
+            url: 'index.php?fuse=support&controller=cannedresponse&action=getcannedresponse',
+            success: function(t) {
+                RichHTML.unMask();
+                json = ce.parseResponse(t);
+                $('#ticket-message').html(json.response + userSignature);
+            },
+            data: {
+                responseid : id
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        $("#file-upload-field").change(function(e) {
+            var el = $("#file-upload-field");
+            var path = el.val();
+            var fileExt = path.split('\.').pop();
+            var validExtns = $('input[name=validExtnsWindow]').val().trim();
+            if (fileExt && validExtns != '*') {
+                var valid = false;
+                validExtns = validExtns.split(',');
+                $.each(validExtns, function(ix, val) {
+                    if (fileExt.toLowerCase() == val.trim().toLowerCase()) {
+                        valid = true;
+                        return false;
+                    }
+                });
+                if (!valid) {
+                    // gotta unselect the file, as explained here:
+                    // http://stackoverflow.com/questions/1043957/clearing-input-type-file-using-jquery/1043969#1043969
+                    el.val('').replaceWith(el.clone(true));
+
+                    RichHTML.error(
+                        lang("This file type is not accepted. Please select a different file.")
+                    );
+                    return;
+                }
+            }
+
+            var fileNameIndex = path.lastIndexOf("\\") + 1;
+            var filename = path.substr(fileNameIndex);
+            $('.new-attachment-files-window').html($('<span class="file-upload-window-meta"/>').html( "<i class='icon-paper-clip'></i> "+lang("To attach")+ ": " +filename ));
+        });
+
+        supporttickettabs.loadCustomFields();
+    });
+</script>

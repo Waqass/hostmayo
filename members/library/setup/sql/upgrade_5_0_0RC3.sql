@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD `profile_updated` TINYINT( 1 ) NOT NULL DEFAULT '1';

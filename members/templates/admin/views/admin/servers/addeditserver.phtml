@@ -1,0 +1,113 @@
+<div class="alert alert-info ce-page-header">
+    <div class="alert-header"><?php echo $this->addOrEdit; ?></div>
+  <p class="alert-content"><?php echo $this->user->lang("Configure unique server that will be made available to hosting products.");?></p>
+</div>
+
+<div style="margin-top:-8px;margin-bottom:10px;"><i class="icon-level-up icon-flip-horizontal icon-back-to-parent-list"></i> <a href="index.php?fuse=admin&view=servers&controller=servers">Server list</a></div>
+
+<div id="server-content">
+    <div class="fieldwrapper withcolor">
+        <form method="post" id="saveServerForm" action="index.php?fuse=admin&controller=servers&action=save">
+        <input type="hidden" name="id" value="<?php echo $this->id; ?>" />
+        <dl class="form">
+            <dt><label><?php echo $this->user->lang('Server Name'); ?>:</label></dt>
+            <dd><input class="required" type="text" name="name" value="<?php echo $this->serverName; ?>" /></dd>
+
+            <dt><label><?php echo $this->user->lang('Hostname'); ?>: </label></dt>
+            <dd><input class="required" type="text" name="hostname" value="<?php echo $this->serverHostname; ?>"/></dd>
+
+
+            <dt><label><?php echo $this->user->lang('Shared IP'); ?>:</label></dt>
+            <dd><input type="text" name="sharedIP" value="<?php echo $this->sharedIP; ?>" /></dd>
+
+            <dt><label><?php echo $this->user->lang('Plugin'); ?>:</label></dt>
+            <dd>
+                <select name="plugin" id="pluginSelect">
+                    <?php foreach ( $this->plugins as $plugin ) { ?>
+                        <?php if ( $plugin['value'] == $this->plugin ) { ?>
+                            <option value="<?php echo $plugin['value']; ?>" selected="selected"><?php echo $plugin['name']; ?></option>
+                        <?php } else { ?>
+                        <option value="<?php echo $plugin['value']; ?>"><?php echo $plugin['name']; ?></option>
+                        <?php } ?>
+                    <?php } ?>
+
+                </select>
+            </dd>
+
+            <dt><label><?php echo $this->user->lang('Maximum # of Accounts'); ?>:</label></dt>
+            <dd><input type="text" name="quota" value="<?php echo $this->quota; ?>" /></dd>
+
+            <dt><label data-toggle="tooltip" title="<?php echo $this->user->lang('Set this to the xml.php of your phpSysInfo'); ?>"><?php echo $this->user->lang('Stats URL'); ?>:</label></dt>
+            <dd><input type="text" name="statsURL" value="<?php echo $this->statsURL; ?>" /></dd>
+
+            <dt><label><?php echo $this->user->lang('IP Addresses (one per line)'); ?>:</label></dt>
+            <dd><textarea name="ipaddresses" rows="5"><?php echo $this->ips; ?></textarea></dd>
+
+            <dt><label><?php echo $this->user->lang('Status Message'); ?>:</label></dt>
+            <dd><textarea name="status_message" rows="5"><?php echo $this->status_message; ?></textarea></dd>
+
+            <dt><label><?php echo $this->user->lang('Monthly Cost'); ?>:</label></dt>
+            <dd><input type="text" name="cost" value="<?php echo $this->cost; ?>" /></dd>
+
+            <dt><label><?php echo $this->user->lang('DataCenter / Provider'); ?>:</label></dt>
+            <dd><input type="text" name="provider" value="<?php echo $this->provider; ?>" /></dd>
+
+        </dl>
+
+        <?php if ( $this->showNameServers ) { ?>
+        <h4 style="clear:both;"><?php echo $this->user->lang('Nameservers'); ?></h4>
+
+        <div class="nameserverDiv">
+            <label class="namserverLabel"><?php echo $this->user->lang('NameServer #1'); ?>:</label>
+            <input type="text" name="nameServer[]" value="<?php echo @$this->nameServers[1]; ?>" />
+            <label class="namserverLabel"><?php echo $this->user->lang('IP Address'); ?>:</label>
+            <input type="text" name="ipNameServer[]" value="<?php echo @$this->nameServerIps[1]; ?>" />
+        </div>
+        <div class="nameserverDiv">
+            <label class="namserverLabel"><?php echo $this->user->lang('NameServer #2'); ?>:</label>
+            <input type="text" name="nameServer[]" value="<?php echo @$this->nameServers[2]; ?>" />
+            <label class="namserverLabel"><?php echo $this->user->lang('IP Address'); ?>:</label>
+            <input type="text" name="ipNameServer[]" value="<?php echo @$this->nameServerIps[2]; ?>" />
+        </div>
+        <div class="nameserverDiv">
+            <label class="namserverLabel"><?php echo $this->user->lang('NameServer #3'); ?>:</label>
+            <input type="text" name="nameServer[]" value="<?php echo @$this->nameServers[3]; ?>" />
+            <label class="namserverLabel"><?php echo $this->user->lang('IP Address'); ?>:</label>
+            <input type="text" name="ipNameServer[]" value="<?php echo @$this->nameServerIps[3]; ?>" />
+        </div>
+        <div class="nameserverDiv">
+            <label class="namserverLabel"><?php echo $this->user->lang('NameServer #4'); ?>:</label>
+            <input type="text" name="nameServer[]" value="<?php echo @$this->nameServers[4]; ?>" />
+            <label class="namserverLabel"><?php echo $this->user->lang('IP Address'); ?>:</label>
+            <input type="text" name="ipNameServer[]" value="<?php echo @$this->nameServerIps[4]; ?>" />
+        </div>
+        <?php } ?>
+
+        <div id="pluginOptions" style="margin-top:20px;width: 475px">
+            <h4>
+                <button data-toggle="tooltip" title="<?php echo $this->user->lang('Please ensure you have saved any changes before testing the connection.'); ?>" style="float: right; margin-right: 40px; display: hidden" id="testButton" class="btn rich-button"><span>Test Connection</span></button>
+                <?php echo $this->user->lang('Plugin Options'); ?>
+            </h4>
+            <dl class="form" id="pluginOptionsForm"></dl>
+        </div>
+       <div class="form-actions">
+            <div class="pull-right">
+                <button id="saveButton" class="submit-general btn btn-primary"><span><?php echo $this->user->lang('Save Changes'); ?></span></button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+
+
+<script data-cfasync="false" type="text/javascript">
+    var server = {};
+    server.id = '<?php echo $this->id; ?>';
+    server.canTestConnect = <?php echo $this->canTestConnect; ?>;
+
+    $(document).ready(function() {
+    <?php if ( $this->plugin != '' ) { ?>
+        getServerPluginOptions(server.id, '<?php echo $this->plugin; ?>');
+    <?php } ?>
+    });
+</script>

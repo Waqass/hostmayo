@@ -1,0 +1,99 @@
+<div id="advancedseachoptions">
+    <div style="font-size: 10px;padding-left:0px;"><?php echo $this->user->lang('Search filters'); ?>:</div>
+    <select id="searchfilter" style="width:260px;display:none;">
+        <option value="allclients"> <?php echo $this->user->lang('All Users'); ?></option>
+        <option value="1"> <?php echo $this->user->lang('Active Users'); ?></option>
+        <option value="-1"> <?php echo $this->user->lang('Inactive Users'); ?></option>
+        <option value="-2"> <?php echo $this->user->lang('Canceled Users'); ?></option>
+        <option value="-3"> <?php echo $this->user->lang('Fraud Users'); ?></option>
+        <option value="0"> <?php echo $this->user->lang('Pending Users'); ?></option>
+    </select>
+
+    <div id="selectwithblock" style="padding-top:10px;">
+        <select id="searchbyfield" name="searchbyfield" style="width:260px;">
+            <option value="none"> -- <?php echo $this->user->lang('with'); ?> --</option>
+            <option value="c_profile_field"> <?php echo $this->user->lang('Custom Profile Field'); ?></option>
+            <option value="c_package_field"> <?php echo $this->user->lang('Custom Package Field'); ?></option>
+        </select>
+    </div>
+
+    <div style="display:none;padding-top:10px;" id="customprofilediv">
+        <select id="searchbycustomprofilefield" name="searchbycustomprofilefield" style="width:260px;display:none;">
+            <?php foreach ( $this->profileFields as $field ) { ?>
+            <option value='<?php echo $field['id']; ?>'> <?php echo $field['name']; ?></option>
+            <?php } ?>
+        </select>
+    </div>
+    <div style="display:none;padding-top:10px;" id="custompackagediv">
+        <select id="searchbycustompackagefield" name="searchbycustompackagefield" style="width:260px;display:none;">
+            <?php foreach ( $this->packageFields as $field ) { ?>
+            <option value='<?php echo $field['id']; ?>'> <?php echo $field['name']; ?></option>
+            <?php } ?>
+        </select>
+    </div>
+    <div style="font-size: 10px;padding-top:10px;"><?php echo $this->user->lang('And Matching'); ?>:</div>
+    <input size="37" id="searchstring" disabled style="width:245px;" name="searchstring" type="text" onkeydown="if(event.keyCode==13){ return clientexec.advancedsearch.submitCustomUserSearch();}">
+</div>
+
+<script language="javascript" type="text/javaScript">
+    advancedsearch = {};
+    clientexec.advancedsearch.submitCustomUserSearch = function() {
+        var url;
+        var fieldname = "";
+        var filtertext = $('#searchstring').val();
+        var filtertype = $('#searchbyfield').val();
+
+        switch(filtertype) {
+            case "c_profile_field":
+                filterfieldid = $('#searchbycustomprofilefield').val();
+                fieldname = $('#searchbycustomprofilefield option:selected').text();
+                break;
+            case "c_package_field":
+                filterfieldid = $('#searchbycustompackagefield').val();
+                fieldname = $('#searchbycustompackagefield option:selected').text();
+                break;
+            case "none":
+                RichHTML.msgBox(lang('Please select a custom field filter type.'));
+                return false;
+                break;
+        }
+
+        if (trim(filtertext) == "") {
+            RichHTML.msgBox(lang('Requires&nbsp;search&nbsp;string'));
+            return false;
+        }
+
+        //not viewing accounts list
+        url = "index.php?fuse=clients&controller=user&view=viewusers&filter="+$('#searchfilter').val()+"&customsearchtype="+filtertype+"&customsearchstring="+filtertext+"&customsearchfield="+filterfieldid+"&fieldname="+trim(fieldname);
+        window.location = url;
+        return false;
+
+    };
+
+    advancedsearch.ToggleCustomFields = function(type, option){
+        if (type=="none") {
+            $('#searchstring').attr('disabled','disabled');
+        }
+
+        if (type == 'c_profile_field') {
+            document.getElementById('customprofile'+option).style.display='';
+            $('#searchstring').removeAttr('disabled');
+        } else {
+            document.getElementById('customprofile'+option).style.display='none';
+        }
+        if (type == 'c_package_field') {
+            document.getElementById('custompackage'+option).style.display='';
+            $('#searchstring').removeAttr('disabled');
+        } else {
+            document.getElementById('custompackage'+option).style.display='none';
+        }
+     }
+
+    $(document).ready(function(){
+        clientexec.postpageload('#advancedseachoptions');
+        $('#searchbyfield').click(function(){
+            advancedsearch.ToggleCustomFields($(this).val(), 'div');
+       });
+    });
+
+</script>

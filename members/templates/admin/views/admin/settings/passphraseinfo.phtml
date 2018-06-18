@@ -1,0 +1,192 @@
+<?php //echo $this->settingsgroup();?>
+<script data-cfasync="false" type="text/javascript">
+    $(document).ready(function() {
+
+        $('.update-passphrase').bind('click', function(e) {
+            e.preventDefault();
+
+            limbo = $(this).data('limbo');
+            oldSelector = '#oldpassphrase';
+            newSelector = '#newpassphrase';
+            confirmSelector = '#confirmpassphrase';
+            if ( limbo == 1 ) {
+                oldSelector = '#limbo-oldpassphrase';
+                newSelector = '#limbo-newpassphrase';
+                confirmSelector = '#limbo-confirmpassphrase';
+            }
+            oldpassphrase = $(oldSelector).val();
+            newpassphrase = $(newSelector).val();
+            confirmpassphrase = $(confirmSelector).val();
+
+            if ( oldpassphrase === '' || newpassphrase === '' || confirmpassphrase === '' ) {
+                RichHTML.error(lang('All fields must be filled in'));
+            } else if ( newpassphrase !== confirmpassphrase ) {
+                RichHTML.error(lang('Your passphrases do not match!'));
+            } else {
+                var loadingMask = new RichHTML.window({})
+
+                loadingMask.options.escClose = false;
+                loadingMask.options.type = 'info';
+                loadingMask.options.content = lang('Currently resetting passphrases, please do not close this page.');
+                loadingMask.options.hideTitle = true;
+                loadingMask.options.hideButtons = true;
+                loadingMask.show();
+                RichHTML.center($('#'+loadingMask.id+' .window-description-elements'),$('#'+loadingMask.id+' .window-description form'));
+
+                $.ajax({
+                    url: 'index.php?fuse=admin&action=runchangepassphrasepopup&controller=index',
+                    data: {
+                        updatelimbo: limbo,
+                        initial: '1',
+                        oldpassphrase: oldpassphrase,
+                        newpassphrase: newpassphrase
+                    },
+                    success: function(json) {
+                        ce.msg(json.message);
+                        window.setInterval(function(){window.location.href = "index.php?fuse=admin&view=passphraseinfo&controller=settings&settings=security"},3000);
+                    }
+                });
+            }
+        });
+
+        $('#deletepassphrase').bind('click',function(){
+            $.ajax({
+                url: "index.php?fuse=admin&action=deletepassphraseinfo&controller=index",
+                dataType: 'json',
+                success: function(json) {
+                    if (json.error) {
+                        ce.msg(json.message);
+                    } else {
+                        window.location.href = "index.php?fuse=admin&view=passphraseinfo&controller=settings&settings=security";
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo lang("Security")." ".lang("Settings")." - ".lang("CC Passphrase"); ?></div>
+  <p class="alert-content"><?php echo $this->user->lang('Manage your credit card passphrase.'); ?></p>
+</div>
+
+<?php if ($this->errorMsg != "") { ?>
+    <br><font color='red'><center><b><?php echo $this->errorMsg;?></b></center></font>
+<?php }?>
+
+<?php if (!$this->hasCCPassphrased) { ?>
+        <br><br><center><b><?php echo $this->user->lang('You do not have any credit cards passphrased.');?></b></center>
+<?php } ?>
+
+<?php if ($this->resettingPassphrase) { ?>
+    <?php echo $this->user->lang("You are currently resetting your passphrases, please be patient"); ?>
+<?php } ?>
+
+
+<?php if ($this->passphrasePopulated && $this->inlimbo) { ?>
+    <h3><?php echo $this->user->lang('Reset Passphrase'); ?></h3>
+    <span style="color: red">
+    <strong><?php echo $this->user->lang('You have some accounts that did not complete the latest passphrase update!');?></strong></span><br />
+    <strong><?php echo $this->user->lang('This could be caused by accidentally closing the status window before all accounts were updated.'); ?></strong>
+    <br/><br/>
+    <?php echo $this->user->lang('Please follow these steps'); ?> <br />
+    <?php echo $this->user->lang("1- Make sure 'Old Passphrase' contains the same value used in the previous update"); ?><br/>
+    <?php echo $this->user->lang("2- Make sure you also contain the same 'New Passphrase' used in your last update attempt"); ?>.<br/><br/>
+    <span style="color: red"><?php echo $this->user->lang('Performing this action could take some time, please be patient'); ?></span>
+    <br />
+    <form autocomplete="off">
+        <table>
+            <tr>
+                <td nowrap>
+                    <?php echo $this->user->lang('Old Passphrase'); ?>:&nbsp;&nbsp;
+                </td>
+                <td>
+                    <input id="limbo-oldpassphrase" type="password" name="oldpassphrase">
+                </td>
+            </tr>
+            <tr>
+                <td nowrap>
+                    <?php echo $this->user->lang('New Passphrase'); ?>:&nbsp;&nbsp;
+                </td>
+                <td>
+                    <input id="limbo-newpassphrase" type="password" name="newpassphrase">
+                </td>
+            </tr>
+            <tr>
+                <td nowrap>
+                    <?php echo $this->user->lang('Confirm Passphrase'); ?>:&nbsp;&nbsp;
+                </td>
+                <td>
+                    <input id="limbo-confirmpassphrase" type="password" name="confirmpassphrase">
+                </td>
+            </tr>
+            <tr>
+                <td colspan=2>
+                    <button data-limbo="1" class="rich-button update-passphrase">
+                        <?php echo $this->user->lang("Update All Accounts");?>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </form>
+<?php }?>
+
+<?php if ($this->passphrasePopulated && !$this->inlimbo) { ?>
+    <h3><?php echo $this->user->lang('Reset Passphrase'); ?></h3>
+    <?php echo $this->user->lang("Encrypt your customer's credit card numbers using a new passphrase."); ?><br/>
+    <span style="color: red">
+        <?php echo $this->user->lang('Performing this action could take some time, please be patient'); ?><br/>
+        <?php echo $this->user->lang('Backup your database before proceeding.'); ?>
+    </span>
+    <br/>
+    <form autocomplete="off">
+        <table>
+            <tr>
+                <td nowrap>
+                    <?php echo $this->user->lang('Old Passphrase'); ?>:&nbsp;&nbsp;
+                </td>
+                <td>
+                    <input id="oldpassphrase" type="password" name="oldpassphrase">
+                </td>
+            </tr>
+            <tr>
+                <td nowrap>
+                    <?php echo $this->user->lang('New Passphrase'); ?>:&nbsp;&nbsp;
+                </td>
+                <td>
+                    <input id="newpassphrase" type="password" name="newpassphrase">
+                </td>
+            </tr>
+            <tr>
+                <td nowrap>
+                    <?php echo $this->user->lang('Confirm Passphrase'); ?>:&nbsp;&nbsp;
+                </td>
+                <td>
+                    <input id="confirmpassphrase" type="password" name="confirmpassphrase">
+                </td>
+            </tr>
+            <tr>
+                <td colspan=2>
+                    <button data-limbo="0" class="rich-button update-passphrase">
+                        <?php echo $this->user->lang("Update All Accounts");?>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </form>
+<?php } ?>
+
+<?php if ($this->showDeleteButtons) { ?>
+    <br /><br />
+    <h3><?php echo $this->user->lang('Delete Passphrase'); ?></h3>
+    <?php echo $this->user->lang("Delete the passphrase that was used to further encrypt your customer's credit cards."); ?>
+    <br />
+    <span style="color: red">
+        <?php echo $this->user->lang('Warning: Performing this action will require that your customers re-enter their credit card numbers'); ?>
+    </span>
+    <br />
+    <button id="deletepassphrase" class='rich-button'>
+        <?php echo $this->user->lang("Delete Passphrase");?>
+    </button>
+<?php } ?>

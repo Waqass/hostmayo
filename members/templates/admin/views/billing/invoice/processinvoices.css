@@ -1,0 +1,14 @@
+.processing-label {
+	font-size: 11px;
+}
+
+.btn-generate-invoices{
+	margin-top:20px;
+}
+
+.last-generated-date {
+	font-size: 11px;
+	float:right;
+	position:relative;
+	top: 25px;
+}

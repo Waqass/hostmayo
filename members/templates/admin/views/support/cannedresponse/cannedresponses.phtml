@@ -1,0 +1,30 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo lang("Support")." ".lang("Settings")." - ".lang("Canned Replies"); ?></div>
+  <p class="alert-content"><?php echo $this->user->lang("List of canned replies available to staff when replying to support tickets."); ?></p>
+</div>
+
+<span class="grid-meta" id="CannedResponses-grid-metadata"></span>
+<div id="gridheader" class="blue-box" style="clear:both;padding:4px !important;">
+    <table class="automation">
+        <tbody>
+            <tr>
+            	<td><a id="addresponse" class="rich-button white"><span class="buttontext"><?php echo $this->user->lang("Add Reply");?></span></a></td>
+                <td align="right"><label><?php echo $this->user->lang("Show");?></label></td>
+                <td align="left" style="width:150px;">
+                    <select class="dropdown-select" style="width:140px;" id='CannedResponses-grid-filterbystatus'>
+	                    <option value='0'><?php echo $this->user->lang("All Responses"); ?></option>
+	                    <option value='1'><?php echo $this->user->lang("My Responses"); ?></option>
+                    </select>
+                </td>
+                <td align="left" style="width:60px">
+                    <select id='CannedResponses-grid-filter' class="change-grid-showrecords" style='width:60px;'><option value='5'>5</option><option value='10'>10</option><option value='25'>25</option><option value='50'>50</option><option value='150'>150</option><option value='300'>300</option></select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="CannedResponses-grid"></div>
+<div id="CannedResponses-grid-footer" style="display:none;">
+    <button class="rich-button" id="delResponse"><span><?php echo $this->user->lang("Delete Reply(s)"); ?></span></button>
+</div>

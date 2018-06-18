@@ -1,0 +1,265 @@
+<?php echo $this->partial('signuppublic/cartheader.phtml', array('tempInformation'=>$this->tempInformation,'user'=>$this->user,'step'=>$this->step, 'summary'=>$this->summary));
+	$customFields = json_encode($this->customFields);
+	$count_of_addons = 0;
+?>
+
+<script data-cfasync="false" type="text/javascript">
+$(document).ready(function(){
+	<?php echo "var customFields = ". $customFields . ";\n"; ?>
+	cart.get_package_customfields(customFields);
+});
+
+function validateSubDomain(controlid) {
+    $('.parsley-error-list').remove();
+
+    //disable continueButton while validating
+    var continueButton = document.getElementById("continue-button");
+    continueButton.disabled = true;
+
+    //subdomain
+    var subDomainNameField = document.getElementById(controlid);
+    var subDomainName = subDomainNameField.value;
+    var subDomainTldField = document.getElementById("subdomaintld_"+controlid);
+    var subDomainTld = subDomainTldField.options[subDomainTldField.selectedIndex].value;
+
+    $.post(
+        'index.php?fuse=clients&controller=products&action=isvalidsubdomain',
+        {
+            subDomainName: subDomainName,
+            subDomainTld: subDomainTld
+        },
+        function(response) {
+            var data = ce.parseResponse(response);
+            if(data.results === true){
+                //enable continueButton if valid
+                continueButton.disabled = false;
+            }else{
+                switch(data.results){
+                    case 'forbidden':
+                        $('#' + controlid).after('<ul class="parsley-error-list" style="display: block;"><li class="required" style="display: list-item;">'+'<?php echo $this->user->lang("This subdomain is currently not allowed");?>'+'</li></ul>');
+                        break;
+                    case 'duplicated':
+                        $('#' + controlid).after('<ul class="parsley-error-list" style="display: block;"><li class="required" style="display: list-item;">'+'<?php echo $this->user->lang("This subdomain is already in use");?>'+'</li></ul>');
+                        break;
+                }
+            }
+        }
+    );
+}
+
+</script>
+
+
+<?php
+	if(isset($_POST["domainName"])) {
+		$domainUrl = "&amp;domainName=" . $_POST["domainName"];
+		if(isset($_POST["tld"])) $domainUrl .= "&amp;tld=" . $_POST["tld"];
+	} else {
+		$domainUrl = "";
+	}
+?>
+
+<!-- bundled products // hosting and domain -->
+<div class="ce-box">
+	<div class="ce-box-inner">
+		<h1><?php echo $this->user->lang("Configure Package");?></h1>
+		<form action="index.php?fuse=admin&controller=signup&action=saveproductfields" method="POST" name="submitForm" id="submitForm" parsley-validate>
+		<input type="hidden" name="formId" value="configureProduct">
+		<input type="hidden" name="priceTerm" value="<?php echo $this->paymentterm;?>">
+		<input type="hidden" name="product" value="<?php echo $this->product;?>">
+
+		<p class="alert ce-alert ce-alert-info">
+		    <?php if ( count($this->customFields) > 0) { ?>
+		        <?php if ( count($this->packageAddons) > 0 ) { ?>
+		            <?php echo $this->user->lang("Please fill in the product fields below and check through our available add-ons.");?>
+		        <?php } else { ?>
+		            <?php echo $this->user->lang("Please fill in the product fields below.");?>
+		        <?php } ?>
+		    <?php } else { ?>
+		        <?php if ( count($this->packageAddons) > 0 ) { ?>
+		            <?php echo $this->user->lang("Please check through our available add-ons.");?>
+		        <?php } ?>
+		    <?php } ?>
+		</p>
+
+		<div class="customfields-wrapper">
+			<div class="searching-customfields"><i class="icon-spinner icon-spin icon-large"></i>&nbsp;&nbsp;<?php echo $this->user->lang("Waiting ...");?></div>
+		</div>
+
+		<?php if(isset($field['isDomain'])) {
+		/*
+			?>
+		    <?php if(isset($this->subDomains)) { ?>
+		        . <select 	id="subDomainTld" name="subDomainTld">
+		            <option value="0"><?php echo $this->user->lang('Choose a Subdomain');?></option>
+		            <?php foreach($this->subDomains AS $key) { ?>
+		                <?php if ( strlen($key) > 0 ) { ?>
+		                <option value="<?php echo $key; ?>"><?php echo $key; ?></option>
+		                <?php } ?>
+		            <?php } ?>
+		        </select>
+		    <?php } ?>
+		    <a class="button small white" style="margin-bottom:0px;cursor:pointer;" id="buttonSubDomainCheck" onclick="checkAvailabilitySubDomain();"> <?php echo $this->user->lang('Check Availability'); ?> &raquo;</a>
+		    <div id="subDomainSearchResults"></div>
+		<?php
+
+		*/
+		} ?>
+
+
+		<?php if ( count($this->packageAddons) > 0 ) { ?>
+		<div class="addons-wrapper" style="display:none;">
+			<h2><?php echo $this->user->lang("Product Add-ons");?></h2>
+
+			<?php foreach ( $this->packageAddons as $addon ) {
+				if ( !is_array($addon['prices']) || count($addon['prices']) == 0) continue;
+				$count_of_addons++;
+				?>
+				<label>
+					<?php if ( $addon['desclanguage'] != '' ) { ?>
+	    			<span data-toggle="popover-hover" data-html="true" data-placement="top" title="<?php echo $this->user->lang("Description");?>" data-content="<?php echo $this->escape($addon['desclanguage']);?>" class="tip-target">
+    				<?php } ?>
+	    				<?php echo $this->user->lang($addon['namelanguage']);?>
+    				<?php if ( $addon['desclanguage'] != '' ) { ?>
+	    			</span>
+	    			<?php } ?>
+	    		</label>
+
+            	<?php if ( @$addon['radio_buttons'] == '0' ) { ?>
+				<select name="addonSelect_<?php echo $addon['id']; ?>" class="dropdown" style="width:330px;">
+					<?php foreach ( $addon['prices'] as $price ) { ?>
+					<option value="addon_<?php echo $addon['id']; ?>_<?php echo $price['price_id']; ?>_<?php echo $price['recurringprice_cyle']; ?>" <?php echo $price['price_selected']; ?>><?php echo $price['pricelanguage']; ?></option>
+					<?php } ?>
+				</select>
+				<?php } else { ?>
+					<?php foreach ( $addon['prices'] as $price ) { ?>
+						<div>
+
+							<label class="radio">
+								<input type="radio" name="addonSelect_<?php echo $addon['id']; ?>" class="dropdown" id="addon_<?php echo $addon['id']; ?>_<?php echo $price['price_id']; ?>_<?php echo $price['recurringprice_cyle']; ?>" value="addon_<?php echo $addon['id']; ?>_<?php echo $price['price_id']; ?>_<?php echo $price['recurringprice_cyle']; ?>" style="background:none; border:0px;" <?php echo $price['price_selected']; ?>/>
+								<?php echo $price['pricelanguage']; ?>
+							</label>
+
+						</div>
+					<?php } ?>
+				<?php } ?>
+
+			<?php } ?>
+		</div>
+		<?php } ?>
+
+		<div class="form-actions">
+			<button id="continue-button" class="pull-right btn btn-large cart2-continue-button" disabled> <?php echo $this->user->lang('Continue'); ?> &raquo;</button>
+		</div>
+		</form>
+
+	</div>
+</div>
+
+<script data-cfasync="false" type="text/javascript">
+	$(document).ready(function() {
+		var count_of_addons = <?php echo $count_of_addons;?>;
+		if(count_of_addons > 0) $('.addons-wrapper').show();
+		var password_fields = [];
+		<?php if ( $this->enforcePassword == true && count($this->passwordFields) > 0 ) { ?>
+			<?php foreach ( $this->passwordFields as $passwordField ) { ?>
+
+				password_fields.push("<?php echo $passwordField;?>");
+				//$('#CT_' + <?php echo $passwordField; ?>).attr('data-remote','index.php?controller=signup&fuse=admin&action=testpasswordstrength');
+
+			<?php } ?>
+		<?php } ?>
+		$('#submitForm').parsley();
+
+		$('#continue-button').on('click', function(e) {
+			e.preventDefault();
+			var password_validated = true;
+
+			//let's validate remote data
+			if (password_fields.length > 0) {
+				$('.parsley-error-list').remove();
+				$.each(password_fields,function(index,obj){
+					if ($.trim($('#CT_' + obj).val()) == "") return;
+					$.ajax({
+				        type: "POST",
+				        data: {"password":$('#CT_' + obj).val()},
+				        url: 'index.php?controller=signup&fuse=admin&action=testpasswordstrength',
+				        async: false,
+				        success : function(response) {
+				        	json = ce.parseResponse(response);
+				            if (!json.valid) {
+				            	password_validated = false;
+				            	$('#CT_' + obj).after('<ul class="parsley-error-list" style="display: block;"><li class="required" style="display: list-item;">'+json.errorMessage+'</li></ul>');
+                                $('#CT_' + obj).prev().get(0).scrollIntoView();
+				            }
+				        }
+				    });
+				});
+
+				if ( password_validated && $('#submitForm').parsley('validate') ) {
+					$('#submitForm').submit();
+				}
+
+
+			} else if ( $('#submitForm').parsley('validate') ) {
+				$('#submitForm').submit();
+			}
+
+
+			return false;
+		});
+	})
+</script>
+
+<?php if ( $this->bundled ) { ?>
+<script data-cfasync="false" type="text/javascript">
+    $(document).ready(function() {
+        $('a:not(.button, .btn)').click(function(e){
+            var selectedLink = this;
+            if ($(this).hasClass('showcancelalert')) {
+                RichHTML.msgBox(lang('Are you sure you want to cancel this item?'),
+                {
+                    type: 'yesno'
+                },
+                function(result) {
+                    if ( result.btn == lang('Yes') ) {
+                        confirmDleteItemFromCart(selectedLink);
+                    }
+                });
+                return false;
+            } else if ($(this).hasClass('nopopupalert')) {
+                confirmDeleteItemFromCart(selectedLink);
+            } else {
+                RichHTML.msgBox(lang('Leaving now will cancel this item.  Are you sure you want to leave?'),
+                {
+                    type: 'yesno'
+                },
+                function(result) {
+                    if ( result.btn == lang('Yes') ) {
+                        confirmDleteItemFromCart(selectedLink);
+                    }
+                });
+                return false;
+            }
+        });
+    });
+
+
+    confirmDleteItemFromCart = function(link)
+    {
+        var cartItem = "<?php echo $this->cartParentPackage;?>";
+        if(cartItem != ''){
+            $.ajax({
+            url: 'index.php?fuse=admin&controller=signup&action=deletecartitem',
+                success: function () {
+                    window.location = link;
+            },
+            data: { cartItem: cartItem },
+            dataType: 'json'
+        });
+      } else {
+        window.location = link;
+      }
+    }
+</script>
+<?php } ?>

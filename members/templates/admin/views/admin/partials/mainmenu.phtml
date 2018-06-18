@@ -1,0 +1,62 @@
+<ul class="ce-top-menu">
+    <?php foreach ($this->menus as $menu) {
+        ?>
+        <li class="nav_<?php echo strtolower($menu['modulename']);?> <?php echo $menu['class'];?>"><a href="<?php echo $menu['hreftarget']; ?>"><?php echo $menu['modulename'];?><div class="menu-underline"></div></a>
+            <?php
+                //lets set cached counts
+                $menu_count = "";
+                $labelclass = "label-inverse";
+                if ($menu['modulename'] == $this->user->lang("Dashboard")) $menu_count = $this->menucounts['dashboard'];
+                if ($menu['modulename'] == $this->user->lang("Support")) $menu_count = $this->menucounts['support'];
+                if ($menu['modulename'] == $this->user->lang("Billing")) $menu_count = $this->menucounts['billing'];
+                if ($menu_count != 0) $labelclass = 'label-important';
+
+            ?>
+            <span class="topmenu-count-label label <?php echo $labelclass; ?>"><?php echo $menu_count;?></span>
+
+            <?php if ($menu['showsubmenu']) { ?>
+                <div class="drop <?php echo ($menu['direction']=="left") ? "dropToLeft": "";?>" style="<?php echo ($menu['width'] == "") ? "" : "width: ".$menu['width'];?> <?php echo ($menu['rightoffset'] == "") ? "" : "right: ".$menu['rightoffset'];?> ">
+
+                    <?php
+                    $new_col = false;
+                    $last_col_key = "xxx";
+                    $first = true;
+                    foreach($menu['submenu'] as $submenu) {
+
+                        if ($last_col_key != $submenu->getColumnKey()) $new_col = true;
+                        else $new_col = false;
+
+                        $last_col_key = $submenu->getColumnKey();
+                        if ( $submenu->isHighlight('right') ) {
+                            $class = "pull-right highlight-box";
+                        } else if ( $submenu->isHighlight('left') ) {
+                            $class = "pull-left highlight-box";
+                        }else {
+                            $class = "left";
+                        }
+
+                        ?>
+                        <?php if ($new_col && !$first) { ?></div> <?php } ?>
+                        <?php if ($new_col) { ?><div class='<?php echo $class;?>'> <?php } ?>
+                            <span class="menu-drop-header"><?php echo $submenu->getURL();?></span>
+                            <?php //let's see if our submenuitem has a submenu
+                                if ($submenu->getSubmenu() !== null) {
+                                    $subsubmenu = $submenu->getSubmenu()->getItems($this->user);
+                                    ?>
+                                    <div class="menu-drop-subitems">
+                                        <?php foreach($subsubmenu as $subsubmenuitem) { ?>
+                                            <?php echo $subsubmenuitem->getURL();?>
+                                        <?php } ?>
+                                    </div>
+                            <?php } ?>
+
+                    <?php
+                        $first = false;
+                    }
+                    ?>
+
+                </div>
+            <?php } ?>
+        </li>
+    <?php } ?>
+</ul>

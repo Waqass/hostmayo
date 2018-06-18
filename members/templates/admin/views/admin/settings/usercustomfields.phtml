@@ -1,0 +1,64 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->user->lang("User Custom Fields"); ?></div>
+  <p class="alert-content"><?php echo $this->user->lang("Add/Edit any additional custom fields to be viewed in the customer or admin profile.");?></p>
+</div>
+<div class="blue-box">
+    <button id="buttonAdd" class="rich-button">
+        <span><?php echo $this->user->lang("Add Custom Field"); ?></span>
+    </button>
+    <?php echo $this->user->lang('You can also drag fields to reorder the way they appear.'); ?>
+</div>
+<div>
+    <div id="divCustomFieldTree"></div>
+    <div id="divCustomFieldInfo">
+        <form id="formCustomFieldInfo">
+            <input type="hidden" id="inputCustomFieldID" name="customfieldid" />
+            <fieldset>
+                <legend><?php echo $this->user->lang('Field Information'); ?></legend>
+                <div id="fromplugin"></div>
+                <label for="inputFieldName"><?php echo $this->user->lang('Field Name'); ?>:</label><input type="text" id="inputFieldName" name="customfieldname" /><br />
+                <label for="textareaFieldDescription"><?php echo $this->user->lang('Field Description'); ?>:</label><textarea id="textareaFieldDescription" name="customfielddesc"></textarea><br />
+
+                <label for="selectFieldType"><?php echo $this->user->lang('Field Type'); ?>:</label><select id="selectFieldType" name="customfieldtypevalue" class="disableSelect2AutoLoad">
+                <?php
+                    foreach ($this->customFieldTypeOptions as $option) {
+                    echo '<option value="'.$option['value'].'"'.(isset($option['disabled']) ? 'disabled' : '').'>'.$option['text'].'</option>';
+                }?>
+                </select><br />
+
+                <div id="divDropDownOptions" style="display: none;"><label for="inputDropDownOptions"><span class="tip-target" data-html="true" data-toggle="tooltip" title="<?php echo $this->user->lang('Please separate all drop down options by using a comma between each value. To have an option label be different from its value, enter the value between parenthesis'); ?><br /><span class='italic'><?php echo $this->user->lang('eg. red, brown(color_2), yellow'); ?></span>">
+                    <?php echo $this->user->lang('Options'); ?></span>:</label><input type="text" id="inputDropDownOptions" name="customfieldoptions" />
+                </div>
+
+                <label for="inputIsRequired"><?php echo $this->user->lang('Is Required'); ?>:</label><input type="checkbox" id="inputIsRequired" name="customfieldrequired" /><br />
+
+                <label for="inputAdminOnly"><span class="tip-target" data-toggle="tooltip" title="<?php echo $this->user->lang('This field is only visible by staff members and not visible to the customer when viewing their profile.'); ?>" data-placement="left">
+                    <?php echo $this->user->lang('Admin Only'); ?></span>:</label><input type="checkbox" id="inputAdminOnly" name="customfieldadminonly" /><br />
+
+                <label for="selectShowInGridAdmin">
+                    <span class="tip-target" data-toggle="tooltip" title="<?php echo $this->user->lang("Whether to show an additional column for this field in the users lists (admin still needs to select the field in the grid's menu)") ?>" data-placement="left">
+                        <?php echo $this->user->lang("Show in admin lists"); ?>:
+                    </span>
+                </label><input type="checkbox" id="selectShowInGridAdmin" name="customfieldshowingridadmin" /><br />
+
+                <label for="inputReadOnly"><span class="tip-target" data-toggle="tooltip" title="<?php echo $this->user->lang('This field is read only for customers. Staff may still edit.'); ?>" data-placement="left">
+                    <?php echo $this->user->lang('Read Only'); ?></span>:</label><input type="checkbox" id="inputReadOnly" name="customfieldreadonly" /><br />
+
+
+                <label for="inputIncludeInSignup"><?php echo $this->user->lang('Include in Signup'); ?>:</label><input type="checkbox" id="inputIncludeInSignup" name="customfieldsignup" /><br />
+
+            </fieldset>
+
+            <fieldset id="fieldsetExtraInformation">
+                <legend><?php echo $this->user->lang('Extra Information'); ?></legend>
+                <label for="inputIncludeInAdmin"><?php echo $this->user->lang('Include in Admin Profile'); ?>:</label><input type="checkbox" id="inputInludeInAdmin" name="customfieldadminprofile" /><br />
+                <label for="inputIncludeInCustomer"><?php echo $this->user->lang('Include in Customer'); ?>:</label><input type="checkbox" id="inputIncludeInCustomer" name="customfieldcustomerprofile" /><br />
+            </fieldset>
+
+        </form>
+        <div style="margin-top:10px;">
+            <button id="buttonDelete" class="rich-button" disabled="disabled"><span><?php echo $this->user->lang('Delete');?></span></button>
+            <button id="buttonSave" class="rich-button" disabled="disabled"><span><?php echo $this->user->lang('Save');?></span></button>
+        </div>
+    </div>
+</div>

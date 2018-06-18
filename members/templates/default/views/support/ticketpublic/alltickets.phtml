@@ -1,0 +1,42 @@
+<ul class="nav nav-pills pull-right ce-nav-pills">
+  <li <?php if ($this->filter=="open") echo "class='active'";?>><a href="index.php?fuse=support&controller=ticket&view=alltickets&filter=open"><?php echo $this->user->lang("Open");?></a></li>
+  <li <?php if ($this->filter=="-1") echo "class='active'";?>><a href="index.php?fuse=support&controller=ticket&view=alltickets&filter=-1"><?php echo $this->user->lang("Closed");?></a></li>
+  <li <?php if ($this->filter=="all") echo "class='active'";?>><a href="index.php?fuse=support&controller=ticket&view=alltickets&filter=all"><?php echo $this->user->lang("All");?></a></li>
+</ul>
+
+<table class="table ce-table table-striped table-hover">
+    <thead>
+      <tr>
+        <th width="70"><?php echo $this->user->lang("Ticket");?> #</th>
+        <th><?php echo $this->user->lang("Subject");?></th>
+        <th class="text-right"><?php echo $this->user->lang("Status");?></th>
+        <?php foreach ($this->customCols as $label): ?>
+            <th><?php echo $label ?></th>
+        <?php endforeach ?>
+      </tr>
+    </thead>
+    <tbody>
+      <?php foreach ($this->tickets as $ticket) { ?>
+      <tr>
+        <td>#<?php echo $ticket['id'];?></td>
+        <td>
+            <a href='index.php?fuse=support&controller=ticket&view=ticket&id=<?php echo $ticket['id'];?>'><?php echo $this->escape($ticket['subject']) ?></a><br/>
+            <span class="ticket-second-line"><?php echo $this->user->lang("Date Created").': '.$ticket['datesubmitted'];?></span>
+        </td>
+        <td class="text-right"><?php echo $this->user->lang($ticket['ticketStatus']) ?></td>
+        <?php foreach ($ticket['customfields'] as $value): ?>
+            <td><?php echo $this->escape($value) ?></td>
+        <?php endforeach ?>
+      </tr>
+      <?php } ?>
+
+      <?php if (count($this->tickets) == 0) { ?>
+        <tr>
+          <td colspan="3" class="text-center"><?php echo $this->user->lang("No tickets found");?></td>
+        </tr>
+      <?php } ?>
+    </tbody>
+</table>
+
+
+<?php if (count($this->pagination) > 1) $this->pagination($this->pagination); ?>

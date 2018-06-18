@@ -1,0 +1,11 @@
+<div><?php echo $this->user->lang("Enter your payment reference");?><br/><input type="text" name="checknum" id="checknum" value="<?php echo $this->checknum; ?>" style="margin-top: 10px;" />
+</div>
+
+<script data-cfasync="false" type="text/javascript">
+    $('#checknum').keydown(function (event) {
+        var keypressed = event.keyCode || event.which;
+        if (keypressed == 13) {
+            viewinvoices.paymentReferenceWindow.submit();
+        }
+    });
+</script>

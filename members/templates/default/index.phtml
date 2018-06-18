@@ -1,0 +1,220 @@
+<?php
+
+    //get saved color or if not present grab the selected template options
+    //template_color is only available if color was passed via url
+    $stylecolor =  ($this->template_color != "") ? $this->template_color : $this->templateOptions['Theme Color']['value'];
+    $stylecolor = str_replace(" ", "_", strtolower($stylecolor));
+    if ($stylecolor == '') {
+        $stylecolor = 'blue';
+    }
+
+    //let's not pass background
+    //if we are not using style
+    if (!$this->gHideStyle) {
+        $this->publichelper();
+        $stylebody = "";
+    } else {
+        $stylebody = "background-color: rgba(0, 0, 0, 0);";
+    }
+
+    //get saved style or if not present grab the selected template options
+    //template_color is only available if color was passed via url
+    $overallstyle =  ($this->template_style != "") ? $this->template_style : $this->templateOptions['Theme Style']['value'];
+    $overallstyle = strtolower($overallstyle);
+    if ($overallstyle == '') {
+        $overallstyle = 'light';
+    }
+
+    if ($this->pageTitle == "") {
+        $original_title = "Untitled (".$this->gFuse."/".$this->gView.") - ".$this->gCompanyName;
+    } else {
+        $original_title = ucfirst($this->pageTitle)." - ".$this->gCompanyName;
+    }
+
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <?php if (!$this->gHideStyle) { ?>
+            <title><?php echo $original_title;?></title>
+            <link rel="Shortcut Icon" href="favicon.ico" />
+            <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+            <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+            <link href='//fonts.googleapis.com/css?family=Quattrocento+Sans:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+            <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+            <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+            <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.min.css" rel="stylesheet">
+            <link type="text/css" rel="stylesheet" href="library/utilities/min/index.php?g=publiccss<?php echo $this->debugMinifier? '&amp;debug=true' : '';?>&ver=<?php echo $this->gInstalledVersion;?>" />
+            <link href="<?php echo $this->templateCSS['style']; ?>" rel="stylesheet" />
+            <link href="<?php echo $this->templateCSS['color-schemes']; ?>" rel="stylesheet" />
+            <link href="<?php echo $this->templateCSS['bootstrap-overrides']; ?>" rel="stylesheet" />
+        <?php } ?>
+       <?php if ($this->gCSSFiles != "") { ?>
+           <link rel="stylesheet" type="text/css" href="library/utilities/min/index.php?f=<?php echo $this->gCSSFiles;?><?php echo $this->debugMinifier? '&amp;debug=true' : '';?>&ver=<?php echo $this->gInstalledVersion;?>" />
+       <?php } ?>
+        <!--[if lt IE 9]>
+          <script data-cfasync="false" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <script data-cfasync="false" src="javascript/jquery-1.9.1.min.js?ver=<?php echo $this->gInstalledVersion;?>"></script>
+
+
+
+    <?php if (!$this->gHideStyle) { ?>
+        <?php echo $this->unescape($this->headHTML);?>
+    <?php } ?>
+
+
+    </head>
+
+    <body style="<?php echo $stylebody;?>" class="ce-bgcolor-<?php echo $stylecolor;?> ce-overall-<?php echo $overallstyle;?>">
+
+    <?php
+        if ($this->gHideStyle) {
+            echo $this->layout()->CONTENT;
+        } else {
+            echo $this->unescape($this->bodyHTML);
+
+    ?>
+
+    <div id="msg-div" class="msg-div-wrapper" style="display:none;"><div id="msg-div-inner" class="msg-div-inner"></div></div>
+    <div class="container page-header-top">
+        <div class="<?php if($this->loggedIn){ echo "loggedin";}?>">
+            <h1 class="client-portal-name">
+                <?php if ($this->logoURL): ?>
+                    <img class="public-logo" src="<?php echo $this->logoURL ?>" />
+                <?php else: ?>
+                    <span><?php echo $this->user->lang("Client portal");?></span>
+                <?php endif ?>
+            </h1>
+        </div>
+        <span class="bottom-border"></span>
+    </div>
+
+    <div class="container ce-container <?php if($this->loggedIn){ echo "loggedin";}?>">
+
+        <?php echo $this->partial('views/layoutpartials/topmenu.phtml', array('snapins'=>$this->snapins,'user'=>$this->user, 'gView'=>$this->gView,'loggedin'=>$this->loggedIn,'overallstyle'=>$overallstyle, 'has_invoices' => $this->gHasInvoices, 'templateOptions' => $this->templateOptions, 'langauges' => CE_Lib::getEnabledLanguages())); ?>
+        <div class="ce-main <?php echo ($this->in_cart) ? "cart" :  "notcart" ;?>">
+            <div class="inner ce-main-inner">
+                <?php
+                echo $this->unescape($this->tplBreadCrumb);
+                if (count($this->gErrorMessages)>0) { ?>
+                    <div class="alert ce-alert ce-alert-error">
+                        <a class="close" data-dismiss="alert">×</a>
+                        <?php
+                        $strErrorMessage = "";
+                        foreach ($this->gErrorMessages as $message) {
+                                if ($strErrorMessage != "") {
+                                    $strErrorMessage .= "<br/>";
+                                }
+                                $strErrorMessage .= $message;
+                        }
+                        echo $strErrorMessage;
+                        ?>
+                    </div>
+                <?php } ?>
+                <?php if (count($this->gMessages)>0) { ?>
+                    <div class="alert ce-alert"> <a class="close" data-dismiss="alert">×</a>
+                        <?php
+                        $strSuccessMessage = "";
+                        foreach ($this->gMessages as $message) {
+                                if ($strSuccessMessage != "") {
+                                    $strSuccessMessage .= "<br/>";
+                                }
+                                $strSuccessMessage .= $message;
+                        }
+                        echo $strSuccessMessage;
+                        ?>
+                    </div>
+                <?php } ?>
+                <?php if (count($this->gSuccessMessages)>0) { ?>
+                    <div class="alert ce-alert ce-alert-success"> <a class="close" data-dismiss="alert">×</a>
+                        <?php
+                        $strSuccessMessage = "";
+                        foreach ($this->gSuccessMessages as $message) {
+                                if ($strSuccessMessage != "") {
+                                    $strSuccessMessage .= "<br/>";
+                                }
+                                $strSuccessMessage .= $message;
+                        }
+                        echo $strSuccessMessage;
+                        ?>
+                    </div>
+                <?php }?>
+                <?php echo $this->layout()->CONTENT; ?>
+            </div>
+        </div>
+
+        <?php if (!CE_Lib::hasAttribute("nobranding")) { ?>
+            <div class="poweredby">
+                <?php echo $this->user->lang("Powered by");?> <a href="http://www.clientexec.com?source=poweredby" target="_new"><img class="brand-logo" src="templates/default/img/logo_text.png"></a><br/>
+            </div>
+        <?php } ?>
+
+    </div>
+
+    <?php } //ending if not hiding style ?>
+
+    <script data-cfasync="false" type="text/javascript">
+
+        var clientexec = {};
+        clientexec.template = {};
+        clientexec.dateFormat = "<?php echo $this->gDateFormat;?>";
+        clientexec.template.themecolor = "ce-bgcolor-<?php echo $stylecolor; ?>";
+        clientexec.isAdmin = <?php echo ($this->gIsAdmin) ? "true": "false";?>;
+        clientexec.sessionHash = "<?php echo $this->gHash; ?>";
+        clientexec.relativePath = "<?php echo $this->gRelativePath; ?>";
+        clientexec.fuse = "<?php echo $this->gFuse; ?>";
+        clientexec.view = "<?php echo $this->gView; ?>";
+        clientexec.original_title = "<?php echo $original_title;?>";
+        clientexec.log_usage = <?php echo $this->log_usage;?>;
+        clientexec.captcha = <?php echo $this->captcha? 'true' : 'false' ?>;
+       <?php if($this->loggedIn){ ?>
+           clientexec.customerId = "<?php echo $this->gCustomerId;?>";
+           clientexec.customerFirstName = "<?php echo $this->gUserFirstName; ?>";
+           clientexec.customerFullName = "<?php echo $this->escape($this->user->getFullName()); ?>";
+           clientexec.customerEmail = "<?php echo $this->escape($this->user->getEmail()) ?>";
+       <?php } else { ?>
+          clientexec.customerId = 0;
+          clientexec.customerEmail = "";
+       <?php } ?>
+    </script>
+
+    <?php if (!$this->gHideStyle) { ?>
+        <script data-cfasync="false" src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <?php } ?>
+
+    <script data-cfasync="false" type="text/javascript" src="library/utilities/min/index.php?g=publicjs,language&amp;lang=<?php echo $this->gLanguage ?><?php echo $this->debugMinifier? '&debug=true' : '';?>&<?php echo $this->gInstalledVersion;?>"></script>
+    <?php if ( $this->gJSFiles != '' ) { ?>
+    <script data-cfasync="false" type="text/javascript" src="library/utilities/min/index.php?f=<?php echo $this->gJSFiles;?><?php echo $this->debugMinifier? '&debug=true' : '';?>&ver=<?php echo $this->gInstalledVersion;?>"></script>
+    <?php }  ?>
+
+    <?php if (!$this->gHideStyle) { ?>
+        <script data-cfasync="false" src="<?php echo $this->templateJS['application']; ?>?ver=<?php echo $this->gInstalledVersion;?>"></script>
+    <?php } ?>
+
+    <?php if (( $this->gHasAccessToLiveChat ) && (!$this->gHideStyle) ) { ?>
+        <script data-cfasync="false" type="text/javascript">
+            var ce = ce || {};
+            ce.whoisonline = {
+                options: {
+                    enable_location: true,
+                    session_days: 5,
+                    hide_chat:false,
+                    location_cookie_name: 'location_ipinfodb',
+                    ipinfodb_key: '7e2a309e38180caf486102979fdd93a20cb2c5603b45448630f3ad860a2802f7',
+                },
+                log : false
+            }
+           ce.protocol = window.location.protocol;
+        </script>
+        <script data-cfasync="false" src="plugins/dashboard/livevisitor/chat/track.php" type="text/javascript"></script>
+    <?php } ?>
+
+    <?php if (!$this->gHideStyle) {
+        echo $this->unescape($this->footerHTML);
+    }?>
+    </body>
+
+</html>

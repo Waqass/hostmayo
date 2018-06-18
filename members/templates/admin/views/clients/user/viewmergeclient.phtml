@@ -1,0 +1,84 @@
+<?php if ( isset($this->message) ) { ?>
+<div class="ce-alert ce-alert-success">
+    <?php echo $this->user->lang('Result'); ?>: <?php echo $this->message; ?><br/>
+</div>
+
+<?php } ?>
+<br/>
+
+<?php if ( isset($this->mergeClient) ) { ?>
+<div class="ce-alert ce-alert-info">
+    <b><?php echo $this->user->lang('Merge Client'); ?></b>
+    <br />
+    <?php echo $this->user->lang('This page allows you to merge the currently selected client into another existing client.  First enter the client id to merge into.  Then select the options to use when performing the merge.  Finally, click the merge button to complete the process.'); ?>
+</div>
+
+<br/>
+<table style="width:520px" cellpadding=0 border=0 cellspacing=0>
+    <tr>
+        <td class="snapshot-header-left"></td>
+        <td class="snapshot-header" nowrap>
+            <font class=snapshot-header-text><?php echo $this->user->lang('Merge Client'); ?></font></td>
+        <td class="snapshot-header" align=right></td>
+        <td class="snapshot-header-right"></td>
+    </tr>
+</table>
+<form method="post" action="index.php?fuse=clients&action=mergeclient&controller=user">
+    <table>
+        <tr>
+            <td width="200px"><?php echo $this->user->lang('Destination Client ID'); ?>:</td>
+            <td><input name="clientID" id="clientID" size="10" class="body" type="text" /></td>
+        </tr>
+        <?php if ( $this->showDeleteButton ) { ?>
+        <tr>
+            <td><?php echo $this->user->lang('Delete Client After Merge'); ?>:</td>
+            <td><input name="delete" id="delete" class="body" type="checkbox" /></td>
+        </tr>
+        <?php } ?>
+        <tr>
+            <td>&nbsp;</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td width="200px"><?php echo $this->user->lang('Merge All Data'); ?>:</td>
+            <td><input name="mergeall" id="mergeall" class="body" type="checkbox" checked/></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center"><?php echo $this->user->lang('or'); ?></td>
+        </tr>
+        <tr>
+            <td width="200px"><?php echo $this->user->lang('Merge Packages'); ?>:</td>
+            <td><input name="mergepackages" id="mergepackages" class="body" type="checkbox" /></td>
+        </tr>
+        <tr>
+            <td width="200px"><?php echo $this->user->lang('Merge Recurring Fees'); ?>:</td>
+            <td><input name="mergerecurring" id="mergerecurring" class="body" type="checkbox" /></td>
+        </tr>
+        <tr>
+            <td width="200px"><?php echo $this->user->lang('Merge Invoices'); ?>:</td>
+            <td><input name="mergeinvoices" id="mergeinvoices" class="body" type="checkbox" /></td>
+        </tr>
+        <tr>
+            <td width="200px"><?php echo $this->user->lang('Merge Tickets'); ?>:</td>
+            <td><input name="mergetickets" id="mergetickets" class="body" type="checkbox" /></td>
+        </tr>
+        <tr>
+            <td width="200px"><?php echo $this->user->lang('Merge Alternate Emails'); ?>:</td>
+            <td><input name="mergeemail" id="mergeemail" class="body" type="checkbox" /></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <button id="merge-button" class="rich-button"><?php echo $this->user->lang('Merge'); ?></button>
+            </td>
+        </tr>
+    </table>
+</form>
+<?php } ?>
+<?php if ( isset($this->selectClient) ) { ?>
+<?php echo $this->user->lang('Please select a client before using this tool.'); ?>
+<?php } ?>

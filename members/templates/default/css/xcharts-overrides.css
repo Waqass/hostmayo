@@ -1,0 +1,70 @@
+
+.graph-wrapper{
+	margin-top:20px;
+}
+
+.graph-tool-tip {
+    position: absolute;
+}
+
+.line .fill { pointer-events: none; }
+
+.axisX .tick line,
+.axisY .tick:nth-child(even) line {
+	stroke-width: 0 !important;
+}
+.axisY .tick:nth-last-child(2) text{
+	display:none;
+}
+.xchart .line {
+	stroke-width: 2px;
+}
+
+.xchart .color0 circle {
+	fill: #3880aa;
+}
+
+.xchart circle {
+	stroke: #fff;
+	stroke-width: 2px;
+}
+
+.xchart circle:hover {
+	stroke: #C0D9EB;
+	stroke-width: 3px;
+}		
+
+.graph-wrapper .popover {
+	border: none;
+	padding: 0;
+	background-color: #F5F6F8;
+	background-image: none;
+	text-decoration: none;
+	color: #444 !important;
+	-moz-box-shadow: inset 0 0 45px #f0bfba;
+	-webkit-box-shadow: inset 0 0 45px #DADADA;
+	box-shadow: inset 0 0 45px #DADADA;
+}
+
+/* for individual charts below this point */
+.xchart .report_Opened rect {
+	fill: #556270 !important;
+}
+.xchart .report_rating_Excellent rect {
+	fill: #07D500 !important;
+}
+.xchart .report_rating_Good rect {
+	fill: #3C75AB !important;
+}
+.xchart .report_rating_Okay rect {
+	fill: #ddd !important;
+}
+.xchart .report_rating_Poor rect {
+	fill: #EC2655 !important;
+}
+.xchart .report_customer_status rect {
+	fill: #3C75AB !important;
+}
+.xchart .report_product_status rect {
+	fill: #A8588C !important;
+}

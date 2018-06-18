@@ -1,0 +1,23 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->user->lang("Staff Management"); ?></div>
+  <p class="alert-content"><?php echo $this->user->lang("Organize your staff into staff roles.  Update permissions and staff.");?></p>
+</div>
+
+<span class="grid-meta" id="staff-grid-metadata"></span>
+<div id="gridheader" class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+            	<td><a class="addStaffRoleButton rich-button white"><span class="buttontext"><?php echo $this->user->lang("Add a New Staff Role");?></span></a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="staff-grid"></div>
+<div id="staff-footer">
+    <div id="staff-grid-buttons" style="float:left;display:none;"></div>
+    <div style="float:right;" id="staff-grid-pagination"></div>
+</div>
+
+<div style="clear:both;" />

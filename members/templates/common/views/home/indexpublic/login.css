@@ -1,0 +1,131 @@
+
+.ce-loginbox {
+    height:410px;
+    width:400px;
+    color: #555;
+}
+
+.ce-loginbox-header{
+    color: #555;
+    font-size: 20px;
+    position: relative;
+    font-weight: 600;
+    width: 330px;
+    left: -74px;
+    margin-bottom: 35px;
+}
+
+.ce-loginbox #url{
+    position:relative;
+    top:35px;
+    color: #888;
+    font-size: smaller;
+}
+
+.ce-loginbox #loginbtn{
+    position:relative;
+    top:47px;
+    left: 287px;
+}
+
+.ce-loginbox #youEmail{
+    background: url('../../../img/login/login_field_box.png') no-repeat left bottom;
+    position: relative;
+    height: 48px;
+    top:11px;
+}
+
+.ce-loginbox #youPassw{
+    background: url('../../../img/login/password_field_box.png') no-repeat left bottom;
+    position: relative;
+    height: 48px;
+    top: 28px;
+}
+
+.ce-loginbox .forgotpasswordurl{
+    top: 30px;
+    position:relative;
+    color:#888;
+
+    cursor: pointer;
+    /*text-decoration: underline;*/
+}
+
+.ce-loginbox .newaccounturl{
+    top: 44px;
+    left: 140px;
+    position:relative;
+    color:#888;
+
+    cursor: pointer;
+    /*text-decoration: underline;*/
+}
+
+.ce-loginbox input[type="submit"] {
+    top:35px;
+    position:relative;
+    left: 286px;
+}
+
+.ce-loginbox input[type="text"],.ce-loginbox input[type="password"] {
+    position: relative;
+    left: 12px;
+    height: 20px;
+    width: 290px;
+    margin-right: 87px;
+    margin-top: 10px;
+    border: 0px;
+    -webkit-box-shadow:none;
+    -moz-box-shadow:none;
+    box-shadow:none;
+}
+
+.alert-loginalerts{
+    width:300px;
+    display:none;
+}
+
+.sociallogin{
+    position: relative;
+    left: -95px;
+}
+
+.sociallogin .twitter{
+    width:165px;
+    height:30px;
+    border:0px;
+    background: url('../../../img/login/twitter_button.png') no-repeat left bottom;
+    position:relative;
+    left:86px;
+    top:10px;
+}
+
+.sociallogin .facebook{
+    width:165px;
+    height:30px;
+    border:0px;
+    background: url('../../../img/login/facebook_button.png') no-repeat left bottom;
+    position:relative;
+    left:103px;
+    top:10px;
+}
+
+.guestLastName,
+.guestFirstName {
+    width: 160px;
+    margin-right: 5px;
+}
+
+.guestEmail,
+.customerEmail {
+    width: 340px;
+}
+
+.register-description {
+    margin-bottom:15px;
+}
+
+.alert-registration-success,
+.alert-reset-password-success {
+    display:none;
+}

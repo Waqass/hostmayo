@@ -1,0 +1,245 @@
+<script type="text/javascript">
+function validateSubDomain(controlid) {
+    $('.parsley-error-list').remove();
+
+    //disable continueButton while validating
+    var continueButton = document.getElementById("subdomain-button");
+    continueButton.disabled = true;
+
+    //subdomain
+    var subDomainNameField = document.getElementById(controlid);
+    var subDomainName = subDomainNameField.value;
+    var subDomainTldField = document.getElementById(controlid+"-tld");
+    var subDomainTld = subDomainTldField.options[subDomainTldField.selectedIndex].value;
+
+    $.post(
+        'index.php?fuse=clients&controller=products&action=isvalidsubdomain',
+        {
+            subDomainName: subDomainName,
+            subDomainTld: subDomainTld
+        },
+        function(response) {
+            var data = ce.parseResponse(response);
+            if(data.results === true){
+                //enable continueButton if valid
+                continueButton.disabled = false;
+            }else{
+                switch(data.results){
+                    case 'forbidden':
+                        $('#' + controlid).after('<ul class="parsley-error-list" style="display: block;"><li class="required" style="display: list-item;">'+'<?php echo $this->user->lang("This subdomain is currently not allowed");?>'+'</li></ul>');
+                        break;
+                    case 'duplicated':
+                        $('#' + controlid).after('<ul class="parsley-error-list" style="display: block;"><li class="required" style="display: list-item;">'+'<?php echo $this->user->lang("This subdomain is already in use");?>'+'</li></ul>');
+                        break;
+                }
+            }
+        }
+    );
+}
+
+</script>
+
+<?php $showOr = false; ?>
+<style>
+    #parsley-email_address, #parsley-private_registration, #parsley-domain_unlocked {
+        padding-top: 10px;
+    }
+</style>
+<script src="templates/common/views/admin/signuppublic/cart_style_domain.js"></script>
+<?php
+    if (trim($this->group['descriptionlanguage']) != "") { ?>
+    <div class="alert ce-alert ce-alert-info">
+        <?php echo $this->unescape($this->group['descriptionlanguage']);?>
+    </div>
+<?php } ?>
+
+<?php if ( $this->group['advanced']['disallowRegister'] == '0' || $this->group['advanced']['disallowRegister'] == null ) {?>
+<?php $showOr = true; ?>
+<h1><?php echo $this->user->lang("Domain Registration");?></h1>
+
+<div id="register_wrap" class="well">
+    <div style="text-align:center;">
+        <p style="margin-top:0px; margin-bottom:5px;">
+            <?php echo $this->user->lang("I want to register a new domain.");?>
+        </p>
+        <input pattern="<?php echo REGEXSUBDOMAIN_PARSLEY; ?>" type="text" name="first_domain_name" class="first_domain_name" value="<?php echo $this->domainName; ?>">
+        <span id="extension"> .
+            <select style="width:90px;" name="domain_extension" class="domain_extension">
+                <?php foreach($this->packages as $package) { ?>
+                    <option <?php if ( $this->tld == $package['planname'] ) { ?> selected="selected" <?php } ?> value="<?php echo $package['id'];?>"><?php echo $package['planname'];?></option>
+                <?php } ?>
+            </select>
+        </span>
+    </div>
+    <div style="text-align:center;">
+        <small>(<?php echo $this->user->lang("e.g. newdomain.com") ?>)</small><br/>
+        <button class="btn btn-large" type="button" onclick="domains.search_domain('register');"><?php echo $this->user->lang("Search Domain");?></button>
+    </div>
+</div>
+<div id="domainSearchResults"></div>
+
+<div id="domainSearchOptions"></div>
+<?php } ?>
+
+<?php if ( $this->group['advanced']['allowTransfer'] == 1 ) { ?>
+<?php if ( $showOr == true ) { ?>
+    <div class="v_split_or"><?php echo $this->user->lang("OR");?></div>
+<?php } else {
+    $showOr = true;
+} ?>
+
+    <h1><?php echo $this->user->lang("Domain Transfer");?></h1>
+
+    <div id="owned_wrap" class="well">
+        <div style="text-align:center;">
+            <p><?php echo $this->user->lang("I already have a domain to use.");?></p>
+            <input pattern="<?php echo REGEXSUBDOMAIN_PARSLEY; ?>" style="width:210px" type="text" name="transfer_domain" class="transfer_domain" value="<?php echo $this->domainName; ?>">
+            <span id="extension"> .
+            <select style="width:90px;" name="transfer_extension" class="transfer_extension">
+                <?php foreach($this->packages as $package) { ?>
+                    <option <?php if ( $this->tld == $package['planname'] ) { ?> selected="selected" <?php } ?> value="<?php echo $package['id'];?>"><?php echo $package['planname'];?></option>
+                <?php } ?>
+            </select>
+        </span>
+        </div>
+        <div style="text-align:center;">
+            <small>(<?php echo $this->user->lang('e.g. yourdomain.com') ?>)</small><br/>
+            <button class="btn btn-large" id="self-manage-domain" onclick="domains.search_domain('transfer');"><?php echo $this->user->lang("Search Domain");?></button>
+        </div>
+    </div>
+
+    <div id="domainTransferSearchResults"></div>
+
+    <div id="domainTransferSearchOptions"></div>
+<?php } ?>
+
+<?php if ( $this->bundled && $this->group['advanced']['allowSelfManage'] == 1 ) { ?>
+    <form id="submitForm">
+    <?php if ( $showOr == true ) { ?>
+    <div class="v_split_or"><?php echo $this->user->lang("OR");?></div>
+    <?php } else {
+        $showOr = true;
+    }
+    ?>
+
+    <h1><?php echo $this->user->lang("Manage a Domain Yourself");?></h1>
+
+    <div id="owned_wrap" class="well">
+        <div style="text-align:center;">
+            <p><?php echo $this->user->lang("I want to use my own domain.");?></p>
+            <input pattern="<?php echo REGEXDOMAIN_PARSLEY; ?>"  id="self_domain" style="width:210px" type="text" name="self_domain" class="self_domain required" parsley-required="true" value="<?php if ( $this->domainName != '' ) { echo $this->domainName; ?>.<?php echo $this->tld; } ?>">
+        </span>
+        </div>
+        <div style="text-align:center;">
+            <small><?php echo $this->user->lang('(e.g. yourdomain.com)'); ?></small><br/>
+            <button class="btn btn-large" id="self-manage-button"><?php echo $this->user->lang("Continue");?></button>
+        </div>
+    </div>
+    </form>
+<?php } ?>
+
+
+<?php if ( count($this->subdomains) > 0 ) { ?>
+    <form id="submitForm-subdomain">
+    <?php if ( $showOr == ture ) { ?>
+    <div class="v_split_or"><?php echo $this->user->lang("OR");?></div>
+    <?php } ?>
+
+    <h1><?php echo $this->user->lang("Use a Sub Domain");?></h1>
+
+    <div id="owned_wrap" class="well">
+        <div style="text-align:center;">
+            <p><?php echo $this->user->lang("I want to use a sub domain.");?></p>
+            <table style="margin: 0 auto">
+                <tr>
+                    <td>
+                        <input pattern="<?php echo REGEXSUBDOMAIN_PARSLEY; ?>" id="subdomain" style="width:210px" type="text" name="subdomain" class="required" onchange="validateSubDomain('subdomain');">
+                        .
+                    </td>
+                    <td valign="top">
+                        <div style="text-align:left; display:inline">
+                            <select name="subdomain-tld" id="subdomain-tld" onchange="validateSubDomain('subdomain');">
+                            <?php foreach ( $this->subdomains as $subdomaintld ) { ?>
+                                <option value="<?php echo $subdomaintld; ?>"><?php echo $subdomaintld; ?></option>
+                            <?php } ?>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </span>
+        </div>
+        <div style="text-align:center;">
+            <small>(e.g. yourname)</small><br/>
+            <button class="btn btn-large" id="subdomain-button"><?php echo $this->user->lang("Continue");?></button>
+        </div>
+    </div>
+    </form>
+<?php } ?>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        domains = domains || {};
+        domains.productGroup = <?php echo $this->group['id'];?>;
+        domains.product = null;
+        domains.bundling = <?php echo $this->bundled;?>;
+        domains.hosting_product = null;
+        <?php if ( $this->autoSearchType == 'register' || $this->autoSearchType == 'transfer' ) { ?>
+        domains.search_domain('<?php echo $this->autoSearchType; ?>');
+        <?php } ?>
+    });
+</script>
+
+<?php if ( $this->bundled ) { ?>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('a:not(.button, .btn, .dropdown-toggle)').click(function(e){
+            e.stopImmediatePropagation();
+            var selectedLink = this;
+            if ($(this).hasClass('showcancelalert')) {
+                RichHTML.msgBox(lang('Are you sure you want to cancel this item?'),
+                {
+                    type: 'yesno'
+                },
+                function(result) {
+                    if ( result.btn == lang('Yes') ) {
+                        confirmDleteItemFromCart(selectedLink);
+                    }
+                });
+                return false;
+            } else if ($(this).hasClass('nopopupalert')) {
+                confirmDeleteItemFromCart(selectedLink);
+            } else {
+                RichHTML.msgBox(lang('Leaving now will cancel this item.  Are you sure you want to leave?'),
+                {
+                    type: 'yesno'
+                },
+                function(result) {
+                    if ( result.btn == lang('Yes') ) {
+                        confirmDleteItemFromCart(selectedLink);
+                    }
+                });
+                return false;
+            }
+        });
+    });
+
+
+    confirmDleteItemFromCart = function(link)
+    {
+        var cartItem = "<?php echo $this->cartParentPackage;?>";
+        if(cartItem != ''){
+            $.ajax({
+            url: 'index.php?fuse=admin&controller=signup&action=deletecartitem',
+                success: function () {
+                    window.location = link;
+            },
+            data: { cartItem: cartItem },
+            dataType: 'json'
+        });
+      } else {
+        window.location = link;
+      }
+    }
+</script>
+<?php } ?>

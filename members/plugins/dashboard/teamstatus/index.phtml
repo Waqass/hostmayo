@@ -1,0 +1,26 @@
+<div style="display: none; text-align:center; padding:30px;" id="no_items" name="no_items">
+        <font color=red><?php echo $this->user->lang("There are no status updates to show, please make sure you have selected a user or group to follow.");?></font>
+    </div>
+
+    <div id="teamstatus"></div>
+
+    <div style="padding-right:5px; padding-top:10px; text-align:center; width: 214px;">
+
+        <form id="pagination_form" name="pagination_form" method="post" action="" >
+            <span style="display: none; font-size: 16px;" id="newest_link" name="newest_link"><a onclick="teamstatus.paginate('newest'); return false;" href="javascript:void();">&#171;</a>&nbsp;</span>
+            <span style="display: none; font-size: 8px; color: gray;position: relative;top: -1px;" id="pagination_separator_n" name="pagination_separator_n">&nbsp;|&nbsp;</span>
+            <span style="display: none; font-size: 16px;" id="newer_link" name="newer_link"><a onclick="teamstatus.paginate('newer'); return false;" href="javascript:void();">&#139;</a>&nbsp;</span>
+            <span style="display: none; font-size: 8px; color: gray;position: relative;top: -1px;" id="pagination_separator" name="pagination_separator">&nbsp;|&nbsp;</span>
+            <span style="display: none; font-size: 16px;" id="older_link" name="older_link">&nbsp;<a onclick="teamstatus.paginate('older'); return false;" href="javascript:void();">&#155;</a></span>
+            <span style="display: none; font-size: 8px; color: gray;position: relative;top: -1px;" id="pagination_separator_o" name="pagination_separator_o">&nbsp;|&nbsp;</span>
+            <span style="display: none; font-size: 16px;" id="oldest_link" name="oldest_link">&nbsp;<a onclick="teamstatus.paginate('oldest'); return false;" href="javascript:void();">&#187;</a></span>
+        </form>
+    </div>
+
+    <a class="btn btn-addstatus" onclick="teamstatus.addTeamStatus()"><?php echo $this->user->lang('Add Status');?></a>    
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+    teamstatus.PluginTeamStatus();
+});</script>

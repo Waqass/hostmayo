@@ -1,0 +1,39 @@
+.hook-group {
+	width:400px;
+	margin-bottom:20px;
+}
+
+.input-append {
+	display:block;
+	clear:both;
+}
+
+.add-additional-hook,
+.webhooks-content {
+	padding-left:10px;
+}
+
+.webhooks-footer {
+	margin-top:30px;
+}
+
+.btn-event-type {
+	width: 120px;
+	text-align: right;
+
+	-webkit-border-top-left-radius: 0 !important;
+	-moz-border-radius-topleft: 0 !important;
+	border-top-left-radius: 0 !important;
+	-webkit-border-bottom-left-radius: 0 !important;
+	-moz-border-radius-bottomleft: 0 !important;
+	border-bottom-left-radius: 0 !important;
+
+}
+
+.btn-event-type .caret {
+	margin-left: 2px;
+}
+
+.hook-radio-group {
+	margin-bottom:5px;
+}

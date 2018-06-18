@@ -1,0 +1,266 @@
+.feature-tab {
+    cursor: pointer;
+    padding: 22px;
+    font-size: 2.5em;
+    height: 80px;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: inherit;
+    width: 80px;
+    border-radius: 100px;
+}
+
+.feature-block {
+    position: relative;
+    margin-top: 7px;
+    padding-top: 20px;
+    color: #222;
+}
+
+.feature-block h2 {
+  margin-top: 45px;
+}
+
+.feature-tab i {
+    color : #fff;
+}
+
+.support-boxes {
+    /*text-align: center;*/
+    margin-bottom: 40px;
+    margin-left: 15px;
+}
+
+.support-box {
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px;
+    border: 1px solid #e9e9e9;
+    background: #fcfcfc;
+    margin-right: 10px;
+    opacity: .95;
+    padding: 20px;
+    height: 200px;
+    text-align: center;
+
+    margin-top: 20px;
+    width: 160px;
+    display: inline-table;
+
+    text-decoration: none !important;
+}
+
+/*
+.menu_Right .support-box {
+    width: 150px;
+}*/
+
+.support-boxes-1 .support-box {
+    width :810px;
+}
+
+.menu_Right .support-boxes-1 .support-box,
+.menu_Left .support-boxes-1 .support-box {
+    width: 605px;
+}
+
+.support-boxes-2 .support-box {
+    width :375px;
+}
+
+.menu_Right .support-boxes-2 .support-box,
+.menu_Left .support-boxes-2 .support-box {
+    width:270px;
+}
+
+.support-boxes-3 .support-box {
+    width :230px;
+}
+
+.menu_Right .support-boxes-3 .support-box,
+.menu_Left .support-boxes-3 .support-box {
+    width: 160px;
+}
+
+.support-box:hover {
+    background: #EEE;
+    border-color: #ddd;
+    opacity: 1;
+}
+
+.support-box a{
+    text-decoration: none;
+}
+
+.support-box:hover .feature-tab {
+    /*opacity: 0.8;*/
+}
+
+.main-bottom-blox {
+    margin-top: 30px;
+    margin-left: 24px;
+}
+
+.nav-pills li.active a:hover,
+.nav-pills li.active a
+{
+    color: #333;
+    background-color: #f4f4f4;
+}
+
+
+.announcement {
+    list-style: none;
+    font-size: 15px;
+    margin-left: 0;
+    margin-bottom:40px;
+}
+
+.announcement-header {
+    color : #333;
+    margin-left: 22px;
+}
+
+.announcement-title {
+    font-family: 'Open Sans', sans-serif;
+    padding-bottom: 7px;
+    margin-bottom: 5px;
+    color: #333332;
+
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1em;
+    padding-top: 3px;
+}
+
+.announcement-title a {
+    text-decoration: none;
+}
+
+.ann-post {
+    margin-top: -25px;
+    background-color: #FAFAFA;
+    padding: 15px 10px 20px 10px;
+}
+
+/*.ann-post p:first-child {
+    background-color: #FAFAFA;
+    padding: 20px 10px 20px 10px;
+}*/
+
+.announcement-title a:hover {
+    border-bottom: 3px solid #f4f4f4;
+}
+
+.announcement-meta {
+    border-bottom: 1px solid #f3f3f3;
+    position: relative;
+    top: -8px;
+    font-size: 13px;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    color: #999;
+}
+
+.read-more {
+    font-size: 13px;
+    margin-top: 20px !important;
+}
+
+.nav-tabs li a{
+    background-color: #f4f4f4;
+}
+
+
+
+.tab-content {
+    margin-left:20px;
+}
+
+.faq-accordion-heading a{
+    font-size:14px;
+}
+
+.accordion-group {
+    border: 1px solid #f4f4f4;
+}
+.accordion-inner {
+    padding: 35px;
+    font-size:14px;
+}
+
+.post-date {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    text-align: center;
+    padding: 10px 0;
+    font-weight: bold;
+    margin-bottom: 20px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.post-date .day {
+    font-size: 25px;
+}
+
+.post-date .month {
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.post-date {
+    float: left;
+    width: 60px;
+    margin-right: 15px;
+}
+
+.recent-articles {
+    margin-left:10px;
+}
+
+.recent-article {
+    margin-bottom: 15px;
+
+}
+
+.recent-article .article-image {
+    float: left;
+    margin-right: 8px;
+    color:#888;
+    position: relative;
+    top: 2px;
+    left:4px;
+}
+
+.recent-article .articleName {
+    padding-left: 5px;
+    font-size: 14px;
+    padding-top: 1px;
+}
+
+.recent-article .articleMeta a{
+    margin-left: 21px;
+    color:#999;
+}
+
+.recent-article .articleName a{
+    margin-left: 4px;
+}
+
+.has-cart-badge {
+    margin-top:-9px;
+}
+
+.cart-badge {
+    padding-left: 6px;
+    padding-right: 6px;
+    position: absolute;
+    top: 15px;
+    left: 75px;
+}
+
+.tab-content>.tab-pane{
+    overflow-x: hidden;
+}

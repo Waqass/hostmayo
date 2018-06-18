@@ -1,0 +1,33 @@
+@import url(//fonts.googleapis.com/css?family=Lato:300,400,700,700italic);
+
+body {
+	background-color: #f4f4f4 !important;
+}
+
+.invalid-license {
+	text-align: center;
+	font-size: 30px;
+	font-family: 'Lato', serif;
+}
+
+.invalid-license-domain {
+	font-weight: 700;
+	color: #6D71A0;
+}
+
+.invalid-contact-info {
+	font-size: 20px;
+	font-weight:300 !important;
+	margin-top:50px;
+	line-height: 30px;
+}
+
+.invalid-license a {
+	text-decoration: none;
+	color: rgb(255, 92, 0);
+}
+
+.brand-logo {
+	margin-top:40px;
+	height: 30px;
+}

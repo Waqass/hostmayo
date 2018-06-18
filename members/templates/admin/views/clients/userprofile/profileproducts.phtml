@@ -1,0 +1,47 @@
+<?php echo $this->profileheader($this->customer);?>
+
+<script data-cfasync="false" type="text/javascript">
+    var userpackages = userpackages || {};
+    userpackages.config = {
+        customFields: <?php echo html_entity_decode($this->customfields) ?>
+    }
+</script>
+
+<span class="grid-meta" id="domains-grid-metadata"></span>
+<div id="gridheader" class="blue-box">
+    <table width="100%">
+    <tr>
+        <td>
+            <button id="addproductbutton" class="rich-button">
+                <span><?php echo $this->user->lang("Add package");?></span>
+            </button>
+        </td>
+        <td align="left" width="80">
+            <select id="userpackages-grid-package-type-filter" style='width:150px;'>
+                <option value="all" selected="selected"><?php echo $this->user->lang('All Packages'); ?></option>
+                <option value="hosting"><?php echo $this->user->lang('Hosting Packages'); ?></option>
+                <option value="domain"><?php echo $this->user->lang('Domain Packages'); ?></option>
+                <option value="general"><?php echo $this->user->lang('General Packages'); ?></option>
+                <option value="ssl"><?php echo $this->user->lang('SSL Packages'); ?></option>
+            </select>
+        </td>
+        <td align="left" widht="150"></td>
+        <td align="left" width="80">
+            <select id="userpackages-grid-package-filter" style='width:200px;'>
+                <option value="all" selected="selected"><?php echo $this->user->lang('All Packages'); ?></option>
+                <option value="active"><?php echo $this->user->lang('Active Packages'); ?></option>
+                <option value="pending"><?php echo $this->user->lang('Pending Packages'); ?></option>
+                <option value="pendingcancel"><?php echo $this->user->lang('Pending Cancelation Packages'); ?></option>
+                <option value="suspended"><?php echo $this->user->lang('Suspended Packages'); ?></option>
+                <option value="canceled"><?php echo $this->user->lang('Cancelled Packages'); ?></option>
+                <option value="expired"><?php echo $this->user->lang('Expired Packages'); ?></option>
+            </select>
+        </td>
+    </tr>
+    </table>
+</div>
+<div id="domains-grid"></div>
+<div id="domains-grid-footer" style="display:none;">
+    <button class="btn rich-button btn-delete-products"><span><?php echo $this->user->lang("Delete packages(s)");?></span></button>
+    <button class="btn rich-button btn-welcome-email"><span><?php echo $this->user->lang("Send welcome email");?></span></button>
+</div>

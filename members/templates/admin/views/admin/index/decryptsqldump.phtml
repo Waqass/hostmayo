@@ -1,0 +1,19 @@
+<table width="l00%" border="0" cellpadding="3" cellspacing="0" style="">
+    <thead>
+        <tr class="header">
+            <td align="left" style="font-weight:bold"><?php echo $this->user->lang('File Decryption Service'); ?></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <?php echo $this->user->lang('Upload here the file you wish to decrypt'); ?>.<br />
+                <?php echo $this->user->lang("You'll receive the decrypted file by return"); ?>.<br /><br />
+                <form action="index.php?fuse=admin&view=decryptsqldump&controller=index" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file" id="file" />
+                    <input type="submit" value="<?php echo $this->user->lang('Submit'); ?>" />
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,119 @@
+<input type="hidden" id="razorpay_payment_id" name="razorpay_plugincustomfields[razorpay_payment_id]" value="">
+<input type="hidden" id="razorpay_signature" name="razorpay_plugincustomfields[razorpay_signature]" value="">
+
+<script data-cfasync="false" src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<?php if ($this->from == 'signup') { ?>
+    <a style="margin-left:0px;cursor:pointer;" class="pull-right btn btn-large customButton razorpayButton <?php if(@$this->termsConditions) { ?>disabled<?php } ?>" id="customButton"></a>
+<?php } elseif ($this->from == 'invoice') { ?>
+    <button style="margin-left:0px;cursor:pointer;" class="pull-right btn btn-large customButton razorpayButton" id="customButton"><?php echo $this->user->lang('Pay Invoice'); ?></button>
+<?php } ?>
+
+<script data-cfasync="false" type="text/javascript">
+    var razorpay_rzp;
+
+    $('.razorpayButton').on('click', function(e) {
+        <?php if ($this->from == 'signup') { ?>
+            if ($('.razorpayButton').hasClass('disabled')) {
+                return;
+            }
+
+            if ($('#submitForm').parsley('validate')) {
+        <?php } ?>
+
+        var razorpay_options = {
+            "key":         '<?php echo $this->keyId; ?>',
+            "currency":    'INR',
+            "image":       '<?php echo $this->logoImage; ?>',
+            "name":        '<?php echo $this->companyName; ?>',
+        <?php if ($this->from == 'invoice') { ?>
+            "description": '<?php echo $this->user->lang("Invoice")." #".$this->invoiceId; ?>',
+            "amount":      '<?php echo $this->amount; ?>', // paise
+            "order_id":    '<?php echo $this->razorpayOrderId; ?>',
+        <?php } elseif ($this->from == 'signup') { ?>
+            "description": '<?php echo $this->user->lang("New Order");?>',
+            "amount":      (document.getElementById("totalPay_raw").value * 100),  // paise
+        <?php } ?>
+
+            "prefill": {
+            <?php if ($this->from == 'signup') { ?>
+                "name":    document.getElementById("CT_1").value+' '+document.getElementById("CT_2").value+'<?php echo @$this->user->getFirstName()." ".@$this->user->getLastName(); ?>',
+                "email":   document.getElementById("CT_4").value+'<?php echo @$this->user->getEmail(); ?>',
+                "contact": document.getElementById("CT_8").value+'<?php echo @$this->user->getPhone(); ?>'
+            <?php } else { ?>
+                "name":    '<?php echo $this->user->getFirstName()." ".$this->user->getLastName(); ?>',
+                "email":   '<?php echo $this->user->getEmail(); ?>',
+                "contact": '<?php echo $this->user->getPhone(); ?>'
+            <?php } ?>
+            },
+
+            "notes": {
+                "invoice_id": '<?php echo $this->invoiceId; ?>',
+            <?php if ($this->from == 'signup') { ?>
+                "address":    document.getElementById("CT_3").value+'<?php echo @$this->user->getAddress(); ?>',
+                "city":       document.getElementById("CT_5").value+'<?php echo @$this->user->getCity(); ?>',
+                "state":      document.getElementById("CT_6").value+'<?php echo @$this->user->getState(); ?>',
+                "zip":        document.getElementById("CT_7").value+'<?php echo @$this->user->getZipCode(); ?>',
+                "country":    document.getElementById("CT_15").value+'<?php echo @$this->user->getCountry(true); ?>'
+            <?php } else { ?>
+                "address":    '<?php echo $this->user->getAddress(); ?>',
+                "city":       '<?php echo $this->user->getCity(); ?>',
+                "state":      '<?php echo $this->user->getState(); ?>',
+                "zip":        '<?php echo $this->user->getZipCode(); ?>',
+                "country":    '<?php echo $this->user->getCountry(true); ?>'
+            <?php } ?>
+            },
+
+            "theme": {
+                "color": "#F37254"
+            }
+        };
+
+        /**
+         * The entire list of Checkout fields is available at
+         * https://docs.razorpay.com/docs/checkout-form#checkout-fields
+         */
+        razorpay_options.handler = function (response){
+            document.getElementById('razorpay_payment_id').value = response.razorpay_payment_id;
+            document.getElementById('razorpay_signature').value = response.razorpay_signature;
+
+            <?php if ($this->from == 'invoice' || $this->from == 'signup') { ?>
+                $('#submitButton').click();
+            <?php } ?>
+        };
+
+        // Boolean whether to show image inside a white frame. (default: true)
+        razorpay_options.theme.image_padding = false;
+
+        razorpay_options.modal = {
+            ondismiss: function() {
+                console.log("This code runs when the popup is closed");
+            },
+            // Boolean indicating whether pressing escape key 
+            // should close the checkout form. (default: true)
+            escape: true,
+            // Boolean indicating whether clicking translucent blank
+            // space outside checkout form should close the form. (default: false)
+            backdropclose: false
+        };
+
+        razorpay_rzp = new Razorpay(razorpay_options);
+
+        // Open Handler
+        razorpayOpenHandler();
+
+        <?php if ($this->from == 'signup') { ?>
+            }
+        <?php } ?>
+
+        e.preventDefault();
+    });
+
+    function razorpayOpenHandler() {
+        razorpay_rzp.open();
+    }
+
+    // Close Checkout on page navigation
+    $(window).on('popstate', function() {
+        razorpay_rzp.close();
+    });
+</script>

@@ -1,0 +1,13 @@
+#ticketfilters ul {
+    margin: 0;
+}
+
+#ticketfilters ul li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#ticketfilters ul li a {
+    margin-left: 5px;
+}

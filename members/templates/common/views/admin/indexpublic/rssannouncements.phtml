@@ -1,0 +1,18 @@
+<?php echo $this->unescape($this->xmlTag); ?>
+<rss version="2.0">
+    <channel>
+        <title><?php echo $this->title; ?></title>
+        <link><?php echo $this->link; ?></link>
+        <description><?php echo $this->description; ?></description>
+        <generator><?php echo $this->generator; ?></generator>
+        <?php foreach ( $this->announcements as $announcement) { ?> 
+        <item>
+            <title><?php echo $this->escape($announcement['title']) ?></title>
+            <link><?php echo $this->escape($announcement['link']) ?></link>
+            <description><?php echo $this->escape($announcement['description']) ?></description>
+            <pubDate><?php echo $this->escape($announcement['date']) ?></pubDate>
+            <guid isPermaLink="false"><?php echo $this->escape($announcement['guid']) ?></guid>
+        </item>
+        <?php } ?>
+    </channel>
+</rss>

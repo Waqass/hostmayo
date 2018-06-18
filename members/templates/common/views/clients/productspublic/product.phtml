@@ -1,0 +1,44 @@
+<?php echo $this->publicproductheader($this->user);?>
+
+<style type="text/css">
+    .info {
+        font-size:14px;
+        margin-right: 20px;
+    }
+
+</style>
+
+
+<div class="alert ce-alert ce-alert-info info">
+    <table cellpadding="3">
+        <?php if ( $this->package['productType'] != PACKAGE_TYPE_DOMAIN ) { ?>
+        <tr>
+            <td align="right"><?php echo $this->user->lang('Product'); ?>:</td>
+            <td><?php echo $this->package['product']; ?></td>
+        </tr>
+        <?php } ?>
+        <tr>
+            <td align="right"><?php echo $this->user->lang('Next Billing Date');?>:</td>
+            <td><?php echo $this->package['nextBillDate']; ?></td>
+        </tr>
+        <tr>
+            <td align="right"><?php echo $this->user->lang('Product Group'); ?>:</td>
+            <td><?php echo $this->package['productGroup']; ?></td>
+        </tr>
+        <?php foreach ( $this->package['customFields'] as $customField ) { ?>
+        <tr>
+            <td align="right"><?php echo $customField['name']; ?>:</td>
+            <td><?php
+                    if ( isset($customField['password']) ) {
+                        echo $customField['value'];
+                    } else if ($customField['value'] == "") {
+                        echo "<span class='muted'>".$this->user->lang("Left Blank")."</span>";
+                    } else {
+                        echo $this->escape($customField['value']);
+                    }
+                ?>
+            </td>
+        </tr>
+        <?php } ?>
+    </table>
+</div>

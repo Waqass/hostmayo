@@ -1,0 +1,185 @@
+<?php $languages = CE_Lib::getEnabledLanguages();
+if(count($languages) > 1 && !in_array($this->name, array('New Order Notification', 'Notify Support For New High Priority Tickets Template', 'Notify Department List For New Ticket Template', 'Notify For New FeedBack Template'))){
+    $active = true; ?>
+    <ul class="nav nav-pills">
+    <?php foreach($languages as $languageKey => $language){ ?>
+        <li <?php if($active){echo 'class="active"';} ?> >
+            <a <?php if($active){$active = false; echo 'class="default-language-tab"';} ?> href="javascript:void(0)" onclick="emailtemplate.filterBy(this,'<?php echo $languageKey; ?>')"><?php echo $languageKey; ?></a>
+        </li>
+    <?php } ?>
+    </ul>
+<?php } ?>
+
+<table cellpadding="5" cellspacing="0">
+    <tr>
+        <td>
+            <label class="fieldlabel"><?php echo $this->user->lang("Email Name");?></label>
+            <?php if(count($languages) > 1){
+                $active = true;
+                foreach($languages as $languageKey => $language){ ?>
+                    <span class="language <?php echo $languageKey; ?>" <?php if(!$active){echo 'style="display: none"';} ?> ><input type="text" style="width:305px;margin-right:17px;" name="emailName<?php echo $languageKey; ?>" <?php if($active){$active = false; echo 'id="mainlanguageemailName" class="required"';} ?> style="padding-right:20px;" value="<?php echo $this->nameLanguages[$languageKey];?>" <?php echo ($this->caneditname) ? "":'disabled="disabled"';?> /></span>
+                <?php }
+            }else{ ?>
+                <input class="required" type="text" style="width:305px;margin-right:17px;" name="emailName" id="mainlanguageemailName" style="padding-right:20px;" value="<?php echo $this->name;?>" <?php echo ($this->caneditname) ? "":'disabled="disabled"';?> />
+            <?php } ?>
+        </td>
+        <td colspan="2">
+            <label class="fieldlabel"><?php echo $this->user->lang("Type");?></label>
+            <select id="emailTypeId" name="emailTypeId" <?php if ( $this->emailId != 0 ) { ?> disabled="disabled" <?php } ?>>
+            <?php foreach ( $this->emailTypes as $id => $type ) { echo $this->type." ".$id; ?>
+                <option value="<?php echo $id; ?>" <?php echo ($this->type == $id) ? "selected" : "";?>><?php echo $type;?></option>
+            <?php } ?>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <label class="fieldlabel"><?php echo $this->user->lang("Email Subject");?></label>
+            <?php if(count($languages) > 1){
+                $active = true;
+                foreach($languages as $languageKey => $language){ ?>
+                    <span class="language <?php echo $languageKey; ?>" <?php if(!$active){echo 'style="display: none"';} ?> ><input type="text" style="width:305px;" name="emailSubject<?php echo $languageKey; ?>" <?php if($active){$active = false; echo 'id="mainlanguageemailSubject" class="required"';} ?> value="<?php echo $this->subjectLanguages[$languageKey]; ?>" /></span>
+                <?php }
+            }else{ ?>
+                <input class="required" type="text" style="width:305px;" name="emailSubject" id="mainlanguageemailSubject" value="<?php echo $this->subject; ?>" />
+            <?php } ?>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <div id="emailCustomTag"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <?php if(count($languages) > 1){
+                $active = true;
+                foreach($languages as $languageKey => $language){ ?>
+                    <span class="language <?php echo $languageKey; ?>" <?php if(!$active){echo 'style="display: none"';} ?> ><textarea name="emailContent<?php echo $languageKey; ?>" <?php if($active){$active = false; echo 'id="mainlanguageemailContent" class="wysihtml5 required"';}else{echo 'class="wysihtml5"';} ?> data-clips-id="article-content-textarea-clips" style="height: 200px;"><?php echo $this->contentLanguages[$languageKey];?></textarea></span>
+                <?php }
+            }else{ ?>
+                <textarea name="emailContent" id="mainlanguageemailContent" class="wysihtml5 required" data-clips-id="article-content-textarea-clips" style="height: 200px;"><?php echo $this->content;?></textarea>
+            <?php } ?>
+        </td>
+    </tr>
+</table>
+
+<input type="hidden" name="emailId" id="emailId" value="<?php echo $this->emailId; ?>" />
+
+<script data-cfasync="false" type="text/javascript">
+    var emailTypeId = <?php echo $this->type; ?>;
+    var welcomeEmailClips = false;
+
+    emailtemplate = {};
+
+    emailtemplate.handlehelpid = function(emailTypeId)
+    {
+        if ( emailTypeId == 1 || emailTypeId == 2) {
+            $('.redactor_btn_clips').hide();
+        } else if (emailTypeId == 8) { //hosting
+        if(!welcomeEmailClips){
+            $('#article-content-textarea-clips').attr('id','article-content-textarea-clips_default');
+            $('#article-content-textarea-welcome-email').attr('id','article-content-textarea-clips');
+            welcomeEmailClips = true;
+        }
+            $('.redactor_btn_clips').show();
+        } else if (emailTypeId == 9) { //notifications
+            if(welcomeEmailClips){
+                $('#article-content-textarea-clips').attr('id','article-content-textarea-welcome-email');
+                $('#article-content-textarea-clips_default').attr('id','article-content-textarea-clips');
+                welcomeEmailClips = false;
+            }
+            $('.redactor_btn_clips').show();
+        }
+    };
+
+    emailtemplate.filterBy = function(el,filter) {
+        $(el).closest('.nav-pills').find('li').removeClass('active')
+        $(el).closest('li').addClass('active');
+
+        $('.language').hide();
+        $('.'+filter).show();
+    }
+
+    $(document).ready(function(){
+        clientexec.postpageload('.richwindow');
+        if ( emailTypeId == 1 || emailTypeId == 2) {
+            $('.redactor_btn_clips').hide();
+        }
+
+        $('#emailTypeId').on('click',function(){
+            emailtemplate.handlehelpid($('#emailTypeId').val());
+        });
+
+        templates.window.options.beforeSubmit = function() {
+            var pass = true;
+            if(!$(".nav-pills li:first").hasClass("active")){
+                $(".default-language-tab").click();
+                if(!$('#mainlanguageemailName').valid()){
+                    pass = false;
+                }
+                if(!$('#mainlanguageemailSubject').valid()){
+                    pass = false;
+                }
+                if(!$('#mainlanguageemailContent').valid()){
+                    pass = false;
+                }
+            }
+            if (!pass) {
+                return false;
+            }
+        }
+
+    });
+
+</script>
+
+<?php if (count($this->emailTagsAvailableWelcomeEmail) > 0) { ?>
+    <div id="article-content-textarea-welcome-email" style="display: none;">
+        <div class="redactor_modal_box">
+            <ul class="redactor_clips_box">
+                <?php foreach($this->emailTagsAvailableWelcomeEmail['tags'] as $tag) { ?>
+                    <li>
+                        <a href="#" class="redactor_clip_link"><?php echo $tag->description;?></a>
+                        <div class="redactor_clip" style="display: none;">
+                                [<?php echo $tag->name;?>]
+                        </div>
+                    </li>
+                <?php }?>
+            </ul>
+        </div>
+        <div id="redactor_modal_footer">
+            <span class="redactor_btns_box">
+                <a href="javascript:void(null);" class="redactor_btn_modal_close">Close</a>
+            </span>
+        </div>
+    </div>
+<?php } ?>
+
+<!-- custom tags available for this template -->
+<?php if (count($this->emailTagsAvailable) > 0) { ?>
+<div id="article-content-textarea-clips" style="display: none;">
+    <div class="redactor_modal_box">
+        <ul class="redactor_clips_box">
+            <?php foreach($this->emailTagsAvailable['tags'] as $tag) { ?>
+                <li>
+                    <a href="#" class="redactor_clip_link"><?php echo $tag->description;?></a>
+                    <div class="redactor_clip" style="display: none;">
+                            [<?php echo $tag->name;?>]
+                    </div>
+                </li>
+            <?php }?>
+        </ul>
+    </div>
+    <div id="redactor_modal_footer">
+        <span class="redactor_btns_box">
+            <a href="javascript:void(null);" class="redactor_btn_modal_close">Close</a>
+        </span>
+    </div>
+</div>
+<?php } ?>
+
+<div id="article-content-textarea-clips" style="display:none">
+    <div class="redactor_modal_box"></div>
+</div>
+

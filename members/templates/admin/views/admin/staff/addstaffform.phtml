@@ -1,0 +1,27 @@
+<input name="groupid" id="groupid" type="hidden" value="<?php echo $this->groupid;?>"  />
+<table cellpadding="5" cellspacing="0">
+    <tr>
+        <td>
+            <label class="fieldlabel"><?php echo $this->user->lang("First Name");?></label>
+            <input class="required" type="text" name="firstName" style="padding-right:20px;" value="<?php echo $this->name;?>" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label class="fieldlabel"><?php echo $this->user->lang("Last Name");?></label>
+            <input class="required" type="text" name="lastName" style="padding-right:20px;" value="<?php echo $this->name;?>" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label class="fieldlabel"><?php echo $this->user->lang("Email");?></label>
+            <input class="required" type="text" name="email" style="padding-right:20px;" value="<?php echo $this->name;?>" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label class="fieldlabel"><?php echo $this->user->lang("Password");?></label>
+            <input class="required" type="password" name="new_password" style="padding-right:20px;" value="<?php echo $this->name;?>" />
+        </td>
+    </tr>
+</table>

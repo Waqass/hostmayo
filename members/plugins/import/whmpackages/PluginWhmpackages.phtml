@@ -1,0 +1,54 @@
+<?php if ( count($this->servers) == 0 ) { ?>
+<div class="notice notice-red">
+  <?php echo $this->user->lang('No cPanel / WHM servers are setup.'); ?>
+</div>
+<?php } else { ?>
+<script type="text/javascript" src="../plugins/import/whmpackages/PluginWhmpackages.js?version=<?php echo $this->gVersion; ?>"></script>
+
+<div id="gridheader" class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+                <td align="right">
+                    Select Server:
+                    &nbsp;&nbsp;
+                </td>
+                <td align="right" style="width:150px;">
+                    <select name="server" id="server-select">
+                        <option value="--">----&nbsp;&nbsp;</option>
+                        <?php foreach ( $this->servers as $server) { ?>
+                        <option <?php if ( $this->serverId == $server['id']) { ?>selected="selected"<?php } ?> value="<?php echo $server['id']; ?>"><?php echo $server['name']; ?>&nbsp;&nbsp;</option>
+                        <?php } ?>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<?php if ( $this->serverId > 0 ) { ?>
+<br/>
+<form method="POST" action="index.php?fuse=admin&controller=importexport&action=importproduct" id="import-products">
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th class="header"><?php echo $this->user->lang('Product Name'); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+
+    <?php foreach ($this->packages as $package ) { ?>
+    <tr>
+        <td><input type="checkbox" name="selected_<?php echo $package; ?>" /><input type="hidden" name="real_<?php echo $package; ?>" value="<?php echo $package; ?>" /></td>
+        <td><?php echo $package; ?></td>
+        <td>Name: <input type="text" name="name_<?php echo $package; ?>" /></td>
+        <td>Product Group: <select style="width: 175px" name="group_<?php echo $package; ?>"><?php foreach ( $this->packageGroups as $group ) { ?><option value="<?php echo $group['id']; ?>"><?php echo $group['name']; ?></option><?php } ?></select></td>
+    </tr>
+    <?php } ?>
+    <tr>
+        <td colspan="4"><button class="rich-btn btn" id="import-product">Import Products</button></td>
+    </tr>
+</table>
+</form>
+<?php } ?>
+<?php } ?>

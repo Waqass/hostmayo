@@ -1,0 +1,58 @@
+<label style="float:left">To: <?php echo $this->escape($this->customer->getFullName())?> &lt;<?php echo $this->customer->getEmail();?>&gt;</label>
+<label class="checkbox" style="float:right">
+    <input type="checkbox" name="bcc" value="true">
+    <span class="tip-target" data-toggle="tooltip" title="<?php echo $this->user->lang('Click on this checkbox if you want a BCC, Blind Carbon Copy, of this email sent to you.') ?>">
+        <?php echo $this->user->lang('BCC') ?>
+    </span>
+</label>
+<label style="float:left"><span style="position: relative;top: 3px;"><?php echo $this->user->lang("From");?>:</span>
+    <input type="text" style="margin-top:5px;width:250px;" class="required" id="adminEmail"  name="adminEmail" value="<?php echo $this->user->getEmail(); ?>" />
+</label>
+<input type="text" style="margin-top:5px;margin-bottom:10px;width:446px;" class="required" id="emailSubject"  name="emailSubject" placeholder="<?php echo $this->user->lang("Email Subject");?>" />
+
+<div style="margin-bottom:10px;">
+<input type='hidden' data-placeholder="-- select an email template" name="email-template" id="email-template" />
+</div>
+
+<textarea style='height:166px;' id="emailMessage" name="emailMessage" class="wysihtml5 required" placeholder="Email content"><?php echo "<br/><br/>".nl2br($this->user->getSignatureHTML());?></textarea>
+
+<script data-cfasync="false" type="text/javascript">
+    $("#email-template").select2({
+        minimumResultsForSearch:10,
+        width: '460px',
+        allowClear:true,
+        ajax: {
+            url: "index.php?fuse=admin&controller=emails&action=getemailtemplatesforcustomer",
+            dataType: 'json',
+            quietMillis: 0,
+            data: function () {return {}},
+            results: function (data, page) {
+                emailcustomer.options = {results:[]};
+                $(data.templates).each(function(index) {
+                   if (this.templateId != "none") {
+                        name = this.templateName.toString();
+                        emailcustomer.options.results.push({id:this.templateId.toString(),text:name});
+                   }
+                });
+                return emailcustomer.options;
+            }
+        }
+    });
+
+    $("#email-template").on("open", function(){ $('.select2-drop .select2-search').css('display','none'); });
+    $("#email-template").on("change", function(e) {
+        $.ajax({
+               url: 'index.php?fuse=admin&controller=emails&emails&view=gettemplate',
+               success: function(t) {
+                    $('#emailSubject').val(t[1]);
+                    $('#emailMessage').setCode(t[0]);
+               },
+               data: {template:e.val}
+            });
+    });
+
+    $('#emailMessage').redactor({parentSel: '#product-tab-content',autoresize: false, plugins: ['fullscreen:startFullscreen','clips:startClips'],
+        buttons: ['html', '|', 'formatting', '|', 'bold', 'italic', 'underline', '|', 'unorderedlist', 'orderedlist', '|', 'table', 'link', '|','fontcolor', 'backcolor', '|', 'alignment'],formattingPre: true,  formattingTags: ['pre']});
+
+    setTimeout(function() {$('#emailSubject').focus();}, 100);
+</script>

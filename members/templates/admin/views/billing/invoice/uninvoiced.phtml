@@ -1,0 +1,29 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->user->lang("Uninvoiced Work"); ?></div>
+  <p class="alert-content"><?php echo $this->user->lang("List of charges that are yet to be included in an invoice."); ?></p>
+</div>
+
+<span id="uninvoicedgrid-metadata"  class="grid-meta"></span>
+<div class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+                <td><span><?php echo $this->user->lang("Uninvoiced Work");?></span></td>
+                <td align="right">
+                    &nbsp;&nbsp;<span><?php echo $this->user->lang("Display");?></span>:&nbsp;
+                </td>
+                <td align="left" style="width:70px;">
+                    <span style="float:right;">
+                        <select id='uninvoicedgrid-filter' class="change-grid-showrecords" style='width:60px;'><option value='5'>5</option><option value='10'>10</option><option value='25'>25</option><option value='50'>50</option><option value='150'>150</option><option value='300'>300</option></select>
+                    </span>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="uninvoicedgrid"></div>
+<div id="uninvoicedgrid-footer" style="display:none;">
+	<button class="rich-button" id="btnDelCharges"><span class="buttontext"><?php echo $this->user->lang("Delete Charge(s)"); ?></span></button>
+	<button class="rich-button" id="btnCreateInvoice"><span class="buttontext"><?php echo $this->user->lang("Create Invoice(s)"); ?></span></button>
+</div>

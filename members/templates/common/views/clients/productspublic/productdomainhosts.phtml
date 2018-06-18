@@ -1,0 +1,36 @@
+<?php echo $this->publicproductheader($this->user); ?>
+
+<?php if ( $this->domainNotRegistered == true ) { ?>
+<div class="alert ce-alert ce-alert-error no-addons-text">
+    <?php echo $this->user->lang("This domain currently isn't registered.");?>
+</div>
+<?php } ?>
+
+<?php if ( $this->hostRecordsNotSupported == true ) { ?>
+<div class="alert ce-alert ce-alert-error no-addons-text">
+    <?php echo $this->user->lang("Managing host records is not supported.");?>
+</div>
+<?php } ?>
+
+<?php if ( $this->domainNotActive == true ) { ?>
+<div class="alert ce-alert ce-alert-error no-addons-text">
+    <?php echo $this->user->lang("This domain currently isn't active.");?>
+</div>
+<?php } ?>
+
+<?php // Check if >1 because we always have the default record ?>
+<?php if ( count($this->hostRecords) > 1 ) { ?>
+<form id="hostinfo">
+<input type="hidden" name="id" value="<?php echo $this->packageId; ?>" />
+<div id="hostinfo-div"></div>
+<?php if ( $this->user->hasPermission('domains_updatedns') ) { ?>
+<div class="form-actions" style="display: none">
+    <button id="update-button" class="btn btn-update-payment-method" type="button">Update Hosts</button>
+</div>
+<?php } ?>
+</form>
+<script type="text/javascript">
+    var hostinfo = {};
+    hostinfo.jsonFields = <?php echo json_encode($this->hostRecords); ?>;
+</script>
+<?php } ?>

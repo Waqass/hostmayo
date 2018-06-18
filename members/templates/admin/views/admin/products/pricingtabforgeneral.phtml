@@ -1,0 +1,618 @@
+<style type="text/css">
+    .table2 tbody tr:nth-child(odd) td, .table2 tbody tr:nth-child(even) td {
+        border-top: 0px;
+        background-color: transparent;
+    }
+    tr.FreeDomainOptionsHeader, td.FreeDomainOptionsHeader {
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+    }
+    .table2 tbody tr:nth-child(odd) td.FreeDomainOptionsHeaderBGC, .table2 tbody tr:nth-child(even) td.FreeDomainOptionsHeaderBGC {
+        background-color: rgb(228, 228, 228);
+    }
+    tr.FreeDomainOptionsBody, td.FreeDomainOptionsBody {
+        margin-top: 0px;
+        padding-top: 0px;
+    }
+    .table2 tbody tr:nth-child(odd) td.FreeDomainOptionsBodyBGC, .table2 tbody tr:nth-child(even) td.FreeDomainOptionsBodyBGC {
+        background-color: rgb(244, 244, 244);
+    }
+    .tableFreeDomain {
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+    td.FirstRowWidth {
+        width: 150px;
+    }
+    td.TLDRowWidth, select.TLDRowWidth {
+        width: 147px;
+    }
+    label.FreeDomainOptionsLabel {
+        text-align: left;
+        font-weight: bold;
+        margin-bottom: 10px;
+        margin-top: -5px;
+        font-size: 16px;
+    }
+    label.FreeDomainOptionsMargin, div.FreeDomainOptionsMargin {
+        margin-left: 10px;
+    }
+    label.FreeDomainOptionsLabel2 {
+        text-align:left;
+        font-weight:bold;
+    }
+</style>
+
+<script data-cfasync="false" type="text/javascript">
+    $(document).ready(function() {
+        $('.price').each(function() {
+            $(this).keydown(function (e) {
+                // Allow: backspace, delete, tab, escape, enter and .
+                if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                    // Allow: Ctrl+A
+                    (e.keyCode == 65 && e.ctrlKey === true) ||
+                    // Allow: Ctrl+C
+                    (e.keyCode == 67 && e.ctrlKey === true) ||
+                     // Allow: Ctrl+V
+                    (e.keyCode == 86 && e.ctrlKey === true) ||
+                     // Allow: home, end, left, right
+                    (e.keyCode >= 35 && e.keyCode <= 39)) {
+                         // let it happen, don't do anything
+                         return;
+                }
+                // Ensure that it is a number and stop the keypress
+                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                    e.preventDefault();
+                }
+            });
+        });
+        clientexec.postpageload('#pricingtab');
+    });
+
+    function toggleFreeDomainFields(value, cycle){
+        if (value == 0) {
+            $('#freedomaindisplay'+cycle).hide();
+        } else {
+            $('#freedomaindisplay'+cycle).show();
+        }
+    }
+</script>
+
+<div class="fieldwrapper">
+    <form id="pricingtab">
+        <table class="table table-striped" width="100%">
+            <thead>
+            <tr>
+                <td>
+                    <table class="table2" width="100%">
+                        <thead>
+                        <tr class="FreeDomainOptionsHeader FreeDomainOptionsBody">
+                            <td class="FreeDomainOptionsHeader FreeDomainOptionsBody FirstRowWidth">
+                            </td>
+                            <td class="FreeDomainOptionsHeader FreeDomainOptionsBody" width="65">
+                                <label style="text-align:center;font-weight:bold;" class="fieldlabel"><?php echo $this->user->lang("Price");?></label>
+                            </td>
+                            <td class="FreeDomainOptionsHeader FreeDomainOptionsBody" width="65">
+                                <label style="text-align:center;font-weight:bold;" class="fieldlabel"><?php echo $this->user->lang("Setup");?></label>
+                            </td>
+                            <td class="FreeDomainOptionsHeader FreeDomainOptionsBody" width="100">
+                                <label style="text-align:center;font-weight:bold;" class="fieldlabel"><?php echo $this->user->lang("Allow in signup?");?></label>
+                            </td>
+                            <td class="FreeDomainOptionsHeader FreeDomainOptionsBody">
+                                <?php if ($this->domain_product !== false) { ?>
+                                <!-- THIS CELL IS TO DISPLAY THE FREE DOMAIN OPTIONS -->
+                                <label class="fieldlabel FreeDomainOptionsLabel2"><?php echo $this->user->lang("Free Domain?");?></label>
+                                <!-- /THIS CELL IS TO DISPLAY THE FREE DOMAIN OPTIONS -->
+                                <?php } ?>
+                            </td>
+                        </tr>
+                        </thead>
+                    </table>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <table class="table2">
+                        <tbody>
+                        <tr>
+                            <td class="FirstRowWidth">
+                                <?php echo $this->user->lang("Monthly");?>
+                            </td>
+                            <td width="65">
+                                <input class="price" type="text" value="<?php echo $this->priceMonthly;?>" name="priceMonthly" style="width:50px;"/>
+                            </td>
+                            <td width="65">
+                                <input class="price" type="text" value="<?php echo $this->setupMonthly;?>" name="setupMonthly" style="width:50px;"/>
+                            </td>
+                            <td width="100" style="text-align:center;">
+                                <input type="checkbox" name="priceMonthly_checked" value="1" <?php if ($this->priceMonthly_checked == 1) echo "checked";?> />
+                            </td>
+                            <td>
+                                <?php if ($this->domain_product !== false) { ?>
+                                <!-- THIS CELL IS TO DISPLAY THE FREE DOMAIN OPTIONS -->
+                                <span data-toggle="tooltip" title='<?php echo $this->user->lang("* Select \"One-Time\" for the domain to be free only the first billing period.\n* Select \"Recurring\" for the domain to be free on every billing period.");?>'>
+                                    <select name="freedomainMonthly" style="width: 100px;" onchange="toggleFreeDomainFields(this.value, 'Monthly')">
+                                        <option <?php echo ($this->freedomainMonthly == 0)? "selected" : ""; ?> value="0"><?php echo $this->user->lang("None");?></option>
+                                        <option <?php echo ($this->freedomainMonthly == 1)? "selected" : ""; ?> value="1"><?php echo $this->user->lang("One-Time");?></option>
+                                        <option <?php echo ($this->freedomainMonthly == 2)? "selected" : ""; ?> value="2"><?php echo $this->user->lang("Recurring");?></option>
+                                    </select>
+                                </span>
+                                <!-- THIS CELL IS TO DISPLAY THE FREE DOMAIN OPTIONS -->
+                                <?php } ?>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <?php if ($this->domain_product !== false) { ?>
+                    <!-- THESE CELLS ARE TO DISPLAY THE FREE DOMAIN CONFIGURATION -->
+                    <table class="table2 tableFreeDomain" id="freedomaindisplayMonthly" style="display: <?php echo $this->freedomaindisplayMonthly; ?>">
+                        <tbody>
+                        <tr class="FreeDomainOptionsHeader">
+                            <td class="FreeDomainOptionsHeader FirstRowWidth">
+                            </td>
+                            <td colspan="2" class="FreeDomainOptionsHeader FreeDomainOptionsHeaderBGC">
+                                <label class="fieldlabel FreeDomainOptionsLabel FreeDomainOptionsMargin"><?php echo $this->user->lang("Free Domain Options");?></label>
+                            </td>
+                        </tr>
+                        <tr class="FreeDomainOptionsBody">
+                            <td class="FirstRowWidth FreeDomainOptionsBody">
+                            </td>
+                            <td class="FreeDomainOptionsBody FreeDomainOptionsBodyBGC TLDRowWidth">
+                                <label class="fieldlabel FreeDomainOptionsMargin FreeDomainOptionsLabel2"><?php echo $this->user->lang("TLD");?></label>
+                                <div class="FreeDomainOptionsMargin">
+                                    <select multiple="multiple" placeholder="Select tld(s)" class="TLDRowWidth" name="domain_extensionMonthly[]">
+                                        <?php foreach($this->packages as $package) {
+                                            $selected = (in_array($package['id'], $this->domain_extensionMonthly)) ? "selected" : "";?>
+                                            <option <?php echo $selected; ?> value="<?php echo $package['id'];?>"><?php echo $package['planname'];?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </td>
+                            <td class="FreeDomainOptionsBody FreeDomainOptionsBodyBGC">
+                                <label class="fieldlabel FreeDomainOptionsLabel2"><?php echo $this->user->lang("Domain Billing Cycle");?></label>
+                                <select multiple="multiple" placeholder="Select billing cycle(s)" style="width: 473px;" name="domain_cycleMonthly[]">
+                                    <?php foreach ($this->periods as $periods) {
+                                        $selected = (in_array($periods['period'], $this->domain_cycleMonthly)) ? "selected" : "";?>
+                                        <option <?php echo $selected; ?> value="<?php echo $periods['period'];?>" > <?php echo $periods['name'];?> </option>
+                                    <?php } ?>
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!-- /THESE CELLS ARE TO DISPLAY THE FREE DOMAIN CONFIGURATION -->
+                    <?php } ?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="table2">
+                        <tbody>
+                        <tr>
+                            <td class="FirstRowWidth">
+                                <?php echo $this->user->lang("Quarterly");?>
+                            </td>
+                            <td width="65">
+                                <input class="price" type="text" value="<?php echo $this->priceQuarterly;?>" name="priceQuarterly" style="width:50px;"/>
+                            </td>
+                            <td width="65">
+                                <input class="price" type="text" value="<?php echo $this->setupQuarterly;?>" name="setupQuarterly" style="width:50px;"/>
+                            </td>
+                            <td width="100" style="text-align:center;">
+                                <input type="checkbox" name="priceQuarterly_checked" value="1" <?php if ($this->priceQuarterly_checked == 1) echo "checked";?> />
+                            </td>
+                            <td>
+                                <?php if ($this->domain_product !== false) { ?>
+                                <!-- THIS CELL IS TO DISPLAY THE FREE DOMAIN OPTIONS -->
+                                <span data-toggle="tooltip" title='<?php echo $this->user->lang("* Select \"One-Time\" for the domain to be free only the first billing period.\n* Select \"Recurring\" for the domain to be free on every billing period.");?>'>
+                                    <select name="freedomainQuarterly" style="width: 100px;" onchange="toggleFreeDomainFields(this.value, 'Quarterly')">
+                                        <option <?php echo ($this->freedomainQuarterly == 0)? "selected" : ""; ?> value="0"><?php echo $this->user->lang("None");?></option>
+                                        <option <?php echo ($this->freedomainQuarterly == 1)? "selected" : ""; ?> value="1"><?php echo $this->user->lang("One-Time");?></option>
+                                        <option <?php echo ($this->freedomainQuarterly == 2)? "selected" : ""; ?> value="2"><?php echo $this->user->lang("Recurring");?></option>
+                                    </select>
+                                </span>
+                                <!-- THIS CELL IS TO DISPLAY THE FREE DOMAIN OPTIONS -->
+                                <?php } ?>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <?php if ($this->domain_product !== false) { ?>
+                    <!-- THESE CELLS ARE TO DISPLAY THE FREE DOMAIN CONFIGURATION -->
+                    <table class="table2 tableFreeDomain" id="freedomaindisplayQuarterly" style="display: <?php echo $this->freedomaindisplayQuarterly; ?>">
+                        <tbody>
+                        <tr class="FreeDomainOptionsHeader">
+                            <td class="FreeDomainOptionsHeader FirstRowWidth">
+                            </td>
+                            <td colspan="2" class="FreeDomainOptionsHeader FreeDomainOptionsHeaderBGC">
+                                <label class="fieldlabel FreeDomainOptionsLabel FreeDomainOptionsMargin"><?php echo $this->user->lang("Free Domain Options");?></label>
+                            </td>
+                        </tr>
+                        <tr class="FreeDomainOptionsBody">
+                            <td class="FirstRowWidth FreeDomainOptionsBody">
+                            </td>
+                            <td class="FreeDomainOptionsBody FreeDomainOptionsBodyBGC TLDRowWidth">
+                                <label class="fieldlabel FreeDomainOptionsMargin FreeDomainOptionsLabel2"><?php echo $this->user->lang("TLD");?></label>
+                                <div class="FreeDomainOptionsMargin">
+                                    <select multiple="multiple" placeholder="Select tld(s)" class="TLDRowWidth" name="domain_extensionQuarterly[]">
+                                        <?php foreach($this->packages as $package) {
+                                            $selected = (in_array($package['id'], $this->domain_extensionQuarterly)) ? "selected" : "";?>
+                                            <option <?php echo $selected; ?> value="<?php echo $package['id'];?>"><?php echo $package['planname'];?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </td>
+                            <td class="FreeDomainOptionsBody FreeDomainOptionsBodyBGC">
+                                <label class="fieldlabel FreeDomainOptionsLabel2"><?php echo $this->user->lang("Domain Billing Cycle");?></label>
+                                <select multiple="multiple" placeholder="Select billing cycle(s)" style="width: 473px;" name="domain_cycleQuarterly[]">
+                                    <?php foreach ($this->periods as $periods) {
+                                        $selected = (in_array($periods['period'], $this->domain_cycleQuarterly)) ? "selected" : "";?>
+                                        <option <?php echo $selected; ?> value="<?php echo $periods['period'];?>" > <?php echo $periods['name'];?> </option>
+                                    <?php } ?>
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!-- /THESE CELLS ARE TO DISPLAY THE FREE DOMAIN CONFIGURATION -->
+                    <?php } ?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="table2">
+                        <tbody>
+                        <tr>
+                            <td class="FirstRowWidth">
+                                <?php echo $this->user->lang("Semi-Annual");?>
+                            </td>
+                            <td width="65">
+                                <input class="price" type="text" value="<?php echo $this->priceSemiannual;?>" name="priceSemiannual" style="width:50px;"/>
+                            </td>
+                            <td width="65">
+                                <input class="price" type="text" value="<?php echo $this->setupSemiannual;?>" name="setupSemiannual" style="width:50px;"/>
+                            </td>
+                            <td width="100" style="text-align:center;">
+                                <input type="checkbox" name="priceSemiannual_checked" value="1" <?php if ($this->priceSemiannual_checked == 1) echo "checked";?> />
+                            </td>
+                            <td>
+                                <?php if ($this->domain_product !== false) { ?>
+                                <!-- THIS CELL IS TO DISPLAY THE FREE DOMAIN OPTIONS -->
+                                <span data-toggle="tooltip" title='<?php echo $this->user->lang("* Select \"One-Time\" for the domain to be free only the first billing period.\n* Select \"Recurring\" for the domain to be free on every billing period.");?>'>
+                                    <select name="freedomainSemiannual" style="width: 100px;" onchange="toggleFreeDomainFields(this.value, 'Semiannual')">
+                                        <option <?php echo ($this->freedomainSemiannual == 0)? "selected" : ""; ?> value="0"><?php echo $this->user->lang("None");?></option>
+                                        <option <?php echo ($this->freedomainSemiannual == 1)? "selected" : ""; ?> value="1"><?php echo $this->user->lang("One-Time");?></option>
+                                        <option <?php echo ($this->freedomainSemiannual == 2)? "selected" : ""; ?> value="2"><?php echo $this->user->lang("Recurring");?></option>
+                                    </select>
+                                </span>
+                                <!-- THIS CELL IS TO DISPLAY THE FREE DOMAIN OPTIONS -->
+                                <?php } ?>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <?php if ($this->domain_product !== false) { ?>
+                    <!-- THESE CELLS ARE TO DISPLAY THE FREE DOMAIN CONFIGURATION -->
+                    <table class="table2 tableFreeDomain" id="freedomaindisplaySemiannual" style="display: <?php echo $this->freedomaindisplaySemiannual; ?>">
+                        <tbody>
+                        <tr class="FreeDomainOptionsHeader">
+                            <td class="FreeDomainOptionsHeader FirstRowWidth">
+                            </td>
+                            <td colspan="2" class="FreeDomainOptionsHeader FreeDomainOptionsHeaderBGC">
+                                <label class="fieldlabel FreeDomainOptionsLabel FreeDomainOptionsMargin"><?php echo $this->user->lang("Free Domain Options");?></label>
+                            </td>
+                        </tr>
+                        <tr class="FreeDomainOptionsBody">
+                            <td class="FirstRowWidth FreeDomainOptionsBody">
+                            </td>
+                            <td class="FreeDomainOptionsBody FreeDomainOptionsBodyBGC TLDRowWidth">
+                                <label class="fieldlabel FreeDomainOptionsMargin FreeDomainOptionsLabel2"><?php echo $this->user->lang("TLD");?></label>
+                                <div class="FreeDomainOptionsMargin">
+                                    <select multiple="multiple" placeholder="Select tld(s)" class="TLDRowWidth" name="domain_extensionSemiannual[]">
+                                        <?php foreach($this->packages as $package) {
+                                            $selected = (in_array($package['id'],$this->domain_extensionSemiannual)) ? "selected" : "";?>
+                                            <option <?php echo $selected; ?> value="<?php echo $package['id'];?>"><?php echo $package['planname'];?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </td>
+                            <td class="FreeDomainOptionsBody FreeDomainOptionsBodyBGC">
+                                <label class="fieldlabel FreeDomainOptionsLabel2"><?php echo $this->user->lang("Domain Billing Cycle");?></label>
+                                <select multiple="multiple" placeholder="Select billing cycle(s)" style="width: 473px;" name="domain_cycleSemiannual[]">
+                                    <?php foreach ($this->periods as $periods) {
+                                        $selected = (in_array($periods['period'], $this->domain_cycleSemiannual)) ? "selected" : "";?>
+                                        <option <?php echo $selected; ?> value="<?php echo $periods['period'];?>" > <?php echo $periods['name'];?> </option>
+                                    <?php } ?>
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!-- /THESE CELLS ARE TO DISPLAY THE FREE DOMAIN CONFIGURATION -->
+                    <?php } ?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="table2">
+                        <tbody>
+                        <tr>
+                            <td class="FirstRowWidth">
+                                <?php echo $this->user->lang("Annual");?>
+                            </td>
+                            <td width="65">
+                                <input class="price" type="text" value="<?php echo $this->priceYearly;?>" name="priceYearly" style="width:50px;"/>
+                            </td>
+                            <td width="65">
+                                <input class="price" type="text" value="<?php echo $this->setupAnnual;?>" name="setupAnnual" style="width:50px;"/>
+                            </td>
+                            <td width="100" style="text-align:center;">
+                                <input type="checkbox" name="priceYearly_checked" value="1" <?php if ($this->priceYearly_checked == 1) echo "checked";?> />
+                            </td>
+                            <td>
+                                <?php if ($this->domain_product !== false) { ?>
+                                <!-- THIS CELL IS TO DISPLAY THE FREE DOMAIN OPTIONS -->
+                                <span data-toggle="tooltip" title='<?php echo $this->user->lang("* Select \"One-Time\" for the domain to be free only the first billing period.\n* Select \"Recurring\" for the domain to be free on every billing period.");?>'>
+                                    <select name="freedomainAnnual" style="width: 100px;" onchange="toggleFreeDomainFields(this.value, 'Annual')">
+                                        <option <?php echo ($this->freedomainAnnual == 0)? "selected" : ""; ?> value="0"><?php echo $this->user->lang("None");?></option>
+                                        <option <?php echo ($this->freedomainAnnual == 1)? "selected" : ""; ?> value="1"><?php echo $this->user->lang("One-Time");?></option>
+                                        <option <?php echo ($this->freedomainAnnual == 2)? "selected" : ""; ?> value="2"><?php echo $this->user->lang("Recurring");?></option>
+                                    </select>
+                                </span>
+                                <!-- THIS CELL IS TO DISPLAY THE FREE DOMAIN OPTIONS -->
+                                <?php } ?>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <?php if ($this->domain_product !== false) { ?>
+                    <!-- THESE CELLS ARE TO DISPLAY THE FREE DOMAIN CONFIGURATION -->
+                    <table class="table2 tableFreeDomain" id="freedomaindisplayAnnual" style="display: <?php echo $this->freedomaindisplayAnnual; ?>">
+                        <tbody>
+                        <tr class="FreeDomainOptionsHeader">
+                            <td class="FreeDomainOptionsHeader FirstRowWidth">
+                            </td>
+                            <td colspan="2" class="FreeDomainOptionsHeader FreeDomainOptionsHeaderBGC">
+                                <label class="fieldlabel FreeDomainOptionsLabel FreeDomainOptionsMargin"><?php echo $this->user->lang("Free Domain Options");?></label>
+                            </td>
+                        </tr>
+                        <tr class="FreeDomainOptionsBody">
+                            <td class="FirstRowWidth FreeDomainOptionsBody">
+                            </td>
+                            <td class="FreeDomainOptionsBody FreeDomainOptionsBodyBGC TLDRowWidth">
+                                <label class="fieldlabel FreeDomainOptionsMargin FreeDomainOptionsLabel2"><?php echo $this->user->lang("TLD");?></label>
+                                <div class="FreeDomainOptionsMargin">
+                                    <select multiple="multiple" placeholder="Select tld(s)" class="TLDRowWidth" name="domain_extensionAnnual[]">
+                                        <?php foreach($this->packages as $package) {
+                                            $selected = (in_array($package['id'],$this->domain_extensionAnnual)) ? "selected" : "";?>
+                                            <option <?php echo $selected; ?> value="<?php echo $package['id'];?>"><?php echo $package['planname'];?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </td>
+                            <td class="FreeDomainOptionsBody FreeDomainOptionsBodyBGC">
+                                <label class="fieldlabel FreeDomainOptionsLabel2"><?php echo $this->user->lang("Domain Billing Cycle");?></label>
+                                <select multiple="multiple" placeholder="Select billing cycle(s)" style="width: 473px;" name="domain_cycleAnnual[]">
+                                    <?php foreach ($this->periods as $periods) {
+                                        $selected = (in_array($periods['period'], $this->domain_cycleAnnual)) ? "selected" : "";?>
+                                        <option <?php echo $selected; ?> value="<?php echo $periods['period'];?>" > <?php echo $periods['name'];?> </option>
+                                    <?php } ?>
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!-- /THESE CELLS ARE TO DISPLAY THE FREE DOMAIN CONFIGURATION -->
+                    <?php } ?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="table2">
+                        <tbody>
+                        <tr>
+                            <td class="FirstRowWidth">
+                                <?php echo $this->user->lang("Two Years");?>
+                            </td>
+                            <td width="65">
+                                <input class="price" type="text" value="<?php echo $this->price2Years;?>" name="price2Years" style="width:50px;"/>
+                            </td>
+                            <td width="65">
+                                <input class="price" type="text" value="<?php echo $this->setupBiennial;?>" name="setupBiennial" style="width:50px;"/>
+                            </td>
+                            <td width="100" style="text-align:center;">
+                                <input type="checkbox" name="price2Years_checked" value="1" <?php if ($this->price2Years_checked == 1) echo "checked";?> />
+                            </td>
+                            <td>
+                                <?php if ($this->domain_product !== false) { ?>
+                                <!-- THIS CELL IS TO DISPLAY THE FREE DOMAIN OPTIONS -->
+                                <span data-toggle="tooltip" title='<?php echo $this->user->lang("* Select \"One-Time\" for the domain to be free only the first billing period.\n* Select \"Recurring\" for the domain to be free on every billing period.");?>'>
+                                    <select name="freedomainBiennial" style="width: 100px;" onchange="toggleFreeDomainFields(this.value, 'Biennial')">
+                                        <option <?php echo ($this->freedomainBiennial == 0)? "selected" : ""; ?> value="0"><?php echo $this->user->lang("None");?></option>
+                                        <option <?php echo ($this->freedomainBiennial == 1)? "selected" : ""; ?> value="1"><?php echo $this->user->lang("One-Time");?></option>
+                                        <option <?php echo ($this->freedomainBiennial == 2)? "selected" : ""; ?> value="2"><?php echo $this->user->lang("Recurring");?></option>
+                                    </select>
+                                </span>
+                                <!-- THIS CELL IS TO DISPLAY THE FREE DOMAIN OPTIONS -->
+                                <?php } ?>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <?php if ($this->domain_product !== false) { ?>
+                    <!-- THESE CELLS ARE TO DISPLAY THE FREE DOMAIN CONFIGURATION -->
+                    <table class="table2 tableFreeDomain" id="freedomaindisplayBiennial" style="display: <?php echo $this->freedomaindisplayBiennial; ?>">
+                        <tbody>
+                        <tr class="FreeDomainOptionsHeader">
+                            <td class="FreeDomainOptionsHeader FirstRowWidth">
+                            </td>
+                            <td colspan="2" class="FreeDomainOptionsHeader FreeDomainOptionsHeaderBGC">
+                                <label class="fieldlabel FreeDomainOptionsLabel FreeDomainOptionsMargin"><?php echo $this->user->lang("Free Domain Options");?></label>
+                            </td>
+                        </tr>
+                        <tr class="FreeDomainOptionsBody">
+                            <td class="FirstRowWidth FreeDomainOptionsBody">
+                            </td>
+                            <td class="FreeDomainOptionsBody FreeDomainOptionsBodyBGC TLDRowWidth">
+                                <label class="fieldlabel FreeDomainOptionsMargin FreeDomainOptionsLabel2"><?php echo $this->user->lang("TLD");?></label>
+                                <div class="FreeDomainOptionsMargin">
+                                    <select multiple="multiple" placeholder="Select tld(s)" class="TLDRowWidth" name="domain_extensionBiennial[]">
+                                        <?php foreach($this->packages as $package) {
+                                            $selected = (in_array($package['id'],$this->domain_extensionBiennial)) ? "selected" : "";?>
+                                            <option <?php echo $selected; ?> value="<?php echo $package['id'];?>"><?php echo $package['planname'];?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </td>
+                            <td class="FreeDomainOptionsBody FreeDomainOptionsBodyBGC">
+                                <label class="fieldlabel FreeDomainOptionsLabel2"><?php echo $this->user->lang("Domain Billing Cycle");?></label>
+                                <select multiple="multiple" placeholder="Select billing cycle(s)" style="width: 473px;" name="domain_cycleBiennial[]">
+                                    <?php foreach ($this->periods as $periods) {
+                                        $selected = (in_array($periods['period'], $this->domain_cycleBiennial)) ? "selected" : "";?>
+                                        <option <?php echo $selected; ?> value="<?php echo $periods['period'];?>" > <?php echo $periods['name'];?> </option>
+                                    <?php } ?>
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!-- /THESE CELLS ARE TO DISPLAY THE FREE DOMAIN CONFIGURATION -->
+                    <?php } ?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="table2">
+                        <tbody>
+                        <tr>
+                            <td class="FirstRowWidth">
+                                <?php echo $this->user->lang("One-Time");?>
+                            </td>
+                            <td width="146">
+                                <input class="price" type="text" value="<?php echo $this->onetime;?>" name="onetime" style="width:50px;"/>
+                            </td>
+                            <td width="100" style="text-align:center;">
+                                <input type="checkbox" name="priceOneTime_checked" value="1" <?php if ($this->priceOneTime_checked == 1) echo "checked";?> />
+                            </td>
+                            <td>
+                                <?php if ($this->domain_product !== false) { ?>
+                                <!-- THIS CELL IS TO DISPLAY THE FREE DOMAIN OPTIONS -->
+                                <span data-toggle="tooltip" title='<?php echo $this->user->lang("* Select \"One-Time\" for the domain to be free only the first billing period.\n* Select \"Recurring\" for the domain to be free on every billing period.");?>'>
+                                    <select name="freedomainOneTime" style="width: 100px;" onchange="toggleFreeDomainFields(this.value, 'OneTime')">
+                                        <option <?php echo ($this->freedomainOneTime == 0)? "selected" : ""; ?> value="0"><?php echo $this->user->lang("None");?></option>
+                                        <option <?php echo ($this->freedomainOneTime == 1)? "selected" : ""; ?> value="1"><?php echo $this->user->lang("One-Time");?></option>
+                                        <option <?php echo ($this->freedomainOneTime == 2)? "selected" : ""; ?> value="2"><?php echo $this->user->lang("Recurring");?></option>
+                                    </select>
+                                </span>
+                                <!-- THIS CELL IS TO DISPLAY THE FREE DOMAIN OPTIONS -->
+                                <?php } ?>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <?php if ($this->domain_product !== false) { ?>
+                    <!-- THESE CELLS ARE TO DISPLAY THE FREE DOMAIN CONFIGURATION -->
+                    <table class="table2 tableFreeDomain" id="freedomaindisplayOneTime" style="display: <?php echo $this->freedomaindisplayOneTime; ?>">
+                        <tbody>
+                        <tr class="FreeDomainOptionsHeader">
+                            <td class="FreeDomainOptionsHeader FirstRowWidth">
+                            </td>
+                            <td colspan="2" class="FreeDomainOptionsHeader FreeDomainOptionsHeaderBGC">
+                                <label class="fieldlabel FreeDomainOptionsLabel FreeDomainOptionsMargin"><?php echo $this->user->lang("Free Domain Options");?></label>
+                            </td>
+                        </tr>
+                        <tr class="FreeDomainOptionsBody">
+                            <td class="FirstRowWidth FreeDomainOptionsBody">
+                            </td>
+                            <td class="FreeDomainOptionsBody FreeDomainOptionsBodyBGC TLDRowWidth">
+                                <label class="fieldlabel FreeDomainOptionsMargin FreeDomainOptionsLabel2"><?php echo $this->user->lang("TLD");?></label>
+                                <div class="FreeDomainOptionsMargin">
+                                    <select multiple="multiple" placeholder="Select tld(s)" class="TLDRowWidth" name="domain_extensionOneTime[]">
+                                        <?php foreach($this->packages as $package) {
+                                            $selected = (in_array($package['id'],$this->domain_extensionOneTime)) ? "selected" : "";?>
+                                            <option <?php echo $selected; ?> value="<?php echo $package['id'];?>"><?php echo $package['planname'];?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </td>
+                            <td class="FreeDomainOptionsBody FreeDomainOptionsBodyBGC">
+                                <label class="fieldlabel FreeDomainOptionsLabel2"><?php echo $this->user->lang("Domain Billing Cycle");?></label>
+                                <select multiple="multiple" placeholder="Select billing cycle(s)" style="width: 473px;" name="domain_cycleOneTime[]">
+                                    <?php foreach ($this->periods as $periods) {
+                                        $selected = (in_array($periods['period'], $this->domain_cycleOneTime)) ? "selected" : "";?>
+                                        <option <?php echo $selected; ?> value="<?php echo $periods['period'];?>" > <?php echo $periods['name'];?> </option>
+                                    <?php } ?>
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!-- /THESE CELLS ARE TO DISPLAY THE FREE DOMAIN CONFIGURATION -->
+                    <?php } ?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="table2">
+                        <tbody>
+                        <tr>
+                            <td class="FirstRowWidth">
+                                <?php echo $this->user->lang("Late Fee");?>
+                            </td>
+                            <td>
+                                <input class="price" type="text" value="<?php echo $this->latefee;?>" name="latefee" style="width:50px;"/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="table2">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <label class="checkbox inline"><input type="checkbox" name="taxable" value="1" <?php if ($this->taxable == 1) echo "checked";?> /><?php echo $this->user->lang("Product is Taxable?");?></label>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="table2">
+                        <tbody>
+                        <tr>
+                            <td class="FirstRowWidth">
+                                <label class="fieldlabel"><span class='tip-target' data-toggle="tooltip"  data-placement="right" title='Enter an existing Coupon Code to have the coupon automatically applied during checkout.'><?php echo $this->user->lang("Automatic Coupon");?></span></label>
+                            </td>
+                            <td>
+                                <input type="text" name="automaticCoupon" value="<?php echo $this->automaticCoupon;?>" style="width:200px;"/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td>
+                    <div class="alert alert-block">
+                        Addon prices for billing cycles not used in this product will not be available to the customer, unless you select the force show option in the addon setup screen.
+                    </div>
+                    <div class="form-actions">
+                        <div class="pull-right">
+                          <button type="submit" class="submit-pricing btn btn-primary"><?php echo $this->user->lang("Save Changes");?></button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>

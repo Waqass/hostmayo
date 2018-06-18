@@ -1,0 +1,110 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo lang("Support")." ".lang("Settings")." - ".lang("Site Widget"); ?></div>
+  <p class="alert-content"><?php echo lang("Create a site widget for customers to submit tickets and search your KB articles"); ?></p>
+</div>
+
+<form name="settings" id="sitesettings">
+<dl class="form noborder automation-options">
+
+    <dt><label>Tab Title</label></dt>
+    <dd>
+        <select id="tabimageid" name="tabimageid">
+            <option selected="true" value="support">Support&nbsp;&nbsp;</option>
+            <option value="ask-us">Ask Us&nbsp;&nbsp;</option>
+            <option value="feedback">Feedback&nbsp;&nbsp;</option>
+            <option value="help">Help&nbsp;&nbsp;</option>
+            <option value="comments">Comments&nbsp;&nbsp;</option>
+            <option value="questions">Questions&nbsp;&nbsp;</option>
+            <option value="service">Service&nbsp;&nbsp;</option>
+        </select>
+    </dd>
+    <!-- Setting Description -->
+    <dd class="full desc">
+        <span>
+        Select the text to place on your Feedback Tab.
+        </span>
+    </dd>
+
+<dt><label>Tab Position</label></dt>
+    <dd>
+        <select id="tabposition" name="tabposition">
+            <option selected="true" value="left">Left&nbsp;&nbsp;</option>
+            <option value="right">Right&nbsp;&nbsp;</option>
+        </select>
+    </dd>
+    <!-- Setting Description -->
+    <dd class="full desc">
+        <span>
+        Select the position of the screen the tab will appear at.
+        </span>
+    </dd>
+
+<dt><label>Require Knowledge Base Search</label></dt>
+    <dd>
+        <input type="radio" checked="true" value="1" name="forcesearch" id="forcesearch"> Yes&nbsp;&nbsp;
+        <input type="radio" value="0" name="forcesearch" id="forcesearch"> No&nbsp;&nbsp;
+    </dd>
+    <!-- Setting Description -->
+    <dd class="full desc">
+        <span>
+        If Yes then users will first be asked to enter keywords about their question and will be shown results from the knowledge base before being taken to the ticket submission page. Users may search the knowledge base from the ticket submission page as well.
+        </span>
+    </dd>
+
+
+
+<dt><label>Default Ticket Type</label></dt>
+<dd>
+    <select id="tickettypeid" name="tickettypeid" class="disableSelect2AutoLoad">
+        <?php foreach ($this->tickettypes as $tickettype) { ?>
+            <option value="<?php echo $tickettype['value'];?>"><?php echo $tickettype['name'];?>&nbsp;&nbsp;</option>
+        <?php }?>
+    </select>
+</dd>
+<!-- Setting Description -->
+<dd class="full desc">
+    <span>
+    Select the ticket type you want to associate the tickets opened via the Support Widget.
+    </span>
+</dd>
+
+</dl>
+
+<button id="btnGetSnippet" style="margin-left: 414px;" class="btn"><?php echo $this->user->lang('Grab Snippet'); ?></button>
+</form>
+
+
+<script data-cfasync="false" type="text/javascript">
+    $(document).ready(function() {
+        $('#tickettypeid').select2({
+            width:'resolve',
+            formatNoMatches: function () { return lang('No ticket types are available'); }
+        });
+
+        $('#btnGetSnippet').click(function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: "index.php?fuse=support&action=getfeedbacktabsnippet&controller=index",
+                dataType: 'json',
+                data: {
+                    tabimageid : $('#tabimageid').val(),
+                    position: $('#tabposition').val(),
+                    requireSearch : $('#forcesearch:checked').val(),
+                    tickettypeid: $('#tickettypeid').val()
+                },
+                success: function(json){
+                    if (!json.error) {
+                        var window = new RichHTML.window({
+                             height: '365',
+                             width: '700',
+                             content: lang('Paste this code into each web page where you want your Tab to appear') + ':<br/><br/><pre>' + ce.htmlentities(json.snippet) + '</pre>',
+                             title: lang("Feedback Tab Code Snippet")
+                         });
+                         window.show();
+                    }
+                }
+            });
+        });
+    });
+</script>

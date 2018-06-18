@@ -1,0 +1,35 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->user->lang("Article Comments"); ?></div>
+  <p class="alert-content"><?php echo $this->user->lang("List of comments left for publicly available knowledgebase articles."); ?></p>
+</div>
+
+<span class="grid-meta" id="KBcomments-grid-metadata"></span>
+<div id="gridheader" class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+            	<td><label id="kb-comment-label"></label></td>
+                <td align="right"><label><?php echo $this->user->lang("Show"); ?></label></td>
+                <td align="left" style="width:130px;">
+                    <select id='KBcomments-grid-filterby' style='width:120px;'>
+                        <option <?php if ( $this->filter == 'all' ) { ?> selected='selected' <?php } ?> value='all'><?php echo $this->user->lang("All");?></option>
+                        <option <?php if ( $this->filter == 'Approved' ) { ?> selected='selected' <?php } ?> value='Approved'><?php echo $this->user->lang("Approved");?></option>
+                        <option <?php if ( $this->filter == 'NonApproved' ) { ?> selected='selected' <?php } ?> value='NonApproved'><?php echo $this->user->lang("Un-Approved");?></option>
+                        <option <?php if ( $this->filter == 'articleId' ) { ?> selected='selected' <?php } ?> value='articleId'><?php echo $this->user->lang("Article Id");?></option></select>
+                </td>
+                <td id="KBcomments-grid-filterby-artid-td" style="display:none;width:82px;"><input id="KBcomments-grid-filterby-artid" type="text" style="margin-bottom: 0px;width:60px;" placeholder="<?php echo $this->user->lang("Article");?> #" /></td>
+                <td align="left" style="width:60px">
+<select id='KBcomments-grid-filter' class="change-grid-showrecords" style='width:60px;'><option value='5'>5</option><option value='10'>10</option><option value='25'>25</option><option value='50'>50</option><option value='150'>150</option><option value='300'>300</option></select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="KBcomments-grid"></div>
+<div id="KBcomments-grid-footer" style="display:none;">
+  <?php if($this->user->hasPermission('knowledgebase_manageComments')): ?>
+    <button class="rich-button" id="delComments"><span><?php echo $this->user->lang("Delete Comment(s)"); ?></span></button>
+    <button class="rich-button" id="appComments"><span><?php echo $this->user->lang("Toggle Approval"); ?></span></button>
+  <?php endif ?>
+</div>

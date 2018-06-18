@@ -1,0 +1,33 @@
+<div class="padding-right:15px;">
+<?php
+
+foreach ($this->servers as $server) { ?>
+    <div class="blue-box">
+    <?php echo $this->user->lang("Server").': '.$server['server_name']; ?>
+    </div>
+    <table width="100%">
+        <tr>
+            <td><?php echo $this->user->lang("Uptime");?>:</td>
+            <td align="right"><?php echo $server['uptime'];?></td>
+        </tr>
+        <tr style="background: #efefef;">
+            <td><?php echo $this->user->lang("Virtual Servers");?>:</td>
+            <td align="right"><?php echo $server['servers_online'];?></td>
+        </tr>
+        <tr>
+            <td><?php echo $this->user->lang("Clients Online");?>:</td>
+            <td align="right"><?php echo $server['clients_online'];?></td>
+        </tr>
+        <tr style="background: #efefef;">
+            <td><?php echo $this->user->lang("Max Clients");?>:</td>
+            <td align="right"><?php echo $server['clients_max'];?></td>
+        </tr>
+    </table>
+<?php
+}
+
+if (count($this->servers) === 0) {
+    echo "<center style='margin:5px;'><br/><br/>".$this->user->lang("Currently there are no Teamspeak servers configured.")."</center>";
+}
+?>
+</div>

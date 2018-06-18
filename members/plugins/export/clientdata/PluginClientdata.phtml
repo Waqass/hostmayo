@@ -1,0 +1,55 @@
+<b><?php echo $this->user->lang('Select which fields you wish to export and press the button to download the file'); ?>:</b><br />
+<table>
+    <?php foreach ( $this->fields as $field ) { ?>
+    <tr>
+        <td valign="top">
+            <input style="margin-right:5px;" type="checkbox" name="clients_field_<?php echo $field['inputName']; ?>" <?php echo $field['checked']; ?>  <?php echo $field['onaction']; ?> /><?php echo $field['fieldName']; ?><br />
+        </td>
+    </tr>
+    <?php } ?>
+</table><br />
+<table>
+    <tr>
+        <td>
+            <b><?php echo $this->user->lang('Date Created'); ?>:</b>
+        </td>
+        <td>
+            <input class='datepicker' type='text' name="startdate" id="startdate" value='' /> - <input class='datepicker' type='text' name="enddate" id="enddate" value='' />
+        </td>
+    </tr>
+    <?php if (count($this->groups)) { ?>
+    <tr>
+        <td>
+            <b><?php echo $this->user->lang('Customer Group'); ?>:</b>
+        </td>
+        <td>
+            <select id="dropdown_customerGroup" name="dropdown_customerGroup" style="width:255px;display:none" >
+            <?php foreach ($this->groups as $group) { ?>
+                <option value="<?php echo $group['groupValue'];?>" ><?php echo $group['groupLabel'];?></option>
+            <?php } ?>
+            </select>
+        </td>
+    </tr>
+    <?php } ?>
+</table><br />
+<input type="hidden" name="passphrase" value="" />
+<button class="rich-button" id="exportButton"><span><?php echo $this->user->lang("Download .csv"); ?></span></button>
+<script type="text/javascript">
+    function rerquestPassphrase(){
+        if(document.forms['ImportExportPlugin'].elements['clients_field_Credit__Card__Number'].checked){
+            RichHTML.msgBox(lang('Enter your passphrase:'),
+                {type:'prompt',password:true},
+                function(result){
+                    if(result.btn === lang("OK")) {
+                        document.forms['ImportExportPlugin'].elements['clients_field_Credit__Card__Number'].checked = true;
+                        document.forms['ImportExportPlugin'].elements['passphrase'].value = result.elements.value;
+                    } else {
+                        document.forms['ImportExportPlugin'].elements['clients_field_Credit__Card__Number'].checked = false;
+                        document.forms['ImportExportPlugin'].elements['passphrase'].value = '';
+                    }
+                }
+            );
+            return false;
+        }
+    }
+</script>

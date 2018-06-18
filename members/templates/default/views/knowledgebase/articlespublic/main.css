@@ -1,0 +1,145 @@
+.support-search-submit {
+    height  : 35px;
+    float   : right;
+    position: relative;
+    top     : -48px;
+    right   : -96px;
+}
+
+input.support-search-kb {
+    height: 27px;
+    border: 2px solid #DFDFDF;
+    width : 100%;
+}
+
+.support-search-inner{
+    padding-bottom: 5px;
+    padding-top: 14px;
+    padding-right: 100px;
+    padding-left: 0;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#kbcatergories{
+    position:relative;
+    top: -15px;
+}
+
+#kbcatergories h2 a:hover{
+    text-decoration: none;
+}
+
+.subcategory-header {
+    margin-top:25px;
+    background-color: #edeff1;
+    padding-left: 11px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+
+    border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+
+    margin-left: -10px;
+}
+
+.subcategory-header h2 {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+ul.articles li{
+    line-height: 22px;
+    overflow: hidden;
+    height:25px
+}
+
+ul.articles li .article {
+    float: left;
+    margin-right: 10px;
+    color:#888;
+    position: relative;
+    top: 0px;
+    left:4px;
+}
+
+ul.articles li.noarticles{
+    color: orangeRed;
+    padding-top: 22px;
+}
+
+.categories_wrap-second, .categories_wrap {
+    padding-top: 10px;
+}
+
+.fade_title {
+    background: transparent url('../../../img/kb/fade_bar.png') repeat-y center right;
+    height: 20px;
+    position: absolute;
+    width: 25px;
+}
+
+.categoryName {
+    text-decoration: none;
+    border-bottom: 1px solid #F2F2F2;
+}
+
+.categoryName a {
+    font-size: 22px;
+    color: #555;
+}
+
+.alert-success {
+    font-size: 14px;
+}
+
+.categoryarticles .articleName {
+    font-size: 14px;
+}
+
+.categories_wrap {
+    clear:both;
+}
+
+.categories_wrap-second {
+    position: relative;
+    padding-right: 24px;
+}
+
+.categories_wrap-second .fade_title {
+    right: 24px;
+}
+
+.categories_wrap .fade_title {
+    margin-left: 0px;
+    position: relative;
+    float: right;
+    top: -23px;
+    left:0px;
+}
+
+.categoryarticles ul.articles {
+    height: auto;
+}
+
+.categoryarticles ul.articles li{
+    height: auto;
+}
+
+.categoryarticles .articleExcerpt,
+.categoryarticles .articleMeta {
+    color: #999;
+    font-size:12px;
+    margin-left: 21px;
+}
+
+.well-subcategories {
+    margin-bottom: 0;
+    margin-top: 50px;
+}

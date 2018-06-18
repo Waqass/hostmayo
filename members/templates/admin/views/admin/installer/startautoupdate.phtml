@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><?php echo $this->user->lang('Clientexec Installer') ?></title>
+    <link rel="Shortcut Icon" href="favicon.ico" />
+    <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Quattrocento+Sans:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="templates/admin/style/install.css" />
+    <script type="text/javascript">
+        var gHash = "<?php echo $this->gHash; ?>";
+    </script>
+    <script type="text/javascript" src="library/utilities/min/index.php?g=installer"></script>
+</head>
+<body>
+<div class="install-header"><?php echo $this->user->lang('Clientexec Installer') ?></div>
+<center>
+<div id="main" style="width:80%;min-width:900px">
+    <div class="well">
+        <?php if ($this->error): ?>
+            <?php echo $this->user->lang('Error') . ': ' . $this->error ?>
+        <?php elseif ($this->permissionProblems): ?>
+            <div><?php echo $this->user->lang("We could not deploy your Clientexec upgrade because the web server user doesn't have the necessary write permissions to the clientexec directory.") ?></div>
+            <div><?php echo $this->user->lang("You can either fix this and then run this utility again, or else manually upgrade by unzipping yourself the upgrade package that was downloaded to this location:") ?></div>
+            <pre style="margin-top:20px"><?php echo $this->incPackageLocation ?></pre>
+
+            <?php if ($this->modifiedTemplates): ?>
+                <?php echo $this->partial('installer/modified_templates.phtml', array('user' => $this->user, 'modifiedTemplates' => $this->modifiedTemplates, 'canProceed' => false)) ?>
+            <?php endif ?>
+
+        <?php elseif ($this->showProceedUnzip): ?>
+            <?php if ($this->modifiedTemplates): ?>
+                <?php echo $this->partial('installer/modified_templates.phtml', array('user' => $this->user, 'modifiedTemplates' => $this->modifiedTemplates, 'canProceed' => true)) ?>
+            <?php endif ?>
+
+            <form method="post" action="index.php?fuse=admin&controller=installer&action=unzipincremental" style="margin-top:20px">
+                <input type="submit" class="btn" value="<?php echo $this->user->lang('Proceed') ?>" />
+            </form>
+        <?php else: ?>
+            <?php if ($this->isLatest): ?>
+                <div>
+                    <?php echo $this->user->lang('You have the latest Clientexec version installed.') ?>
+                </div>
+                <div style="margin-top:20px">
+                    <b><a href="<?php echo $this->softwareURL ?>/index.php?fuse=home&view=login"><?php echo $this->user->lang('Login Now') ?></a></b>
+                </div>
+            <?php else: ?>
+                <div><?php echo $this->user->lang('Your current version is <b>%s</b>', $this->installedVersion) ?></div>
+                <div><?php echo $this->user->lang('The latest version available is <b>%s</b>', $this->lastVersion) ?></div>
+                <form method="post" action="index.php?fuse=admin&controller=installer&action=downloadincremental" style="margin-top:20px">
+                    <input type="submit" class="btn" value="<?php echo $this->user->lang('Download Upgrade Package') ?>" />
+                </form>
+            <?php endif ?>
+        <?php endif ?>
+    </div>
+</div>
+</center>
+<script type="text/javascript" src="javascript/jquery-1.9.1.min.js"></script>
+<script>
+$('input[type=submit]').click(function() {
+    $(this).attr('disabled', true);
+    $(this).parent('form').submit();
+});
+</script>
+</body>
+</html>

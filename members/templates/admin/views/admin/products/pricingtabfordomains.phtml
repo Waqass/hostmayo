@@ -1,0 +1,34 @@
+<script data-cfasync="false" type="text/javascript">
+    var admin_edit_packagetypes = <?php echo ($this->user->hasPermission('admin_edit_packagetypes')) ? "true" : "false"; ?>;
+
+    productview.currency = {};
+    productview.currency.symbol = '<?php echo $this->currency["symbol"]; ?>';
+    productview.currency.decimalssep = "<?php echo $this->currency['decimalssep']; ?>";
+    productview.currency.thousandssep = "<?php echo $this->currency['thousandssep']; ?>";
+    productview.currency.alignment = "<?php echo $this->currency['alignment']; ?>";
+    productview.currency.precision = "<?php echo $this->currency['precision']; ?>";
+</script>
+
+<div id="blueGridBox" class="blue-box">
+    <table class="automation" style="width:100%" border=0>
+        <tbody>
+            <tr>
+                <td style="height:26px;">
+                    <?php if ($this->user->hasPermission('admin_edit_packagetypes')) { ?>
+                        <a class="btn rich-button add-tld" onclick='productview.tlds.showperiodwindow(0);'><span><?php echo $this->user->lang("Add Period");?></span></a>
+                    <?php } ?>
+                </td>
+                <td width="200" align="right">
+                    <?php echo $this->user->lang("Late Fee");?>&nbsp;&nbsp;<input type="text" value="<?php echo $this->latefee;?>" name="latefee" id="latefee" style="width:50px;"/>
+                </td>
+                <td width="200" align="right">
+                    <input type="checkbox" id="taxdomainorders" name="taxdomainorders" value="1" <?php if ($this->taxdomainorders == 1) echo "checked";?> />&nbsp;&nbsp;<?php echo $this->user->lang("Tax domain orders?");?>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="tld-list"></div>
+<div id="tld-list-footer" style="display:none;float:left;">
+    <button class="rich-button" id="btnDelTLDPeriod"><span class="buttontext"><?php echo $this->user->lang("Delete Billing Period(s)"); ?></span></button>
+</div>

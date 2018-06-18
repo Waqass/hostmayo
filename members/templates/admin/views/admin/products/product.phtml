@@ -1,0 +1,26 @@
+<script data-cfasync="false" type="text/javascript">
+    var productview = productview || {};
+    productview.productid = <?php echo $this->productid;?>;
+    productview.producttype = <?php echo $this->producttype;?>;
+    productview.groupid = <?php echo $this->groupid;?>;
+</script>
+
+<?php
+    $productheader = $this->user->lang("Product for")." ".$this->groupName;
+    if ($this->newproduct) {
+        $productheader = $this->user->lang("New")." ".$productheader;
+        $productdesc = $this->user->lang("Create a new product available to your customers.");
+    } else {
+        $productdesc = $this->user->lang("Edit a product available to your customers.");
+    }
+?>
+
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $productheader;?></div>
+  <p class="alert-content"><?php echo $productdesc;?></p>
+</div>
+
+<div style="margin-top:-8px;margin-bottom:10px;"><i class="icon-level-up icon-flip-horizontal icon-back-to-parent-list"></i> <a href="index.php?fuse=admin&view=products&controller=products"><?php echo $this->user->lang("Product list");?></a></div>
+
+<ul class="nav nav-tabs productnav"></ul>
+<div id="product-tab-content"></div>

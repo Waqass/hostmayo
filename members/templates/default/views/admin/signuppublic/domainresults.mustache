@@ -1,0 +1,33 @@
+<table class="table table-striped available-domains-to-register ">
+    <thead>
+        <tr>
+            <td><b class="available-domains-label">{{#translate}}Available Domains{{/translate}}</b></td>
+            <td><b class="available-years-label pull-right">{{#translate}}Years{{/translate}}</b></td>
+            <td width="140"></td>
+        </tr>
+    </thead>
+    <tbody>
+        {{#available_options}}
+        {{#render_additional}}{{/render_additional}}
+        <tr class="domain-option-row">
+          <td colspan="3">
+            <form class='domainForm' data-domain-name="{{domain_name}}" data-product-id="{{product_id}}" data-domain-type="{{domainType}}" method="POST" parsley-validate>
+                <div class="domain-option-name">{{domain_name}}</div>
+                <div class="domain-option-add"><button class="btn pull-right configure-product" data-domain-name="{{domain_name}}" data-product-id="{{product_id}}" type="button">{{#translate}}Add to cart{{/translate}}</button></div>
+                <div class="domain-option-yrs-wrapper pull-right">
+                    <input type="hidden" data-index="{{index}}" class="domain-option-yrs" data-domain-name="{{domain_name}}" data-product-id="{{product_id}}" style="width:160px;" />
+                </div>
+
+                <div class="domain-additional-options" data-domain-name="{{domain_name}}" data-product-id="{{product_id}}">
+                    <div class="customfields-wrapper"></div>
+                    <div class="extra_attributes-wrapper"></div>
+                    <div class="addons-wrapper"></div>
+                </div>
+            </form>
+          </td>
+        </tr>
+        {{/available_options}}
+    </tbody>
+</table>
+
+

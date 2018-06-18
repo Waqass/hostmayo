@@ -1,0 +1,26 @@
+<div class="alert alert-info ce-page-header">
+    <div class="alert-header">
+        <?php echo $this->user->lang('Migrate from Directi to ResellerClub'); ?>
+    </div>
+    <p class="alert-content">
+        <?php echo $this->user->lang('This tool allows you to migrate from the deprecated Directi plugin to the new ResellerClub plugin.'); ?>
+    </p>
+</div>
+
+<form method="post" action="index.php?fuse=admin&amp;action=migratedirecti">
+  <dl class="form noborder automation-options">
+    <dt>
+      <label><?php echo $this->user->lang('Steps'); ?>:</label>
+    </dt>
+    <dd class="full desc" style="border-bottom:0px;">
+      <span>
+        1. <?php echo $this->user->lang('Go to the ResellerClub registrar plugin and fill in your Reseller ID and Password.  Note: The Reseller ID is NOT your email address like it was in the Directi plugin.'); ?><br/>
+        2. <?php echo $this->user->lang('Go to your ResellerClub account and add the Clientexec server IP address to the API allowed list.'); ?><br/>
+        3. <?php echo $this->user->lang('Click the button below to automatically update your TLDs and customer domains to use the ResellerClub plugin.'); ?><br/>
+      </span>
+    </dd>
+  </dl>
+  <div>
+    <button class="rich-button"><?php echo $this->user->lang('Migrate'); ?></button>
+  </div>
+</form>

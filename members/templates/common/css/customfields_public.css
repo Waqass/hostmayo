@@ -1,0 +1,40 @@
+.customfield.email,
+.customfield.first_name,
+.customfield.city,
+.customfield.zipcode {
+	clear:both;
+	float: left;
+	margin-right: 10px;
+}
+
+.customfield.first_name,
+.customfield.second_name,
+.customfield.address,
+.customfield.state,
+.customfield.city {
+	margin-bottom: -8px;
+}
+
+.customfield label.customfield_label {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+label.sub_label,
+.customfield label.sub_label {
+	font-weight: normal;
+	position: relative;
+	top: -9px;
+	font-size: 12px;
+	color: #888;
+}
+
+.customfield_not_ingroup {
+	margin-bottom: 20px;
+	clear:both;
+}
+
+.customfield_group {
+	margin-bottom: 15px;
+	clear:both;
+}

@@ -1,0 +1,268 @@
+.active-profile-container header {
+  	display: block;
+	position: relative;
+	padding-bottom: 10px;
+}
+
+.pin-active-profile {
+  opacity: .4;
+  float:right;
+  position: relative;
+  right: 5px;
+  top:5px;
+  z-index:100;
+}
+
+.pin-active-profile:hover {
+  opacity: 1;
+  cursor:pointer;
+}
+
+.active-profile-container .nav-list {
+padding-left: 13px;
+padding-right: 13px;
+}
+
+img.active-user-profile {
+    width: 50px;
+    position: absolute;
+    z-index:99;
+
+    -webkit-border-radius: 30%;
+    -moz-border-radius: 30%;
+    border-radius: 30%;
+    -webkit-box-shadow: 0 0 0 2px #949494, 0 0px 0 1px #333;
+    -moz-box-shadow: 0 0 0 2px #949494, 0 0px 0 1px #333;
+    box-shadow: 0 0 0 2px #949494, 0 0px 0 1px #333;
+
+    left: 10px;
+    top: 10px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.avatar-overlay {
+    background: transparent url('../../default/img/sprite.png') 0 -100px no-repeat;
+    display: block;
+    height: 50px;
+    margin-top: -56px;
+    position: relative;
+    top: 67px;
+    width: 50px;
+    left: 9px;
+    z-index: 100;
+}
+
+.active-profile-container .nav-list > li {
+	margin-bottom: 3px;
+}
+
+.active-profile-container .nav-header {
+	color: #aeb6bf;
+	font-size: 12.992px;
+	text-transform: uppercase;
+}
+
+.active-profile-container .nav-list .nav-header {
+	margin-left: -13px;
+	margin-right: -13px;
+	padding: 0 13px;
+	text-shadow: none;
+}
+
+.active-profile-container .nav-list > li > a {
+	border-radius: 5px;
+	font-size: 14.994px;
+	font-weight: 700;
+	margin-left: -13px;
+	margin-right: -13px;
+	padding: 6px 13px 8px;
+	text-shadow: none;
+}
+
+.active-profile-container .nav-list > li.active > a,
+.active-profile-container .nav-list > li.active > a:hover,
+.active-profile-container .nav-list > li.active > a:focus {
+	background-color: #ebedef;
+	color: #526476;
+	text-shadow: none;
+}
+
+.active-customer-panel .nav-counter {
+	font-size: 12.992px;
+	font-weight: 500;
+	float: right;
+	margin: 1px -4px -1px 0;
+	padding: 0px 8px;
+}
+
+.active-profile-container ul {
+	margin: 0;
+}
+
+.active-profile-container {
+  width: 200px;
+  padding-bottom: 1.5em;
+}
+
+.active-profile-container .content {
+  margin-top: 10px;
+}
+
+.bg {
+  background-color: #424242;
+  width: 200px;
+  border-bottom: 8px solid #3299BB;
+}
+
+.active-user-meta {
+  left: 68px;
+  position: relative;
+  width: 138px;
+  overflow: hidden;
+}
+
+.active-profile-container .active-profile-name {
+	font-size: 12px;
+	color: #fff;
+	padding-top: 20px;
+}
+
+.active-profile-container .active-profile-group {
+  font-size: 11px;
+  color: #B9B9B9;
+  position: relative;
+  top: -3px;
+}
+
+.active-profile-container .active-profile-status {
+  font-size: 11px;
+  color: #B9B9B9;
+  position: relative;
+  top: -6px;
+}
+
+/* inactive */
+.active-profile-container .active-profile-status--1 {
+  color: rgb(252, 161, 161);
+}
+
+/* canceled */
+.active-profile-container .active-profile-status--2 {
+  color: rgb(252, 161, 161);
+}
+
+/* fraud */
+.active-profile-container .active-profile-status--3 {
+  color: red;
+}
+
+/* active */
+.active-profile-container .active-profile-status-1 {
+  color: #55B14D;
+}
+
+/* pending */
+.active-profile-container .active-profile-status-0 {
+  color: #E7B65F;
+}
+
+.active-profile-dropdown-wrapper {
+  position: relative;
+  float: right;
+  right: 10px;
+  background-color: #FF9900;
+  width: 11px;
+  color: white;
+  padding: .5em;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+}
+
+.active-profile-dropdown-wrapper:hover {
+  background-color: #FFB313;
+  cursor: pointer;
+}
+
+.active-profile-container .action_buttons {
+  text-align: center;
+  font-size: 13px;
+  color: #fff;
+}
+
+
+.active-profile-container .btn-action{
+  cursor:pointer;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 0 0 1px;
+  border-top: 1px solid #62686d;
+  text-shadow: rgba(0, 0, 0, 0.75) 0 1px 0;
+  color: #fff;
+  background-color: #4e5458;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#575e63), to(#3f4347));
+  background-image: -webkit-linear-gradient(top, #575e63, #3f4347);
+  background-image: -moz-linear-gradient(top, #575e63, #3f4347);
+  background-image: -ms-linear-gradient(top, #575e63, #3f4347);
+  background-image: -o-linear-gradient(top, #575e63, #3f4347);
+  background-image: linear-gradient(top, #575e63, #3f4347);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#575e63', EndColorStr='#3f4347');
+  margin: 1px 2px;
+  padding: 2px 8px;
+  display: inline-block;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  text-decoration: none;
+}
+
+.active-profile-container .btn-action:hover,
+.active-profile-container .btn-action:focus {
+  border-color: #61788a;
+  background-color: #4d6374;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#566f82), to(#3e505e));
+  background-image: -webkit-linear-gradient(top, #566f82, #3e505e);
+  background-image: -moz-linear-gradient(top, #566f82, #3e505e);
+  background-image: -ms-linear-gradient(top, #566f82, #3e505e);
+  background-image: -o-linear-gradient(top, #566f82, #3e505e);
+  background-image: linear-gradient(top, #566f82, #3e505e);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#566f82', EndColorStr='#3e505e');
+}
+
+.active-profile-container .follow{
+  float:left;
+  left: 10px;
+  position: relative;
+  background-color: #FF9900;
+  width: 150px;
+  color: white;
+  font-family: "Lato";
+  text-align: center;
+  padding: .5em;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+  text-decoration: none;
+}
+
+.active-profile-container .follow:hover {
+  background-color: #FFB313;
+  cursor: pointer;
+}
+
+a.active-profile {
+    color: #FFFFFF;
+    border-bottom: 0;
+}
+a.active-profile:hover {
+    text-decoration: none;
+    border-bottom: 0 !important;
+}

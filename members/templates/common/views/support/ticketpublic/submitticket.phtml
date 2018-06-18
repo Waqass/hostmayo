@@ -1,0 +1,129 @@
+
+<?php
+if (!$this->hasPermission && !$this->loggedin) {
+    echo '<div class="alert ce-alert ce-alert-error">';
+    echo $this->user->lang("Guest ticket access is disabled, please ")."<a href='index.php?fuse=home&view=login'>".$this->user->lang("login")."</a>.";
+    echo '</div>';
+    return;
+}
+
+if ($this->user->isAdmin()) {
+    echo '<div class="alert ce-alert ce-alert-error">';
+    echo $this->user->lang("You are currently logged in as an administrator.  Please log out of the administration panel before attempting to submit a support ticket.");
+    echo '</div>';
+    return;
+}
+
+?>
+
+<form method="post" enctype="multipart/form-data" action="index.php?fuse=support&controller=ticket&action=saveticket" class="support-ticket-form">
+    <input type="hidden" name="userid" value="<?php echo $this->user->getId(); ?>" />
+    <?php if ( isset($this->clientid)) { ?>
+    <input type="hidden" name="clientid" value="<?php echo $this->clientid; ?>" />
+    <?php } ?>
+
+    <fieldset>
+        <label><?php echo $this->user->lang("What can we assist you with?");?></label>
+        <div style="float:left;">
+        <select name="ticket-type" class="drop-ticket-type" data-notblank="true">
+            <option value=" " selected="selected"><?php echo $this->user->lang("Select below ...");?></option>
+            <?php foreach ($this->tickettypes as $ticketType) { ?>
+            <option value='<?php echo $ticketType['value']; ?>' <?php echo $ticketType['selected']; ?>><?php echo $ticketType['name'];?></option>
+            <?php } ?>
+        </select>
+        </div>
+        <div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img class="loading-ticket-type" src="images/loader.gif" />
+        </div>
+    </fieldset>
+
+    <div class="top-questions-block">
+        <h1 class="review-questions-header"><?php echo $this->user->lang("Review top questions for");?> <span class="review-questions-fortype"></span></h1>
+        <?php
+            echo "<div class='review-questions-desc'>".$this->user->lang("Top questions asked for the selected issue type.")."</div>";
+        ?>
+    </div>
+
+    <h1 class="file-ticket-header"><?php echo $this->user->lang("File a ticket");?></h1>
+    <?php
+        echo "<div class='file-ticket-desc'>".$this->user->lang("If you can not find a solution to your issue in our <a href=\"index.php?fuse=knowledgebase&controller=articles&view=main\">knowledgebase</a>, please submit your question below.")."</div>";
+    ?>
+
+    <?php if (isset($this->domainDropDown)) { ?>
+    <fieldset>
+        <label><?php echo $this->user->lang("What package is this in reference to?"); ?></label>
+        <?php echo $this->unescape($this->domainDropDown); ?>
+    </fieldset>
+    <?php } ?>
+
+    <fieldset>
+        <label><?php echo $this->user->lang("Subject");?></label>
+        <input type="text" dir="auto" onkeyup="<?php echo $this->subjectOnkeyup; ?>" name="subject" class="ticket-subject" data-required="true" value="<?php echo $this->subject;?>">
+        <div class="subject-article-matches"></div>
+    </fieldset>
+
+    <fieldset>
+        <label><?php echo $this->user->lang("Question");?></label>
+        <textarea rows="10" dir="auto" class="support-ticket-message ticket-align" name="message" data-required="true"><?php echo $this->message;?></textarea>
+    </fieldset>
+
+  <?php if ($this->maxfilesize > 0 && $this->extns) { ?>
+  <fieldset>
+    <div class="share-upload-desc">
+    <?php echo $this->user->lang("Sharing a picture will help us understand your question even more.");?>. <?php echo $this->user->lang("Max file size");?>: <?php echo $this->maxfilesize; ?>
+    <?php if ($this->extns != '*'): ?>
+        - <a href="javascript:;" data-toggle="popover-hover" data-html=true data-placement="top" title="<?php echo $this->user->lang("Allowed file extensions");?>" data-content="<p><?php echo $this->extnsmessage; ?></p>"><?php echo $this->user->lang('See Allowed Extensions') ?></a>
+    <?php endif ?>
+    </div>
+    <div id="fileFieldsContainer">
+        <div id="fileFields_0" class="hide">
+            <input class="file_upload_input" id="file_0" name="file_0" type="file" title="<?php echo $this->user->lang("Choose File");?>" />
+            <a style="visibility:hidden; margin-left:10px;position: relative;top:-2px;"><?php echo $this->user->lang('Delete') ?></a><br/> <br/>
+        </div>
+    </div>
+    <a id="new-file-button" href="#"><?php echo $this->user->lang('Add a New File') ?></a>
+    <input type="hidden" name="validExtns" value="<?php echo $this->extns; ?>" />
+  </fieldset>
+  <?php } //attach file ?>
+
+    <?php if($this->user->getId() ==0) { ?>
+    <fieldset>
+        <label><?php echo $this->user->lang("Full Name");?></label>
+        <input data-required="true" type="text" id="guestName" name="guestName" placeholder="<?php echo $this->user->lang("First and Last Name");?>" value="<?php echo $this->guestname; ?>" />
+
+        <label><?php echo $this->user->lang("Email");?>:</label>
+        <input data-required="true" data-type="email" type="text" id="guestEmail" name="guestEmail" placeholder="<?php echo $this->user->lang("Your Email");?>" value="<?php echo $this->guestemail; ?>" />
+    </fieldset>
+    <?php } //end guest info ?>
+
+    <fieldset class="fieldset-customfields">
+        <h1 class="customfields-header"><?php echo $this->user->lang("Additional information that may assist us");?></h1>
+        <div class="customfields"></div>
+    </fieldset>
+
+    <?php if ($this->showCaptcha) { ?>
+    <fieldset>
+        <label><?php echo $this->user->lang('Enter the code'); ?>:</label>
+        <?php echo recaptcha_get_html($this->captchaPublicKey); ?>
+    </fieldset>
+    <?php } ?>
+
+    <div class="form-actions">
+      <button type="submit" class="pull-right btn btn-newticket-submit"><?php echo $this->user->lang("Submit Ticket");?></button>
+    </div>
+  <div class="spacer-bottom"></div>
+
+</form>
+
+<script type="text/html" id="articles">
+    <table class='table table-striped table-hover'>
+        <tbody>
+            {{#articles}}
+                <tr>
+                    <td>{{#categoryname}}<a href="index.php?fuse=knowledgebase&controller=articles&view=main&categoryId={{categoryid}}"><span class="label label-important">{{categoryname}}</span></a>&nbsp&nbsp{{/categoryname}}<a href='index.php?fuse=knowledgebase&view=article&controller=articles&articleId={{id}}'>{{title}}</a>
+                    </td>
+                </tr>
+            {{/articles}}
+        </tbody>
+    </table>
+</script>

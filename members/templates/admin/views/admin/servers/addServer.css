@@ -1,0 +1,22 @@
+label, input {
+    display: inline-block;
+}
+
+.namserverLabel {
+    padding-left: 12px;
+    padding-top: 2px;
+}
+
+.nameserverDiv {
+    border-top: 1px solid #EFEFEF;
+    padding: 5px 0;
+    width: 640px;
+}
+
+#pluginOptions {
+    display: none;
+}
+
+.form dt, .form dt label {
+    width: 175px;
+}

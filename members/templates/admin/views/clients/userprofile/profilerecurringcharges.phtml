@@ -1,0 +1,15 @@
+<?php echo $this->profileheader($this->customer);?>
+<div id="div-grid-recurringCharges-meta" class="grid-meta"></div>
+<div id="div-grid-recurringCharges-header" class="grid-header">
+    <button id="button-addCharge" class="rich-button"><span><?php echo $this->user->lang('Add Charge'); ?></span></button>
+</div>
+<div id="div-grid-recurringCharges"></div>
+<div id="div-grid-recurringCharges-footer" style="display:none" class="grid-footer">
+    <button class="rich-button" id="deleteEntry"><span><?php echo $this->user->lang("Delete Charge(s)"); ?></span></button>
+</div>
+
+<div class="ce-alert ce-alert-info">
+    <p><b>*</b> <?php echo $this->user->lang('Next invoice will create a subscription with the third party billing processor'); ?></p>
+    <p><b>**</b> <?php echo $this->user->lang('Subscription is active.'); ?></p>
+</div>
+<input type="hidden" id="istaxable" value="<?php echo $this->ISTAXABLE;?>" />

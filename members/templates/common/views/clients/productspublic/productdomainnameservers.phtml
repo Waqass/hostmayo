@@ -1,0 +1,29 @@
+<?php echo $this->publicproductheader($this->user); ?>
+
+<?php if ( $this->domainNotRegistered == true ) { ?>
+<div class="alert ce-alert ce-alert-error no-addons-text">
+    <?php echo $this->user->lang("This domain currently isn't registered.");?>
+</div>
+<?php } ?>
+
+<?php if ( $this->domainNotActive == true ) { ?>
+<div class="alert ce-alert ce-alert-error no-addons-text">
+    <?php echo $this->user->lang("This domain currently isn't active.");?>
+</div>
+<?php } ?>
+
+<?php if ( count($this->nameservers) > 0 ) { ?>
+<form id="nameservers">
+<input type="hidden" name="id" value="<?php echo $this->packageId; ?>" />
+<div id="nameservers-div"></div>
+<?php if ( $this->user->hasPermission('domains_editns') ) { ?>
+<div class="form-actions" style="display: none">
+  <button id="update-button" class="btn btn-update-payment-method" type="button">Update Name Servers</button>
+</div>
+<?php } ?>
+</form>
+<script type="text/javascript">
+    var nameservers = {};
+    nameservers.jsonFields = <?php echo json_encode($this->nameservers); ?>;
+</script>
+<?php } ?>

@@ -1,0 +1,1 @@
+UPDATE `package` SET `emailTemplate` = -1 WHERE `emailTemplate` = 0;

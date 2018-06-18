@@ -1,0 +1,43 @@
+<script data-cfasync="false" type="text/javascript">
+    var packages = packages || {};
+    packages.config = {
+        customFields: <?php echo html_entity_decode($this->customfields) ?>
+    }
+</script>
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->user->lang("Pending Package Cancellation List");?></div>
+  <p class="alert-content"><?php echo $this->user->lang("List of your customer's packages pending cancellation.");?></p>
+</div>
+
+<span class="grid-meta" id="cancellations-grid-metadata"></span>
+<div id="gridheader" class="blue-box" style="clear:both;padding:4px !important;">
+    <table class="automation">
+        <tbody>
+            <tr>
+                <td align="left"><label><?php echo $this->user->lang("Pending Cancellation List");?></label></td>
+                <td align="right"><label><?php echo $this->user->lang("Show");?></label></td>
+                <td align="left" style="width:190px;">
+                    <select class="dropdown-select" style="width:180px;" id='cancellations-grid-status-filter'>
+                        <option value="-1">All</option>
+                        <option value="<?php echo PACKAGE_CANCELLATION_TYPE_IMMEDIATE; ?>"><?php echo $this->user->lang("Immediately");?></option>
+                        <option value="<?php echo PACKAGE_CANCELLATION_TYPE_END_BILLING; ?>"><?php echo $this->user->lang("End of Billing Cycle");?></option>
+                    </select>
+                </td>
+                <td align="left" style="width:60px">
+                    <select id='cancellations-grid-filter' class="change-grid-showrecords" style='width:60px;'>
+                        <option value='5'>5</option>
+                        <option value='10'>10</option>
+                        <option value='25'>25</option>
+                        <option value='50'>50</option>
+                        <option value='150'>150</option>
+                        <option value='300'>300</option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="cancellations-grid"></div>
+<div id="cancellations-grid-footer" style="display:none;">
+    <button class="rich-button" id="cancel-button"><span><?php echo $this->user->lang("Cancel Packages(s)"); ?></span></button>
+</div>

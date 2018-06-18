@@ -1,0 +1,173 @@
+<style type="text/css">
+    .window-description .all {
+    	float: right;
+    }
+    .window-description .all input[type="checkbox"] {
+    	margin: 0 0 0 5px;
+    }
+    .window-description .inputBlock {
+    	margin-bottom: 10px;
+    }
+    .window-description .row-fluid select {
+    	width: 68px;
+    }
+    .window-description .row-fluid input {
+    	width: 54px;
+    }
+    .window-description .help-icon {
+    	float: right;
+        margin-top: 2px;
+    }
+    .window-description #div-compound {
+    	margin-bottom: 34px;
+    }
+</style>
+<div class="inputBlock">
+    <label for="input-name" class="bold"><?php echo $this->user->lang('Name'); ?>:</label>
+    <input type="text" id="input-name" name="name" value="<?php echo $this->name; ?>" />
+</div>
+<div class="inputBlock">
+    <div class="all">
+        <label for="input-allCountries"><?php echo $this->user->lang('All (Make default)'); ?>:
+            <input type="checkbox" id="input-allCountries" name="allCountries" <?php echo ($this->allcountries)? 'CHECKED' : ''; ?> />
+        </label>
+    </div>
+    <label for="country" class="bold"><?php echo $this->user->lang('Country'); ?>:</label>
+    <input type="hidden" id="input-country" name="country" style="width: 100%;" value="<?php echo $this->countryiso; ?>" />
+</div>
+<div class="inputBlock">
+    <div class="all">
+        <label for="input-allStates"><?php echo $this->user->lang('All (Make default)'); ?>:
+            <input type="checkbox" id="input-allStates" name="allStates" <?php echo ($this->allstates)? 'CHECKED' : ''; ?> />
+        </label>
+    </div>
+    <label for="state" id="label-forState" class="bold"><?php echo $this->user->lang('Division'); ?>:</label>
+    <input type="text" id="input-state" name="state" value="<?php echo $this->state; ?>" />
+</div>
+<div class="row-fluid">
+    <div class="span4">
+        <div class="inputBlock">
+            <label for="tax" class="bold"><?php echo $this->user->lang('Tax'); ?> (%):</label>
+            <input type="text" id="input-tax" name="tax" value="<?php echo $this->tax; ?>" />
+        </div>
+    </div>
+    <div class="span4">
+        <div class="inputBlock">
+            <label for="level" class="bold"><?php echo $this->user->lang('Level'); ?>:</label>
+            <select id="select-level" name="level">
+                <option value="1" <?php echo $this->level == 1 ? 'SELECTED' : ''; ?>><?php echo $this->user->lang('1'); ?></option>
+                <option value="2" <?php echo $this->level == 2 ? 'SELECTED' : ''; ?>><?php echo $this->user->lang('2'); ?></option>
+            </select>
+        </div>
+    </div>
+    <div class="span4">
+        <div class="inputBlock">
+            <label for="vat" class="bold"><?php echo $this->user->lang('Use VAT'); ?>:</label>
+            <select id="select-vat" name="vat">
+                <option value="0" <?php echo $this->vat == 0 ? 'SELECTED' : ''; ?>><?php echo $this->user->lang('No'); ?></option>
+                <option value="1" <?php echo $this->vat == 1 ? 'SELECTED' : ''; ?>><?php echo $this->user->lang('Yes'); ?></option>
+            </select>
+        </div>
+    </div>
+</div>
+<div id="div-compound" class="inputBlock" style="display: none;">
+    <div id="div-helpCompound" class="help-icon" title="<?php echo htmlentities($this->user->lang('When a level 2 tax is compound, it is applied after applying level 1, instead of applying it at the same time.<br /><span class="italic">Example: Level 1: 8%%; Level 2: 5%%, Total: $50<br /><span class="bold">Compound No:</span>$50 + (8%% + 5%%) = $56.50<br /><span class="bold">Compound Yes:</span>$50 + 8%% + 5%% = $56.70</span>')); ?>"></div>
+    <label for="select-compound"><?php echo $this->user->lang('Compound'); ?>?</label>
+    <select id="select-compound" name="compound" style="width: 100%;">
+        <option value="0" <?php echo $this->compound == 0 ? 'SELECTED' : ''; ?>><?php echo $this->user->lang('No'); ?></option>
+        <option value="1" <?php echo $this->compound == 1 ? 'SELECTED' : ''; ?>><?php echo $this->user->lang('Yes'); ?></option>
+    </select>
+</div>
+<script data-cfasync="false" type="text/javascript">
+    taxes.dom.inputCountry = $('#input-country');
+    taxes.dom.inputState = $('#input-state');
+    taxes.dom.selectLevel = $('#select-level');
+    taxes.dom.selectVAT = $('#select-vat');
+    taxes.dom.selectCompound = $('#select-compound');
+    taxes.dom.labelForState = $('#label-forState');
+    taxes.dom.inputAllCountries = $('#input-allCountries');
+    taxes.dom.inputAllStates = $('#input-allStates');
+    taxes.dom.divCompound = $('#div-compound');
+
+    $(taxes.dom.selectLevel)
+    .add(taxes.dom.selectVAT)
+    .add(taxes.dom.selectCompound)
+    .select2({
+        minimumResultsForSearch: 5,
+        width: 'resolve'
+    });
+
+    taxes.dom.inputCountry.select2({
+        data: {results: taxes.list.countries, text: 'name'},
+        minimumResultsforSearch: 5,
+        width: 'resolve',
+        placeholder: lang('Select Country'),
+        multiple: false,
+        allowClear: false,
+        initSelection: function(e, callback) {
+            var i = taxes.list.countries.indexOfObject({id: e.val()});
+            callback(taxes.list.countries[i]);
+        },
+        formatResult: function(item) {
+            return item.name;
+        },
+        formatSelection: function(item) {
+            taxes.dom.labelForState.html(item.division+':');
+            return item.name;
+        }
+    }).on('change', function(){
+        taxes.fromCountrySelect = true;
+        if ($(this).val() == '_ALL') {
+            taxes.dom.inputAllCountries.prop('checked', true).trigger('change');
+        } else {
+            taxes.dom.inputAllCountries.prop('checked', false).trigger('change');
+        }
+    });
+
+    taxes.dom.inputAllCountries.change(function(){
+        if ($(this).prop('checked')) {
+            if (taxes.dom.inputCountry.val() != '_ALL') {
+                taxes.dom.inputCountry.select2('val', '_ALL');
+            }
+            if (!taxes.dom.inputAllStates.prop('checked')) {
+                taxes.dom.inputAllStates.prop('checked', true).trigger('change');
+            }
+            taxes.dom.inputAllStates.prop('disabled', true);
+        } else {
+            taxes.dom.inputAllStates.prop('disabled', false);
+            if (!taxes.fromCountrySelect) {
+                taxes.dom.inputCountry.select2('val', '');
+            }
+            taxes.fromCountrySelect = false;
+        }
+    });
+    taxes.dom.inputAllStates.change(function(){
+        if ($(this).prop('checked')) {
+            taxes.dom.inputState
+                .val(lang('All')+' '+(taxes.dom.inputCountry.select2('data') ? taxes.dom.inputCountry.select2('data').divisionPlural : lang('Divisions'))+' ('+lang('Default')+')')
+                .prop('disabled', true)
+            ;
+        } else {
+            taxes.dom.inputState
+                .val('')
+                .prop('disabled', false)
+            ;
+        }
+    });
+    taxes.dom.selectLevel.on('change', function(){
+        if ($(this).val() == 2) {
+            taxes.dom.divCompound.show();
+        } else {
+            taxes.dom.selectCompound.val('0').trigger('change');
+            taxes.dom.divCompound.hide();
+        }
+    });
+    $('#div-helpCompound').tooltip({
+        placement: 'bottom',
+        html: true
+    });
+
+    taxes.dom.selectLevel.trigger('change');
+    if (taxes.dom.inputAllStates.prop('checked')) { taxes.dom.inputAllStates.trigger('change'); }
+
+</script>

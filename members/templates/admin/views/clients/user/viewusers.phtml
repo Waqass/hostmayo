@@ -1,0 +1,90 @@
+<script data-cfasync="false" type="text/javascript">
+    viewusers = {};
+    viewusers.config = {};
+    viewusers.config.filter = "<?php echo $this->filter;?>";
+    viewusers.config.customsearchtype = "<?php echo $this->customsearchtype;?>";
+    viewusers.config.customsearchstring = "<?php echo $this->customsearchstring;?>";
+    viewusers.config.customsearchfield = "<?php echo $this->customsearchfield;?>";
+    viewusers.config.customer_group_id = "<?php echo $this->customer_group_id;?>";
+    viewusers.config.customfields = <?php echo html_entity_decode($this->customfields) ?>;
+</script>
+<?php ?>
+
+<div class="alert alert-info clients-main-alert ce-page-header" style="display:none;">
+  <div class="alert-header"><?php echo $this->user->lang("Customers");?></div>
+  <p class="alert-content">
+
+        <span><?php echo $this->user->lang('New Customers'); ?> (<?php echo $this->newCustomersToday; ?>)</span>
+        <span style="color:#E7FFDF"> | </span>
+        <span><?php echo $this->user->lang('Customers Seen'); ?> (<?php echo $this->customersSeenToday; ?>)</span>
+
+  </p>
+</div>
+
+<div class="alert alert-info advanced-search-alert" style="display:none;">
+  <button type="button" class="advanced-search-reset close">&times;</button>
+  <div class="alert-header"><?php echo $this->user->lang("Advanced Search Results");?></div>
+  <p class="alert-content"><i><?php echo $this->user->lang("Searching for string");?> <?php echo $this->searchresultssnippet;?></i></p>
+</div>
+
+<span class="grid-meta" id="clientsList-grid-metadata"></span>
+<div id="gridheader" class="blue-box" style="clear:both;padding:4px !important;">
+    <table class="automation">
+        <tbody>
+            <tr>
+            	<td>
+                <?php if ($this->user->hasPermission('clients_create_customers')): ?>
+                  <a id="adduser" class="rich-button white"><span class="buttontext"><?php echo $this->user->lang("Add User");?></span></a>
+                <?php endif ?>
+                </td>
+                <td align="right" style="width:150px;"><label><?php echo $this->user->lang("Date Created");?></label></td>
+                <td align="left" style="width:160px;">
+                    <span class='link periodStart' data-date=''>&nbsp;<span id='periodStart-display'><?php echo $this->user->lang("Start Date");?></span></span> - <span class='link periodEnd' data-date=''>&nbsp;<span id='periodEnd-display'><?php echo $this->user->lang("End Date");?></span></span>
+                </td>
+                <td align="right" style="width:80px;"><label><?php echo $this->user->lang("Show");?></label></td>
+                <td align="left" style="width:70px;">
+                    <select style="display:none;" class="dropdown-select" id='clientsList-grid-filterbystatus'>
+                        <option value='100' <?php echo ($this->filter == 100) ? "selected" : "" ?>><?php echo $this->user->lang("All"); ?></option>
+                        <option value='0' <?php echo ($this->filter == 0) ? "selected" : "" ?>><?php echo $this->user->lang("Pending"); ?></option>
+                        <option value='1' <?php echo ($this->filter == 1) ? "selected" : "" ?>><?php echo $this->user->lang("Active"); ?></option>
+                        <option value='-1' <?php echo ($this->filter == -1) ? "selected" : "" ?>><?php echo $this->user->lang("Inactive"); ?></option>
+                        <option value='-2' <?php echo ($this->filter == -2) ? "selected" : "" ?>><?php echo $this->user->lang("Cancelled"); ?></option>
+                        <option value='-3' <?php echo ($this->filter == -3) ? "selected" : "" ?>><?php echo $this->user->lang("Fraud"); ?></option>
+                        <option value='99' <?php echo ($this->filter == 99) ? "selected" : "" ?>><?php echo $this->user->lang("Validate CC"); ?></option>
+                        <option value='98' <?php echo ($this->filter == 98) ? "selected" : "" ?>><?php echo $this->user->lang("Expired CC"); ?></option>
+                    </select>
+                </td>
+                <td align="right" style="width:80px;"><label><?php echo $this->user->lang("Group by");?></label></td>
+                <td align="left" style="width:60px">
+                    <select style="display:none;" id="clientsList-grid-groupby" name="groupby" ><?php echo $this->unescape($this->groupByOptions);?></select>
+                </td>
+                <td align="right" style="width:65px">
+                    <select id='clientsList-grid-filter' class="change-grid-showrecords" style='display:none;width:60px;'>
+                        <option value='5'>5</option>
+                        <option value='10'>10</option>
+                        <option value='25'>25</option>
+                        <option value='50'>50</option>
+                        <option value='150'>150</option>
+                        <option value='300'>300</option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="clientsList-grid"></div>
+<div id="clientsList-grid-footer" style="display:none;">
+    <span class="btn-group dropup">
+        <a class="btn rich-button multi-action-button" disabled="disabled"><span>Actions</span></a>
+        <a class="btn rich-button dropdown-toggle multi-action-button" disabled="disabled" data-toggle="dropdown"><span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a class="action-button" id="cancelUser"><?php echo $this->user->lang('Cancel Users(s)'); ?></a><li>
+            <li><a class="action-button" id="delUser"><?php echo $this->user->lang('Delete Users(s)'); ?></a><li>
+        </ul>
+    </span>
+    <button class="rich-button" <?php echo ($this->filter != 99) ? 'style="display:none;"' : "";?> id="validateCC"><span><?php echo $this->user->lang("Validate CC(s)"); ?></span></button>
+</div>
+
+<div id="validate-cc-form" style="display: none;"><?php echo $this->user->lang("Enter your passphrase");?><br/><input type="password" name="passphrase" id="passphrase" style="margin-top: 10px;" />
+</div>

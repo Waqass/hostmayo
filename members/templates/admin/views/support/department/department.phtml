@@ -1,0 +1,193 @@
+<script data-cfasync="false" type="text/javascript">
+$(document).ready(function(){
+
+    departments.dom.tableStaffPermissions = $('#table-staffPermissions');
+    departments.dom.inputStaffMembers = $('#input-staffMembers');
+    departments.staffMembers = [];
+
+    departments.addStaff = function(member, values) {
+
+        var row = '<tr>' +
+        '<td><span class="name">'+member.text+'</span></td>' +
+        '<td class="mid"><input type="checkbox" name="lead['+member.id+']" class="lead" /></td>' +
+        '<td class="mid"><input type="checkbox" name="assign['+member.id+']" /></td>' +
+        '<td class="mid"><input type="checkbox" name="notify['+member.id+']" /></td>' +
+        '<td class="mid"><input type="checkbox" name="closed['+member.id+']" /></td>' +
+        '<td class="mid"><input type="checkbox" name="feedback['+member.id+']" /></td>' +
+        '<td class="mid"><input type="checkbox" name="resolution['+member.id+']" /></td>' +
+        '</tr>';
+        departments.staffMembers[member.id] = $(row);
+        departments.dom.tableStaffPermissions.append(departments.staffMembers[member.id]);
+        if (values) {
+            $('[name="lead['+member.id+']"]').prop('checked', values.lead);
+            $('[name="assign['+member.id+']"]').prop('checked', values.assign);
+            $('[name="notify['+member.id+']"]').prop('checked', values.notify);
+            $('[name="closed['+member.id+']"]').prop('checked', values.closed);
+            $('[name="feedback['+member.id+']"]').prop('checked', values.feedback);
+            $('[name="resolution['+member.id+']"]').prop('checked', values.resolution);
+        }
+    };
+
+    $('#input-groupMembers').select2({
+        multiple: true,
+        allowClear: true,
+        width: '371px',
+        data: <?php echo $this->unescape($this->availableGroups) ?>
+    }).select2('data', <?php echo $this->unescape($this->groupList) ?>);
+
+    departments.dom.inputStaffMembers
+        .select2({
+            multiple: true,
+            allowClear: true,
+            width: '371px',
+            data: <?php echo $this->unescape($this->availableMembers) ?>,
+        })
+        .on('change', function(e) {
+            if (e.added) {
+                departments.addStaff(e.added);
+            }
+            if (e.removed) {
+                departments.staffMembers[e.removed.id].remove();
+            }
+        })
+    ;
+
+    departments.dom.tableStaffPermissions.on('click', '.lead', function() {
+        if ($(this).prop('checked')) {
+            $('.lead').not(this).prop('checked', false);
+        }
+    });
+
+    <?php
+        if (count($this->staffList) > 0) {
+            $selected = array();
+            foreach ($this->staffList as $staff) {
+                $member = array(
+                    'id'    => $staff['id'],
+                    'text'  => $staff['name'],
+                );
+                $selected[] = $member;
+                echo 'departments.addStaff('.json_encode($member).', '.json_encode($staff['values']).');';
+            }
+            echo 'departments.dom.inputStaffMembers.select2("data", '.json_encode($selected).');';
+        }
+    ?>
+
+
+    $('#input-emailsToNotify').select2({
+        multiple: true,
+        allowclear: true,
+        tags: <?php echo $this->unescape($this->availableEmails) ?>,
+        width: '501px',
+        height: '200px',
+        minimumInputLength: 2,
+        tokenSeparators: [',', ' ']
+    });
+
+});
+</script>
+<style type="text/css">
+    .wingdow-description {
+        min-height: 300px;
+    }
+    .window-description label {
+    	margin: 0 10px 0 0;
+    }
+    .window-description .inputRow {
+    	margin-bottom: 10px;
+    }
+    .window-description .inputRow label {
+    	display: inline-block;
+        vertical-align: middle;
+        width: 142px;
+    }
+    .window-description .inputRow input {
+    	display: inline-block;
+    	width: 359px;
+        vertical-align: middle;
+        margin-bottom: 0;
+    }
+    .window-description #div-departmentSettings .help-icon {
+    	float: right;
+        margin: 0;
+    }
+    .window-description #div-departmentSettings .select2-choices {
+    	 min-height: 54px !important;
+    }
+    .window-description .nav-tabs {
+    	margin-bottom: 0;
+    }
+    .window-description .tab-content {
+	    border: 1px solid #dddddd;
+	    border-width: 0 1px 1px 1px;
+	    border-radius: 0 0 4px 4px;
+	    padding: 10px;
+    }
+    .window-description #table-staffPermissions {
+    	margin: 0 auto 0 auto;
+        width: 100%;
+    }
+    .window-description #table-staffPermissions th {
+    	padding: 2px 5px 2px 5px;
+    }
+    .window-description #table-staffPermissions td {
+    	vertical-align: middle;
+        padding: 2px 5px 2px 5px;
+    }
+    .window-description #table-staffPermissions td .close {
+    	float: none;
+        margin-right: 10px;
+    }
+    .window-description #table-staffPermissions td input[type="checkbox"] {
+    	display: inline-block;
+    	margin: 0 0 2px 0;
+    }
+    .window-description #table-staffPermissions td .name {
+    	display: inline-block;
+        vertical-align: middle;
+    }
+    .window-description #table-staffPermissions td.mid {
+    	text-align: center;
+    }
+</style>
+
+<div class="inputRow">
+    <label for="input-name" class="bold"><?php echo $this->user->lang('Department Name'); ?>:</label><input type="text" class="required" name="name" id="input-name" class="validate[required]" value="<?php echo $this->name ?>" />
+</div>
+<div class="inputRow">
+    <label for="input-groupMembers" class="bold"><?php echo $this->user->lang('Department Groups'); ?>:</label>
+    <input type="hidden" name="groupMembers" id="input-groupMembers" <?php if ($this->isGeneral): ?>disabled="true"<?php endif ?> />
+    <?php if ($this->isGeneral): ?>
+      <div style="font-weight:normal; color:red;" class="text-right">
+        <?php echo $this->user->lang('General department groups are read-only (always linked to all the staff groups)') ?>
+      </div>
+    <?php endif ?>
+</div>
+<div class="inputRow">
+    <label for="input-staffMembers" class="bold"><?php echo $this->user->lang('Department Staff Members'); ?>:</label><input type="hidden" name="staffMembers" id="input-staffMembers" />
+</div>
+<ul class="nav nav-tabs">
+    <li class="active"><span data-toggle="tab" data-target="#div-departmentStaff"><a href="#"><?php echo $this->user->lang('Permissions'); ?></a></span></li>
+    <li><span data-toggle="tab" data-target="#div-departmentSettings"><a href="#"><?php echo $this->user->lang('Notify Emails'); ?></a></span></li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active" id="div-departmentStaff">
+        <table id="table-staffPermissions" class="stripe">
+            <tr>
+                <th><?php echo $this->user->lang('Name'); ?></th>
+                <th><?php echo $this->user->lang('Lead'); ?></th>
+                <th><?php echo $this->user->lang('Assign'); ?></th>
+                <th><?php echo $this->user->lang('Notify'); ?></th>
+                <th><?php echo $this->user->lang('Closed'); ?></th>
+                <th><?php echo $this->user->lang('Feedback'); ?></th>
+                <th><?php echo $this->user->lang('Resolution'); ?></th>
+            </tr>
+        </table>
+    </div>
+    <div class="tab-pane" id="div-departmentSettings">
+        <div class="help-icon" data-toggle="tooltip" title="<?php echo $this->user->lang('Email address to CC notification messages for new High Priority tickets'); ?>" data-tooltip-gravity="e"></div>
+        <?php echo $this->user->lang('Email(s) for new High Priority support tickets'); ?><br />
+        <br />
+        <input type="hidden" name="emailsToNotify" id="input-emailsToNotify" value="<?php echo $this->emailToNotify; ?>" />
+    </div>
+</div>

@@ -1,0 +1,629 @@
+.maincontainer {
+    background-image: url('../../../images/whitey_light.png');
+}
+
+.box .padded {
+    padding: 15px 30px;
+    overflow: hidden;
+}
+
+.dropdown-toggle-automation {
+    text-decoration: none;
+}
+
+.dropdown-toggle-automation:hover {
+    text-decoration: none;
+}
+
+.selected-automation-name {
+    font-size: 23px;
+    text-transform: uppercase;
+    display: inline;
+    white-space: nowrap;
+    font-weight: 600;
+    border-bottom: 2px solid #dfdfdf;
+}
+
+.box.bordered {
+    background-color: #fff;
+    border: 1px solid #cccccc;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.2);
+}
+
+.box.withtabs {
+    border-top: 7px solid #FF9900;
+}
+
+
+#dashboard {
+	background: #e9e9e9;
+	padding: 10px;
+}
+
+#dashboard .thumbnails {
+    padding-top: 22px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+#dashboard .thumbnail {
+    border: 5px solid #EFEFEF;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    background-color: white;
+    padding: 4px;
+}
+
+#dashboard .thumbnail .header {
+    text-align: left;
+    font-size: 140%;
+    line-height: 140%;
+    color: #ffffff;
+    background: #bcbcbc;
+    padding: 2px 5px 5px 5px;
+    margin-top: -4px;
+    margin-left: -4px;
+    margin-right: -4px;
+    overflow: hidden;
+    height: 30px;
+}
+
+#dashboard .thumbnail .header .text {
+	display: block;
+    padding-top: 3px;
+}
+
+#dashboard #div-vital-stats {
+    background: #ffffff; /* Old browsers */
+    background: -moz-linear-gradient(left,  #dfdfdf 1%, #ffffff 50%, #dfdfdf 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(1%,#dfdfdf), color-stop(50%,#ffffff), color-stop(100%,#dfdfdf)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left,  #dfdfdf 1%,#ffffff 50%,#dfdfdf 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left,  #dfdfdf 1%,#ffffff 50%,#dfdfdf 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left,  #dfdfdf 1%,#ffffff 50%,#dfdfdf 100%); /* IE10+ */
+    background: linear-gradient(to right,  #dfdfdf 1%,#ffffff 50%,#dfdfdf 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dfdfdf', endColorstr='#dfdfdf',GradientType=1 ); /* IE6-9 */
+    border-color: #bbbbbb;
+    padding-bottom: 6px;
+}
+
+#dashboard #div-vital-stats .timespan {
+	float: right;
+    width: 125px;
+    vertical-align: middle;
+    font-size: 80%;
+}
+
+#dashboard #div-vital-stats .stat {
+    background-color:white;
+    border-radius: 5px 5px;
+    border: 1px solid #dfdfdf;
+    position: relative;
+    overflow: hidden;
+    color: #424242;
+    margin: 6px 2px 0 2px;
+    height: 71px;
+}
+
+#dashboard #div-vital-stats .title {
+    font-size: 110%;
+    margin: 1px 0 0 5px;
+}
+
+#dashboard #div-vital-stats .value {
+    display: inline-block;
+	margin: 13px 5px 0 5px;
+    font-size: 350%;
+}
+
+#dashboard #div-vital-stats .graph {
+	width: 100%;
+    height: 100%;
+}
+
+#dashboard #div-vital-stats .stat canvas {
+	position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+#dashboard #div-vital-stats #div-total-revenue-graph-caption {
+	font-size: 80%;
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    display: none;
+}
+
+#dashboard #div-vital-stats #div-total-revenue {
+	color: #00b000;
+}
+
+#dassshboard .thumbnail .caption .title {
+    color: #999;
+}
+
+#dashboard #div-need-attention {
+	border-color: #bbbbbb;
+}
+
+#dashboard #div-need-attention #ul-pending-items {
+    margin: 0 0 -5px 0;
+}
+
+#dashboard #div-need-attention #ul-pending-items li {
+	display: block;
+    list-style: none;
+    margin: 0 0 0 0;
+    padding: 4px 10px 4px 10px;
+    border-top: 1px solid #bcbcbc;
+    overflow: hidden;
+}
+
+#dashboard #div-need-attention #ul-pending-items li:first-child {
+	border-top: 0;
+}
+
+#dashboard #div-need-attention #ul-pending-items button {
+	float: right;
+    margin: 2px 0 0 0;
+}
+
+#dashboard #div-need-attention #ul-pending-items .value,
+#widthCheck {
+	display: inline-block;
+	font-size: 300%;
+    height: 34px;
+    line-height: 100%;
+    text-align: right;
+    vertical-align: bottom;
+    width: 100px;
+    margin: 0 10px 0 0;
+}
+
+#dashboard #div-need-attention #ul-pending-items .title {
+	display: inline-block;
+    vertical-align: bottom;
+    line-height: 120%;
+    padding: 0 0 2px 0;
+    width: 0px;
+}
+
+
+
+
+.pending-items-summary {
+    margin-right: 5px;
+}
+
+.pending-items-summary ul li a:hover {
+    text-decoration: none;
+}
+
+.pending-items-summary ul li a span {
+    text-align: right;
+    display: inline-block;
+    width: 80px;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    padding: 2px 6px 2px 0;
+}
+
+.pending-items-summary > ul li .btn-warning {
+    float:right;
+    margin-right: -10px;
+}
+
+.pending-items-summary > ul li:first-child {
+border-top: 0;
+}
+
+.pending-items-summary > ul li {
+    display: block;
+    list-style: none;
+    border-top: 1px solid #DFDFDF;
+    padding: 14px 10px 4px;
+    margin: 0;
+    margin-right: 15px;
+}
+
+#dasawehboard .thumbnail .caption .amount {
+    font-size: 35px;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+}
+
+#dashboaweard .thumbnail .caption .currency {
+    font-size:15px;
+    position:relative;
+    top:-13px;
+}
+
+#dashboard .thumbnail .caption .graph { display: none; }
+
+/* google fonts */
+.dashboard
+{
+    margin-top:15px;
+    font-family: Lato;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.dashboard h2,
+.dashboard h4,
+.dashboard h6 {
+    text-transform: uppercase;
+    font-weight: 300;
+    color: inherit;
+    text-rendering: optimizelegibility;
+    line-height: 40px;
+    font-family: inherit;
+}
+
+.dashboard h6 {
+    font-size: 11.9px;
+    margin-top:-10px;
+
+}
+
+.dashboard h4{
+    font-size: 23px;
+    margin: 10px 0;
+    font-weight: 600;
+    color: #555;
+}
+
+.dashboard h4.vitals{
+    margin-bottom:0;
+}
+
+.dashboard h2 {
+    font-weight: 600;
+    font-size: 31.5px;
+    line-height: 40px;
+    margin: 10px 0;
+}
+
+.dashboard .selectedrange {
+    position: relative;
+    top: 20px;
+    margin-left: 5px;
+}
+
+.dashboard .widget {
+background-color: #eeeeee;
+color: #555555;
+padding: 20px;
+border-radius: 6px;
+margin-bottom: 20px;
+}
+
+.dashboard .widget td.bar-label {
+width: 20%;
+text-align: right;
+padding-right: 20px;
+color: #999;
+font-weight: 300;
+}
+
+.dashboard .widget td.bar-number, .widget td.bar-percent {
+width: 15%;
+font-weight: 600;
+}
+
+.dashboard .table-panel i {
+margin: 4px;
+}
+
+.dashboard .widget td .progress {
+margin-top: 10px;
+margin-bottom: 10px;
+border-radius: 4px;
+display: block;
+width: 100%;
+height: 8px;
+overflow: hidden;
+}
+
+.delete-event {
+    color: #ccc;
+}
+.delete-event:hover {
+    color: #444;
+    cursor: pointer;
+}
+
+#events-tab {
+    margin:20px;
+    padding-bottom:50px;
+}
+
+
+/* graph bar */
+
+    .graph_buttons {
+        position: relative;
+        height: 87px;
+        background-color: #f5f5f5;
+        border-radius: 3px;
+        -moz-border-radius: 3px;
+    }
+
+
+    .graph_buttons ul {
+        padding: 0;
+        margin: 0;
+        position: relative;
+        height: 87px;
+    }
+
+    .graph_buttons li {
+        float:left;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        position: absolute;
+        width: 25%;
+        height: 87px;
+        display: block;
+        text-align: center;
+        text-decoration: none;
+        cursor: default;
+    }
+    .graph-slider-btn,
+    .graph_buttons li.inactive {
+        color: #444;
+        text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+        background-image: -moz-linear-gradient(top,#fff,#e6e6e6);
+        background-image: -webkit-gradient(linear,0 0,0 100%,from(#fff),to(#e6e6e6));
+        background-image: -webkit-linear-gradient(top,#fff,#e6e6e6);
+        background-image: -o-linear-gradient(top,#fff,#e6e6e6);
+        background-image: linear-gradient(to bottom,#fff,#e6e6e6);
+        background-repeat: repeat-x;
+        border: 1px solid #ECECEC;
+        /*
+        border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+        border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+        */
+        border-bottom-color: #FF9900;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff',endColorstr='#ffe6e6e6',GradientType=0);
+        filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+        -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+        -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+        height: 85px;
+        z-index:1;
+    }
+
+    .graph-slider-btn:hover,
+    .graph_buttons li.inactive:hover {
+        color: #444;
+        text-decoration: none;
+        background-color: #e6e6e6;
+        background-position: 0 -15px;
+        -webkit-transition: background-position .1s linear;
+        -moz-transition: background-position .1s linear;
+        -o-transition: background-position .1s linear;
+        transition: background-position .1s linear;
+        cursor:pointer;
+    }
+
+    .graph_buttons li.active {
+        background-image: url('../../../images/whitey_light.png');
+        color: #424242;
+    }
+
+    .graph_buttons li .num {
+        display: block;
+        font-size: 16px;
+        padding: 18px 0 10px 0;
+    }
+
+    .graph_buttons li .bar {
+        display: block;
+        width: 65%;
+        height: 2px;
+        margin: 0 auto;
+        text-align: left;
+    }
+
+    .graph_buttons li .bar{
+        background-color: #E2E2E2;
+    }
+
+    .graph_buttons li .report-count-label {
+        font-size: 13px;
+        display: block;
+        margin-top: 4px;
+        color: #8F8D8D;
+        white-space: nowrap;
+        background-color: transparent;
+    }
+
+    .graph_buttons li .bar .progress {
+        display: block;
+        height: 2px;
+        background-color: #ffde00;
+    }
+
+    #slider-code { margin-left: 22px;margin-right: 22px;margin-top: -16px;margin-bottom: -1px;height: 87px; overflow:hidden; background-color: #f5f5f5; }
+    #slider-code .viewport { float:left; width: 100%; position: relative; }
+    .graph-slider-btn {
+        cursor: pointer;
+        color: #888;
+        font-size: 19px;
+        width: 20px;
+    }
+    .graph-slider-btn i {
+        top: 4px;
+        position: relative;
+    }
+    .graph-slider-btn-next { float:right; position: relative; top: -86px; }
+    .graph-slider-btn-next i {
+        left: 4px;
+        top: 30px;
+    }
+    .graph-slider-btn-prev { float:left; position: relative; top: -16px; }
+    .graph-slider-btn-prev i {
+        left: 4px;
+        top: 30px;
+    }
+    .report-header-wrapper {
+        margin-left: 30px;
+        position: relative;
+        top: 30px;
+        height:70px;
+    }
+
+    .report-title {
+        font-size: 24px;
+    }
+    .report-title a{
+        text-decoration: none;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .report-description {
+        margin-top: 5px;
+        font-weight: 400;
+        font-size: 13px;
+    }
+
+    .recent-error-table td.error {
+        background-color: rgb(255, 236, 236) !important;
+    }
+
+    .tbl-need-your-attention .icon-stack {
+        position: relative;
+        display: inline-block;
+        width: 2em;
+        height: 8px;
+        line-height: 0;
+        vertical-align: 0;
+        margin-right: 10px;
+        color: #E9E9E9;
+    }
+
+    .tbl-need-your-attention .i-att-not-needed{
+        color: #bbb;
+    }
+    .tbl-need-your-attention .icon-stack.active-icon-stack {
+        color: #C44D58;
+    }
+    .tbl-need-your-attention .active-icon-stack .i-att-not-needed{
+        color: #fff;
+    }
+
+.dashboard-bottom-graph.graph-present {
+    position:relative;
+    top:-50px;
+}
+
+.dashboard-counts {
+    background-color: #303338;
+    margin-top: -15px;
+    margin-left: -15px;
+    margin-right: -15px;
+    padding: 30px;
+    padding-bottom: 40px;
+    height: 65px;
+    overflow: hidden;
+    font-weight: 700;
+}
+
+.count-block {
+    float: left;
+    padding: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
+    color: #f4f4f4;
+    font-size: 36px;
+    border-right: 1px solid #434656;
+    min-width: 100px;
+    text-align: center;
+    margin-bottom: 20px;
+    padding-top: 20px;
+}
+
+.count-block-yesterday {
+    margin-top: -15px;
+}
+
+.count-block-small {
+    margin-top:-38px;
+}
+
+.count-block-small .ataglance-currency-item {
+    font-size: 20px;
+    line-height: 21px;
+}
+
+.count-yesterday .ataglance-currency-item {
+    display: inline;
+}
+
+.count-yesterday-small .ataglance-currency-item {
+    font-size:10px;
+    padding-left: 2px;
+}
+
+.count-block-label {
+    display: block;
+    font-size: 11px;
+    margin-top: 10px;
+    color: #A5A5A5;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.count-settings{
+    position: relative;
+    float: right;
+    right: 0;
+    top: -10px;
+    color: #B0AEAE;
+    text-decoration: none;
+    border-bottom: 0;
+    padding: 3px;
+}
+
+.count-settings-with-block {
+    top: -130px;
+}
+
+.count-yesterday {
+    font-size: 10px;
+    color: #C79470;
+}
+
+.count-yesterday span {
+    border-top: 2px solid;
+    width: 50px;
+    display: block;
+    text-align: center;
+    margin-left: 25%;
+    color: #444;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+/*.mac-os .count-settings{
+    right: 15px !important;
+}
+*/
+.count-settings:hover {
+    border-bottom: 0 !important;
+}

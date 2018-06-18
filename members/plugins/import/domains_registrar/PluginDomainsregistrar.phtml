@@ -1,0 +1,61 @@
+<?php if  ( isset($this->noDomainsModule) ) { ?>
+<div class="notice notice-red">
+  <?php echo $this->user->lang('Sorry, you must have the domains module installed to use this tool.'); ?>
+</div>
+<?php } else { ?>
+
+<script type="text/javascript" src="../plugins/import/domains_registrar/PluginDomainsregistrar.js?version=<?php echo $this->gVersion; ?>"></script>
+<?php if ( isset($this->registrarDropdown) ) { ?>
+
+<div id="domains_results"></div>
+
+<span class="grid-meta" id="domains-grid-metadata"></span>
+<div id="gridheader" class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+                <td align="right">
+                    <?php echo $this->user->lang("Select Registrar");?>:
+                    &nbsp;&nbsp;
+                </td>
+                <td align="right" style="width:150px;">
+                    <select name="selectRegistrar" id='domains-grid-filterbyregistrar'>
+                        <option value="--">----&nbsp;&nbsp;</option>
+                        <?php foreach ( $this->registrars as $registrar ) { ?>
+                        <option value="<?php echo $registrar; ?>"><?php echo $registrar; ?>&nbsp;&nbsp;</option>
+                        <?php } ?>
+                    </select>
+                </td>
+                <td align="right" style="width:60px">
+                    <select id='domains-grid-filter' class="change-grid-showrecords" style='width:60px;'><option value='5'>5</option><option value='10'>10</option><option value='25'>25</option><option value='50'>50</option><option value='150'>150</option><option value='300'>300</option></select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="domains-grid"></div>
+<div id="domains-footer">
+    <button class="rich-button" id="importDomainButton"><span><?php echo $this->user->lang("Import"); ?></span></button>
+</div>
+
+<?php } ?>
+
+<?php if ( isset($this->noRegistrars) ) { ?>
+<br/>
+<div class="alert alert-danger">
+  <?php echo $this->unescape($this->noRegistrarsText); ?>
+</div>
+<?php } ?>
+
+
+<?php if ( isset($this->hasRegistrars) ) { ?>
+<div class="table-summary" style="margin-bottom: 10px; margin-top: 30px;">
+    <?php echo $this->user->lang('Select a registrar from the drop-down field above to fetch a list of the domains you have registered that are not already part of ClientExec. <b>It takes approximately 5 seconds PER 100 Domains to retrieve the information from the registrar and a further 5 seconds PER DOMAIN to import.</b> '); ?><br /><br />
+    <?php echo $this->user->lang('Once a domain is imported, you can edit from within ClientExec its contact info, name servers, initiate a domain transfer, etc.'); ?><br />
+    <?php echo $this->user->lang('Note that when a domain is imported, if the registrant doesn\'t have an account in ClientExec then a new account will be created, except if the registrant\'s personal information is marked as private.'); ?>
+    <?php echo $this->user->lang('If you have configured a TLD with a registrar that is not listed it is most likely due to the plugin not supporting import functionality.'); ?>
+</div>
+<?php } ?>
+
+<?php } ?>

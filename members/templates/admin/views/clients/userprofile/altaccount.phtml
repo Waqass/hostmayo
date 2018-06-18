@@ -1,0 +1,13 @@
+<input type="text" class="required" value="<?php echo $this->email; ?>" placeholder="Email" name="email" />
+<table width="100%">
+    <tr>
+        <td><label class="checkbox inline"><input type="checkbox" name="optionnotification" <?php echo $this->notificationChecked; ?> /> <?php echo $this->user->lang("Notifications");?></label></td>
+        <td><label class="checkbox inline"><input type="checkbox" name="optioninvoice" <?php echo $this->supportChecked; ?> /> <?php echo $this->user->lang("Invoices");?></label></td>
+        <td><label class="checkbox inline"><input type="checkbox" name="optionsupport" <?php echo $this->invoiceChecked; ?> /> <?php echo $this->user->lang("Support");?></label></td>
+    </tr>
+</table>
+<table width="100%">
+    <tr>
+        <td><label class="checkbox inline"><input type="checkbox" name="optionmigrate" /><?php echo $this->user->lang("Migrate support tickets from guest account");?></label></td>
+    </tr>
+</table>

@@ -1,0 +1,368 @@
+    <?php echo $this->partial('signuppublic/cartheader.phtml', array('tempInformation'=>$this->tempInformation,'user'=>$this->user,'step'=>$this->step, 'summary'=>$this->summary));?>
+<?php
+    $numpaymentmethods = count($this->paymentmethods);
+    $customFields = json_encode($this->customFields);
+?>
+<script data-cfasync="false" type="text/javascript">
+    $(document).ready(function(){
+        cart = cart || {};
+        <?php echo "var customFields = ". $customFields . ";\n"; ?>
+        cart.process_profile_customfields(customFields);
+        //cart.get_package_customfields(customFields);
+    });
+</script>
+
+
+<div class="ce-box">
+    <div class="ce-box-inner">
+
+        <a href="order.php" class="pull-right btn btn-large btn-danger btn-continue"><?php echo $this->user->lang("Continue Shopping");?></a>
+
+        <form action="order.php?step=3" method="post">
+        <h1><?php echo $this->user->lang("Order Summary");?></h1>
+        <p class="sub_header">
+        <?php echo $this->user->lang("Please review your order and make any necessary adjustments before proceeding to checkout.");?>
+        </p>
+
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th></th>
+                <th></th>
+                <th width="150" style="text-align: right;padding-right:18px;"><span class="cart-item-title"><?php echo $this->user->lang('Price');?></span></th>
+              </tr>
+            </thead>
+           <?php if(is_array($this->cartItems)) { ?>
+            <tbody>
+                <?php $proRateDate = ''; ?>
+                <?php foreach($this->cartItems AS $item) { ?>
+                    <tr>
+                        <td>
+                            <?php if ($item['groupType'] == 3) { ?>
+                                <span class="cart-item-title"><?php echo $this->escape($item['domainName']) ?> x <?php echo $item['term']; ?> <?php if(@$item['titleText']) { echo "(".$item['titleText'].")";}?></span>
+                            <?php } else { ?>
+                                <span class="cart-item-title"><?php echo $item['groupNameLanguage']." / ".$item['namelanguage']; ?> <?php if(@$item['titleText']) { echo $item['titleText'];}?></span>
+                            <?php } ?>
+                            <?php if($item['associatedDomain'] != false) { ?><br /> <?php echo $this->escape($item['associatedDomain']) ?> <?php } ?>
+
+                            <?php if($item['hasAddons']) {?>
+                                <a style="cursor: pointer;" onclick="cart.toggle_addons('<?php echo $item['cartItemId'];?>');"><br /><span id="toggle_addon_icon_<?php echo $item['cartItemId'];?>" style="width:15px;display:block;float:left;margin-top:1px;"><i class="icon-plus"></i></span> <span id="toggle_addon_text_<?php echo $item['cartItemId'];?>" class=""><?php echo $this->user->lang('Show Product Addons');?></span></a>
+                                <div id="addons-<?php echo $item['cartItemId'];?>" style="clear: both; display:none; font-size:smaller;">
+                                    <?php foreach($item['addons'] AS $addon) { ?>
+                                        <i class="icon-ok addon-ok"></i> <?php echo $addon['namelanguage']; ?> - <?php echo$addon['itemlanguage']; ?><br/>
+                                    <?php } ?>
+                                </div>
+                            <?php } ?>
+                        </td>
+                        <td valign="top" align="left"> <?php if(!isset($item['hidden']['delete'])){?><a onclick="cart.confirmCartDelete('<?php echo $item['safeGroupName'];?> / <?php echo $item['safeName'];?>', '<?php echo $item['cartItemId'];?>', '<?php if( $item['isBundle'] == true) { echo $item['associatedDomain'];}?>');" style="color:#900; cursor: pointer;"><?php echo $this->user->lang('Remove');?></a> <?php } ?><?php if(@$this->acceptCoupons) { ?><?php if(!isset($item['hidden']['delete'])){?>|<?php }?> <a onclick="cart.applyCoupon('<?php echo $item['cartItemId'];?>', '<?php echo $item['appliedCoupon'];?>');" style="cursor: pointer;"><?php if(@$item['hasCoupon']) { echo $this->user->lang('Update Coupon'); } else { echo $this->user->lang('Apply Coupon'); }?></a><?php } ?></td>
+                        <td valign="top" style="text-align: right;padding-right:18px">
+                            <?php if(@$item['newTotal']) {
+                            		echo '<span style="text-decoration: line-through;color:#999;"> '.$item['totalFormatted'] .'</span> <span style="color:red;">'.$item['newTotal'].'</span>'; }
+                            	  else {
+                            	  	echo $item['totalFormatted']; }?><?php
+                            	  if(isset($item['isProRated']) && $item['isProRated']) {
+                            	  	echo "*";
+                            	  	$proRateDate = $item['proRateDate']; } ?><?php
+                            	  if(@$item['newSetup']) {
+                            	  	//lets only show a line through the one time fee if the coupon applied and prices are different
+                            	  	if ($item['setupFormatted']!=$item['newSetup']) {
+                	            	  	echo '<br/><span style="text-decoration: line-through;"> '.$item['setupFormatted'] .' '.$this->user->lang('Setup Fee').'</span> <br/> <span style="color:red;">'.$item['newSetup'].' '.$this->user->lang('Setup Fee').'</span>';
+                            	  	} else {
+                	            	  	echo '<br/>'.$this->user->lang('Setup Fee')." ".$item['newSetup'];
+                            	  	}
+                            	  } elseif(@$item['setupFormatted']) {
+                            	  	echo "<br/> ".$this->user->lang('Setup Fee')." ".$item['setupFormatted']; } ?>
+                        </td>
+                    </tr>
+            	<?php } ?>
+            </tbody>
+        <?php } else {
+        		//should be redirected to order=0
+        	}
+        ?>
+        </table>
+        </form>
+
+        <div class="total-box">
+            <div class="get_total_image">
+                <i class="icon-spinner icon-spin icon-large"></i>&nbsp;&nbsp;<?php echo $this->user->lang("Calculating Totals ...");?>
+            </div>
+            <div id="taxInformation">
+
+                <div align="right">
+                    <table cellpadding="4" cellspacing="4" border=0 width="100%">
+                    <?php
+                        echo "<tr><td align='right' class='totallabel'>".$this->user->lang("SubTotal")." (<span class='total_item_count'></span>):</td><td width='100px' class='totallabel' align='right'><strong class='total_subtotal_price'></strong></td></tr>";
+                        echo "<tr class='total_coupon_discount_row'><td align='right' class='totallabel'>".$this->user->lang("Discounts").":</td><td class='totallabel' width='100px' style='text-align:right;'><strong class='total_subtotal_couponDiscount'></strong></td></tr>";
+                        echo "<tr class='total_tax_row'><td align='right' class='totallabel'><span class='total_tax_name'></span>:</td><td class='totallabel' width='100px' style='text-align:right;'><strong class='total_tax_amount'></strong></td></tr>";
+                        echo "<tr class='total_tax2_row'><td align='right' class='totallabel'><span class='total_tax2_name'></span>:</td><td class='totallabel' width='100px' style='text-align:right;'><strong class='total_tax2_amount'></strong></td></tr>";
+                    ?>
+                        <tr><td colspan="2" style="height:15px;"></td></tr>
+                        <tr bgcolor='#eeeeee'><td class='totallabel' align='right' style='height:30px;'><strong><?php echo $this->user->lang("Grand Total");?>:</strong></td><td width='120px' class='totallabel' style='text-align:right;font-size:larger;height:7px;'><strong class='total_total_pay'></strong></td></tr>
+                    <?php
+                        if($proRateDate != ''){
+                            echo "<tr><td align='left' class='totallabel' colspan='2'>* ".$this->user->lang("Prorated to")." ".$proRateDate."</td></tr>";
+                        }
+                    ?>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+        <br/>
+
+        <div id="loggedInBox" class="alert ce-alert ce-alert-success" style=" <?php if(!$this->loggedIn) { ?>visibility:hidden; display:none;<?php } ?>">
+            <strong><?php echo $this->user->lang("Logged in as");?> <span id="user-firstName"><?php echo @$this->gUserFirstName; ?></span> <span id="user-lastName"><?php echo @$this->gUserLastName; ?> (<?php echo $this->gCustomerEmail;?>)</span></strong>
+            <br/>
+            <?php echo $this->user->lang("If you wish to add this order under a new account please log out before completing this transaction.");?>
+        </div>
+
+
+        <?php if(@$this->fieldError) { ?>
+            <div style='border:1px solid #cdcdcd; background:#ffeded; color:#900; margin-bottom:20px; padding:10px;-moz-border-radius: 5px;-webkit-border-radius: 5px;'><?php echo $this->fieldError;?></div>
+        <?php } ?>
+
+        <?php if(!$this->loggedIn) { ?>
+
+            <div class="register-block">
+                <div class="cart-register">
+                    <h2 class="dont_have_account_header"><?php echo $this->user->lang("Don't have an account yet?");?></h2>
+                    <button class="ce-btn btn-danger btn-wide" type="button" onclick="cart.toggle_users('new',<?php echo $numpaymentmethods;?>);" ><?php echo $this->user->lang("Register");?></button>
+                </div>
+
+                <div class="add-options-or"><?php echo $this->user->lang('or') ?></div>
+
+                <div class="cart-dialog demo-dialog">
+                  <h2 class="have_account_header"><?php echo $this->user->lang("Already have an account? Log in");?></h2>
+                  <form class="control-group" method="post" action="index.php?fuse=admin&action=Login">
+                    <input type="text" name="email" placeholder="<?php echo $this->user->lang('Login Email') ?>" class="flat" />
+                    <input type="password" name="passed_password" placeholder="<?php echo $this->user->lang('Password') ?>" class="flat" />
+                    <input type="hidden" name="redirct_url" value="order.php?step=3" />
+                    <button class="ce-btn btn-inverse btn-wide btn-cart-user-login" type="submit"><?php echo $this->user->lang("Login");?></button>
+                  </form>
+                </div>
+                <div style="clear:both;"></div>
+            </div>
+
+        <?php } ?>
+
+    </div>
+</div>
+
+<form name="customerdata" class="customerdata" action="order.php?fuse=admin&controller=signup&action=process" method="POST" id="submitForm">
+
+<div class="ce-box customerdata" style="display:none;">
+    <div class="ce-box-inner">
+        <button class="pull-right ce-btn btn-info btn-wide btn-already-registered" type="button" onclick="cart.toggle_users('existing',<?php echo $numpaymentmethods;?>);" ><?php echo $this->user->lang("Already Registered?");?></button>
+        <p class="alert ce-alert ce-alert-info"><?php echo $this->user->lang("Please enter your new profile and billing details below to continue.");?>
+        </p>
+
+        <div class="customfields-wrapper"></div>
+
+        <?php if ( $this->showCaptcha ) { ?>
+        <div class="customfield customfield_not_ingroup">
+            <label class="customfield_label">
+                <div class="g-recaptcha" data-sitekey="<?php echo $this->captchaPublicKey; ?>"></div>
+                <script type="text/javascript" src="https://www.google.com/recaptcha/api.js"></script>
+            </label>
+        </div>
+        <?php } ?>
+    </div>
+</div>
+
+<div class="ce-box customerdata" id="paymentInformation" style="display:none;">
+    <div class="ce-box-inner">
+
+        <div class="payment_information_box">
+            <input id="payment_information_display" type="hidden" name="payment_information_display" value="0">
+            <input id="hidePaymentMethods" type="hidden" name="hidePaymentMethods" value="<?php echo $this->hidePaymentMethods; ?>">
+            <input id="totalPay_raw" type="hidden" name="totalPay_raw" value="0">
+            <input id="creditBalance_raw" type="hidden" name="creditBalance_raw" value="<?php echo $this->creditbalance; ?>">
+            <?php if(count($this->paymentmethods) != 0) { ?>
+                <h1 class="make_payment_using"><?php echo $this->user->lang("Choose Your Payment Method");?></h1>
+
+                <label class="checkbox credit_balance_option" style="display:none;">
+                    <input class="credit_balance_checkbox" type="checkbox" name="applymycredit" checked="checked" disabled /><?php echo $this->user->lang("Apply my credit of").' '.$this->formattedcreditbalance.' '.$this->user->lang("and pay the rest with:");?>
+                </label>
+
+                <span class="credit_balance_payment_option" style="display:none;">
+                    <label class="radio payment_method_radio_label payment_method_selected">
+                        <input type="radio" class="payment_method_apply_my_credit" onclick="cart.toggle_gateway(this.value);" name="paymentMethod" checked="checked" value="apply_my_credit" /> <span class="make_payment_option"><?php echo $this->user->lang("Apply my Credit").' ['.$this->user->lang("Available").': '.$this->formattedcreditbalance.']';?>&nbsp;&nbsp;&nbsp;</span>
+                    </label>
+                </span>
+
+                <?php foreach($this->paymentmethods AS $tmpKey => $key) { ?>
+                    <?php if ($key['paymentTypeOptionValue'] == "paypal") {
+                        $key['description'] = $this->user->lang("Click the button below to log into PayPal and make your payment.");
+                    } else if ($key['iscreditcard']) {
+                        $key['description'] = $this->user->lang("Make a secure payment using your credit card.");
+                    } ?>
+
+                    <label class="radio payment_method_radio_label <?php if($key['paymentTypeOptionSelected']) { echo "payment_method_selected"; } ?>">
+                        <div class="pull-right billing_accepting_cc">
+                            <?php foreach($key['weaccept']['options'] as $weAccept) { ?>
+                                <img src="<?php echo $weAccept['img'];?>" id="<?php echo $weAccept['id'];?>" alt="<?php echo $weAccept['alt'];?>">
+                            <?php } ?>
+                        </div>
+                        <input type="radio" class="payment_method_<?php echo $key['paymentTypeOptionValue'];?>" onclick="cart.toggle_gateway(this.value);" name="paymentMethod" <?php if($key['paymentTypeOptionSelected']) { ?> checked="checked" <?php } ?> value="<?php echo $key['paymentTypeOptionValue'];?>" /> <span class="make_payment_option"><?php echo ($key['paymentTypeOptionValue'] == "apply_my_credit")? $key['paymentTypeOptionLabel'].'['.$this->user->lang("Available").': '.$this->formattedcreditbalance.']' : $this->user->lang("Pay with")." ".$key['paymentTypeOptionLabel'];?></span>
+                        <div id="payment_desc"><?php echo $key['description'];?></div>
+                    </label>
+                <?php } ?>
+            <?php } else { ?>
+                <strong><?php echo $this->user->lang('There are no Payment Processors configured!');?></strong>
+            <?php } ?>
+
+            <!-- Handle the extra fields for payment processors -->
+            <?php foreach($this->paymentmethods AS $key) { ?>
+
+                <input type="hidden" name="<?php echo $key['paymentTypeOptionValue']."_autopayment"?>" id="<?php echo $key['paymentTypeOptionValue']."_autopayment"?>" value="<?php echo $key['autoPayment'];?>"></input>
+                <?php if(@is_array($key['extraFields'])) { ?>
+                    <div class="payment_method_extra_fields" id="<?php echo $key['paymentTypeOptionValue'];?>-extraFields" <?php if(!$key['paymentTypeOptionSelected']) {?> style="visibility:hidden; display:none;" <?php } ?>>
+                         <?php foreach($key['extraFields'] AS $field) {
+                            $popupstr  = "";
+                            $requiredtype = "";
+                            /*
+                            if (isset($field['isrequired']) && $field['isrequired']) {
+                                $requiredtype = 'data-required="true"';
+                            }*/
+                            ?>
+                            <?php if ($field['fieldType'] == "hidden") { ?>
+                                  <input name="<?php echo $field['fieldName'];?>" type="hidden" value="<?php echo @$field['fieldValue'];?>" />
+                            <?php continue;  } ?>
+
+                            <?php if (isset($field['fieldDescription']) && $field['fieldDescription'] != "") {
+                                //field description
+                                $popupstr = 'data-toggle="popover-hover" data-html="true" data-placement="top" title="Description" data-content="'.addslashes($field['fieldDescription']).'" class="tip-target"';
+                                } ?>
+
+                            <?php if($field['fieldType'] == 'text') { ?>
+                                <div class="billing_extrafield">
+                                    <?php if ($field['labelpos'] != "low") { ?> <label for="<?php echo $field['fieldName'];?>" style="display:"><span <?php echo $popupstr; ?>><?php echo $field['fieldTitle'];?></span></label> <?php } ?>
+                                    <input id="<?php echo $field['fieldName'];?>" name="<?php echo $field['fieldName'];?>" <?php echo $requiredtype;?> type="text" <?php echo (isset($field['fieldLuhn']) && $field['fieldLuhn'])? 'parsley-luhn="true" data-luhn="true"' : ''; ?> style="width:<?php echo @$field['fieldSize'];?>px;" value="<?php echo @$field['fieldValue'];?>" <?php if(@$field['fieldDisabled']) {?> disabled <?php } ?> />
+                                    <?php if ($field['labelpos'] == "low") { ?> <label for="<?php echo $field['fieldName'];?>" class="sub_label" style="display:"><span <?php echo $popupstr; ?>><?php echo $field['fieldTitle'];?></span></label> <?php } ?>
+                                </div>
+                            <?php } elseif($field['fieldType'] == 'dropdown') { ?>
+                                <?php if ($field['labelpos'] != "low") { ?> <label for="<?php echo $field['fieldName'];?>" style="display:"><span <?php echo $popupstr; ?>><?php echo $field['fieldTitle'];?></span></label> <?php } ?>
+                                <select name="<?php echo $field['fieldName'];?>" <?php if(@$field['fieldDisabled']) {?> disabled <?php } ?>>
+                                    <?php foreach($field['fieldValue'] AS $value) { ?>
+                                        <option value="<?php echo $value['value'];?>" ><?php echo $value['text'];?>&nbsp;</option>
+                                    <?php } ?>
+                                </select>
+                                <?php if ($field['labelpos'] == "low") { ?> <label for="<?php echo $field['fieldName'];?>" class="sub_label" style="display:"><span <?php echo $popupstr; ?>><?php echo $field['fieldTitle'];?></span></label> <?php } ?>
+                            <?php } elseif($field['fieldType'] == 'yesno') { ?>
+                                <?php if ($field['labelpos'] != "low") { ?> <label for="<?php echo $field['fieldName'];?>" style="display:"><span <?php echo $popupstr; ?>><?php echo $field['fieldTitle'];?></span></label> <?php } ?>
+                                <select name="<?php echo $field['fieldName'];?>" <?php if(@$field['fieldDisabled']) {?> disabled <?php } ?>>
+                                    <option value="1" <?php if($field['fieldValue'] == 1) { ?>selected="selected"<?php } ?>><?php echo $this->user->lang('Yes');?>&nbsp;</option>
+                                    <option value="0" <?php if($field['fieldValue'] == 0) { ?>selected="selected"<?php } ?>><?php echo $this->user->lang('No');?>&nbsp;</option>
+                                </select>
+                                <?php if ($field['labelpos'] == "low") { ?> <label for="<?php echo $field['fieldName'];?>" class="sub_label" style="display:"><span <?php echo $popupstr; ?>><?php echo $field['fieldTitle'];?></span></label> <?php } ?>
+                            <?php } elseif($field['fieldType'] == "grouplabel") { ?>
+                                <hr/>
+                                <label><strong><?php echo $field['fieldTitle'];?></strong></label>
+                            <?php } ?>
+
+                         <?php } ?>
+                    </div>
+
+                <?php } // for each billing extrafields?>
+            <?php } ?>
+        </div>
+
+        <?php if(@$this->automaticCCCharge) { ?>
+            <div class="cart_agree" id="autochargeccblock">
+                <label class="checkbox">
+                <input type="checkbox" name="autochargecc" id="autochargecc" checked>
+                <?php echo $this->user->lang('I authorize that future charges for these packages will be automatically charged.'); ?>
+                </label>
+            </div>
+        <?php } ?>
+
+        <?php if(@$this->termsConditions) { ?>
+
+            <div class="cart_agree">
+                <label class="checkbox">
+                <input type="checkbox" onclick="cart.agree_tc();" name="agree" value="1">
+                <?php echo $this->user->lang('I Agree to the'); ?>
+                <?php if($this->termsConditions == '-1') { ?>
+                    <a href="<?php echo @$this->termsConditionsUrl;?>" target="_blank"><?php echo $this->user->lang('Terms and Conditions');?></a>
+                <?php } else { ?>
+                    <a onclick="cart.show_tc();" href="javascript:void(0);"><?php echo $this->user->lang('Terms and Conditions');?></a>
+                    <div id="toc" class="hide"><?php echo $this->unescape($this->termsConditionsText) ?></div>
+                <?php } ?>
+                </label>
+            </div>
+
+        <?php } ?>
+        <?php if(count($this->paymentmethods) != 0) { ?>
+
+        <div class="form-actions">
+            <span class='paymentbutton1'><a style="margin-left:0px;cursor:pointer;" class="pull-right btn btn-large <?php if(@$this->termsConditions) { ?>disabled<?php } ?>" onclick="cart.submit_form(<?php echo $this->loggedIn; ?>);"  id="submitButton"></a></span>
+        <?php foreach ($this->gatewayForms as $gatewayName => $gatewayForm) { ?>
+            <span class='paymentbutton2 <?php echo $gatewayName."paymentbutton"; ?> pull-right'>
+              <?php echo $this->unescape($gatewayForm); ?>
+            </span>
+        <?php } ?>
+        </div>
+
+        <?php } ?>
+
+    </div>
+</div>
+
+</form>
+
+<script data-cfasync="false" type="text/javascript">
+    var mainForm,paymentDescs = [];
+    $(document).ready(function() {
+        <?php if ( $this->user->isAnonymous() ) { ?>
+        cart.main_button_text = "<?php echo $this->user->lang('Place Order and Create Account');?>";
+        <?php } else { ?>
+        cart.main_button_text = "<?php echo $this->user->lang('Place Order');?>";
+        <?php } ?>
+        mainForm = document.forms['customerdata'];
+        cart.selected_gateway = '<?php echo @$this->defaultGateway;?>';
+        cart.state_var_id = 'CT_<?php echo $this->state_var_id;?>';
+        $("#"+cart.state_var_id).bind('blur',function(){
+            validate_vat();//tax purposes
+        });
+        cart.country_var_id = 'CT_<?php echo $this->country_var_id;?>';
+        $("#"+cart.country_var_id).bind('change',function(){
+            validate_vat();//tax purposes
+        });
+        cart.vat_var_id = 'CT_<?php echo $this->vat_var_id;?>';
+        $("#"+cart.vat_var_id).bind('blur',function(){
+            validate_vat();//tax purposes
+        });
+
+        validate_vat();
+        <?php if (!$this->loggedIn) { ?>
+            cart.toggle_users('new',<?php echo $numpaymentmethods;?>);
+        <?php } else { ?>
+            $('#paymentInformation').show();
+        <?php } ?>
+
+        <?php foreach($this->paymentmethods as $key) { ?>
+        paymentDescs['<?php echo $key['paymentTypeOptionValue']; ?>'] = '<?php echo $key['description']; ?>';
+        <?php } ?>
+        <?php if ( count($this->paymentmethods) == 1 && @$this->defaultGateway == '' ) { ?>
+        cart.toggle_gateway('<?php echo $this->paymentmethods[0]['paymentTypeOptionValue']; ?>');
+        <?php } else { ?>
+        cart.toggle_gateway(cart.selected_gateway);
+        <?php } ?>
+
+    });
+</script>
+
+<?php if ( $this->enableFraudLabsPro ) { ?>
+<script data-cfasync="false" type="text/javascript">
+    document.write(unescape("%3Cscript src='" + ('https:' == document.location.protocol ? 'https://' : 'http://') + "static.fraudlabspro.com/agent.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script data-cfasync="false" type="text/javascript">
+    try {
+        var flp = new FraudLabsPro;
+        flp.start({session_id: '<?php echo session_id(); ?>'});
+    }
+    catch (e) {}
+</script>
+<?php } ?>

@@ -1,0 +1,728 @@
+/* gray color customizations */
+.ce-bgcolor-gray .ce-pagination ul li.active > a,
+.ce-bgcolor-gray .ce-pagination ul li.active > span,
+.ce-bgcolor-gray .ce-pagination ul li > a:hover,
+.ce-bgcolor-gray .ce-pagination ul li > span:hover,
+.ce-bgcolor-gray .ce-pagination ul li > a :focus,
+.ce-bgcolor-gray .ce-pagination ul li > span :focus,
+.ce-bgcolor-gray .ce-nav-pills > li > a:hover,
+.ce-bgcolor-gray .ce-nav-pills > li > a:focus,
+.ce-bgcolor-gray .ce-nav-pills > li.active > a,
+.ce-bgcolor-gray .ce-nav-pills > li.active > a:hover,
+.ce-bgcolor-gray .feature-tab,
+.ce-bgcolor-gray .ce-menuitem,
+.ce-bgcolor-gray .accordion-toggle,
+.ce-bgcolor-gray .accordion-toggle:hover,
+.ce-bgcolor-gray .accordion-toggle.collapsed:hover,
+.ce-bgcolor-gray .accordion-group:hover,
+.ce-bgcolor-gray #signup-steps .on,
+.ce-bgcolor-gray #signup-steps .last-on,
+.ce-bgcolor-gray .page-header-top{
+    background-color: #444;
+    color: #fff !important;
+}
+.ce-bgcolor-gray #signup-steps .last-on:after,
+.ce-bgcolor-gray #signup-steps .on:after {
+    border-color: transparent transparent transparent r: #444;
+}
+.ce-bgcolor-gray .product_type_option:hover,
+.ce-bgcolor-gray .product_type_option_active,
+.ce-bgcolor-gray .richtable th.sortable-selected,
+.ce-bgcolor-gray .richtable th.sortable-selected:hover,
+.ce-bgcolor-gray .accordion-toggle.collapsed,
+.ce-bgcolor-gray .popover,
+.ce-bgcolor-gray .dropdown-menu>li>a:hover,
+.ce-bgcolor-gray .dropdown-menu>li>a:focus,
+.ce-bgcolor-gray .dropdown-submenu:hover>a,
+.ce-bgcolor-gray .dropdown-submenu:focus>a,
+.ce-bgcolor-gray .nav-list-vivid>li>a:hover,
+.ce-bgcolor-gray .nav-list-vivid>li>a:focus {
+
+    background-color: rgb(211, 211, 211);
+    background-image: none;
+    text-decoration: none;
+    color: #444 !important;
+}
+.ce-bgcolor-gray .popover.top .arrow {
+    border-top-color: rgb(211, 211, 211);
+}
+.ce-bgcolor-gray .popover.right .arrow {
+    border-right-color: rgb(211, 211, 211);
+}
+.ce-bgcolor-gray .popover.left .arrow {
+    border-left-color: rgb(211, 211, 211);
+}
+.ce-bgcolor-gray .icon-stack-base {
+    color: #444 !important;}
+/*
+.ce-bgcolor-gray a:not(.btn) {
+    color: #444;
+}
+.ce-bgcolor-gray a:hover {
+    color: rgb(214, 99, 22);
+}*/
+
+/********************************/
+/* gray asbestos customizations */
+.ce-bgcolor-gray_asbestos .ce-pagination ul li.active > a,
+.ce-bgcolor-gray_asbestos .ce-pagination ul li.active > span,
+.ce-bgcolor-gray_asbestos .ce-pagination ul li > a:hover,
+.ce-bgcolor-gray_asbestos .ce-pagination ul li > span:hover,
+.ce-bgcolor-gray_asbestos .ce-pagination ul li > a :focus,
+.ce-bgcolor-gray_asbestos .ce-pagination ul li > span :focus,
+.ce-bgcolor-gray_asbestos .ce-nav-pills > li > a:hover,
+.ce-bgcolor-gray_asbestos .ce-nav-pills > li > a:focus,
+.ce-bgcolor-gray_asbestos .ce-nav-pills > li.active > a,
+.ce-bgcolor-gray_asbestos .ce-nav-pills > li.active > a:hover,
+.ce-bgcolor-gray_asbestos .feature-tab,
+.ce-bgcolor-gray_asbestos .ce-menuitem,
+.ce-bgcolor-gray_asbestos .accordion-toggle,
+.ce-bgcolor-gray_asbestos .accordion-toggle:hover,
+.ce-bgcolor-gray_asbestos .accordion-toggle.collapsed:hover,
+.ce-bgcolor-gray_asbestos .accordion-group:hover,
+.ce-bgcolor-gray_asbestos #signup-steps .on,
+.ce-bgcolor-gray_asbestos #signup-steps .last-on,
+.ce-bgcolor-gray_asbestos .page-header-top{
+    background-color: #7F8C8D;
+    color: #fff !important;
+}
+.ce-bgcolor-gray_asbestos #signup-steps .last-on:after,
+.ce-bgcolor-gray_asbestos #signup-steps .on:after {
+    border-color: transparent transparent transparent #7F8C8D;
+}
+.ce-bgcolor-gray_asbestos .product_type_option:hover,
+.ce-bgcolor-gray_asbestos .product_type_option_active,
+.ce-bgcolor-gray_asbestos .richtable th.sortable-selected,
+.ce-bgcolor-gray_asbestos .richtable th.sortable-selected:hover,
+.ce-bgcolor-gray_asbestos .accordion-toggle.collapsed,
+.ce-bgcolor-gray_asbestos .popover,
+.ce-bgcolor-gray_asbestos .dropdown-menu>li>a:hover,
+.ce-bgcolor-gray_asbestos .dropdown-menu>li>a:focus,
+.ce-bgcolor-gray_asbestos .dropdown-submenu:hover>a,
+.ce-bgcolor-gray_asbestos .dropdown-submenu:focus>a,
+.ce-bgcolor-gray_asbestos .nav-list-vivid>li>a:hover,
+.ce-bgcolor-gray_asbestos .nav-list-vivid>li>a:focus {
+    background-color: rgb(202, 214, 214);
+    background-image: none;
+    text-decoration: none;
+    color: #444 !important;
+}
+.ce-bgcolor-gray_asbestos .popover.top .arrow {
+    border-top-color: rgb(202, 214, 214);
+}
+.ce-bgcolor-gray_asbestos .popover.right .arrow {
+    border-right-color: rgb(202, 214, 214);
+}
+.ce-bgcolor-gray_asbestos .popover.left .arrow {
+    border-left-color: rgb(202, 214, 214);
+}
+.ce-bgcolor-gray_asbestos .icon-stack-base {
+    color: #7F8C8D;
+}
+/*
+.ce-bgcolor-gray_asbestos a:not(.btn) {
+    color: #7F8C8D;
+}
+.ce-bgcolor-gray_asbestos a:hover {
+    color: rgb(214, 99, 22);
+}*/
+
+/*
+.accordion-toggle.collapsed {
+    background-color:#f4f4f4;
+    color:#444 !important;
+}
+.accordion-toggle.collapsed:hover {
+    color: #444 !important;
+};
+
+.accordion-toggle {
+    background-color:#888;
+    color: white;
+}
+*/
+
+/*****************************/
+/* blue color customizations */
+.ce-bgcolor-blue .ce-pagination ul li.active > a,
+.ce-bgcolor-blue .ce-pagination ul li.active > span,
+.ce-bgcolor-blue .ce-pagination ul li > a:hover,
+.ce-bgcolor-blue .ce-pagination ul li > span:hover,
+.ce-bgcolor-blue .ce-pagination ul li > a :focus,
+.ce-bgcolor-blue .ce-pagination ul li > span :focus,
+.ce-bgcolor-blue .ce-nav-pills > li > a:hover,
+.ce-bgcolor-blue .ce-nav-pills > li > a:focus,
+.ce-bgcolor-blue .ce-nav-pills > li.active > a,
+.ce-bgcolor-blue .ce-nav-pills > li.active > a:hover,
+.ce-bgcolor-blue .feature-tab,
+.ce-bgcolor-blue .ce-menuitem,
+.ce-bgcolor-blue .accordion-toggle,
+.ce-bgcolor-blue .accordion-toggle:hover,
+.ce-bgcolor-blue .accordion-toggle.collapsed:hover,
+.ce-bgcolor-blue .accordion-group:hover,
+.ce-bgcolor-blue #signup-steps .on,
+.ce-bgcolor-blue #signup-steps .last-on,
+.ce-bgcolor-blue .page-header-top{
+    background-color: #1a6e9e;
+    color:white !important;
+}
+.ce-bgcolor-blue #signup-steps .last-on:after,
+.ce-bgcolor-blue #signup-steps .on:after {
+    border-color: transparent transparent transparent #1a6e9e;
+}
+.ce-bgcolor-blue .product_type_option:hover,
+.ce-bgcolor-blue .product_type_option_active,
+.ce-bgcolor-blue .richtable th.sortable-selected,
+.ce-bgcolor-blue .richtable th.sortable-selected:hover,
+.ce-bgcolor-blue .accordion-toggle.collapsed,
+.ce-bgcolor-blue .popover,
+.ce-bgcolor-blue .dropdown-menu>li>a:hover,
+.ce-bgcolor-blue .dropdown-menu>li>a:focus,
+.ce-bgcolor-blue .dropdown-submenu:hover>a,
+.ce-bgcolor-blue .dropdown-submenu:focus>a,
+.ce-bgcolor-blue .nav-list-vivid>li>a:hover,
+.ce-bgcolor-blue .nav-list-vivid>li>a:focus {
+    background-color: rgb(223, 239, 255);
+    background-image: none;
+    text-decoration: none;
+    color: #444 !important;
+}
+.ce-bgcolor-blue .popover.top .arrow {
+    border-top-color: rgb(223, 239, 255);
+}
+.ce-bgcolor-blue .popover.right .arrow {
+    border-right-color: rgb(223, 239, 255);
+}
+.ce-bgcolor-blue .popover.left .arrow {
+    border-left-color: rgb(223, 239, 255);
+}
+.ce-bgcolor-blue .icon-stack-base {
+    color: #1a6e9e;
+}
+/*
+.ce-bgcolor-blue a:not(.btn) {
+    color: #1a6e9e;
+}
+.ce-bgcolor-blue a:hover {
+    color: rgb(214, 99, 22);
+}*/
+
+/**************************************/
+/* blue midnight color customizations */
+.ce-bgcolor-blue_midnight .ce-pagination ul li.active > a,
+.ce-bgcolor-blue_midnight .ce-pagination ul li.active > span,
+.ce-bgcolor-blue_midnight .ce-pagination ul li > a:hover,
+.ce-bgcolor-blue_midnight .ce-pagination ul li > span:hover,
+.ce-bgcolor-blue_midnight .ce-pagination ul li > a :focus,
+.ce-bgcolor-blue_midnight .ce-pagination ul li > span :focus,
+.ce-bgcolor-blue_midnight .ce-nav-pills > li > a:hover,
+.ce-bgcolor-blue_midnight .ce-nav-pills > li > a:focus,
+.ce-bgcolor-blue_midnight .ce-nav-pills > li.active > a,
+.ce-bgcolor-blue_midnight .ce-nav-pills > li.active > a:hover,
+.ce-bgcolor-blue_midnight .feature-tab,
+.ce-bgcolor-blue_midnight .ce-menuitem,
+.ce-bgcolor-blue_midnight .accordion-toggle,
+.ce-bgcolor-blue_midnight .accordion-toggle:hover,
+.ce-bgcolor-blue_midnight .accordion-toggle.collapsed:hover,
+.ce-bgcolor-blue_midnight .accordion-group:hover,
+.ce-bgcolor-blue_midnight #signup-steps .on,
+.ce-bgcolor-blue_midnight #signup-steps .last-on,
+.ce-bgcolor-blue_midnight .page-header-top{
+    background-color: #34495E;
+    color:white !important;
+}
+.ce-bgcolor-blue_midnight #signup-steps .last-on:after,
+.ce-bgcolor-blue_midnight #signup-steps .on:after {
+    border-color: transparent transparent transparent #34495E;
+}
+.ce-bgcolor-blue_midnight .product_type_option:hover,
+.ce-bgcolor-blue_midnight .product_type_option_active,
+.ce-bgcolor-blue_midnight .richtable th.sortable-selected,
+.ce-bgcolor-blue_midnight .richtable th.sortable-selected:hover,
+.ce-bgcolor-blue_midnight .accordion-toggle.collapsed,
+.ce-bgcolor-blue_midnight .popover,
+.ce-bgcolor-blue_midnight .dropdown-menu>li>a:hover,
+.ce-bgcolor-blue_midnight .dropdown-menu>li>a:focus,
+.ce-bgcolor-blue_midnight .dropdown-submenu:hover>a,
+.ce-bgcolor-blue_midnight .dropdown-submenu:focus>a,
+.ce-bgcolor-blue_midnight .nav-list-vivid>li>a:hover,
+.ce-bgcolor-blue_midnight .nav-list-vivid>li>a:focus {
+    background-color: rgb(157, 193, 230);
+    background-image: none;
+    text-decoration: none;
+    color: #444 !important;
+}
+.ce-bgcolor-blue_midnight .popover.top .arrow {
+    border-top-color: rgb(157, 193, 230);
+}
+.ce-bgcolor-blue_midnight .popover.right .arrow {
+    border-right-color: rgb(157, 193, 230);
+}
+.ce-bgcolor-blue_midnight .popover.left .arrow {
+    border-left-color: rgb(157, 193, 230);
+}
+.ce-bgcolor-blue_midnight .icon-stack-base {
+    color: #34495E;
+}
+/*
+.ce-bgcolor-blue_midnight a:not(.btn) {
+    color: #34495E;
+}
+.ce-bgcolor-blue_midnight a:hover {
+    color: rgb(214, 99, 22);
+}*/
+
+/*******************************/
+/* orange color customizations */
+.ce-bgcolor-orange .ce-pagination ul li.active > a,
+.ce-bgcolor-orange .ce-pagination ul li.active > span,
+.ce-bgcolor-orange .ce-pagination ul li > a:hover,
+.ce-bgcolor-orange .ce-pagination ul li > span:hover,
+.ce-bgcolor-orange .ce-pagination ul li > a :focus,
+.ce-bgcolor-orange .ce-pagination ul li > span :focus,
+.ce-bgcolor-orange .ce-nav-pills > li > a:hover,
+.ce-bgcolor-orange .ce-nav-pills > li > a:focus,
+.ce-bgcolor-orange .ce-nav-pills > li.active > a,
+.ce-bgcolor-orange .ce-nav-pills > li.active > a:hover,
+.ce-bgcolor-orange .feature-tab,
+.ce-bgcolor-orange .ce-menuitem,
+.ce-bgcolor-orange .accordion-toggle,
+.ce-bgcolor-orange .accordion-toggle:hover,
+.ce-bgcolor-orange .accordion-toggle.collapsed:hover,
+.ce-bgcolor-orange .accordion-group:hover,
+.ce-bgcolor-orange #signup-steps .on,
+.ce-bgcolor-orange #signup-steps .last-on,
+.ce-bgcolor-orange .page-header-top{
+    background-color: #F39C12;
+    color:white !important;
+}
+.ce-bgcolor-orange #signup-steps .last-on:after,
+.ce-bgcolor-orange #signup-steps .on:after {
+    border-color: transparent transparent transparent #F39C12;
+}
+.ce-bgcolor-orange .product_type_option:hover,
+.ce-bgcolor-orange .product_type_option_active,
+.ce-bgcolor-orange .richtable th.sortable-selected,
+.ce-bgcolor-orange .richtable th.sortable-selected:hover,
+.ce-bgcolor-orange .accordion-toggle.collapsed,
+.ce-bgcolor-orange .popover,
+.ce-bgcolor-orange .dropdown-menu>li>a:hover,
+.ce-bgcolor-orange .dropdown-menu>li>a:focus,
+.ce-bgcolor-orange .dropdown-submenu:hover>a,
+.ce-bgcolor-orange .dropdown-submenu:focus>a,
+.ce-bgcolor-orange .nav-list-vivid>li>a:hover,
+.ce-bgcolor-orange .nav-list-vivid>li>a:focus {
+    background-color: rgb(255, 213, 145);
+    background-image: none;
+    text-decoration: none;
+    color: #444 !important;
+}
+.ce-bgcolor-orange .popover.top .arrow {
+    border-top-color: rgb(255, 213, 145);
+}
+.ce-bgcolor-orange .popover.right .arrow {
+    border-right-color: rgb(255, 213, 145);
+}
+.ce-bgcolor-orange .popover.left .arrow {
+    border-left-color: rgb(255, 213, 145);
+}
+.ce-bgcolor-orange .icon-stack-base {
+    color: #F39C12;
+}
+/*
+.ce-bgcolor-orange a:not(.btn) {
+    color: #F39C12;
+}
+.ce-bgcolor-orange a:hover {
+    color: rgb(214, 99, 22);
+}*/
+
+/**************************************/
+/* orange carrot color customizations */
+.ce-bgcolor-orange_carrot .ce-pagination ul li.active > a,
+.ce-bgcolor-orange_carrot .ce-pagination ul li.active > span,
+.ce-bgcolor-orange_carrot .ce-pagination ul li > a:hover,
+.ce-bgcolor-orange_carrot .ce-pagination ul li > span:hover,
+.ce-bgcolor-orange_carrot .ce-pagination ul li > a :focus,
+.ce-bgcolor-orange_carrot .ce-pagination ul li > span :focus,
+.ce-bgcolor-orange_carrot .ce-nav-pills > li > a:hover,
+.ce-bgcolor-orange_carrot .ce-nav-pills > li > a:focus,
+.ce-bgcolor-orange_carrot .ce-nav-pills > li.active > a,
+.ce-bgcolor-orange_carrot .ce-nav-pills > li.active > a:hover,
+.ce-bgcolor-orange_carrot .feature-tab,
+.ce-bgcolor-orange_carrot .ce-menuitem,
+.ce-bgcolor-orange_carrot .accordion-toggle,
+.ce-bgcolor-orange_carrot .accordion-toggle:hover,
+.ce-bgcolor-orange_carrot .accordion-toggle.collapsed:hover,
+.ce-bgcolor-orange_carrot .accordion-group:hover,
+.ce-bgcolor-orange_carrot #signup-steps .on,
+.ce-bgcolor-orange_carrot #signup-steps .last-on,
+.ce-bgcolor-orange_carrot .page-header-top{
+    background-color: #D35400;
+    color:white !important;
+}
+.ce-bgcolor-orange_carrot #signup-steps .last-on:after,
+.ce-bgcolor-orange_carrot #signup-steps .on:after {
+    border-color: transparent transparent transparent #D35400;
+}
+.ce-bgcolor-orange_carrot .product_type_option:hover,
+.ce-bgcolor-orange_carrot .product_type_option_active,
+.ce-bgcolor-orange_carrot .richtable th.sortable-selected,
+.ce-bgcolor-orange_carrot .richtable th.sortable-selected:hover,
+.ce-bgcolor-orange_carrot .accordion-toggle.collapsed,
+.ce-bgcolor-orange_carrot .popover,
+.ce-bgcolor-orange_carrot .dropdown-menu>li>a:hover,
+.ce-bgcolor-orange_carrot .dropdown-menu>li>a:focus,
+.ce-bgcolor-orange_carrot .dropdown-submenu:hover>a,
+.ce-bgcolor-orange_carrot .dropdown-submenu:focus>a,
+.ce-bgcolor-orange_carrot .nav-list-vivid>li>a:hover,
+.ce-bgcolor-orange_carrot .nav-list-vivid>li>a:focus {
+    background-color: rgb(255, 205, 158);
+    background-image: none;
+    text-decoration: none;
+    color: #444 !important;
+}
+.ce-bgcolor-orange_carrot .popover.top .arrow {
+    border-top-color: rgb(255, 205, 158);
+}
+.ce-bgcolor-orange_carrot .popover.right .arrow {
+    border-right-color: rgb(255, 205, 158);
+}
+.ce-bgcolor-orange_carrot .popover.left .arrow {
+    border-left-color: rgb(255, 205, 158);
+}
+.ce-bgcolor-orange_carrot .icon-stack-base {
+    color: #D35400;
+}
+/*
+.ce-bgcolor-orange_carrot a:not(.btn) {
+    color: #D35400;
+}
+.ce-bgcolor-orange_carrot a:hover {
+    color: rgb(214, 99, 22);
+}*/
+
+/**********************************/
+/* green_sea color customizations */
+.ce-bgcolor-green_turquoise .ce-pagination ul li.active > a,
+.ce-bgcolor-green_turquoise .ce-pagination ul li.active > span,
+.ce-bgcolor-green_turquoise .ce-pagination ul li > a:hover,
+.ce-bgcolor-green_turquoise .ce-pagination ul li > span:hover,
+.ce-bgcolor-green_turquoise .ce-pagination ul li > a :focus,
+.ce-bgcolor-green_turquoise .ce-pagination ul li > span :focus,
+.ce-bgcolor-green_turquoise .ce-nav-pills > li > a:hover,
+.ce-bgcolor-green_turquoise .ce-nav-pills > li > a:focus,
+.ce-bgcolor-green_turquoise .ce-nav-pills > li.active > a,
+.ce-bgcolor-green_turquoise .ce-nav-pills > li.active > a:hover,
+.ce-bgcolor-green_turquoise .feature-tab,
+.ce-bgcolor-green_turquoise .ce-menuitem,
+.ce-bgcolor-green_turquoise .accordion-toggle,
+.ce-bgcolor-green_turquoise .accordion-toggle:hover,
+.ce-bgcolor-green_turquoise .accordion-toggle.collapsed:hover,
+.ce-bgcolor-green_turquoise .accordion-group:hover,
+.ce-bgcolor-green_turquoise #signup-steps .on,
+.ce-bgcolor-green_turquoise #signup-steps .last-on,
+.ce-bgcolor-green_turquoise .page-header-top{
+    background-color: #16A085;
+    color:white !important;
+}
+.ce-bgcolor-green_turquoise #signup-steps .last-on:after,
+.ce-bgcolor-green_turquoise #signup-steps .on:after {
+    border-color: transparent transparent transparent #16A085;
+}
+.ce-bgcolor-green_turquoise .product_type_option:hover,
+.ce-bgcolor-green_turquoise .product_type_option_active,
+.ce-bgcolor-green_turquoise .richtable th.sortable-selected,
+.ce-bgcolor-green_turquoise .richtable th.sortable-selected:hover,
+.ce-bgcolor-green_turquoise .accordion-toggle.collapsed,
+.ce-bgcolor-green_turquoise .popover,
+.ce-bgcolor-green_turquoise .dropdown-menu>li>a:hover,
+.ce-bgcolor-green_turquoise .dropdown-menu>li>a:focus,
+.ce-bgcolor-green_turquoise .dropdown-submenu:hover>a,
+.ce-bgcolor-green_turquoise .dropdown-submenu:focus>a,
+.ce-bgcolor-green_turquoise .nav-list-vivid>li>a:hover,
+.ce-bgcolor-green_turquoise .nav-list-vivid>li>a:focus {
+    background-color: rgb(143, 224, 208);
+    background-image: none;
+    text-decoration: none;
+    color: #444 !important;
+}
+.ce-bgcolor-green_turquoise .popover.top .arrow {
+    border-top-color: rgb(143, 224, 208);
+}
+.ce-bgcolor-green_turquoise .popover.right .arrow {
+    border-right-color: rgb(143, 224, 208);
+}
+.ce-bgcolor-green_turquoise .popover.left .arrow {
+    border-left-color: rgb(143, 224, 208);
+}
+.ce-bgcolor-green_turquoise .icon-stack-base {
+    color: #16A085;
+}
+/*
+.ce-bgcolor-green_turquoise a:not(.btn) {
+    color: #16A085;
+}
+.ce-bgcolor-green_turquoise a:hover {
+    color: rgb(214, 99, 22);
+}*/
+
+/***************************************/
+/* green_emerland color customizations */
+.ce-bgcolor-green_emerland .ce-pagination ul li.active > a,
+.ce-bgcolor-green_emerland .ce-pagination ul li.active > span,
+.ce-bgcolor-green_emerland .ce-pagination ul li > a:hover,
+.ce-bgcolor-green_emerland .ce-pagination ul li > span:hover,
+.ce-bgcolor-green_emerland .ce-pagination ul li > a :focus,
+.ce-bgcolor-green_emerland .ce-pagination ul li > span :focus,
+.ce-bgcolor-green_emerland .ce-nav-pills > li > a:hover,
+.ce-bgcolor-green_emerland .ce-nav-pills > li > a:focus,
+.ce-bgcolor-green_emerland .ce-nav-pills > li.active > a,
+.ce-bgcolor-green_emerland .ce-nav-pills > li.active > a:hover,
+.ce-bgcolor-green_emerland .feature-tab,
+.ce-bgcolor-green_emerland .ce-menuitem,
+.ce-bgcolor-green_emerland .accordion-toggle,
+.ce-bgcolor-green_emerland .accordion-toggle:hover,
+.ce-bgcolor-green_emerland .accordion-toggle.collapsed:hover,
+.ce-bgcolor-green_emerland .accordion-group:hover,
+.ce-bgcolor-green_emerland #signup-steps .on,
+.ce-bgcolor-green_emerland #signup-steps .last-on,
+.ce-bgcolor-green_emerland .page-header-top{
+    background-color: #27AE60;
+    color:white !important;
+}
+.ce-bgcolor-green_emerland #signup-steps .last-on:after,
+.ce-bgcolor-green_emerland #signup-steps .on:after {
+    border-color: transparent transparent transparent #27AE60;
+}
+.ce-bgcolor-green_emerland .product_type_option:hover,
+.ce-bgcolor-green_emerland .product_type_option_active,
+.ce-bgcolor-green_emerland .richtable th.sortable-selected,
+.ce-bgcolor-green_emerland .richtable th.sortable-selected:hover,
+.ce-bgcolor-green_emerland .accordion-toggle.collapsed,
+.ce-bgcolor-green_emerland .popover,
+.ce-bgcolor-green_emerland .dropdown-menu>li>a:hover,
+.ce-bgcolor-green_emerland .dropdown-menu>li>a:focus,
+.ce-bgcolor-green_emerland .dropdown-submenu:hover>a,
+.ce-bgcolor-green_emerland .dropdown-submenu:focus>a,
+.ce-bgcolor-green_emerland .nav-list-vivid>li>a:hover,
+.ce-bgcolor-green_emerland .nav-list-vivid>li>a:focus {
+    background-color: rgb(180, 231, 202);
+    background-image: none;
+    text-decoration: none;
+    color: #444 !important;
+}
+.ce-bgcolor-green_emerland .popover.top .arrow {
+    border-top-color: rgb(180, 231, 202);
+}
+.ce-bgcolor-green_emerland .popover.right .arrow {
+    border-right-color: rgb(180, 231, 202);
+}
+.ce-bgcolor-green_emerland .popover.left .arrow {
+    border-left-color: rgb(180, 231, 202);
+}
+.ce-bgcolor-green_emerland .icon-stack-base {
+    color: #27AE60;
+}
+/*
+.ce-bgcolor-green_emerland a:not(.btn) {
+    color: #27AE60;
+}
+.ce-bgcolor-green_emerland a:hover {
+    color: rgb(214, 99, 22);
+}*/
+
+/******************************/
+/* green color customizations */
+.ce-bgcolor-green .ce-pagination ul li.active > a,
+.ce-bgcolor-green .ce-pagination ul li.active > span,
+.ce-bgcolor-green .ce-pagination ul li > a:hover,
+.ce-bgcolor-green .ce-pagination ul li > span:hover,
+.ce-bgcolor-green .ce-pagination ul li > a :focus,
+.ce-bgcolor-green .ce-pagination ul li > span :focus,
+.ce-bgcolor-green .ce-nav-pills > li > a:hover,
+.ce-bgcolor-green .ce-nav-pills > li > a:focus,
+.ce-bgcolor-green .ce-nav-pills > li.active > a,
+.ce-bgcolor-green .ce-nav-pills > li.active > a:hover,
+.ce-bgcolor-green .feature-tab,
+.ce-bgcolor-green .ce-menuitem,
+.ce-bgcolor-green .accordion-toggle,
+.ce-bgcolor-green .accordion-toggle:hover,
+.ce-bgcolor-green .accordion-toggle.collapsed:hover,
+.ce-bgcolor-green .accordion-group:hover,
+.ce-bgcolor-green #signup-steps .on,
+.ce-bgcolor-green #signup-steps .last-on,
+.ce-bgcolor-green .page-header-top{
+    background-color: #76a100;
+    color:white !important;
+}
+.ce-bgcolor-green #signup-steps .last-on:after,
+.ce-bgcolor-green #signup-steps .on:after {
+    border-color: transparent transparent transparent #76a100;
+}
+.ce-bgcolor-green .product_type_option:hover,
+.ce-bgcolor-green .product_type_option_active,
+.ce-bgcolor-green .richtable th.sortable-selected,
+.ce-bgcolor-green .richtable th.sortable-selected:hover,
+.ce-bgcolor-green .accordion-toggle.collapsed,
+.ce-bgcolor-green .popover,
+.ce-bgcolor-green .dropdown-menu>li>a:hover,
+.ce-bgcolor-green .dropdown-menu>li>a:focus,
+.ce-bgcolor-green .dropdown-submenu:hover>a,
+.ce-bgcolor-green .dropdown-submenu:focus>a,
+.ce-bgcolor-green .nav-list-vivid>li>a:hover,
+.ce-bgcolor-green .nav-list-vivid>li>a:focus {
+    background-color: rgb(196, 228, 183);
+    background-image: none;
+    text-decoration: none;
+    color: #444 !important;
+}
+.ce-bgcolor-green .popover.top .arrow {
+    border-top-color: rgb(196, 228, 183);
+}
+.ce-bgcolor-green .popover.right .arrow {
+    border-right-color: rgb(196, 228, 183);
+}
+.ce-bgcolor-green .popover.left .arrow {
+    border-left-color: rgb(196, 228, 183);
+}
+.ce-bgcolor-green .icon-stack-base {
+    color: #76a100;
+}
+/*
+.ce-bgcolor-green a:not(.btn) {
+    color: #76a100;
+}
+.ce-bgcolor-green a:hover {
+    color: rgb(214, 99, 22);
+}*/
+
+/****************************/
+/* red color customizations */
+.ce-bgcolor-red .ce-pagination ul li.active > a,
+.ce-bgcolor-red .ce-pagination ul li.active > span,
+.ce-bgcolor-red .ce-pagination ul li > a:hover,
+.ce-bgcolor-red .ce-pagination ul li > span:hover,
+.ce-bgcolor-red .ce-pagination ul li > a :focus,
+.ce-bgcolor-red .ce-pagination ul li > span :focus,
+.ce-bgcolor-red .ce-nav-pills > li > a:hover,
+.ce-bgcolor-red .ce-nav-pills > li > a:focus,
+.ce-bgcolor-red .ce-nav-pills > li.active > a,
+.ce-bgcolor-red .ce-nav-pills > li.active > a:hover,
+.ce-bgcolor-red .feature-tab,
+.ce-bgcolor-red .ce-menuitem,
+.ce-bgcolor-red .accordion-toggle,
+.ce-bgcolor-red .accordion-toggle:hover,
+.ce-bgcolor-red .accordion-toggle.collapsed:hover,
+.ce-bgcolor-red .accordion-group:hover,
+.ce-bgcolor-red #signup-steps .on,
+.ce-bgcolor-red #signup-steps .last-on,
+.ce-bgcolor-red .page-header-top{
+    background-color: #DD4B37;
+    color:white !important;
+}
+.ce-bgcolor-red #signup-steps .last-on:after,
+.ce-bgcolor-red #signup-steps .on:after {
+    border-color: transparent transparent transparent #DD4B37;
+}
+.ce-bgcolor-red .product_type_option:hover,
+.ce-bgcolor-red .product_type_option_active,
+.ce-bgcolor-red .richtable th.sortable-selected,
+.ce-bgcolor-red .richtable th.sortable-selected:hover,
+.ce-bgcolor-red .accordion-toggle.collapsed,
+.ce-bgcolor-red .popover,
+.ce-bgcolor-red .dropdown-menu>li>a:hover,
+.ce-bgcolor-red .dropdown-menu>li>a:focus,
+.ce-bgcolor-red .dropdown-submenu:hover>a,
+.ce-bgcolor-red .dropdown-submenu:focus>a,
+.ce-bgcolor-red .nav-list-vivid>li>a:hover,
+.ce-bgcolor-red .nav-list-vivid>li>a:focus {
+    background-color: rgb(255, 234, 234);
+    background-image: none;
+    text-decoration: none;
+    color: #444 !important;
+}
+.ce-bgcolor-red .popover.top .arrow {
+    border-top-color: rgb(255, 234, 234);
+}
+.ce-bgcolor-red .popover.right .arrow {
+    border-right-color: rgb(255, 234, 234);
+}
+.ce-bgcolor-red .popover.left .arrow {
+    border-left-color: rgb(255, 234, 234);
+}
+.ce-bgcolor-red .icon-stack-base {
+    color: #DD4B37;
+}
+/*
+.ce-bgcolor-red a:not(.btn) {
+    color: #DD4B37;
+}
+.ce-bgcolor-red a:hover {
+    color: rgb(214, 99, 22);
+}*/
+
+/*******************************/
+/* Purple Amethyst custization */
+.ce-bgcolor-purple_amethyst .ce-pagination ul li.active > a,
+.ce-bgcolor-purple_amethyst .ce-pagination ul li.active > span,
+.ce-bgcolor-purple_amethyst .ce-pagination ul li > a:hover,
+.ce-bgcolor-purple_amethyst .ce-pagination ul li > span:hover,
+.ce-bgcolor-purple_amethyst .ce-pagination ul li > a :focus,
+.ce-bgcolor-purple_amethyst .ce-pagination ul li > span :focus,
+.ce-bgcolor-purple_amethyst .ce-nav-pills > li > a:hover,
+.ce-bgcolor-purple_amethyst .ce-nav-pills > li > a:focus,
+.ce-bgcolor-purple_amethyst .ce-nav-pills > li.active > a,
+.ce-bgcolor-purple_amethyst .ce-nav-pills > li.active > a:hover,
+.ce-bgcolor-purple_amethyst .feature-tab,
+.ce-bgcolor-purple_amethyst .ce-menuitem,
+.ce-bgcolor-purple_amethyst .accordion-toggle,
+.ce-bgcolor-purple_amethyst .accordion-toggle:hover,
+.ce-bgcolor-purple_amethyst .accordion-toggle.collapsed:hover,
+.ce-bgcolor-purple_amethyst .accordion-group:hover,
+.ce-bgcolor-purple_amethyst #signup-steps .on,
+.ce-bgcolor-purple_amethyst #signup-steps .last-on,
+.ce-bgcolor-purple_amethyst .page-header-top{
+    background-color: #9B59B6;
+    color:white !important;
+}
+.ce-bgcolor-purple_amethyst #signup-steps .last-on:after,
+.ce-bgcolor-purple_amethyst #signup-steps .on:after {
+    border-color: transparent transparent transparent #9B59B6;
+}
+.ce-bgcolor-purple_amethyst .product_type_option:hover,
+.ce-bgcolor-purple_amethyst .product_type_option_active,
+.ce-bgcolor-purple_amethyst .richtable th.sortable-selected,
+.ce-bgcolor-purple_amethyst .richtable th.sortable-selected:hover,
+.ce-bgcolor-purple_amethyst .accordion-toggle.collapsed,
+.ce-bgcolor-purple_amethyst .popover,
+.ce-bgcolor-purple_amethyst .dropdown-menu>li>a:hover,
+.ce-bgcolor-purple_amethyst .dropdown-menu>li>a:focus,
+.ce-bgcolor-purple_amethyst .dropdown-submenu:hover>a,
+.ce-bgcolor-purple_amethyst .dropdown-submenu:focus>a,
+.ce-bgcolor-purple_amethyst .nav-list-vivid>li>a:hover,
+.ce-bgcolor-purple_amethyst .nav-list-vivid>li>a:focus {
+    background-color: rgb(224, 199, 235);
+    background-image: none;
+    text-decoration: none;
+    color: #444 !important;
+}
+.ce-bgcolor-purple_amethyst .popover.top .arrow {
+    border-top-color: rgb(224, 199, 235);
+}
+.ce-bgcolor-purple_amethyst .popover.right .arrow {
+    border-right-color: rgb(224, 199, 235);
+}
+.ce-bgcolor-purple_amethyst .popover.left .arrow {
+    border-left-color: rgb(224, 199, 235);
+}
+.ce-bgcolor-purple_amethyst .icon-stack-base {
+    color: #9B59B6;
+}
+/*
+.ce-bgcolor-purple_amethyst a:not(.btn) {
+    color: #9B59B6;
+}
+.ce-bgcolor-purple_amethyst a:hover {
+    color: focus>a;
+}*/

@@ -1,0 +1,222 @@
+<script data-cfasync="false" type="text/javascript">
+
+$(document).ready(function(){
+
+    // $('#textarea_content').redactor({
+    //     paragraphy: false,
+    //     formattingTags: ['p', 'blockquote', 'pre', 'h1', 'h2', 'h3', 'h4']
+    // });
+
+    articles.image_files = [];
+
+    clientexec.postpageload('.richwindow');
+
+    $("#input_tickettype").select2({
+        minimumResultsForSearch: 10,
+        allowClear: true,
+        width: '220px',
+        allowClear: false,
+        ajax: {
+            url: "index.php?fuse=support&action=gettickettypes&controller=tickettype&addAll=1",
+            dataType: 'json',
+            quietMillis: 500,
+            data: function () { return {} },
+            results: function (data, page) {
+                var results = { results: [] };
+                results.results.push({id: -1, text: lang('All ticket types')});
+                $(data.groups).each(function(index) {
+                    if (this.ticketTypeId != -1) {
+                        results.results.push({id: this.ticketTypeId, text: this.ticketTypeName.toString()});
+                    }
+                });
+                return results;
+            }
+        }
+    }).select2('data', {id: <?php echo $this->tickettypeid; ?>, text: '<?php echo $this->tickettypename; ?>'});
+
+//replaced with the code below
+/*
+    $('#mainlanguagecontent').data('redactor').opts.imageUploadCallback = function(e,data) {
+        articles.image_files.push(data.fileId)
+        articles.window.addParams({article_image_files:articles.image_files})
+    };
+*/
+    $('.language.textarea').each(function(a,row){
+        $(this).data('redactor').opts.imageUploadCallback = function(e,data) {
+            articles.image_files.push(data.fileId)
+            articles.window.addParams({article_image_files:articles.image_files})
+        };
+    });
+
+    $('#input_tags').select2({
+        width: '257px',
+        minimumInputLength: 2,
+        tags: <?php echo json_encode($this->availableTags); ?>,
+        tokenSeparators: [',']
+    });
+
+    $('#s2id_input_tags').tooltip({
+        title: function() { return '<?php echo $this->user->lang('Enter tags separated by commas.'); ?>'; },
+        placement: 'top'
+    });
+
+    kbarticle = {};
+    kbarticle.filterBy = function(el,filter) {
+        $(el).closest('.nav-pills').find('li').removeClass('active')
+        $(el).closest('li').addClass('active');
+
+        $('.language').hide();
+        $('.'+filter).show();
+    }
+
+    articles.window.options.beforeSubmit = function() {
+        var pass = true;
+        if(!$(".nav-pills li:first").hasClass("active")){
+            $(".default-language-tab").click();
+            if(!$('#mainlanguagetitle').valid()){
+                pass = false;
+            }
+            if(!$('#mainlanguagecontent').valid()){
+                pass = false;
+            }
+        }
+        if (!pass) {
+            return false;
+        }
+    }
+});
+</script>
+<style type="text/css">
+    .window-description {
+    	overflow: hidden;
+    }
+    .window-description label {
+    	margin: 0 10px 0 0;
+    }
+    .window-description textarea {
+    	margin: 0 0 10px 0;
+    }
+    .window-description .redactor_box {
+    	margin: 0 5px 10px 5px;
+    }
+    .window-description .inputRow {
+    	margin-bottom: 10px;
+    }
+    .window-description .inputRow label {
+    	display: inline-block;
+        vertical-align: middle;
+        width: 60px;
+    }
+    .window-description .inputRow input {
+    	display: inline-block;
+    	width: 234px;
+        vertical-align: middle;
+        margin-bottom: 0;
+    }
+    .window-description .inputRow select, .window-description .inputRow input[type="hidden"] {
+    	display: inline-block;
+    	width: 246px;
+        vertical-align: middle;
+        margin-bottom: 0;
+    }
+    .window-description .select2-container {
+    	margin-bottom: 0;
+        vertical-align: middle;
+    }
+    .window-description #s2id_input_tags.select2-container-multi ul.select2-choices {
+    	max-height: 54px;
+        overflow-y: auto;
+    }
+    .window-description label[for="input_tags"] {
+    	vertical-align: top;
+        margin-top: 4px;
+    }
+    .window-description #s2id_input_tags {
+    	vertical-align: top;
+    }
+</style>
+
+<?php $languages = CE_Lib::getEnabledLanguages();
+if(count($languages) > 1){
+    $active = true; ?>
+    <ul class="nav nav-pills">
+    <?php foreach($languages as $languageKey => $language){ ?>
+        <li <?php if($active){echo 'class="active"';} ?> >
+            <a <?php if($active){$active = false; echo 'class="default-language-tab"';} ?> href="javascript:void(0)" onclick="kbarticle.filterBy(this,'<?php echo $languageKey; ?>')"><?php echo $languageKey; ?></a>
+        </li>
+    <?php } ?>
+    </ul>
+<?php } ?>
+
+<table cellpadding="4" cellspacing="0" width="100%">
+    <tr>
+        <td>
+            <label for="input_title" class="bold"><?php echo $this->user->lang('Title'); ?>:</label>
+            <?php if(count($languages) > 1){
+                $active = true;
+                foreach($languages as $languageKey => $language){ ?>
+                    <span class="language <?php echo $languageKey; ?>" <?php if(!$active){echo 'style="display: none"';} ?> ><input class="required" type="text" name="title<?php echo $languageKey; ?>" placeholder="<?php echo $this->user->lang('Add a title'); ?>" <?php if($active){$active = false; echo 'id="mainlanguagetitle"';} ?> value="<?php echo $this->titleLanguages[$languageKey]; ?>" /></span>
+                <?php }
+            }else{ ?>
+                <input class="required" type="text" name="title" id="mainlanguagetitle" placeholder="<?php echo $this->user->lang('Add a title'); ?>" value="<?php echo $this->title; ?>" />
+            <?php } ?>
+        </td>
+        <td>
+            <label for="input_author" class="bold"><?php echo $this->user->lang('Author'); ?>:</label>
+            <input type="text" class="required" name="author" id="input_author" placeholder="Author" value="<?php echo $this->authorname; ?>" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="select_category" class="bold"><?php echo $this->user->lang('Category'); ?>:</label>
+            <select name="category" id="select_category" data-format="articles_category_format">
+                <option value="-1" data-blanks='-1'>-- <?php echo $this->user->lang('Select a Category'); ?> --</option>
+                <?php
+                    foreach ($this->arrayCategories as $cat) {
+                        echo '<option value="'.$cat['id'].'" data-blanks="'.$cat['blanks'].'"'.($this->categoryid == $cat['id'] ? ' SELECTED' : '').'>'.$cat['name'].'</option>';
+                    }
+                ?>
+            </select>
+        </td>
+        <td>
+            <label for="select_audience" class="bold"><?php echo $this->user->lang('Access'); ?>:</label>
+            <select id="select_access" name="access">
+                <option value="-1"<?php if ($this->access == -1) { echo ' SELECTED'; } ?>><?php echo $this->user->lang('Draft'); ?></option>
+                <option value="2"<?php if ($this->access == 2) { echo ' SELECTED'; } ?>><?php echo $this->user->lang('Public'); ?></option>
+                <option value="0"<?php if ($this->access == 0) { echo ' SELECTED'; } ?>><?php echo $this->user->lang('Members Only'); ?></option>
+                <option value="1"<?php if ($this->access == 1) { echo ' SELECTED'; } ?>><?php echo $this->user->lang('Staff Only'); ?></option>
+            </select>
+        </td>
+    </tr>
+</table>
+
+<label for="mainlanguagecontent" class="bold" style="padding-left: 6px;padding-top: 3px;"><?php echo $this->user->lang('Content'); ?>:</label>
+
+<?php if(count($languages) > 1){
+    $active = true;
+    foreach($languages as $languageKey => $language){ ?>
+        <span class="language <?php echo $languageKey; ?>" <?php if(!$active){echo 'style="display: none"';} ?> ><textarea name="content<?php echo $languageKey; ?>" <?php if($active){$active = false; echo 'id="mainlanguagecontent"';} ?> data-parent-selector='#article-window' class="wysihtml5 required textarea language" style="height: 270px;" data-withembed="true" placeholder="<?php echo $this->user->lang('Content'); ?>"><?php echo $this->contentLanguages[$languageKey]; ?></textarea></span>
+    <?php }
+}else{ ?>
+    <textarea name="content" id="mainlanguagecontent" data-parent-selector='#article-window' class="wysihtml5 required textarea language" style="height: 270px;" data-withembed="true" placeholder="<?php echo $this->user->lang('Content'); ?>"><?php echo $this->content; ?></textarea>
+<?php } ?>
+
+<table cellpadding="4" cellspacing="0" width="100%">
+    <tr>
+        <td>
+            <label for="input_tickettype" class="bold" style="width: 75px;"><?php echo $this->user->lang('Ticket Type'); ?>:</label>
+            <input type="hidden" name="tickettype" id="input_tickettype" data-placeholder="<?php echo $this->user->lang('Apply to ticket type'); ?>" />
+        </td>
+        <td>
+            <label for="input_tags" class="bold"><?php echo $this->user->lang('Tags'); ?>:</label>
+            <input type="hidden" name="tags" id="input_tags" data-placeholder="<?php echo $this->user->lang('Enter related or new tags'); ?>" value="<?php echo $this->tags; ?>" />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <label class="checkbox">
+              <input type="checkbox" name="includefaq" <?php echo ($this->includefaq == 1) ? "checked" : "" ;?>> <?php echo $this->user->lang("Designate this article as an FAQ entry.");?>
+            </label>
+        </td>
+    </tr>
+</table>

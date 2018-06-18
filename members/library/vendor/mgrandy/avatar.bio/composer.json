@@ -1,0 +1,21 @@
+{
+    "name": "mgrandy/avatar.bio",
+    "description": "A library to provide integration with Avatar.bio",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Matt Grandy",
+            "email": "matt@clientexec.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.6.0",
+        "egulias/email-validator": "~2.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "AvatarBio\\": "src/"
+        }
+    }
+}

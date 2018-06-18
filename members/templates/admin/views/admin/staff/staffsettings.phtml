@@ -1,0 +1,122 @@
+<script data-cfasync="false" type="text/javascript">
+    var adminid=<?php echo $this->userId; ?>;
+</script>
+
+<div class="alert alert-info staff-profile-header ce-page-header">
+	<div class="staff-profile-image">
+		<img class="ce-default-avatar-dark" src="<?php echo $this->profileurl;?>" />
+	</div>
+	<div class="staff-profile-label">
+		<?php echo $this->userName; ?>&nbsp;(<?php echo $this->userId; ?>)<br/>
+		<span class="staff-profile-status label <?php echo ($this->statusenum==1) ? "label-success" : "" ;?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->statusname;?>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+	</div>
+</div>
+
+<?php if ($this->user->hasPermission("admin_staff_view") && $this->backtolist) { ?>
+    <div style="margin-top:-8px;margin-bottom:10px;"><i class="icon-level-up icon-flip-horizontal icon-back-to-parent-list"></i> <a href="index.php?fuse=admin&controller=staff&view=adminlist"><?php echo $this->user->lang("Staff list");?></a></div>
+<?php } ?>
+
+<ul class="nav nav-tabs">
+    <li><span><a href="index.php?fuse=admin&view=editaddadminaccount&controller=staff<?php echo ($this->backtolist) ? "&adminid=".$this->userId : ""; ?>"><?php echo $this->user->lang("Profile");?></a></span></li>
+    <li class="active"><span><a href="#"><?php echo $this->user->lang("Preferences");?></a></span></li>
+</ul>
+
+<table class="table table-striped table-prefences">
+  <thead>
+  	<tr><th><?php echo $this->user->lang("Main Preferences");?></th><th width="40"></th></tr>
+  </thead>
+  <tbody>
+  	<tr data-preference-name="Sitewide-ShowActiveUserPanel">
+  		<td>
+  			<?php echo $this->user->lang("Pin the active customer on right panel");?><br/>
+  			<small class="muted"><?php echo $this->user->lang("When selected, the active customer will be pinned by default unless unpinned by staff");?></small>
+  		</td>
+  		<td>
+  			<div class="preference-switch switch switch-small switch-square hide" tabindex="0" data-on-label="<i class='icon-ok icon-white'></i>" data-off-label="<i class='icon-remove'></i>">
+              <input name="permission_<?php echo $permission['internal_name'];?>" type="checkbox" <?php echo ($this->customfields['Sitewide-ShowActiveUserPanel']) ? "checked" : "";?> />
+            </div>
+        </td>
+  	</tr>
+    <tr data-preference-name="Sitewide-ExpandedSettingsMenu">
+      <td>
+        <?php echo $this->user->lang("Show expanded menu for Settings");?><br/>
+        <small class="muted"><?php echo $this->user->lang("When selected, you will see a complete settings submenu to the Settings main menu option.");?></small>
+      </td>
+      <td>
+        <div class="preference-switch switch switch-small switch-square hide" tabindex="0" data-on-label="<i class='icon-ok icon-white'></i>" data-off-label="<i class='icon-remove'></i>">
+              <input name="permission_<?php echo $permission['internal_name'];?>" type="checkbox" <?php echo ($this->customfields['Sitewide-ExpandedSettingsMenu']) ? "checked" : "";?> />
+            </div>
+        </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="table table-striped table-prefences">
+  <thead>
+  	<tr><th><?php echo $this->user->lang("Support Preferences");?></th><th width="50"></th></tr>
+  </thead>
+  <tbody>
+  	<tr data-preference-name="Support-TicketReplyOnTop">
+  		<td>
+  			<?php echo $this->user->lang("Show ticket reply box on top");?><br/>
+  			<small class="muted"><?php echo $this->user->lang("Ticket messages will also be listed with most recent message on top.");?></small>
+  		</td>
+  		<td>
+  			<div class="preference-switch switch switch-small switch-square hide" tabindex="0" data-on-label="<i class='icon-ok icon-white'></i>" data-off-label="<i class='icon-remove'></i>">
+              <input name="permission_<?php echo $permission['internal_name'];?>" type="checkbox" <?php echo ($this->customfields['Support-TicketReplyOnTop']) ? "checked" : "";?> />
+            </div>
+        </td>
+  	</tr>
+
+  </tbody>
+</table>
+<!--
+<table class="table table-striped table-prefences preference-switches-chat">
+  <thead>
+    <tr><th><?php echo $this->user->lang("Chat Preferences");?></th><th width="50"></th></tr>
+  </thead>
+  <tbody>
+    <tr data-preference-name="Chat-SMSonmention">
+      <td>
+        <?php echo $this->user->lang("SMS when mentioned");?><br/>
+        <small class="muted"><?php echo $this->user->lang("Staff member will receive a SMS message to their phone when @mentioned.");?></small>
+      </td>
+      <td>
+        <div class="preference-switch switch switch-small switch-square hide" tabindex="0" data-on-label="<i class='icon-ok icon-white'></i>" data-off-label="<i class='icon-remove'></i>">
+              <input name="permission_<?php echo $permission['internal_name'];?>" type="checkbox" <?php echo ($this->customfields['Chat-SMSonmention']) ? "checked" : "";?> />
+            </div>
+        </td>
+    </tr>
+    <tr data-preference-name="Chat-SoundOnMentionOnly">
+      <td>
+        <?php echo $this->user->lang("Play new message sound only when mentioned");?><br/>
+        <small class="muted"><?php echo $this->user->lang("Play alert sound only during a @mention and not for each message (sound must be turned on).");?></small>
+      </td>
+      <td>
+        <div class="preference-switch switch switch-small switch-square hide" tabindex="0" data-on-label="<i class='icon-ok icon-white'></i>" data-off-label="<i class='icon-remove'></i>">
+              <input name="permission_<?php echo $permission['internal_name'];?>" type="checkbox" <?php echo ($this->customfields['Chat-SoundOnMentionOnly']) ? "checked" : "";?> />
+            </div>
+        </td>
+    </tr>
+  </tbody>
+</table> -->
+
+<!--
+<table class="table table-striped table-prefences">
+  <thead>
+  	<tr><th><?php echo $this->user->lang("Billing Preferences");?></th><th width="50"></th></tr>
+  </thead>
+  <tbody>
+  	<tr data-preference-name="Support-TicketReplyOnTop">
+  		<td>
+  			<?php echo $this->user->lang("Show ticket reply box on top");?><br/>
+  			<small class="muted"><?php echo $this->user->lang("Ticket messages will also be listed with most recent message on top.");?></small>
+  		</td>
+  		<td>
+  			<div class="preference-switch switch switch-small switch-square hide" tabindex="0" data-on-label="<i class='icon-ok icon-white'></i>" data-off-label="<i class='icon-remove'></i>">
+              <input name="permission_<?php echo $permission['internal_name'];?>" type="checkbox" <?php echo ($this->customfields['Support-TicketReplyOnTop']) ? "checked" : "";?> />
+            </div>
+        </td>
+  	</tr>
+  </tbody>
+</table> -->

@@ -1,0 +1,172 @@
+#view-invoice.content
+{
+    margin: 15px;
+    margin-right:15px !important;
+    /*overflow: visible;*/ /*testing */
+}
+
+#view-invoice.content .customer-dropdown
+{
+    margin-bottom: 50px;
+}
+
+#view-invoice.content address
+{
+    padding-left:5px;
+}
+
+#view-invoice.content .edit-details,
+#view-invoice.content .edit-end,
+#view-invoice.content .edit-start {
+    font-size:smaller;
+}
+
+#view-invoice.content .invoicelabel
+{
+    border-bottom:4px solid #f4f4f4;
+    margin-bottom:30px;
+}
+
+.date-block{
+    margin-left:5px;
+}
+
+.switch-block{
+    margin-left:5px;
+}
+
+.address-block {
+    clear:both;
+    margin-top:20px;
+}
+
+#address-name,
+.control-label{
+    font-size: 15px;
+}
+
+#view-invoice.content .invoiceentry-price
+{
+    width:140px;
+    text-align:right;
+}
+
+#view-invoice.content .invoiceentry-price-div
+{
+    position: relative;
+    left: 5px;
+}
+
+#view-invoice.content tr.invoiceentry-row {
+    height:51px;
+}
+
+#view-invoice.content td.invoiceentry-type div.icon_menu
+{
+    width:20px;
+    position:relative;
+    left:-20px;
+    top: -19px;
+    display:none;
+}
+
+#view-invoice.content .invoicenotes
+{
+    width:60%;
+    height:100px;
+}
+
+#view-invoice.content .newinvoicealert{
+    display:none;
+    margin-top: -15px;
+    height:18px;
+}
+
+#view-invoice.content .changesalert{
+    display:none;
+    margin-top: -15px;
+    height:18px;
+}
+
+#view-invoice.content #enterpayment
+{
+    margin-right:10px;
+}
+
+#view-invoice.content #enterpayment.withtax
+{
+    margin-right:45px;
+}
+
+#view-invoice.content #invoiceentries-balance,
+#view-invoice.content #invoiceentries-paid,
+#view-invoice.content #invoiceentries-total,
+#view-invoice.content #invoiceentries-tax-total,
+#view-invoice.content #invoiceentries-balance-label,
+#view-invoice.content #invoiceentries-paid-label,
+#view-invoice.content #invoiceentries-total-label
+{
+    padding-top: 10px;
+    padding-bottom:13px;
+    text-align: right;
+}
+
+.dropdown-menu li span.link {
+    text-decoration: none;
+}
+
+#view-invoice.content #enterpayment{
+    width: 180px;
+}
+
+#view-invoice.content div#breadcrumbback {
+    position:relative;
+    top:-28px;
+}
+
+
+.icon-actions
+{
+    color:#999;
+    font-size:11px;
+}
+
+.icon-actions:hover
+{
+    color:#555;
+}
+
+.editInvoiceEntryPopup {
+    display: block;
+    position: relative;
+    padding: 0px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.editInvoiceEntryPopup > a {
+    position: absolute;
+    top: 10px;
+    right: -9px;
+    color: #000;
+    text-decoration: none;
+    border-bottom: none !important;
+}
+
+.editInvoiceEntryPopup > a:hover {
+    border-bottom: none !important;
+}
+
+.editInvoiceEntryPopup legend {
+    width: auto;
+    margin-bottom: 0;
+    padding: 0 4px;
+    border-bottom: none;
+    font-size: inherit;
+    color: inherit;
+}
+
+
+.snapin_view_topinvoice {
+    padding-bottom: 15px;
+}

@@ -1,0 +1,220 @@
+<?php echo $this->profileheader($this->customer);?>
+<div style="display:none" id="profile-fields">
+<dl class="form profile-form">
+
+<?php if ($this->showCustomerGroup) { ?>
+    <dt><label><?php echo $this->user->lang("Customer Group");?></label></dt>
+    <dd class="ddelement" style="width:260px;">
+    <select id="dropdown_customerGroup"
+          name="dropdown_customerGroup"
+          style="width:255px;display:none"
+        <?php if (!$this->user->hasPermission('clients_edit_customers')): ?>
+          disabled="disabled"
+        <?php endif ?>
+    >
+    <?php foreach ($this->groups as $group) { ?>
+        <option value="<?php echo $group['groupValue'];?>" <?php echo $group['groupSelected'];?> ><?php echo $group['groupLabel'];?></option>
+    <?php } ?>
+    </select>
+    </dd>
+<?php } ?>
+
+<form method="post" id="customerdata" name="customerdata" action="index.php?fuse=clients&controller=userprofile&action=updateprofilecontact" autocomplete="off">
+<input type="hidden" name="id" value="<?php echo $this->customerId;?>" />
+<input type="hidden" name="userid" value="<?php echo $this->customerId;?>" />
+<input type="hidden" name="packageaction" value="0" />
+<input type="hidden" name="packageplugin" value="0" />
+
+
+
+    <?php foreach ($this->customFields as $cf) : ?>
+
+
+    <?php if (in_array($cf['fieldType'], array(63,64))) { ?>
+    <span class="type_<?php echo $cf['fieldType']; ?>"></span>
+    <?php continue; } ?>
+
+    <span class="type_<?php echo $cf['fieldType']; ?>">
+    <dt><label><?php echo $cf['rowLabel'];?></label></dt>
+    <dd class="ddelement" style="width:260px;">
+
+        <?php if (count($cf['typeLanguages']) > 0) { ?>
+        <select name='CT_<?php echo $cf['fieldId'];?>' style="width:255px;" <?php echo $cf['disabled'];?> >
+
+        <?php foreach($cf['typeLanguages'] as $language) { ?>
+            <option size="30" value="<?php echo $language['typeLanguageOptionValue'];?>" <?php echo $language['typeLanguageOptionSelected'];?> ><?php echo $language['typeLanguageOptionLabel'];?></option>
+        <?php } ?>
+
+        </select>
+        <?php } ?>
+
+        <?php if ($cf['typeTextarea']) { ?>
+        <textarea name='CT_<?php echo $cf['fieldId'];?>' style="width:236px; height:65px;" cols='<?php echo $cf['fieldWidth'];?>' <?php echo $cf['disabled'];?> ><?php echo $cf['value'];?></textarea>
+        <?php } ?>
+
+        <?php if (count($cf['dropDowns']) > 0) { ?>
+        <select name="CT_<?php echo $cf['fieldId'];?>" style="width:255px;" <?php echo $cf['disabled'];?> >
+            <?php foreach ($cf['dropDowns'] as $dropdown) { ?>
+            <option size="30" value="<?php echo $dropdown['typeDropdownOptionValue'];?>" <?php echo $dropdown['typeDropdownOptionSelected'];?> ><?php echo $dropdown['typeDropdownOptionLabel'];?></option>
+            <?php } ?>
+        </select>
+        <?php } ?>
+
+        <?php if ($cf['typeCountry']) { ?>
+        <script data-cfasync="false" type="text/javascript">
+            countryVAR = "CT_<?php echo $cf['fieldId'];?>";
+        </script>
+
+        <select name="CT_<?php echo $cf['fieldId'];?>" id="CT_<?php echo $cf['fieldId'];?>" onChange="getTax();" style="width:255px;" <?php echo $cf['disabled'];?> >
+            <?php echo $cf['countryOptions'];?>
+        </select>
+        <?php } ?>
+
+        <?php if ($cf['typeYesNo']) {?>
+        <select name="CT_<?php echo $cf['fieldId'];?>" style="width:255px;" <?php echo $cf['disabled'];?> >
+            <option value="1" <?php echo $cf['yesSelected'];?> ><?php echo $this->user->lang("Yes");?></option>
+            <option value="0" <?php echo $cf['noSelected'];?> ><?php echo $this->user->lang("No");?></option>
+        </select>
+        <?php } ?>
+
+        <?php if ($cf['typeDate']) { ?>
+        <input type="hidden" name="CTT_<?php echo $cf['fieldId'];?>" id="CTT_<?php echo $cf['fieldId'];?>" value="<?php echo $cf['typeDateConstant'];?>" />
+        <input class="datepicker" type="text" name="CT_<?php echo $cf['fieldId'];?>" id="CT_<?php echo $cf['fieldId'];?>" style="width:240px;" value="<?php echo $cf['value'];?>" <?php echo $cf['readOnly'];?> />&nbsp;&nbsp;
+        <?php } ?>
+
+        <?php if ($cf['VATmessages']) { ?>
+        <script data-cfasync="false" type="text/javascript">
+            var vatVAR = "CT_<?php echo $cf['fieldId'];?>";
+        </script>
+        <span id="vat_country"></span>
+        <?php } ?>
+
+        <?php if ($cf['typeSimple']) { ?>
+        <input type="text" name="CT_<?php echo $cf['fieldId'];?>" id="CT_<?php echo $cf['fieldId'];?>" style="width:<?php echo (isset($cf['width']))? $cf['width'] : '240px';?>" value="<?php echo $cf['value'];?>" <?php echo $cf['additionalSettings'];?> />
+        <?php } ?>
+
+        <?php if ($cf['typeState']) { ?>
+        <script data-cfasync="false" type="text/javascript">
+            var stateVAR = "CT_<?php echo $cf['fieldId'];?>";
+        </script>
+        <?php } ?>
+
+        <?php if ($cf['VATmessages']) { ?>
+        <div id="vat_validating" style="display:none"><?php echo $this->user->lang("Validating...");?></div>
+        <div id="vat_valid" style="display:none"><?php echo $this->user->lang("Valid VAT Number");?></div>
+        <div id="vat_invalid" style="display:none"><?php echo $this->user->lang("Invalid VAT Number");?> <a href="javascript:getTax();"><font color=blue><?php echo $this->user->lang("Retry");?></font></a></div>
+        <div id="vat_error" style="display:none"><?php echo $this->user->lang("Unable to validate at the moment.");?> <a href="javascript:getTax();"><font color=blue><?php echo $this->user->lang("Retry");?></font></a></div>
+        <?php } ?>
+
+        <?php if ($cf['typeLabel']) {?>
+        <?php echo $cf['value'];?>
+        <?php } ?>
+
+    </dd>
+    </span>
+
+    <?php endforeach; ?>
+
+    <?php if ($this->user->hasPermission('clients_edit_customers')): ?>
+      <dt style="width:440px;margin-top:35px;border-top:0;color:orangered;font-size:16px;">
+              &nbsp;&nbsp;&nbsp;
+              <?php echo $this->user->lang("Supply only if you want password changed");?>
+      </dt>
+
+      <dt><label><?php echo $this->user->lang("New Password");?></label></dt>
+      <dd class="ddelement" style="width:260px;">
+          <input style="width:240px;" type="password" id="new_password" name="new_password" size="30" autocomplete="off">
+      </dd>
+      <dt><label><?php echo $this->user->lang("Confirm password");?></label></dt>
+      <dd class="ddelement" style="width:260px;">
+          <input style="width:240px;" type="password" id="confirm_password" name="confirm_password" size="30" autocomplete="off">
+      </dd>
+    <?php endif ?>
+</dl>
+
+<?php if (CE_Lib::hasAttribute("plus")) { ?>
+    <div style="float:left;margin-top:13px;">
+        <div class="full-contact full-contact-profile">
+          <div class="full-contact-complete-data"></div>
+        </div>
+
+    <div class="fullcontact-description"><?php echo $this->user->lang("Social data is provided as part of your Clientexec Plus service.");?><br/><?php echo $this->user->lang("Last pulled on");?>: <?php echo $this->plus_date;?></div>
+
+      <?php if($this->user->hasPermission('clients_edit_customers')): ?>
+        <center>
+        <?php if ($this->show_plus_data) { ?>
+            <button type="button" data-force="1" class="btn update-full-contact-btn btn-small"><i class="icon-cloud-download"></i>&nbsp;&nbsp;<?php echo $this->user->lang("Update social data");?></button>
+            <button type="button" data-force="1" class="btn full-contact-btn btn-small"><i class="icon-cloud-download"></i>&nbsp;&nbsp;<?php echo $this->user->lang("Get social data");?></button>
+        <?php } ?>
+        </center>
+      <?php endif ?>
+    </div>
+<?php } ?>
+
+<div style="clear:both;padding-top:10px;"></div>
+
+<div style="width:445px;">
+
+
+    <?php if ($this->showSaveButton) {?>
+        <button style="width:445px;height: 35px;" id="updatecontact" class="btn btn-success"><span><?php echo $this->user->lang("Update");?></span></button>
+    <?php } ?>
+    </form>
+<hr style="width:445px;">
+<div style="padding-top:10px;clear:both;">
+
+
+
+</div>
+<?php
+if ( $this->showMergeButton ) {
+    if (!$this->customer->isGuest()) {
+        $migrateurl = "<a class='btn btn-warning' style='float:left;text-decoration:none;' href='index.php?fuse=clients&view=viewmergeclient&controller=user'>".$this->user->lang('Merge')."</a>";
+    } else {
+        $migrateurl = "<button type='button' class='btn btn-warning' style='float:left;' onclick='moveGuestToCustomer();'>".$this->user->lang('Migrate')."</button>";
+    }
+    echo $migrateurl;
+}
+?>
+<?php if ($this->showResetPasswordButton) { ?>
+<form>
+    <input type="hidden" name="resetpass-customer-id" id="resetpass-customer-id" value="<?php echo $this->customerId;?>" />
+    <button id="reset-password" class="btn btn-warning" style="float: left; margin-left: 10px;"><span><?php echo $this->user->lang('Reset Password'); ?></span></button>
+</form>
+<?php } ?>
+
+<form method="post" id="frmdeleteclient" action="index.php?fuse=clients&controller=user&action=deleteclient" >
+    <input type="hidden" name="deleteid" value="<?php echo $this->customerId;?>" />
+    <input type="hidden" id="deletewithplugin" name="deletewithplugin" value="0" />
+    <input type="hidden" name="nextaction" value="ViewUsers" />
+    <?php if ($this->showDeleteButton) { ?>
+        <button id="deleteclient" class="btn btn-danger" style="float: right" ><span><?php echo $this->user->lang("Delete");?></span></button>
+    <?php } ?>
+</form>
+
+</div>
+
+</div>
+
+<script data-cfasync="false" type="text/javascript">
+    var mainForm = document.forms['customerdata'];
+    $(document).ready(function() {
+        getTax();
+        <?php if ($this->show_plus_data) { ?>
+              clientexec.getfullcontact(0);
+        <?php } ?>
+
+        <?php // Move First Name and Last Name to Full Name ?>
+        $('.type_11').appendTo($('.type_63'));
+        $('.type_12').appendTo($('.type_63'));
+
+        <?php // Move around Address Fields ?>
+        $('.type_2').appendTo($('.type_64'));
+        $('.type_3').appendTo($('.type_64'));
+        $('.type_4').appendTo($('.type_64'));
+        $('.type_5').appendTo($('.type_64'));
+        $('.type_6').appendTo($('.type_64'));
+
+        $('#profile-fields').show();
+    });
+</script>

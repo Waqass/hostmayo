@@ -1,0 +1,29 @@
+{
+    "name": "ClickSend/clicksend-php",
+    "type": "library",
+    "description": "A PHP wrapper for ClickSend's API",
+    "keywords": ["ClickSend","SMS","Voice","Fax","Post","Email","API","SDK"],
+    "homepage": "https://www.clicksend.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matthew Larner",
+            "email": "matt@clicksend.com",
+            "homepage": "https://www.clicksend.com",
+            "role": "Director"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "mashape/unirest-php": "~3.0.1",
+		"apimatic/jsonmapper": "~1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ClickSendLib\\": "src/"
+        }
+    }
+}

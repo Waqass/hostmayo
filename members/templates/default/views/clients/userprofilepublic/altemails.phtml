@@ -1,0 +1,36 @@
+<h1 class="pull-left"><?php echo $this->user->lang("Alternate Accounts");?></h1>
+
+<form method="post" action="index.php?fuse=clients&action=updatealtemail&controller=userprofile" style="clear:both;">
+    <table class="table ce-table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>&nbsp;<?php echo $this->user->lang('Email'); ?></th>
+                <th width="120" align="center"><?php echo $this->user->lang('Notifications'); ?></th>
+                <th width="120" align="center"><?php echo $this->user->lang('Invoices'); ?></th>
+                <th width="120" align="center"><?php echo $this->user->lang('Support'); ?></th>
+                <th width="120" align="center"><?php echo $this->user->lang('Delete'); ?></th>
+            </tr>
+        </thead>
+
+        <?php foreach ($this->accounts as $account) { ?>
+        <tr>
+            <td><input style="height:20px;width:95%;padding:1px;" type="text" name="email_<?php echo $account['altEmailId']; ?>" value="<?php echo $account['altEmail']; ?>" /></td>
+            <td align="center"><input type="checkbox" name="sendnotifications_<?php echo $account['altEmailId']; ?>" <?php echo $account['sendNotifications']; ?> /></td>
+            <td align="center"><input type="checkbox" name="sendinvoice_<?php echo $account['altEmailId']; ?>" <?php echo $account['sendInvoice']; ?> /></td>
+            <td align="center"><input type="checkbox" name="sendsupport_<?php echo $account['altEmailId']; ?>" <?php echo $account['support']; ?> /></td>
+            <td align="center"><input type="checkbox" name="delete_<?php echo $account['altEmailId']; ?>" /></td>
+        </tr>
+        <?php } ?>
+
+        <tr>
+            <td><input type="text" style="height:20px;width:95%;padding:1px;" name="newaltemail" /></td>
+            <td align="center"><input type="checkbox" name="newnotify" /></td>
+            <td align="center"><input type="checkbox" name="newinvoice" /></td>
+            <td align="center" colspan="2"><input type="checkbox" name="newsupport" /></td>
+        </tr>
+
+    </table>
+    <div class="form-actions">
+      <button type="submit" class="pull-right btn"><?php echo $this->user->lang('Update'); ?></button>
+    </div>
+</form>

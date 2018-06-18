@@ -1,0 +1,1 @@
+UPDATE `setting` SET name='plugin_autosuspend_Enable Unsuspension' WHERE name='plugin_autosuspend_Enable/Disable Unsuspension';

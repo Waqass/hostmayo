@@ -1,0 +1,32 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->user->lang("User Notifications"); ?></div>
+  <p class="alert-content"><?php echo $this->user->lang("List of all notification rules that are configured to be mailed out."); ?>&nbsp;&nbsp;&nbsp;
+  Configure the <a href="index.php?fuse=admin&controller=settings&settings=plugins_services&type=Services&view=plugins&setting=automailer"> <?php echo $this->user->lang('Notification Automation Service');?></a>&nbsp;<?php echo $this->user->lang('and');?>&nbsp;
+<a href="index.php?fuse=admin&controller=settings&view=emailtemplates&settings=mail"><?php echo $this->user->lang('Email Templates');?></a>
+  </p>
+</div>
+
+<span id="divNotificationsGrid-metadata" class="grid-meta"></span>
+<div class="blue-box">
+    <button id="buttonAdd" class="rich-button" style="float:left;">
+        <span><?php echo $this->user->lang("Add Notification");?></span>
+    </button>
+    <div style="float: right;">
+        <label for="selectNotificationsGridFilter" style="display:inline;margin-top: 3px;"><?php echo $this->user->lang('Display');?>:</label>
+        <select id="selectNotificationsGridFilter" class="change-grid-showrecords" style="width:60px;">
+            <option value='5'>5</option>
+            <option value='10'>10</option>
+            <option value='25'>25</option>
+            <option value='50'>50</option>
+            <option value='150'>150</option>
+            <option value='300'>300</option>
+        </select>
+    </div>
+</div>
+<div id="divNotificationsGrid"></div>
+<div id="divNotificationsGrid-footer" style="display:none;">
+    <button id="buttonEnable" class="rich-button"><span><?php echo $this->user->lang("Enable");?></span></button>
+    <button id="buttonDisable" class="rich-button"><span><?php echo $this->user->lang("Disable");?></span></button>
+    <button id="buttonReset" class="rich-button"><span><?php echo $this->user->lang("Reset");?></span></button>
+    <button id="buttonDelete" class="rich-button"><span><?php echo $this->user->lang("Delete");?></span></button>
+</div>

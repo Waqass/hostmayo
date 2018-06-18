@@ -1,0 +1,44 @@
+<table cellpadding="2">
+    <tr>
+        <td>
+        <label><?php echo $this->user->lang("First Name");?>:</label>
+        <input type="text" name="firstName" id="firstName" style="margin-bottom:5px;" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <label><?php echo $this->user->lang("Last Name");?>:</label>
+        <input type="text" name="lastName" id="lastName" style="margin-bottom:5px;" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <label><?php echo $this->user->lang("Email");?>:</label>
+        <input type="text" name="email" id="email" style="margin-bottom:5px;" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <label><?php echo $this->user->lang("Group");?>:</label>
+        <select name="customerGroup">
+            <?php foreach ( $this->groups as $id => $name ) { ?>
+            <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
+            <?php } ?>
+            <option value="<?php echo ROLE_GUEST; ?>"><?php echo $this->user->lang('Guest'); ?></option>
+        </select>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+        <label><?php echo $this->user->lang("Password");?>:</label>
+        <input type="password" name="new_password" id="new_password" style="margin-bottom:5px;" />
+        </td>
+    </tr>
+</table>
+<br/>
+<script data-cfasync="false" type="text/javascript">
+    $(document).ready(function(){
+        clientexec.postpageload('.richwindow');
+    });
+</script>

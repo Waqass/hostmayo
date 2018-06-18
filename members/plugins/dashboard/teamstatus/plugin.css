@@ -1,0 +1,31 @@
+
+/*team status*/
+.teamstatusmsg{
+    border-bottom:1px solid #DCDCDC;
+    padding-left: 8px;
+    width:210px;
+}
+.teamspeakprofileimg img{
+    border:2px solid #D9D9D9;
+}
+.teamstatusmsgfooter, .teamstatusmsgfooter a{
+    font-size:12px;
+    text-decoration: none;
+}
+.teamstatusmessage_form {
+    padding-top:10px;
+    width: 475px;
+}
+
+.teamstatusmessage_form .content {
+    padding: 5px 0 15px 20px;
+}
+
+.btn-addstatus {
+	margin-left:15px;
+	width: 165px;
+}
+
+.teamstatus {
+
+}

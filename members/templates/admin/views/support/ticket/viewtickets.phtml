@@ -1,0 +1,447 @@
+<script data-cfasync="false" type="text/javascript">
+
+    var ticketview = ticketview || {};
+    ticketview.ticketid = null;
+    //used to populate additional tabs that have information for this ticket type (kb articles)
+    ticketview.ticket_type=null;
+    //the id of the subscrive value in the event we want to edit it
+    ticketview.subscribe_value = null;
+    $(document).ready(function(){
+        <?php
+            if ($this->is_reply_on_top) {
+                echo "ticketview.is_reply_on_top = true;";
+                echo "var reply_element = $('.ticket-reply').detach();";
+                echo "$('.ticket-reply-top').append(reply_element);";
+                $canned_dropup = "";
+            } else {
+                echo "ticketview.is_reply_on_top = false;";
+                echo "var reply_element = $('.ticket-reply').detach();";
+                echo "$('.ticket-reply-bottom').append(reply_element);";
+                $canned_dropup = "dropup";
+            }
+        ?>
+        ticketList.viewing_from_customer_profile = false;
+        ticketList.back_to_profile = <?php echo $this->back_to_profile;?>;
+        ticketList.searchfilter = "<?php echo $this->searchfilter; ?>";
+        ticketList.searchcustomerid = "<?php echo $this->searchcustomerid; ?>";
+        ticketList.searchquery = "<?php echo $this->searchquery; ?>";
+        ticketList.searchtype = "<?php echo $this->searchtype; ?>";
+        ticketList.creationStart = <?php echo ($this->startDate? ("'".$this->startDate."'") : 'null') ?>;
+        ticketList.creationEnd = <?php echo ($this->endDate? ("'".$this->endDate."'") : 'null') ?>;
+        ticketList.nameSearch = <?php echo ($this->nameSearch? ("'".$this->nameSearch."'") : 'null') ?>;
+        ticketList.assignee = <?php echo ($this->assignee? ("'".$this->assignee."'") : 'null') ?>;
+        ticketList.iscustom = "<?php echo $this->iscustomsearchquery; ?>";
+        ticketList.defaultFilterName = "<?php echo $this->defaultfiltername; ?>";
+        ticketview.bindtickettabs();
+        <?php if($this->ticket_id > 0) {
+            echo "ticketview.actionstodoonload(".$this->ticket_id.");";
+        } ?>
+
+        $('.ticket-customfields button[data-dismiss="alert"]').click(ticketview.hideHelp);
+    });
+
+
+</script>
+
+<!-- below is html for all tickets -->
+<div class="all-tickets-view" style="<?php echo ($this->ticket_id) ? "display:none;" : "" ;?>">
+    <!--
+    <div class="tickets-top-bar">
+        <span class="tickets-header-name">Support</span>
+        <span style="height: 5px; margin-top: 13px; " class="bottom-border"></span>
+    </div>
+    -->
+
+        <div id="divTicketSearch" class="alert ce-alert ce-alert-info">
+                <input type="text" placeholder="<?php echo $this->user->lang("Keyword search");?>" id="inputTicketSearch" name="TicketSearch" style="vertical-align: top; height: 18px; width: 300px;" value="<?php echo $this->searchquery; ?>" data-toggle="tooltip" data-placement="bottom" data-delay='{"show":"1000", "hide":"0"}' title="<?php echo $this->user->lang('Search tickets by subject and messages.  Four character minimum')?>" />
+                <select id="selectSearchType">
+                    <option value="0" <?php echo $this->option_0_selected; ?>><?php echo $this->user->lang("All Words"); ?></option>
+                    <option value="1" <?php echo $this->option_1_selected; ?>><?php echo $this->user->lang("Exact"); ?></option>
+                </select>
+                <?php if ($this->user->hasPermission('support_view_closed_tickets')): ?>
+                  <input type="checkbox" id="inputIncludeClosed" name="includeClosed" style="vertical-align: top; margin-top: 8px;" <?php echo $this->ticketsearch_searchclosed?> />
+                  <label for="inputIncludeClosed" style="display: inline-block; vertical-align: top; margin-top: 4px;"><?php echo $this->user->lang("Include Closed Tickets")?></label>
+                <?php endif ?>
+
+                <div id="tktAdvancedSearch">
+                    <a href="#self" style="margin-top: 5px;" onclick="javascript:createNewFilter();"><?php echo $this->user->lang("Ticket Search");?></a>
+                </div>
+        </div>
+
+    <div id="ticketlist-custom-filter" style='display:none;'>
+        <input type="text" id="filtername" name="filtername" class="required" value='Unsaved Filter'/><br/><br/>
+        <input style="width:10px;margin-left: 6px;" id="filterprivate" name="filterprivate" type="checkbox" /> <?php echo $this->user->lang("Select if this filter is private to you"); ?>
+        <input type="hidden" id="idfilter" name="idfilter" value='' />
+    </div>
+
+    <div style="clear:both;" class="grid-meta" id="ticketsgrid-metadata"></div>
+    <div class="blue-box">
+        <table class="automation">
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="favorite-filter" style="display:none;"><i class="icon-star-empty"></i></span> <label id="spanTicketListTableLabel">Loading..</label>
+                    </td>
+                    <td align="right" style="width:80px"><span><?php echo $this->user->lang("Display"); ?></span>: &nbsp;&nbsp;</td>
+                    <td align="left"  style="width:60px">
+                        <select id='ticketsgrid-filter' class="change-grid-showrecords" style='width:60px;'><option value='5'>5</option><option value='10'>10</option><option value='25'>25</option><option value='50'>50</option><option value='150'>150</option><option value='300'>300</option></select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="ticketsgrid"></div>
+    <div id="ticketsgrid-footer" style="display:none;">
+        <button class="rich-button" id="btnCloseTicket"><span id="close"><?php echo $this->user->lang("Close Ticket(s)"); ?></span></button>
+        <button class="rich-button" id="btnMarkSpam"><span><?php echo $this->user->lang("Mark as Spam"); ?></span></button>
+        <button class="rich-button" id="btnDelTicket"><span><?php echo $this->user->lang("Delete Ticket(s)"); ?></span></button>
+        <button class="rich-button" id="btnMergeTickets"><span><?php echo $this->user->lang("Merge Ticket(s)"); ?></span></button>
+    </div>
+</div>
+
+<div class="active-ticket-view" style="<?php echo ($this->ticket_id) ? "" : "display:none;" ;?>">
+
+    <div class="ticket-top-bar">
+        <div class="ticket-top-bar-buttons">
+            <button type="button" class="btn btn-mini back-to-ticket-list" style="width: 40px;"><i class="icon-chevron-left"></i></button>
+            <div class="ticket-top-bar-status">
+                <div class="dropdown">
+                  <a class="dropdown-toggle ticket-top-bar-status-name"
+                      <?php if ($this->user->hasPermission('support_edit_ticket')): ?>
+                        data-toggle="dropdown"
+                      <?php endif ?>
+                      href="javascript:void(0);"
+                  >...</a>
+                  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                    <?php $aliases = StatusAliasGateway::getInstance($this->user)  ?>
+                    <?php foreach ($aliases->getAllStatuses(ALIAS_STATUS_TICKET) as $status): ?>
+                        <li data-id="<?php echo $status->statusid ?>">
+                            <a data-id="<?php echo $status->statusid ?>" href="javascript:void(0);" onclick="ticketview.changestatus(this, <?php echo ($status->getSystemStatus() == TICKET_STATUS_CLOSED? 'true' : 'false') ?>) ">
+                                <?php echo $this->user->lang($status->name);?>
+                            </a>
+                        </li>
+                    <?php endforeach ?>
+                  </ul>
+                </div>
+            </div>
+            <div class="ticket-top-bar-rating">
+                <b><?php echo $this->user->lang('User rating') ?>: </b>
+                <span class="rating-rate" data-placement="bottom" data-html="true" data-content=""></span>
+                </span>
+            </div>
+            <div class="ticket-top-bar-divide"><i class="icon-circle" style="font-size:9px;color:#ddd;"></i></div>
+            <div class="ticket-top-bar-type">
+                <div class="dropdown">
+                  <a class="dropdown-toggle"
+                      <?php if ($this->user->hasPermission('support_edit_ticket')): ?>
+                        data-toggle="dropdown"
+                      <?php endif ?>
+                      href="javascript:void(0);"
+                  >...</a>
+                  <ul class="dropdown-menu dropdown-menu-scrollable" role="menu" aria-labelledby="dLabel">
+                    <?php foreach ($this->ticketypes as $ticketypes) { ?>
+                        <li data-id="<?php echo $ticketypes['typeId'];?>"><a href="javascript:void(0);" onclick="ticketview.settype(this);" data-value="<?php echo $ticketypes['typeId'];?>" ><?php echo $this->user->lang($ticketypes['typeLabel']) ?></a></li>
+                    <?php } ?>
+                  </ul>
+                </div>
+            </div>
+            <div class="ticket-top-bar-divide"><i class="icon-circle" style="font-size:9px;color:#ddd;"></i></div>
+            <div class="ticket-top-bar-assignedto">
+                <div class="dropdown">
+                  <a class="dropdown-toggle"
+                      <?php if ($this->user->hasPermission('support_edit_ticket')): ?>
+                        data-toggle="dropdown"
+                      <?php endif ?>
+                      href="javascript:void(0);"
+                  >...</a>
+                  <ul class="dropdown-menu dropdown-menu-scrollable" role="menu" aria-labelledby="dLabel"></ul>
+                </div>
+            </div>
+            <div class="ticket-top-bar-divide"><i class="icon-circle" style="font-size:9px;color:#ddd;"></i></div>
+            <div class="ticket-top-bar-assignedtopackage">
+                <div class="dropdown">
+                  <a class="dropdown-toggle"
+                      <?php if ($this->user->hasPermission('support_edit_ticket')): ?>
+                        data-toggle="dropdown"
+                      <?php endif ?>
+                      href="javascript:void(0);"
+                  >...</a>
+                  <ul class="dropdown-menu dropdown-menu-scrollable" role="menu" aria-labelledby="dLabel"></ul>
+                  &nbsp;
+                  <a id="view-package-link" style="display: none;"><i data-package-id="0" style="color: #bd5a35;" class="icon-eye-open"></i></a>
+                </div>
+            </div>
+            <div class="btn-ticket-actions-group pull-right btn-group">
+                <button type="button" class="btn-ticket-actions btn btn-mini pull-right dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="icon-cog"></i><span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li class="ticket-action-subscription" style="display:none;"><a href="javascript:void(0);" id="btnSubscribe">...</a></li>
+                    <li class="ticket-action-spam" style="display:none;"><a href="javascript:void(0);" id="btnMarkAsSpam"><?php echo $this->user->lang("Spam");?></a></li>
+                    <li class="divider profile-bottom-divider" style=""></li>
+                    <li class="ticket-action-delete" style="display:none;"><a href="javascript:void(0);" id="btnDeleteTicket"><?php echo $this->user->lang("Delete");?></a></li>
+                    <li class="ticket-action-migrate" style="display:none;"><a href="javascript:void(0);" id="btnMigrate" onclick="moveGuestToCustomer();"><?php echo $this->user->lang("Migrate to User");?></a></li>
+                </ul>
+            </div>
+            <div class="ticket-top-bar-num pull-right">#<?php echo $this->ticket_id;?></div>
+            <div class="ticket-top-bar-priority pull-right">
+                <div class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="icon-flag"></i></a>
+                  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                    <li data-id="3"><a data-id="3" href="javascript:void(0);" onclick="ticketview.changepriority(this);"><?php echo $this->user->lang('Low');?></a></li>
+                    <li data-id="2"><a data-id="2" href="javascript:void(0);" onclick="ticketview.changepriority(this);"><?php echo $this->user->lang('Medium');?></a></li>
+                    <li data-id="1"><a data-id="1" href="javascript:void(0);" onclick="ticketview.changepriority(this);"><?php echo $this->user->lang('High');?></a></li>
+                  </ul>
+                </div>
+            </div>
+        </div>
+        <div id="ticket-top-bar-alsoviewing" style="display:none;"></div>
+        <span style="height: 5px; margin-top: 9px; " class="bottom-border"></span>
+    </div>
+
+    <div id="content-header-title">
+        <input type="text" class="ticket_subject_name" value="<?php echo $this->subject; ?>">
+        <?php if (isset($this->rating)) { ?>
+        <br/><span class="ticket-header-rating <?php echo ($this->rating_text != "") ? 'tip-target' : '';?> " data-placement="bottom" data-html="true" data-toggle="tooltip" title="<?php echo $this->rating_text;?>">Rated <?php echo $this->rating;?></span>
+        <?php } ?>
+
+        <div style="position:absolute; top:0; right:0; z-index:0">
+            <?php echo $this->user->lang('Show state changes') ?>
+            <div class="switch switch-small hide" data-on-label="<i class='icon-ok icon-white'></i>" data-off-label="<i class='icon-remove'></i>" style="margin-left:5px; top:8px">
+                <input id="toggleStateLog" type="checkbox" />
+            </div>
+        </div>
+    </div>
+
+    <div class="ticket-maincontent">
+
+        <div id="ticketdetails-customfields-min">
+            <div class="ticket-meta-data-box"><span style="padding-left: 3px;" class="grid-meta"></span></div>
+        </div>
+
+        <div class="ticket-tabs">
+            <ul id="ajaxTabs" class="nav nav-tabs">
+              <li class="tickettab active" name='tickettab' id='tickettab_messages_tab' data-href="index.php?fuse=support&view=viewtickets&controller=ticket&id=<?php echo $this->ticket_id; ?>">
+                <span href="javascript:void(0);"><a href="#"><?php echo $this->user->lang("Messages"); ?></a></span>
+              </li>
+              <li name='tickettab' class="tickettab" id='tickettab_customfields_tab' style="display:none;">
+                <span>
+                  <a href="#"><?php echo $this->user->lang("Custom Fields"); ?> <sup>*</sup></a>
+                </span>
+              </li>
+              <li name='packagetab' class="tickettab" id='packagetab' style="display:none;">
+                <span><a href="#"><?php echo $this->user->lang('Package') ?></a></span>
+              </li>
+            </ul>
+        </div>
+
+        <div class="ticket-customfields fieldwrapper withcolor">
+          <?php if (!$this->user->getBoolCustomValue('helpHide-ticketCustomFields')): ?>
+            <label class="alert alert-warning">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <?php echo $this->user->lang("Custom fields are fields that can be filled in by customer when completing a support ticket via the public form. You can modify these custom fields")." <a href='index.php?fuse=admin&view=ticketcustomfields&controller=settings&settings=support'>".$this->user->lang("here")."</a>";?>
+            </label>
+          <?php endif ?>
+            <form id="ticketCustomFieldsForm" method="post">
+            </form>
+            <div class="form-actions">
+                <div class="pull-right">
+                    <button class="btn-primary btn" id="ticketCustomFieldsSubmit"><span><?php echo $this->user->lang("Save Custom Fields");?></span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ticket-package">
+
+            <table class="table table-striped">
+                <tr>
+                    <td width="180"><b><?php echo $this->user->lang("Product Group");?>:</b></td>
+                    <td align="left"><span id="ticket-package-group"></span></td>
+                </tr>
+                <tr>
+                    <td width="180"><b><?php echo $this->user->lang("Product");?>:</b></td>
+                    <td align="left">#<span id="ticket-package-product"></span></td>
+                </tr>
+                <tr id="ticket-package-customfields">
+                    <td width="180"><b><?php echo $this->user->lang("Status");?>:</b></td>
+                    <td align="left"><span id="ticket-package-status"></span></td>
+                </tr>
+            </table>
+
+        </div>
+
+        <div class="ticket-reply-top"></div>
+
+        <div class="pull-right ticket-time-elapsed"><?php echo $this->time_elapsed;?></div>
+        <div class="ticket-active-tab"></div>
+
+        <div class="ticket-reply-bottom"></div>
+
+        <div id="attachedfileblock" style="clear:both;display:none">
+            <span style="font-weight:bold;"><?php echo $this->user->lang("Attachments");?></span>:<br/>
+        </div>
+
+    </div>
+
+
+    <div id="messages_loading"><img src="../images/loader.gif" /></div>
+
+    <div class="ticket-reply" style="display:none;">
+
+        <form id="SupportForm">
+            <input type="hidden" name="private" id="private" value="0" />
+            <input type="hidden" name="ticketstatus" id="ticketstatus" value="1" />
+
+            <ul class="nav nav-pills ticket-reply-option pull-left">
+              <li class="active reply-option-reply">
+                <a href="javascript:void(0);" onclick="ToggleSecondOptionsPanel(0);"><?php echo $this->user->lang("Reply"); ?></a>
+              </li>
+              <li class="reply-option-internal"><a href="javascript:void(0);" onclick="ToggleSecondOptionsPanel(1);"><?php echo $this->user->lang("Internal Message"); ?></a></li>
+            </ul>
+
+            <span id="secondOptionsPanel" class="pull-right">
+                <label class="checkbox inline">
+                  <input type="checkbox" name="notify" id="notify" value="1" checked="true" /> <?php echo $this->user->lang("Send email"); ?>
+                </label>
+                <!--
+                <label class="checkbox inline">
+                  <input type="checkbox" name="signature" id="signature" value="1" checked="" /> <?php echo $this->user->lang("Add signature"); ?>
+                </label> -->
+            </span>
+
+            <div class="textarea-wrapper" data-role="textarea" dir="auto">
+                <textarea tabindex="100" name="message" id="message" dir="auto"><?php echo $this->user->getSignatureText()? "\r\n\r\n\r\n----\r\n" . $this->user->getSignatureText() : '' ?></textarea>
+                <div class="post-actions">
+                        <?php if (count($this->cannedResponses['responses']) > 0) { ?>
+                            <div class="btn-group btn-group-canned <?php echo $canned_dropup;?>">
+                              <button class="btn" type="button"><?php echo $this->user->lang("Apply Canned Reply");?></button>
+                              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                                <span class="caret"></span>
+                              </button>
+                              <ul class="dropdown-menu dropdown-menu-scrollable">
+                                <?php foreach ($this->cannedResponses['responses'] as $response) { ?>
+                                    <li><a href="javascript:void(0);" onclick="AddCannedResponse('<?php echo $response['id']; ?>');"><?php echo $this->escape($response['name']) ?></a></li>
+                                <?php } ?>
+                              </ul>
+                            </div>
+                        <?php }  ?>
+
+                        <!-- <div class="ticket-tags-wrapper">
+                            <i class="icon-tags"></i>
+                        </div> -->
+
+                        <div class="btn-add-attachment">
+                            <span class="btn fileinput-button">
+                                <i class="icon-paper-clip"></i>&nbsp;&nbsp;<?php echo $this->user->lang("Attachment");?>
+                                <input id="fileupload" type="file" name="files">
+                            </span>
+                        </div>
+                        <div class="btn-group btn-group-submit">
+                            <button type="button" onclick="ticketview.submitTicket(event);" class="btn btn-submit btn-inverse"><?php echo $this->user->lang("Submit reply");?></button>
+                            <button class="btn dropdown-toggle btn-inverse" type="button" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <?php foreach ($aliases->getAllStatuses(ALIAS_STATUS_TICKET) as $status): ?>
+                                    <li <?php if ($aliases->isTicketClosed($status->statusid)) echo 'class="ticket-action-close" style="display:none"'; ?>>
+                                        <a tabindex="-1" href="javascript:void(0);" onclick="ticketview.submitTicket(event, <?php echo $status->statusid ?>, <?php echo ($status->getSystemStatus() == TICKET_STATUS_CLOSED? 'true' : 'false') ?>) ">
+                                            <?php echo $this->user->lang("and set to %s", $this->user->lang($status->name));?>
+                                        </a>
+                                    </li>
+                                <?php endforeach ?>
+                            </ul>
+                        </div>
+
+                </div>
+            </div>
+            <br/><br/>
+
+            <div class="new-attachment-files"></div>
+
+            <!-- <div id="reopenticket" style="display:none;padding-bottom: 6px; padding-top: 6px; padding-left: 10px; background-color: rgb(247, 247, 247); position:relative; top:-2px">
+                <input type="checkbox" name="reopen" id="reopen" value="0" style="display:inline"/>&nbsp;<?php echo $this->user->lang("Re-open at later date"); ?>
+            </div> -->
+
+
+                <div class="ticket-action-attach-file">
+                    <?php if ($this->show_attachments) { ?>
+                        <div class="file-upload-meta"><?php echo $this->user->lang("Max upload file size"); ?>: <?php echo $this->file_upload_size . $this->file_upload_ext; ?></div>
+                        <input type="hidden" name="validExtns" value="<?php echo $this->allowed_ext ?>" />
+                    <?php } else { ?>
+                        <span class="file-upload-meta" style="color:red">
+                            <?php if ( isset($this->uploadsNotWritable) ) { ?>
+                            <strong><span class="label label-important"><?php echo $this->user->lang("Warning");?></span> <?php echo $this->user->lang("The directory 'uploads/support' is not writable."); ?></strong>
+                            <?php } else { ?>
+                            <strong><span class="label label-important"><?php echo $this->user->lang("Warning");?></span> <?php echo $this->user->lang("File uploads in support tickets are disabled."); ?></strong>
+                            <?php } ?>
+                        </span>
+                    <?php } ?>
+                </div>
+        </form>
+    </div>
+
+    <div id="message_template" class="msgEntry" style="clear:both; display: none;">
+        <input type="hidden" id="log_id" />
+        <div class="msgEntryHeader">
+            <img alt="" class="msgEntry-left-profile-icon ce-default-avatar" src="" width="32" height="32" />
+            <div class="msgEntryHeader-ownerdiv">
+                <span class="viaEmail">(<?php echo $this->user->lang("via email"); ?>)</span>
+                <br/>
+                <div class="ticket-user-email"></div>
+                <span class="elapsed-time"><?php echo $this->user->lang("Submitted"); ?>: </span>
+            </div>
+            <div style="float:right">
+                <span class="msgEntryHeader-actiondiv"></span>
+            </div>
+        </div>
+        <div id="log_" class="msgEntry-right log_message" dir="auto"></div>
+        <div class="editLinks_log">
+          <?php if ($this->user->hasPermission('support_edit_ticket')): ?>
+            <a style="font-size: 11px;" class="lu_edit"><?php echo $this->user->lang("Edit"); ?></a>&nbsp;&nbsp;
+          <?php endif ?>
+          <?php if ($this->user->hasPermission('support_delete_trouble_ticket')): ?>
+            <a style="font-size:11px;" class='lu_delete'><?php echo $this->user->lang("Delete"); ?></a>
+          <?php endif ?>
+        </div>
+    </div>
+
+    <div id="metalog-status" class="hide metalog">
+        <i class="icon-bullseye icon-large"></i>
+        <span class="timestamp"></span>:
+        <?php echo $this->user->lang('%s changed status to %s', '<span class="user"></span>',  '<span class="newstate"></span>') ?>
+    </div>
+
+    <div id="metalog-assignee" class="hide metalog">
+        <i class="icon-user icon-large"></i>
+        <span class="timestamp"></span>:
+        <?php echo $this->user->lang('%s assigned this ticket to %s', '<span class="user"></span>', '<span class="newstate"></span>') ?>
+    </div>
+
+    <div id="metalog-tkt-type" class="hide metalog">
+        <i class="icon-tag icon-large"></i>
+        <span class="timestamp"></span>:
+        <?php echo $this->user->lang('%s changed type to %s', '<span class="user"></span>',  '<span class="newstate"></span>') ?>
+    </div>
+
+    <div id="metalog-package" class="hide metalog">
+        <i class="icon-suitcase icon-large"></i>
+        <span class="timestamp"></span>:
+        <?php echo $this->user->lang('%s linked to package %s', '<span class="user"></span>', '<span class="newstate"></span>') ?>
+    </div>
+
+    <div id="metalog-priority" class="hide metalog">
+        <i class="icon-flag icon-large"></i>
+        <span class="timestamp"></span>:
+        <?php echo $this->user->lang('%s set priority to %s', '<span class="user"></span>', '<span class="newstate"></span>') ?>
+    </div>
+
+    <div id="metalog-added-attachment" class="hide metalog">
+        <i class="icon-flag icon-paper-clip"></i>
+        <span class="timestamp"></span>:
+        <?php echo $this->user->lang('%s Added the attachment %s', '<span class="user"></span>', '<span class="newstate"></span>') ?>
+    </div>
+
+    <div id="metalog-deleted-attachment" class="hide metalog">
+        <i class="icon-flag icon-trash"></i>
+        <span class="timestamp"></span>:
+        <?php echo $this->user->lang('%s Deleted the attachment %s', '<span class="user"></span>', '<span class="newstate"></span>') ?>
+    </div>
+</div>

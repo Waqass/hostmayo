@@ -1,0 +1,281 @@
+<script data-cfasync="false" type="text/javascript">
+    //used in the general tab view
+    productview.bundleProducts = {};
+    productview.productType = <?php echo $this->package_type;?>
+    //let's add a list of optional bundled products
+    <?php $bundledtxt = "";
+    if (!isset($this->bundledData)) {$this->bundledData = array();}
+    foreach($this->bundledData as $bundledData) {
+        if ($bundledData['optional'] && ($bundledtxt === "")) $bundledtxt = "'".$bundledData['id']."'";
+        else if ($bundledData['optional']) $bundledtxt .= ",'".$bundledData['id']."'";
+    }
+    echo "productview.bundleProducts.optionalIds = [".$bundledtxt."];";
+    ?>
+
+    productview.filterBy = function(el,filter) {
+        $(el).closest('.nav-pills').find('li').removeClass('active')
+        $(el).closest('li').addClass('active');
+
+        $('.language').hide();
+        $('.'+filter).show();
+    }
+</script>
+
+<?php
+    $count_domain_products = 0;
+    $count_domain_products_checked = 0;
+    $count_ssl_products = 0;
+    $count_ssl_products_checked = 0;
+?>
+
+<div class="fieldwrapper withcolor">
+
+    <form id="generaltab">
+    <table cellpadding="5" cellspacing="5" style="width:100%">
+
+        <?php if ($this->package_type != 3) { ?>
+            <?php $languages = CE_Lib::getEnabledLanguages();
+            if(count($languages) > 1){
+                $active = true; ?>
+                <ul class="nav nav-pills">
+                <?php foreach($languages as $languageKey => $language){ ?>
+                    <li <?php if($active){echo 'class="active"';} ?> >
+                        <a <?php if($active){$active = false; echo 'class="default-language-tab"';} ?> href="javascript:void(0)" onclick="productview.filterBy(this,'<?php echo $languageKey; ?>')"><?php echo $languageKey; ?></a>
+                    </li>
+                <?php } ?>
+                </ul>
+            <?php } ?>
+        <?php } ?>
+
+        <?php if (!$this->isnew && $this->package_type != 3) { ?>
+        <tr>
+            <td colspan="3">
+                <label class="fieldlabel"><?php echo $this->user->lang("Direct Link");?></label>
+                <span class="label label-success"><?php echo $this->signupURL;?></span>
+            </td>
+        </tr>
+        <?php } ?>
+
+        <tr>
+            <td style="padding-right: 40px;" width="<?php echo ($this->package_type == 3) ? '95' : '200';?>">
+                <label class="fieldlabel"><?php echo ($this->package_type == 3) ? $this->user->lang("TLD (ex. com, net)") : $this->user->lang("Product Name");?></label>
+                <?php if ($this->package_type == 3 && $this->numofpackagesinuse > 0) { ?>
+                    <input type="text" name='productname' disabled style="width:100%" id="mainlanguageproductname" value='<?php echo $this->packageName;?>' />
+                    <input type="hidden" name='productname' id="mainlanguageproductname" value='<?php echo $this->packageName;?>' />
+                <?php } else { ?>
+                    <?php if(count($languages) > 1){
+                        $active = true;
+                        foreach($languages as $languageKey => $language){ ?>
+                            <span class="language <?php echo $languageKey; ?>" <?php if(!$active){echo 'style="display: none"';} ?> ><input class="required" type="text" name='productname<?php echo $languageKey; ?>' <?php if($active){$active = false; echo 'id="mainlanguageproductname"';} ?> style="width:97%" value='<?php echo $this->packageNameLanguages[$languageKey];?>' /></span>
+                        <?php }
+                    }else{ ?>
+                        <input class="required" type="text" name='productname' id="mainlanguageproductname" style="width:97%" value='<?php echo $this->packageName;?>' />
+                    <?php } ?>
+                <?php } ?>
+            </td>
+            <td colspan="2">
+                <table>
+                <tr>
+                    <td width="60" style="padding-right:35px;">
+                    <label class="fieldlabel"><span class='tip-target' data-html="true" data-toggle="tooltip" title="<?php echo $this->user->lang("Order in which this product will be displayed in signup");?>"><?php echo $this->user->lang("Signup Order");?></span></label>
+                        <select name="product-order" style="width:100px;" id="product-order">
+                            <?php for($x=1; $x<=$this->numofpackages + 1; $x++) {  ?>
+                                <option value="<?php echo $x;?>" <?php echo ($this->signup_order==$x) ? "selected": "" ;?>> <?php echo $x;?> </option>
+                            <?php } ?>
+                        </select>
+                    </td>
+                    <td width="300">
+                        <label class="fieldlabel" style="margin-bottom: 10px;"><?php echo $this->user->lang("Welcome Email");?></label>
+                        <div style="position:relative;top:-3px;">
+                        <select name="product-welcomeemails" style="width:99%;" id="product-welcomeemails">
+                            <?php foreach($this->welcomeemails as $welcomeemail) { ?>
+                                <option value="<?php echo $welcomeemail['id'];?>" <?php if($this->emailTemplateId == $welcomeemail['id']) echo "selected";?>><?php echo $welcomeemail['templateName'];?></option>
+                            <?php } ?>
+                        </select>
+                        </div>
+                    </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <?php if ($this->groupStyle === "compare") { ?>
+                    <label class="fieldlabel"><span class='tip-target' data-placement="right" data-html="true" data-toggle="tooltip" title='<?php echo $this->user->lang("Only the first 25 characters will be used for the description of this product"); ?>'><?php echo $this->user->lang("Description");?></span></label>
+                    <?php if(count($languages) > 1){
+                        $active = true;
+                        foreach($languages as $languageKey => $language){ ?>
+                            <span class="language <?php echo $languageKey; ?>" <?php if(!$active){echo 'style="display: none"';} ?> ><textarea name="content<?php echo $languageKey; ?>" <?php if($active){$active = false; echo 'id="mainlanguagecontent"';} ?> style="width:100%; height: 40px;" data-parent-selector='#generaltab' data-widthembed="true"><?php echo $this->descLanguages[$languageKey];?></textarea></span>
+                        <?php }
+                    }else{ ?>
+                        <textarea name="content" id="mainlanguagecontent" style="width:100%; height: 40px;" data-parent-selector='#generaltab' data-widthembed="true"><?php echo $this->desc;?></textarea>
+                    <?php } ?>
+                    <label class="fieldlabel pull-left label-asset-html" style="padding-top:8px;"><span class='tip-target' data-placement="right" data-html="false" data-toggle="tooltip" title='<?php echo $this->user->lang("List of assets to list in the compare box.\n\n Example HTML\n\n<ul>\n<li class=\"first\">20 GB Storage</li>\n<li>MySQL DB</li>\n<li class=\"last\">Dedicated IP Address</li>\n</ul>"); ?>'><?php echo $this->user->lang("Asset List HTML");?></span></label> <label class="checkbox inline pull-right" style="margin-top:5px;margin-right:5px;"><input type="checkbox" name="highlight" value="1" <?php if ($this->highlight == 1) echo "checked";?> /><span class='tip-target' data-placement="left" data-html="true" data-toggle="tooltip" title='<?php echo $this->user->lang("When displaying products in the compare style you must select one package to be the highlighted product."); ?>'><?php echo $this->user->lang("Highlight this package?");?></span></label>
+                    <?php if(count($languages) > 1){
+                        $active = true;
+                        foreach($languages as $languageKey => $language){ ?>
+                            <span class="language <?php echo $languageKey; ?>" <?php if(!$active){echo 'style="display: none"';} ?> ><textarea name="assets<?php echo $languageKey; ?>" <?php if($active){$active = false; echo 'id="mainlanguageassets"';} ?> style="width:100%; height: 180px;"><?php echo $this->assetHTMLLanguages[$languageKey];?></textarea></span>
+                        <?php }
+                    }else{ ?>
+                        <textarea name="assets" id="mainlanguageassets" style="width:100%; height: 180px;"><?php echo $this->assetHTML;?></textarea>
+                    <?php } ?>
+                <?php } else if  ($this->package_type != 3) { ?>
+                    <label class="fieldlabel"><?php echo $this->user->lang("Description");?></label>
+                    <?php if(count($languages) > 1){
+                        $active = true;
+                        foreach($languages as $languageKey => $language){ ?>
+                            <span class="language <?php echo $languageKey; ?>" <?php if(!$active){echo 'style="display: none"';} ?> ><textarea name="content<?php echo $languageKey; ?>" <?php if($active){$active = false; echo 'id="mainlanguagecontent"';} ?> class="wysihtml5" style="width:100%; height: 100px;" data-parent-selector='#generaltab' data-widthembed="true"><?php echo $this->descLanguages[$languageKey];?></textarea></span>
+                        <?php }
+                    }else{ ?>
+                        <textarea name="content" id="mainlanguagecontent" class="wysihtml5" style="width:100%; height: 100px;" data-parent-selector='#generaltab' data-widthembed="true"><?php echo $this->desc;?></textarea>
+                    <?php } ?>
+                <?php } else if  ($this->package_type == 3) { ?>
+                    <input type="hidden" name="content" value ='' />
+                <?php }?>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <span  style="padding-top: 5px;padding-bottom: 10px;padding-left: 10px;background-color:#E9E9E9;border-radius:25px;border:2px solid;border-radius: 5px;border: 1px solid #ddd;">
+                <?php if ($this->package_type == 3) { ?>
+                    <!-- no need to allow direct on domain -->
+                    <input type="hidden" name="direct" value="0" />
+                <?php } else { ?>
+                <label class="checkbox inline"><input type="checkbox" name="direct" value="1" <?php if ($this->allowDirectLink == 1) echo "checked";?> /><?php echo $this->user->lang("Allow direct link?");?></label>
+                <?php } ?>
+                <label class="checkbox inline"><input type="checkbox" name="signup" value="1" <?php if ($this->allowInSignup == 1) echo "checked";?> /><?php echo $this->user->lang("Show in signup form?");?></label>
+                <label class="checkbox inline"><input type="checkbox" name="sendemail" value="1" <?php if ($this->sendWelcomeEmailChecked == 1) echo "checked";?> /><?php echo $this->user->lang("Send welcome email?");?></label>
+                <label class="checkbox inline"><input type="checkbox" name="autoupdate" value="1" <?php if ($this->automaticactivation == 1) echo "checked";?> /><span class='tip-target' data-html="true" data-toggle="tooltip"  title='You must also enable the <strong style="color:red;">Order Processor</strong> automation service to allow this package to be automatically created.'><?php echo $this->user->lang("Automatically Activate Package?");?></span></label>
+                </span>
+            </td>
+        </tr>
+        <?php // Bundling settings ?>
+        <?php if ($this->package_type == 1) { ?>
+        <tr>
+            <td colspan="3">
+                <label class="fieldlabel" style="margin-top:10px"><?php echo $this->user->lang("Include Additional Bundled Products");?></label>
+                <label class="checkbox inline"><input type="checkbox" id="bundledomain" name="bundledomain" value="1" <?php if ($this->bundledomain == 1) echo "checked";?> /><?php echo $this->user->lang("Domain products?");?></label><br/>
+                <div class="bundle_domains_fields" style="display:none;">
+                    <select id="domain_bundles_dropdown" name="bundledproducts[]">
+                        <option value="0"><?php echo $this->user->lang("None");?></option>
+                        <?php foreach ($this->bundledData as $bundledData) {
+                            if ($bundledData['packagetype'] != $this->user->lang("Domain")) continue;
+                            $count_domain_products++;
+                            if ( $bundledData['domain_coupon'] != false ) $this->domainCoupon = $bundledData['domain_coupon'];
+                         ?>
+                            <option value='<?php echo $bundledData['id'];?>' <?php if($bundledData['checked']) { echo "selected"; $count_domain_products_checked++;}?>><?php echo $bundledData['packagename'];?></option>
+                        <?php } ?>
+                    </select>
+                    <!-- <input type="text" name="coupon_domain" placeholder="<?php echo $this->user->lang("Apply Coupon");?>" style="width:90px;margin-left:10px;" value="<?php echo $this->domainCoupon; ?>" /> -->
+                </div>
+                <label class="checkbox inline"><input type="checkbox" id="bundlessl" name="bundlessl" value="1" <?php if ($this->bundlessl == 1) echo "checked";?> /><?php echo $this->user->lang("SSL certificate products?");?></label>
+                <div class="bundle_ssl_fields" style="display:none;">
+                    <select id="ssl_bundles_dropdown" name="bundledproducts[]">
+                        <option value="0"><?php echo $this->user->lang("None");?></option>
+                        <?php foreach ($this->bundledData as $bundledData) {
+                            if ($bundledData['packagetype'] != $this->user->lang("SSL")) continue;
+                            $count_ssl_products++;
+                            if ( $bundledData['ssl_coupon'] != false ) $this->sslCoupon = $bundledData['ssl_coupon'];
+                        ?>
+                            <option value='<?php echo $bundledData['id'];?>' <?php if($bundledData['checked']) { echo "selected"; $count_ssl_products_checked++;}?>><?php echo $bundledData['packagename'];?></option>
+                        <?php } ?>
+                    </select>
+                    <!-- <input type="text" name="coupon_ssl" placeholder="<?php echo $this->user->lang("Apply Coupon");?>" style="width:90px;margin-left:10px;" value="<?php echo $this->sslCoupon; ?>" /> -->
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <label class="fieldlabel" id="label_adv_subdomain"><span class='tip-target' data-html="true" data-placement="right" data-toggle="tooltip" title='Enter a list of subdomains to offer your clients a free alternative to a domain name.'><?php echo $this->user->lang("Subdomains");?></span></label>
+
+                 <input id="subdomain" class="select2-large" style="width: 100%;" name="adv_subdomain" value="<?php echo $this->adv_subdomain; ?>" />
+             </td>
+         </tr>
+         <tr>
+            <td colspan="3">
+                <label class="checkbox"><span class="tip-target" data-html="true" data-placement="right" data-toggle="tooltip" title='Hosting products have 3 built-in mandatory fields (Username, Password & Domain Name). The fields are displayed in Step 2 of the signup process, check this box to hide them from view. <br/><br/><b><span style="color:red;">Note:</span> Any server plugins that rely on these fields will fail so use with caution.</b>'><input type="checkbox" name="adv_hostingcustomfields" value="1" <?php if ($this->adv_hostingcustomfields == 1) echo "checked";?> /><?php echo $this->user->lang("Hide hosting custom fields");?></span></label>
+            </td>
+        </tr>
+        <?php } else if ($this->package_type == 0) { ?>
+        <tr>
+            <td colspan="3">
+                <label class="fieldlabel" style="margin-top:10px"><span class='tip-target' data-toggle="tooltip" data-placement="right" title="<?php echo $this->user->lang("Bundled product is only available if choosing the main product from signup.");?>"><?php echo $this->user->lang("Include other products during the order process?");?></span></label>
+                <select multiple="multiple" name="bundledproducts[]" style="width:99%" id="bundledproducts">
+                    <?php foreach ($this->bundledData as $bundledData) { ?>
+                        <option value='<?php echo $bundledData['id'];?>' <?php if($bundledData['checked']) echo "selected";?>><?php echo $bundledData['packagename'];?></option>
+                    <?php } ?>
+                </select>
+            </td>
+        </tr>
+        <?php } ?>
+        <?php if ($this->packageGroupType == 1 || $this->packageGroupType == 0) { ?>
+        <tr>
+            <td colspan="3">
+                <label class="fieldlabel"><?php echo $this->user->lang("Stock Control");?></label>
+                <table cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <label style="padding-top: 4px;" class="checkbox"><input type="checkbox" id="stockEnable" name="stockEnable" value="1" <?php if ($this->stockEnable == 1) echo "checked";?> /><?php echo $this->user->lang("Enable stock control options?");?></label>
+                    </td>
+                    <td>
+
+                        <div class="stockcontrolswitch" style="<?php if ($this->stockEnable == 0) echo "display:none;"; ?>margin-left: 25px;">
+                            <input type="text" style="width:25px;" value="<?php echo $this->stockAmount;?>" name="stockAmount" id="stockAmount"> <span style="margin-left:6px;font-size: 12px;" class='tip-target' data-toggle="tooltip" data-placement="right" data-html="true" title='Enter the quantity of available stock for this product.<br><br><b>Note:</b> When a product is sold, the available stock quantity is automatically reduced. Stock is NOT automatically adjusted for cancelled orders.'><?php echo $this->user->lang("Quantity available");?></span>
+                        </div>
+                    </td>
+                </tr>
+                </table>
+                <div class="stockcontrolswitch" style="<?php if ($this->stockEnable == 0) echo "display:none;"; ?>">
+                    <label class="checkbox"><input type="checkbox" id="stockAcceptOrders" name="stockAcceptOrders" value="1" <?php if ($this->stockAcceptOrders == 1) echo "checked";?> /><span class='tip-target' data-placement="right" data-toggle="tooltip" title='Select this option if you wish for customers to be able to place an order for a product that has no available stock.'><?php echo $this->user->lang("Accept sold out orders?");?></span></label>
+                    <label class="checkbox"><input type="checkbox" id="stockShowLevel" name="stockShowLevel" value="1" <?php if ($this->stockShowLevel == 1) echo "checked";?> /> <span class='tip-target' data-toggle="tooltip" data-placement="right"  title='Select this option if you wish to display the current stock level of this product in the order form.'><?php echo $this->user->lang("Show stock level in order form?");?></span></label>
+                </div>
+            </td>
+        </tr>
+        <?php } ?>
+        <tr>
+            <td colspan="3">
+                <div class="form-actions">
+                    <div class="pull-right">
+                      <button type="submit" class="submit-general btn btn-primary"><?php echo $this->user->lang("Save Changes");?></button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    </form>
+</div>
+
+<?php if ($this->package_type == 1) { ?>
+    <script data-cfasync="false" type="text/javascript">
+        var count_domain_products = <?php echo $count_domain_products;?>;
+        var count_ssl_products = <?php echo $count_ssl_products;?>;
+        var count_domain_products_checked = <?php echo $count_domain_products_checked?>;
+        var count_ssl_products_checked = <?php echo $count_ssl_products_checked;?>;
+
+        $(document).ready(function(){
+            //bundle_domains_fields
+            if ( count_domain_products == 0){
+                //$('#bundledomain').prop('checked', false);
+            } else if (count_domain_products_checked > 0){
+                $('#bundledomain').prop('checked', true);
+                $('.bundle_domains_fields').show();
+            }
+
+            //bundle_ssl_fields
+            if ( count_ssl_products == 0){
+                //$('#bundledomain').prop('checked', false);
+            } else if (count_ssl_products_checked > 0){
+                $('#bundlessl').prop('checked', true);
+                $('.bundle_ssl_fields').show();
+            }
+
+            $('#subdomain').select2({
+                multiple: true,
+                allowclear: true,
+                tags: [],
+                width: 'resolve',
+                tokenSeparators: [",", ' ']
+            });
+        });
+    </script>
+<?php } ?>

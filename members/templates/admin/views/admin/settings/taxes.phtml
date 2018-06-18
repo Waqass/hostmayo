@@ -1,0 +1,26 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo lang("Taxes"); ?></div>
+  <p class="alert-content"><?php echo lang("Add tax support to your Clientexec."); ?></p>
+</div>
+
+<div class="grid-meta" id="div-taxes-grid-metadata"></div>
+<div id="div-taxes-grid-header" class="blue-box">
+    <div class="richgrid-filter">
+        <div class="richgrid-filter-label"><?php echo $this->user->lang('Display'); ?>:</div>
+        <select id="select-taxes-grid-filter-count" class="richgrid-filter-object" style="width: 60px;">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+        </select>
+    </div>
+    <button id="button-addTax" class="rich-button"><span><?php echo $this->user->lang('Add Tax'); ?></span></button>
+</div>
+<div id="div-taxes-grid"></div>
+<div id="div-taxes-grid-footer">
+    <button id="button-deleteTax" class="rich-button" disabled><span><?php echo $this->user->lang('Delete Tax'); ?></span></button>
+</div>
+<div class="well">
+    <?php echo $this->user->lang('If a tax rule is applied to all countries, it will be the default tax unless otherwise specified.'); ?><br />
+    <?php echo $this->user->lang('If a tax rule is applied to all states, it will be the countries default tax unless otherwise specified.'); ?>
+</div>

@@ -1,0 +1,253 @@
+/*
+Theme Name: Type
+Description: Used to style the TinyMCE editor.
+*/
+
+body {
+	background-color: #fff;
+	color: #222;
+	font-family: 'Nunito Sans', sans-serif;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 1.75;
+	margin: 20px 40px;
+	max-width: 760px;
+	vertical-align: baseline;
+}
+
+body.post-type-page {
+	max-width: 700px;
+}
+
+/* Typography */
+ 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	clear: both;
+	font-family: 'Poppins', sans-serif;
+	color: #000;
+}
+
+h1 {
+	font-size: 2.5rem;	
+	font-weight: 400;
+	line-height: 1.3;
+}
+
+h2 {
+	font-size: 1.75rem;
+	line-height: 1.3;
+}
+
+h3 {
+	font-size: 1.5rem;
+	line-height: 1.3;
+}
+
+h4 {
+	font-size: 1rem;
+	text-transform: uppercase;
+	line-height: 1.4;
+}
+
+h5 {
+	font-size: 1.125rem;
+	line-height: 1.4;
+}
+
+h1, h2, h3 {
+	margin: 20px 0 10px;
+}
+
+h4, h5, h6 {
+	margin: 10px 0 5px;
+}
+
+p {
+	margin: 0 0 20px;
+}
+
+h1:first-child,
+h2:first-child,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child {
+	margin-top: 0;
+}
+
+b,
+strong {
+	font-weight: 700;
+}
+
+/* Elements */
+
+hr {
+	background-color: #eee;
+	border: 0;
+	height: 1px;
+	margin-bottom: 20px;
+}
+
+ul,
+ol {
+	margin: 0 0 20px 15px;
+    padding: 0 0 0 15px;
+}
+
+ul {
+	list-style: disc;
+}
+
+ol {
+	list-style: decimal;
+}
+
+li > ul,
+li > ol {
+	margin-bottom: 0;
+	margin-left: 15px;
+}
+
+dfn,
+cite,
+em,
+i {
+	font-style: italic;
+}
+
+blockquote {
+	border-left: 5px solid #eee;
+	margin: 20px 30px;
+	padding: 0px 20px;
+	color: #444;
+}
+
+cite {
+	margin: 0 20px;
+}
+
+address {
+	margin: 0 0 10px;
+}
+
+embed,
+iframe,
+object {
+	max-width: 100%;
+}
+
+/* Alignment */
+
+.alignleft {
+	display: inline;
+	float: left;
+	margin: 0 20px 5px 0;
+}
+
+.alignright {
+	display: inline;
+	float: right;
+	margin: 0 0 5px 20px;
+}
+
+.aligncenter {
+	clear: both;
+	display: block;
+	margin: 20px auto;
+}
+
+/* Galleries */
+
+.gallery {
+	margin-bottom: 20px;
+}
+
+.gallery-item {
+	display: inline-block;
+	width: 100%;
+	margin: 0 auto 20px;
+	padding: 0 10px;
+	text-align: center;
+	vertical-align: top;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.gallery-icon img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+	margin: 0 auto;
+	border: none;	
+}
+
+.gallery-columns-2 .gallery-item {
+	max-width: 50%;
+}
+
+.gallery-columns-3 .gallery-item {
+	max-width: 33.33%;
+}
+
+.gallery-columns-4 .gallery-item {
+	max-width: 25%;
+}
+
+.gallery-columns-5 .gallery-item {
+	max-width: 20%;
+}
+
+.gallery-columns-6 .gallery-item {
+	max-width: 16.66%;
+}
+
+.gallery-columns-7 .gallery-item {
+	max-width: 14.28%;
+}
+
+.gallery-columns-8 .gallery-item {
+	max-width: 12.5%;
+}
+
+.gallery-columns-9 .gallery-item {
+	max-width: 11.11%;
+}
+
+/* Captions */
+
+.wp-caption {
+	border: none;
+	margin-bottom: 20px;
+	max-width: 100%;
+}
+
+.wp-caption-text {
+	text-align: center;
+}
+
+.wp-caption img[class*="wp-image-"] {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.wp-caption .wp-caption-text {
+	font-size: 0.875rem;
+	color: #888;
+	font-style: italic;
+	padding-top: 10px;
+}
+
+.gallery-caption {
+	color: #888;
+	display: block;
+	font-size: 0.875rem;
+	font-style: italic;
+	padding-top: 5px;
+}

@@ -1,0 +1,23 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo lang("Support")." ".lang("Settings")." - ".lang("Email Routing"); ?></div>
+  <p class="alert-content"><?php echo lang("Configure how you want your email address routed to tickets"); ?></p>
+</div>
+
+<div id="div-emailRouting-grid-header" class="richgrid-header blue-box">
+    <button id="button-addRule" class="rich-button"><span><?php echo $this->user->lang('Add Routing Rule'); ?></span></button>
+    <button id="button-filters" class="rich-button"><span><?php echo $this->user->lang('Edit Routing Filters'); ?></span></button>
+</div>
+<div id="div-emailRouting-grid" class="richgrid"></div>
+<div id="div-emailRouting-grid-footer" class="richgrid-footer">
+    <button id="button-deleteRule" class="rich-button" disabled><span><?php echo $this->user->lang('Delete Routing Rule'); ?></span></button>
+</div>
+<div class="well">
+    <?php echo $this->user->lang('When an email is received rules are checked as they are ordered above and only the first rule matched will be processed.'); ?><br />
+    <span class="bold"><?php echo $this->user->lang('Note: You can drag and drop lines in the table to reorder the rules. Order will be saved automatically.'); ?></span>
+</div>
+<?php if ($this->noGuestsEmailRulesWarning) { ?>
+<div id="div-noGuestsEmailRules" class="alert alert-info alert-block">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->user->lang('If you choose not to handle emails from guest clients, it is recommended that you set up at least one routing rule that handles them with an autoresponder letting them know that their message was discarded.'); ?>
+</div>
+<?php } ?>

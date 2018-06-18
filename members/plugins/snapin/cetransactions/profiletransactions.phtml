@@ -1,0 +1,18 @@
+<span class="grid-meta" id="invoicelist-grid-metadata"></span>
+<div id="invoicelist-grid-header" class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+                <td id="viewing-invoices-text"><span><?php echo $this->user->lang("Invoice Transactions");?></span></td>
+                <td align="right" width="50">
+                    &nbsp;&nbsp;<span><?php echo $this->user->lang("Show");?></span>:&nbsp;
+                </td>
+                <td align="right" style="width:65px">
+                    <select id='invoicelist-grid-filter'  class="change-grid-showrecords" style='width:60px;'><<option value='5'>5</option><option value='10'>10</option><option value='25'>25</option><option value='50'>50</option><option value='150'>150</option><option value='300'>300</option></select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="transactions-grid"></div>

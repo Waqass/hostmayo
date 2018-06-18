@@ -1,0 +1,76 @@
+<table cellpadding="5" cellspacing="0">
+    <tr>
+        <td>
+            <label class="fieldlabel"><?php echo $this->user->lang("Name");?></label>
+            <input class="required" type="text" name="name" style="padding-right:20px;" value="<?php echo $this->name;?>" />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <label class="fieldlabel"><?php echo $this->user->lang("Description");?></label>
+            <textarea name="description" style="height: 100px"><?php echo $this->description; ?></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <label class="fieldlabel"><?php echo $this->user->lang("Default Assignee");?></label>
+            <select name="deptid_staffid" style="width:230px;">
+                <?php foreach ( $this->departments['groups'] as $department ) { ?>
+                <option <?php if ( $department['assigneeId'] == $this->selectedDepartment) { ?> selected="selected" <?php } ?> class="<?php echo $department['indentClass']; ?>" value="<?php echo $department['assigneeId']; ?>"><?php echo $this->escape($department['assigneeLabel']) ?></option>
+                <?php } ?>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <label class="fieldlabel"><?php echo $this->user->lang("Custom Fields");?></label>
+            <select id="customFieldsSelect" name="customFields[]" multiple="multiple" class="disableSelect2AutoLoad">
+                <?php foreach ( $this->customFieldsSomeTicketTypes as $customField ) { ?>
+                <option <?php if ( in_array($customField['id'], $this->selectedCustomfields) ) { ?> selected="selected" <?php } ?> value="<?php echo $customField['id']; ?>"><?php echo $customField['text']; ?></option>
+                <?php } ?>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <label class="fieldlabel"><?php echo $this->user->lang("Custom Fields for All Ticket Types");?></label>
+            <select id="customFieldsAllTicketTypes" name="customFieldsAll[]" multiple="multiple" class="disableSelect2AutoLoad" disabled>
+                <?php foreach ( $this->customFieldsAllTicketTypes as $customField ) { ?>
+                <option selected="selected" value="<?php echo $customField['id']; ?>"><?php echo $customField['text']; ?></option>
+                <?php } ?>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <label class="checkbox">
+                <input <?php if ( $this->enabled == 1) { ?> checked="checked" <?php } ?> type="checkbox" name="enabled" <?php if ( $this->disableCheckBoxes == true) { ?> disabled="disabled" checked="checked" <?php } ?> /> <?php echo $this->user->lang('Enabled'); ?>
+            </label>
+            <label class="checkbox">
+                <input <?php if ( $this->enabledPublic == 1) { ?> checked="checked" <?php } ?> type="checkbox" name="enabled_public" <?php if ( $this->disableCheckBoxes == true) { ?> disabled="disabled" <?php } ?> /> <?php echo $this->user->lang('Enabled in the public section'); ?>
+            </label>
+            <label class="checkbox">
+                <input <?php if ( $this->allowClose == 1) { ?> checked="checked" <?php } ?> type="checkbox" name="allowclose" /> <?php echo $this->user->lang('Allow customer to close tickets'); ?>
+            </label>
+        </td>
+    </tr>
+</table>
+<input type="hidden" name="id" value="<?php echo $this->id; ?>" />
+<input type="hidden" name="systemid" value="<?php echo $this->systemId; ?>" />
+
+
+
+<script data-cfasync="false" type="text/javascript">
+    $(document).ready(function(){
+        clientexec.postpageload('.richwindow');
+
+        $('#customFieldsSelect').select2({
+            width: '230px',
+            tokenSeparators: [',']
+        });
+        $('#customFieldsAllTicketTypes').select2({
+            width: '230px',
+            tokenSeparators: [',']
+        });
+    });
+</script>

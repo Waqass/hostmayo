@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><?php echo $this->user->lang('Clientexec Installer') ?></title>
+    <link rel="Shortcut Icon" href="favicon.ico" />
+    <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Quattrocento+Sans:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="templates/admin/style/install.css" />
+    <script type="text/javascript">
+        var gHash = "<?php echo $this->gHash; ?>";
+    </script>
+    <script type="text/javascript" src="library/utilities/min/index.php?g=installer"></script>
+</head>
+
+<body>
+<div class="install-header"><?php echo $this->user->lang('Clientexec Installer') ?></div>
+
+<center>
+<div id="main" style="width:80%;min-width:900px">
+
+<h2><?php echo $this->user->lang('There was an issue with your installation') ?></h2>
+
+<div class="well">
+    <table border=0 cellspacing=1 cellpadding=4 bgcolor="#999999" style="width:100%;min-width:900px">
+        <tr>
+            <td style="text-align:center">
+    <table border=0 cellspacing=1 cellpadding=4 width=100%>
+        <tr>
+            <td align="center"><br>
+                <?php echo $this->unescape($this->problem) ?><br><br>
+            </td>
+        </tr>
+    </table>
+
+    <input type="button" class="btn" value="<?php echo $this->user->lang('Return to Previous Step') ?>" onclick="history.back()" /><br><br>
+    </table>
+</div>
+
+        </div>
+</center>
+</body>
+</html>

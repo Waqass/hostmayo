@@ -1,0 +1,54 @@
+<label class="fieldlabel"><?php echo $this->user->lang("Period for TLD").": &nbsp;".$this->tld;?></label>
+<select name="product-group-period" <?php if (!$this->allowchange) echo "disabled";?> style="width:255px;" id="product-group-period">
+    <?php foreach ($this->periods as $periods) { ?>
+        <option value="<?php echo $periods['period'];?>" <?php echo ($periods['period'] == $this->period) ? "selected" : ""; ?>> <?php echo $periods['name'];?> </option>
+    <?php } ?>
+</select>
+
+<?php if ((!$this->allowchange) && ($this->period != "")) { ?>
+    <input type="hidden" name="product-group-period" value="<?php echo $this->period;?>" />
+<?php } ?>
+
+<table cellpaddin="0" cellspacing="0">
+<tr>
+<td>
+    <label class="fieldlabel" style="text-align:right;padding-right: 24px;"><?php echo $this->user->lang("Price");?></label>
+    <input class="price required" type="text" style="text-align: right;width:53px;margin-right:17px;" name="product-period-price" style="padding-right:20px;" value="<?php echo $this->price;?>" />
+</td>
+<td>
+    <label data-toggle="tooltip" title="<?php echo $this->user->lang('You can leave this field blank to disable the transfer period'); ?>." class="fieldlabel" style="text-align:right;padding-right: 24px;"><?php echo $this->user->lang("Transfer");?></label>
+    <input class="price" type="text" style="text-align: right;width:53px;margin-right:17px;" name="product-period-transfer" style="padding-right:20px;" value="<?php echo $this->transfer;?>" />
+</td>
+<td>
+    <label class="fieldlabel" style="text-align:right;padding-right: 24px;"><?php echo $this->user->lang("Renew");?></label>
+    <input class="price required" type="text" style="text-align: right;width:53px;margin-right:17px;" name="product-period-renew" style="padding-right:20px;" value="<?php echo $this->renew;?>" />
+</td>
+</tr>
+</table>
+<script data-cfasync="false" type="text/javascript">
+    clientexec.postpageload('.richwindow');
+
+    $(document).ready(function() {
+        $('.price').each(function() {
+            $(this).keydown(function (e) {
+                // Allow: backspace, delete, tab, escape, enter and .
+                if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                    // Allow: Ctrl+A
+                    (e.keyCode == 65 && e.ctrlKey === true) ||
+                    // Allow: Ctrl+C
+                    (e.keyCode == 67 && e.ctrlKey === true) ||
+                     // Allow: Ctrl+V
+                    (e.keyCode == 86 && e.ctrlKey === true) ||
+                     // Allow: home, end, left, right
+                    (e.keyCode >= 35 && e.keyCode <= 39)) {
+                         // let it happen, don't do anything
+                         return;
+                }
+                // Ensure that it is a number and stop the keypress
+                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                    e.preventDefault();
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,41 @@
+<b><?php echo $this->user->lang('Select which fields you wish to export and press the button to download the file'); ?>:</b><br />
+<table>
+    <?php foreach ( $this->fields as $field ) { ?>
+    <tr>
+        <td valign="top">
+            <input style="margin-right:5px;" type="checkbox" name="invoices_field_<?php echo $field['inputName']; ?>" <?php echo $field['checked']; ?> /><?php echo $field['fieldName']; ?><br />
+        </td>
+    </tr>
+    <?php } ?>
+</table><br />
+<table>
+    <tr>
+        <td>
+            <b><?php echo $this->user->lang('Invoice status'); ?>:</b>
+        </td>
+        <td>
+            <select name="invoice_status">
+                <option value="all" selected><?php echo $this->user->lang('All invoices'); ?></option>
+                <option value="unpaid"><?php echo $this->user->lang('Unpaid invoices'); ?></option>
+                <option value="paid"><?php echo $this->user->lang('Paid invoices'); ?></option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b><?php echo $this->user->lang('Bill Date'); ?>:</b>
+        </td>
+        <td>
+            <input class='datepicker' type='text' name="startdate" id="startdate" value='' /> - <input class='datepicker' type='text' name="enddate" id="enddate" value='' />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b><?php echo $this->user->lang('Date Paid'); ?>:</b>
+        </td>
+        <td>
+            <input class='datepicker' type='text' name="startdate2" id="startdate2" value='' /> - <input class='datepicker' type='text' name="enddate2" id="enddate2" value='' />
+        </td>
+    </tr>
+</table><br />
+<button class="rich-button" id="exportButton"><span><?php echo $this->user->lang("Download .csv"); ?></span></button>

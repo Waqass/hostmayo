@@ -1,0 +1,292 @@
+<?php
+ if ($this->pageTitle == "") {
+    $original_title = "Untitled (".$this->gFuse."/".$this->gView.") - " . $this->user->lang('Powered by') . " Clientexec";
+ } else {
+    $original_title = ucfirst($this->pageTitle)." - " . $this->user->lang('Powered by') . " Clientexec";
+ }
+?>
+<!DOCTYPE html>
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta name="apple-mobile-web-app-capable" content = "yes" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title><?php echo $original_title;?></title>
+    <link rel="Shortcut Icon" href="../favicon.ico?v=2"/>
+
+    <script data-cfasync="false" type="text/javascript">
+        var clientexec = {
+            focused : true,
+            favorite_filter: "<?php echo $this->favorite_filter;?>",
+            customerId: <?php echo $this->gCustomerId; ?>,
+            customerEmail: "<?php echo $this->gCustomerEmail; ?>",
+            customerChanged: <?php echo $this->customerChanged ? 'true' : 'false'; ?>,
+            dateFormat: "<?php echo $this->gDateFormat;?>",
+            admin_id : <?php echo $this->user->getId(); ?>,
+            admin_email: '<?php echo $this->user->getEmail();?>',
+            admin_fullname: "<?php echo $this->escape($this->user->getFullName()) ?>",
+            admin_has_plus: <?php echo $this->has_plus? 'true' : 'false';?>,
+            records_per_view: '<?php echo $this->recordsPerView;?>',
+            ce_version: '<?php echo $this->gInstalledVersion;?>',
+            support_refresh_grid_rate: '<?php echo $this->supportRefreshGridRate;?>',
+            debugMinifier: <?php echo $this->debugMinifier? 'true' : 'false';?>,
+            company_domain: '<?php echo $this->gCompanyDomain;?>',
+            company_url: '<?php echo $this->gClientExecURL;?>',
+            company_name: '<?php echo str_replace("'", "\'", $this->gCompanyName);?>',
+            company_count: '<?php echo $this->user_count;?>',
+            disableCache: <?php echo (defined('DISABLE_CACHING') && DISABLE_CACHING) ? "true" : "false"; ?>,
+            showPluginPanel:           <?php echo $this->showPluginPanel ? 'true' : 'false'; ?>,
+            show_active_customer_panel : <?php echo $this->showingActivePanel ? 'true' : 'false'; ?>,
+            show_active_customer_panel_default : <?php echo $this->showingActivePanelDefault ? 'true' : 'false'; ?>,
+            original_title:     "<?php echo $original_title;?>",
+            whoisonline : {},
+            sidebarplugins : <?php echo $this->unescape($this->sidebarplugins) ?>,
+            last_event_id: 0,
+            log_usage : <?php echo $this->log_usage;?>,
+            server_offset : "<?php echo $this->gTZ;?>",
+            settings: {
+                billing: {
+                    showReadyInvoiceCount: <?php echo $this->showReadyInvoiceCount; ?>,
+                    showReadyCCInvoiceCount: <?php echo $this->showReadyCCInvoiceCount; ?>,
+                    showFailedCCCount: <?php echo $this->showFailedCCCount; ?>
+                }
+            }
+        };
+
+        //update whoisonline
+        clientexec.whoisonline = {
+            userCount : -1,
+            offlineusers : [],
+            onlineusers : []
+        }
+
+        <?php
+        if ($this->cache_plugindata != "") {
+            echo "clientexec.pluginData = ".json_encode($this->cache_plugindata).";";
+        } else {
+            echo "clientexec.pluginData = '';";
+        }?>
+        var gVer = "<?php echo $this->gVersion; ?>";
+        var gFuse = "<?php echo $this->gFuse; ?>";
+        var gView = "<?php echo $this->gView; ?>";
+        var gHash = "<?php echo $this->gHash; ?>";
+        var relativePath = "<?php echo $this->gRelativePath; ?>";
+    </script>
+
+    <link href='//fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <link type="text/css" rel="stylesheet" href="../library/utilities/min/index.php?g=supportwidgetcss,admincss<?php echo $this->debugMinifier? '&amp;debug=true' : '';?>&amp;<?php echo $this->gInstalledVersion;?>" />
+
+    <?php if ($this->gCSSFiles != "") { ?>
+        <link rel="stylesheet" type="text/css" href="../library/utilities/min/index.php?f=<?php echo $this->gCSSFiles;?><?php echo $this->debugMinifier? '&amp;debug=true' : '';?>&amp;<?php echo $this->gInstalledVersion;?>" />
+    <?php } ?>
+    <?php if ($this->gCSSGroupFiles != "") { ?>
+        <link rel="stylesheet" type="text/css" href="../library/utilities/min/index.php?g=<?php echo $this->gCSSGroupFiles;?><?php echo $this->debugMinifier? '&amp;debug=true' : '';?>&amp;<?php echo $this->gInstalledVersion;?>" />
+    <?php } ?>
+
+    <?php if ($this->gPluginCSSFiles != "") { ?>
+        <link rel="stylesheet" type="text/css" href="../library/utilities/min/index.php?f=<?php echo $this->gPluginCSSFiles;?><?php echo $this->debugMinifier? '&amp;debug=true' : '';?>&amp;<?php echo $this->gInstalledVersion;?>" />
+    <?php } ?>
+
+    <script data-cfasync="false" type="text/javascript" src="../library/utilities/min/index.php?g=admintopjs,language&amp;lang=<?php echo $this->gLanguage; ?><?php echo $this->debugMinifier? '&amp;debug=true' : '';?>&amp;<?php echo $this->gInstalledVersion;?>"></script>
+
+</head>
+
+<body class="<?php if ($this->gCustomerId > 0) { echo "with-active-user"; }?> <?php if ($this->showingActivePanel){ echo 'with-active-cutomer-panel';} ?> <?php if ($this->showPluginPanel){ echo 'withpluginpanel';} ?>">
+
+<div id="msg-div" class="msg-div-wrapper" style="display:none;"><div id="msg-div-inner" class="msg-div-inner"></div></div>
+
+<div class="main">
+
+<div id="header">
+    <div class="logo">
+      <a href="index.php?fuse=home&view=dashboard" class="nodecoration">
+        <img src="../templates/admin/images/logo_in.png" />
+      </a>
+      <i class="icon-plus-sign ce-plus-logo <?php echo ($this->has_plus) ? "ce-plus-logo-show" : "" ;?>  "></i>
+    </div>
+    <div class="active-customer">
+        <button class="btn btn-inverse btn-active-user-profile-toggle" style="<?php echo ($this->gCustomerId == 0) ? "display:none;" : "" ;?>"><img class="ce-default-avatar-dark" src="<?php echo $this->customerProfileURL;?>"></button>
+    </div>
+	<div id="logoff">
+        <ul class="nav profile-staffmember-nav">
+          <li class="dropdown">
+            <a href="#" class="btn btn-small btn-inverse dropdown-toggle user-avatar-link" data-toggle="dropdown">
+              <span><?php echo $this->user->lang("Hello");?>,&nbsp;&nbsp;<?php echo $this->escape($this->user->getFirstName()) ?><span><i class="icon-caret-down"></i></span>
+              </span>
+            </a>
+
+            <ul class="dropdown-menu admin-actions">
+              <li><a href="index.php?fuse=admin&view=editaddadminaccount&controller=staff"><i class="icon-briefcase"></i>&nbsp;&nbsp;&nbsp;<span><?php echo $this->user->lang("My Profile");?></span></a></li>
+              <li><a href="index.php?fuse=admin&view=staffsettings&controller=staff"><i class="icon-cogs"></i>&nbsp;&nbsp;&nbsp;<span><?php echo $this->user->lang("My Preferences");?></span></a>
+              <li>
+                <a href="javascript:void(0);" onclick="javascript:$('#feedback_tab').trigger('click');"><i  style="padding-left: 2px;padding-right:4px;" class="icon-question"></i>&nbsp;&nbsp;&nbsp;<span><?php echo $this->user->lang("Help");?></span></a>
+              </li>
+              <li>
+                <a href="<?php echo $this->urlCsrf(array(
+                    'fuse' => 'admin',
+                    'action' => 'Logout'
+                )) ?>"><i class="icon-off"></i>&nbsp;&nbsp;&nbsp;<span><?php echo $this->user->lang("Logout");?></span></a>
+              </li>
+              <li class="divider profile-bottom-divider" style="display:none;"></li>
+              <li>
+                <?php
+                    $chatstatus = "";
+                    $this->user->getCustomFieldsValue("ChatStatus",$chatstatus);
+                ?>
+                <div class="profile-dropdown-switches">
+                    <label class="control-label" for="chatstatus"><?php echo $this->user->lang("Available to Chat?");?></label>
+                    <div class="controls">
+                        <div class="switch-chatstatus switch switch-small" tabindex="0" data-on-label="<i class='icon-ok icon-white'></i>" data-off-label="<i class='icon-remove'></i>">
+                            <input id="chatstatus" type="checkbox" <?php echo ($chatstatus == 1) ? "checked" : "";?> />
+                        </div>
+                    </div>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+	</div>
+    <div class="searchquery">
+        <input id="searchquerytextfield" type="hidden" name="searchquerytextfield" />
+        <button type="button" data-toggle="tooltip" data-placement="bottom" title="<?php echo $this->user->lang('Advanced Search') ?>" class="btn-advanced-search btn btn-small btn-inverse"><i class="icon-bullseye"></i></button>
+    </div>
+	<?php
+        //parse menu as partial
+        echo $this->partial('views/admin/partials/mainmenu.phtml', array('menucounts'=>$this->menucounts,'user'=>$this->user,'gView'=>$this->gView,'menus'=>$this->menus));
+    ?>
+
+</div> <!-- end header -->
+
+<div class="maincontainer withoutrightpanel">
+    <div id="maincenter">
+        <div class="ce-container">
+            <div class="mainsitenotice <?php if ($this->gUserLoginDisabledNotice != '') { echo "mainsitenotice-visible"; }?>">
+                <?php if ($this->gUserLoginDisabledNotice != '') {
+                    echo '<div class="alert ce-alert ce-alert-error">'.$this->gUserLoginDisabledNotice.'</div>';
+                }?>
+            </div>
+            <div class="content" id="view-<?php echo $this->gView;?>">
+                <?php echo $this->unescape($this->top_global_html);?>
+                <?php echo $this->layout()->CONTENT ?>
+
+                <!-- ce version info - branding -->
+                <div class='ce-executiontime'>
+                    <a href="http://www.clientexec.com?source=feedback" target="_new"><?php echo $this->user->lang('Powered by') ?> <img src="../templates/default/img/logo_text.png" class="brand-logo"> <?php echo $this->gInstalledVersion;?></a><br/>
+
+                    <?php if ( $this->gLatestVersion  != '' ) { ?>
+                        <?php if ( defined('HOSTED') && HOSTED == true ) { ?>
+                            <a target="_blank" href="//www.clientexec.com/members/index.php?fuse=support&controller=ticket&view=submitticket"><span style="color: red"><?php echo $this->gLatestVersion; ?><br /> Please Contact Clientexec Support to Upgrade</span></a>
+                        <?php } else { ?>
+                            <a href="index.php?fuse=admin&sessionHash=<?php echo $this->gHash ?>&action=Logout&upgrade=1"><span style="color: red"><?php echo $this->gLatestVersion; ?></span></a>
+                        <?php } ?>
+                        <br/>
+                    <?php } ?>
+                    <?php
+                        if ($this->gExecutionTime != "") {
+                            echo $this->user->lang('Execution Time: %s seconds',$this->gExecutionTime);
+                        }
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="leftcontainer">
+
+        <div class="leftmenu">
+
+            <i class="leftmenu-icon" name='cloneme' style="display:none"><span class="leftmenu-icon-count badge badge-important" ></span><span class="plugin-icon-name"></span></i>
+
+            <div class="tooltipnowrap lefmenu-plugin-icons">
+
+                <?php if (!@$this->leftbarplugins) { ?>
+                    <div class="leftmenuplugin plugin-moreplugins" style="display:none;">
+                        <i data-trigger="click" data-html="true" data-title="" data-placement="right" class="leftmenu-icon leftmenu-more-icon icon-th-large"><span class="plugin-moreplugins-count badge badge-important" ></span><span class="plugin-icon-name"><?php echo $this->user->lang("More");?></span></i>
+                    </div>
+                <?php } else { echo $this->unescape($this->leftbarplugins) /* tied to user's session so no chance of XSS */; }?>
+            </div>
+
+            <div class="btncustomizesidebar fs1"><i class="icon-cog" style="position: relative;top: -5px;"></i>
+                <div class="leftbar-staff-list"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="tooltipnowrap pluginframe" <?php if (!$this->showPluginPanel){ echo "style='display:none;'"; }?>>
+        <?php if (@$this->cache_plugincontent) { echo $this->unescape($this->cache_plugincontent)  /* tied to user's session so no chance of XSS */;} else {?>
+
+        <div class="pluginframe-header" <?php if (!$this->showPluginPanel){ echo "style='display:none;'"; }?>>
+            <span class="pluginframe-plugin-name">&nbsp;</span><button type="button" class="close closepluginpanel"><i class="icon-remove-circle"></i></button>
+            <span style="height: 5px; margin-top: 12px; " class="bottom-border"></span>
+        </div>
+
+        <div class="pluginframe-data notoolbar">
+            <div id="plugin-notsystemplugin" class="plugincontainer"></div>
+            <div style="display: block;" class="pane"></div>
+        </div>
+        <?php } ?>
+    </div>
+
+    <div class="rightframe"><img src="../images/loader.gif" /></div>
+    <div class="m-growl m-large">
+        <div class="m-close"><i class="icon-remove m-remove-growls"></i></div>
+        <div class="m-entries"></div>
+    </div>
+    <span class="m-growlicon"><i class="icon-reorder"></i></span>
+  </div>
+  <div class="active-customer-panel <?php if ($this->showingActivePanel){ echo 'opened_panel';} ?>"><?php echo $this->unescape($this->active_customer_panel);?></div>
+  </div>
+
+    <script data-cfasync="false" type="text/javascript">
+    <!--
+		// Main Navigation
+        $(document).ready(function() {
+	    <?php
+            	//show any messages provided from actions performed
+            	$alertMsg ="";
+            	if (count($this->gMessages)>0) {
+	            	foreach ($this->gMessages as $message) {
+	                    $alertMsg .= addslashes($message)." ";
+	                }
+                }
+            	if (count($this->gErrorMessages)>0) {
+					foreach ($this->gErrorMessages as $message) {
+	                    $alertMsg .= addslashes($message)." ";
+	                }
+                }
+                if ( ($alertMsg!="") && (count($this->gErrorMessages)>0) ) {
+                    echo "ce.errormsg('".$alertMsg."');";
+                } else if ($alertMsg!="") {
+                    echo "ce.msg('".$alertMsg."');";
+                }
+            	//show splashscreen
+                if ($this->showSplashScreen) { echo "loadSplahScreen();"; }
+            ?>
+        });
+    //-->
+        if(navigator.userAgent.indexOf('Mac') > 0) { $('body').addClass('mac-os'); }
+    </script>
+
+    <script data-cfasync="false" type="text/javascript" src="../library/utilities/min/index.php?g=supportwidgetjs,adminbottomjs<?php echo $this->debugMinifier? '&debug=true' : '';?>&<?php echo $this->gInstalledVersion;?>"></script>
+    <?php if ( $this->gJSFiles != '' ) { ?>
+    <script data-cfasync="false" type="text/javascript" src="../library/utilities/min/index.php?f=<?php echo $this->gJSFiles;?><?php echo $this->debugMinifier? '&debug=true' : '';?>&<?php echo $this->gInstalledVersion;?>"></script>
+    <?php }  ?>
+    <?php if (isset($this->afterJsLoads) && $this->afterJsLoads != '') { echo '<script data-cfasync="false" type="text/javascript">'.$this->afterJsLoads.'</script>'; } ?>
+
+    <script data-cfasync="false" type="text/javascript" src="//ce-rocks.herokuapp.com/ping.js?k=<?php echo $this->e_hash;?>"></script>
+
+    <script data-cfasync="false" type="text/javascript">
+    if (typeof(CESupportWidget) !== "undefined") {
+      supportwidget_params = {
+        url:         "https://www.clientexec.com/members",
+        tabPosition: "left",
+        tabId:       "help",
+        hide_tab: true,
+        forceSuggestions: true,
+        ticketTypeId: 22
+      };
+    }
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,26 @@
+.ann-links {
+    margin-top:10px;
+}
+
+.announcement-title {
+
+    font-family: 'Open Sans', sans-serif;
+    padding-bottom: 7px;
+    margin-bottom: 5px;
+    border-bottom: 2px solid #F4F4F4;
+    color: #333332;
+
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1em;
+}
+
+.announcement-post {
+    height: 52px;
+    overflow: hidden;
+}
+
+.addition_description {
+    color: #888;
+    font-size: smaller;
+}

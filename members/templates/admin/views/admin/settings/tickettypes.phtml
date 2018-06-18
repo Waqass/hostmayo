@@ -1,0 +1,26 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo lang("Support")." ".lang("Settings")." - ".lang("Ticket Types"); ?></div>
+  <p class="alert-content"><?php echo lang("Help your customers identify what issues they are having by creating ticket types.  Can be used with Email routing."); ?></p>
+</div>
+
+<script data-cfasync="false" type="text/javascript">
+<?php
+    if ($this->canEditTicketTypes) {
+        echo 'var canedittickettypes = true;';
+    } else {
+        echo 'var canedittickettypes = false;';
+    }
+?>
+</script>
+<div class="blue-box">
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td id="addButtonTd" style="display:none"><button id="addTypeButton" class="rich-button"><span><?php echo $this->user->lang("Add Ticket Type");?></span></button></td>
+            <td align="right"><input id='includesystemtypes' type='checkbox'/>&nbsp;&nbsp;Include System Types&nbsp;</td>
+        </tr>
+    </table>
+</div>
+<div id="tickettypes-grid"></div>
+<div id="tickettypes-grid-footer" style="display:none;">
+    <button class="rich-button" id="deleteTypeButton"><span><?php echo $this->user->lang("Delete"); ?></span></button>
+</div>

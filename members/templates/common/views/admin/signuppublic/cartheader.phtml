@@ -1,0 +1,20 @@
+<div id="signup-steps">
+    <div class="secure-connection"><i class="icon-lock"></i>&nbsp;&nbsp;<?php echo $this->user->lang("Secure Connection");?></div>
+    <div id="step-1" class="<?php echo ($this->step == 1 || $this->step==0) ? "on" : "off";?>"><?php echo $this->user->lang("1. Select Package");?></div>
+    <div id="step-2" class="<?php echo ($this->step == 2) ? "on" : "off";?>"><?php echo $this->user->lang("2. Package Configuration");?></div>
+    <div id="step-3" class="<?php echo ($this->step == 3 || $this->step == 4) ? "last-on" : "last-off";?>"><?php echo $this->user->lang("3. Payment Details");?></div>
+
+
+    <div class="shopping_cart">
+        <a href="order.php?step=3">
+            <span class="icon-stack cart-summary-btn">
+                <i class="icon-circle icon-stack-base"></i>
+                <i class="icon-shopping-cart icon-light"></i>
+            </span>
+            <span class="badge badge-important cart-badge"><?php echo $this->summary['cartCount'];?></span>
+        </a>
+    </div>
+
+
+    <div style="clear:both;"></div>
+</div>

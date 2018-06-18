@@ -1,0 +1,15 @@
+<h1 class="announcement-header"><?php echo $this->companyName." ".$this->user->lang("Announcements");?> &nbsp;<a class="anchor-rss-sign" href="index.php?fuse=admin&view=RssAnnouncements"><i class="icon-rss-sign"></i></a></h1>
+
+<?php foreach ($this->announcements as $announcement): ?>
+    <ul class="announcement">
+        <li>
+            <h2><div class="announcement-title"><a href="index.php?fuse=home&view=announcement&controller=announcements&ann_id=<?php echo $announcement['id'] ?>"><?php echo $announcement['title'] ?></a></div></h2>
+            <div class="announcement-meta"><i class="icon-time"></i> <?php echo $announcement['date']." ".$this->user->lang("by");?> <?php echo $announcement['postedBy']; ?></div>
+        </li>
+        <li><p><?php echo $announcement['excerpt']; ?></p></li>
+        <li>
+            <a class="read-more" href="index.php?fuse=home&view=announcement&controller=announcements&ann_id=<?php echo $announcement['id'] ?>"><?php echo $this->user->lang("Read More");?></a>
+        </li>
+    </ul>
+<?php endforeach; ?>
+

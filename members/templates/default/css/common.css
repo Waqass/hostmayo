@@ -1,0 +1,264 @@
+@charset "UTF-8";
+
+/**************************************
+*                                     *
+* HTML defaults                       *
+*                                     *
+**************************************/
+
+a:focus {
+	outline: 0;
+}
+
+
+/**************************************
+*                                     *
+* Bootstrap default Overrides         *
+*                                     *
+**************************************/
+label,
+input,
+button,
+select,
+textarea {
+    font-size: 12px;
+	outline: 0;
+}
+
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+    font-size: 12px;
+}
+
+/**************************************
+*                                     *
+* Bootstrap additions                 *
+*                                     *
+**************************************/
+/* Bootstrap modifications for using <span> instead of <a> to setup tabs */
+.nav-tabs > .active > span > [class^="icon-"],
+.nav-tabs > .active > span > [class*=" icon-"] {
+    background-image: url("../img/glyphicons-halflings-white.png");
+}
+.nav > li > span > a {
+    display: block;
+}
+.nav > li > span > a:hover {
+    text-decoration: none;
+    background-color: #eeeeee;
+}
+.nav-list > li > span {
+	margin-left: -15px;
+    margin-right: -15px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.nav-list > li > span {
+	padding: 3px 15px;
+}
+.nav-list > .active > span,
+.nav-list > .active > span:hover {
+	color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+    background-color: #0088cc;
+}
+.nav-tabs > li > span > a,
+.nav-pills > li > span > a {
+    padding-right: 12px;
+    padding-left: 12px;
+    margin-right: 2px;
+    line-height: 14px;
+}
+.nav-tabs > li > span > a {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  line-height: 20px;
+  border: 1px solid transparent;
+  -webkit-border-radius: 4px 4px 0 0;
+  -moz-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
+}
+.nav-tabs > li > span:hover,
+.nav-tabs > li > span > a:hover {
+	border-color: #eeeeee #eeeeee #dddddd;
+    cursor: pointer;
+}
+.nav-tabs > .active > span > a,
+.nav-tabs > .active > span > a:hover {
+    color: #555555;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+    cursor: default;
+}
+.tabs-left > .nav-tabs > li > span {
+    margin-right: -1px;
+    -webkit-border-radius: 4px 0 0 4px;
+    -moz-border-radius: 4px 0 0 4px;
+    border-radius: 4px 0 0 4px;
+}
+.tabs-left > .nav-tabs > li > span:hover {
+    border-color: #eeeeee #dddddd #eeeeee #eeeeee;
+    cursor: pointer;
+}
+.tabs-left > .nav-tabs .active > span,
+.tabs-left > .nav-tabs .active > span:hover {
+    border-color: #ddd transparent #ddd #ddd;
+    *border-right-color: #ffffff;
+}
+.tabs-right > .nav-tabs > li > span {
+    margin-left: -1px;
+    -webkit-border-radius: 0 4px 4px 0;
+    -moz-border-radius: 0 4px 4px 0;
+    border-radius: 0 4px 4px 0;
+}
+.tabs-right > .nav-tabs > li > span:hover {
+    border-color: #eeeeee #eeeeee #eeeeee #dddddd;
+    cursor: pointer;
+}
+.tabs-right > .nav-tabs .active > span,
+.tabs-right > .nav-tabs .active > span:hover {
+    border-color: #ddd #ddd #ddd transparent;
+    *border-left-color: #ffffff;
+}
+.nav > .disabled > span {
+  color: #999999;
+}
+.nav > .disabled > span:hover {
+  text-decoration: none;
+  background-color: transparent;
+  cursor: default;
+}
+
+/* New styles to wrap small tab content in matching border and padding. */
+.nav-tight-bottom {
+    margin-bottom: 0;
+}
+
+.input-class { /* Duplicated input class for non input elements from bootstrap.css::1013 */
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+       -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+       -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+         -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+            transition: border linear 0.2s, box-shadow linear 0.2s;
+    border-radius: 4px 4px 4px 4px;
+    color: #555555;
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    padding: 4px 6px;
+    vertical-align: middle;
+}
+
+.input-class-select21.select2-container > ul.select2-choices {
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+       -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    border-radius: 4px 4px 4px 4px;
+    color: #555555;
+    height: 20px;
+}
+
+/**************************************
+*                                     *
+* select2 modifications               *
+*                                     *
+**************************************/
+.select2-container.select2-container-disabled .select2-choice abbr {
+    display: none
+}
+
+.select2-container .select2-choices, .select2-container .select2-choice {
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+       -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    border-radius: 4px 4px 4px 4px;
+    color: #555555;
+    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+}
+
+/* style the "disabled" / "fixed" choices differently */
+.select2-container-multi .select2-choices .select2-search-choice-disabled {
+  padding-left: 5px;
+  background-color: #c4c4c4;
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4d4d4', endColorstr='#dddddd', GradientType=0 );
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(20%, #d4d4d4), color-stop(50%, #d0d0d0), color-stop(52%, #c8c8c8), color-stop(100%, #cccccc));
+  background-image: -webkit-linear-gradient(top, #d4d4d4 20%, #d0d0d0 50%, #c8c8c8 52%, #cccccc 100%);
+  background-image: -moz-linear-gradient(top, #d4d4d4 20%, #d0d0d0 50%, #c8c8c8 52%, #cccccc 100%);
+  background-image: -o-linear-gradient(top, #d4d4d4 20%, #d0d0d0 50%, #c8c8c8 52%, #cccccc 100%);
+  background-image: -ms-linear-gradient(top, #d4d4d4 20%, #d0d0d0 50%, #c8c8c8 52%, #cccccc 100%);
+  background-image: linear-gradient(top, #d4d4d4 20%, #d0d0d0 50%, #c8c8c8 52%, #cccccc 100%);
+}
+
+/* style the multi select boxes so they have the same glow as regular inputs */
+.select2-container-multi.select2-container-active .select2-choices, .select2-container-active .select2-choice {
+    border: 1px solid rgba(82, 168, 236, 0.8);
+    outline: 0;
+    border-radius: 4px 4px 4px 4px;
+    /* IE6-9 */
+
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+}
+
+.select2-container-multi.select2-dropdown-open .select2-choices, .select2-container.select2-dropdown-open .select2-choice {
+    border: 1px solid rgba(82, 168, 236, 0.8);
+    outline: 0;
+    border-radius: 4px 4px 0 0;
+    /* IE6-9 */
+
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+}
+
+.select2-drop  {
+    -webkit-box-shadow: 0 4px 5px rgba(82, 168, 236, 0.6);
+    -moz-box-shadow: 0 4px 5px rgba(82, 168, 236, 0.6);
+    box-shadow: 0 4px 5px rgba(82, 168, 236, 0.6);
+    border-color: rgba(82, 168, 236, 0.8);
+    outline: 0;
+    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+}
+
+.select2-container.select2-container-disabled .select2-choice {
+  background-color: #EEEEEE;
+  background-image: none;
+  border: 1px solid #CCCCCC;
+  cursor: not-allowed;
+}
+/**************************************
+*                                     *
+* Wrapper class for html elements in  *
+* case of custom implementation       *
+*                                     *
+**************************************/
+.bold {
+    font-weight: bold;
+}
+.italic {
+    font-style: italic;
+}

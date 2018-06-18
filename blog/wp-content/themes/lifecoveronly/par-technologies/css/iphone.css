@@ -1,0 +1,31 @@
+/*.lifecoverouter .quotes .column1 li{
+font-size:10px !important;
+}
+
+.lifecoverouter .quotes .column2 li{
+font-size:10px !important;
+}
+.iphone_b{
+float:right;
+right:63px;
+}
+.iphone_a{
+}
+.container{
+width:1024px;
+}
+
+.fcont {
+	clip: rect(0px 509px 680px 0px);
+	position: absolute;
+	top: 0px;
+	left: -50px;
+}
+
+*/
+#midwrap {
+min-height:980px !important;
+}
+.slider{
+margin-top:230px;
+}

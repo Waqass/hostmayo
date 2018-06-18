@@ -1,0 +1,386 @@
+body {
+    background-color: #FFF;
+    font: normal small/1.5 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+#wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.scrolltome{
+    position:relative;
+    top:40px;
+}
+
+#content{
+    width: 100%;
+    z-index: 100000;
+}
+
+#hellobar-container{
+    width                : 388px !important;
+    left                 : 6px !important;
+    box-shadow: 0 0 5px rgba(0,0,0,0.35) !important;
+    -moz-box-shadow: 0 0 5px rgba(0,0,0,0.35) !important;
+    -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.35) !important;
+}
+
+.restartchatdiv {
+    height: 62px;
+}
+
+.topclip {
+    position        : absolute;
+    top             : -1px;
+    width           : 400px;
+    background-color: #222;
+    z-index         : 30;
+    height          : 10px;
+    height          : 29px;
+    left            : -1px;
+    -webkit-border-radius: 10px 10px 0 0;
+    -moz-border-radius   : 10px 10px 0 0;
+    border-radius        : 10px 10px 0 0;
+}
+
+.outline {
+    padding: 3px 5px 6px 5px;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(100, 100, 100, 0.6);
+    border-bottom-width: 0;
+    -webkit-border-radius: 10px 10px 0 0;
+    -moz-border-radius: 10px 10px 0 0;
+    border-radius: 10px 10px 0 0;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    -webkit-box-shadow: inset 1px 1px 1px rgba(255, 255, 255, 0.2);
+    -moz-box-shadow: inset 1px 1px 1px rgba(255, 255, 255, 0.2);
+    box-shadow: inset 1px 1px 1px rgba(255, 255, 255, 0.2);
+    border-color: #000;
+    background-color: #222;
+}
+/* Operator Status */
+
+#operator-status {
+    padding: 0px 11px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #DDD;
+    color: #AAA;
+    font-size: .85em;
+    margin-bottom: 0px;
+}
+
+.title-font {
+    display:block;
+    position:relative;
+    padding:0;
+    cursor:pointer;
+    outline:0;
+    font-size:14px;
+    font-family:'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif;
+    color:rgb(255, 255, 255);
+    text-shadow:rgb(0, 0, 0) 1px 1px 0px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+#title-text {
+    padding-top: 3px;
+    display: block;
+    padding-left: 12px;
+}
+
+footer {
+    height: 38px;
+}
+
+.typing_wrapper {
+    position: fixed;
+    left: 25px;
+    top: 416px;
+}
+
+.typing_wrapper img{
+    width: 17px;
+}
+
+.typing_wrapper span{
+    margin-left: 8px;
+    position   : relative;
+    top        : -4px;
+    font-size  : 12px;
+    color      : #555;
+}
+
+#powered-by {
+    position: absolute;
+    top     : 416px;
+    left    : 126px;
+    color   : #555;
+}
+
+#log {
+    z-index              : 200;
+    margin-top           : 25px;
+    overflow-y           : scroll;
+    background-color     : white;
+    height               : 320px;
+    -webkit-border-radius: 5px 5px 0 0;
+    -moz-border-radius   : 5px 5px 0 0;
+    border-radius        : 5px 5px 0 0;
+    -webkit-box-shadow   : 1px 0 0 rgba(255,255,255,0.2),inset 0 -1px 0 #fff,inset 0 4px 10px rgba(0,0,0,0.05);
+    -moz-box-shadow      : 1px 0 0 rgba(255,255,255,0.2),inset 0 -1px 0 #fff,inset 0 4px 10px rgba(0,0,0,0.05);
+    box-shadow           : 1px 0 0 rgba(255,255,255,0.2),inset 0 -1px 0 #fff,inset 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* Log */
+
+#log dl {
+    display : block;
+    position: relative;
+    margin  : 0;
+    /*padding : 10px 20px;*/
+    overflow: hidden;
+    border-bottom: 1px solid #ccc;
+    padding: 20px 20px 20px 20px;
+}
+
+#log dl:first-child{
+    padding-top: 45px;
+}
+
+#log dl:nth-child(even) {
+    -webkit-box-shadow: inset 0 1px 0 #fff;
+    -moz-box-shadow: inset 0 1px 0 #fff;
+    -ms-box-shadow: inset 0 1px 0 #fff;
+    -o-box-shadow: inset 0 1px 0 #fff;
+    box-shadow: inset 0 1px 0 #fff;
+    background    : url(../assets/bg.png) repeat-y #f4f4f4;
+}
+#log dl:nth-child(odd) {
+    background    : url(../assets/bg.png) repeat-y #FFF;
+}
+
+#log dl dt {
+    display       : block;
+    float         : left;
+    width         : 40px;
+    padding-right : 10px;
+    vertical-align: bottom;
+}
+
+#log dl dt .avatar {
+    border-radius: 50%;
+    display      : block;
+    width        : auto;
+    height       : auto;
+    float        : left;
+    padding      : 4px;
+    border       : 1px solid #ccc;
+}
+
+#log dl dt img {
+    border-radius: 50%;
+    border       : none;
+    padding      : 0;
+    width        : 50px;
+    display      : block;
+}
+#log dl dd {
+    margin-left : 30px;
+    display     : block;
+    position    : relative;
+    padding     : 0;
+    padding-left: 45px;
+    white-space : pre-wrap;
+    color       : #333;
+    font-size   : 13px;
+}
+
+
+#log dl dd:last-child {
+    margin-bottom: 0;
+}
+
+#log dl.operator {
+    background-color: #e8f9ff;
+}
+
+#log dl.operator dd {
+    color: #00445c;
+}
+
+/* Status Message */
+
+
+.nameofuser {
+    margin-top:-5px;
+}
+
+.nameofotheruser {
+    color: rgb(197, 98, 6);
+}
+
+.hellobar-left {
+    top :29px !important;
+    z-index: 7 !important;
+}
+
+#status-message {
+    position: absolute;
+    top: 50%; left: 0;
+    width: 100%;
+    margin-top: -1.5em;
+    text-align: center;
+    font-size: 15px;
+}
+#status-message span {
+    display: inline-block;
+    padding: .2em .6em;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    font-size: 1.1em;
+}
+#status-message.loading span            { background-color: #EEE; color: #999; }
+#status-message.unavailable span    { background-color: #FEE; color: #900; }
+
+#title {
+    padding-left: 3px;
+    height: 15px;
+}
+
+/*haschatterinfo*/
+
+#loginform {
+    height: 100%;
+    background: url(../assets/signup_bg.jpg) repeat;
+    margin-top: 15px;
+}
+
+#loginform label {
+    font-size: 15px;
+    font-family: "brandon-grotesque", sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    text-align: center;
+    position: absolute;
+    top: 68px;
+    left: -3px;
+    width: 100%;
+}
+
+#firstquestion {
+    position: relative;
+    left: 26px;
+    top: 232px;
+}
+
+#loginform.haschatterinfo #firstquestion {
+    top: 135px;
+}
+
+#email {
+    position: fixed;
+    top: 200px;
+    left: 32px;
+}
+
+#fullname {
+    position: fixed;
+    top: 148px;
+    left: 32px;
+}
+
+#fullname,#email,#firstquestion {
+    display: block;
+    background: url(../assets/bgr_input.png) top left no-repeat;
+    background-image: url('../assets/bgr_input.png');
+    width: 316px;
+    height: 39px;
+    border: 0;
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    color: #696969;
+    font-family: "brandon-grotesque", sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    padding: 0 0 0 16px;
+}
+
+a.button.large.orange {
+    background-image     : url(../assets/button_orange_large.png);
+    color                : #835503 !important;
+    text-shadow          : 0 1px 1px rgba(255,255,255,0.6);
+    height               : 24px;
+    display              : inline-block;
+    text-decoration      : none;
+    font-size            : 13px;
+    line-height          : 15px;
+    font-weight          : bold;
+    margin               : 0 5px 20px 0;
+    padding              : 10px 15px 0 15px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius   : 3px;
+    border-radius        : 3px;
+    -webkit-box-shadow   : 0 1px 3px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    -moz-box-shadow      : 0 1px 3px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    box-shadow           : 0 1px 3px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    width                : 302px;
+    text-align           : center;
+}
+
+#messageform a.button.large.orange {
+    position             : absolute;
+    top                  : 370px;
+    left                 : 31px;
+}
+
+#loginform a.button.large.orange {
+    position             : absolute;
+    top                  : 325px;
+    left                 : 31px;
+}
+
+#messageform {
+    border-top: 1px solid #DDD;
+    background-color: #EEE;
+    overflow: hidden;
+}
+#messageform legend {
+    display: none;
+}
+#messageform fieldset {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    background-color: #FFF;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+}
+#messageform fieldset input {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    font: 1em/1.4 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    outline: none;
+}
+
+.msg-not-validated {
+    color: #DBDBDB !important;
+}
+
+.msg-not-validated .nameofuser {
+    color: #333;
+}

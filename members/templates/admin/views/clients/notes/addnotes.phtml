@@ -1,0 +1,45 @@
+<input type="text" class='required' name="subject" placeholder="Subject" style="width: 306px;" value="<?php echo $this->subject; ?>" /> <br/><br/>
+<textarea name='noteContent' class='required' placeholder='Note Content' style='height:120px;'><?php echo $this->content; ?></textarea>
+
+<div style="margin-top:7px;">
+    <label class="checkbox" style="padding-left:20px;">
+        <input <?php if ( $this->isVisible ) { ?>checked="checked"<?php } ?> type="checkbox" name="visibleCustomer" /> <?php echo $this->user->lang("Visible to customer"); ?>
+    </label>
+</div>
+
+<div style="margin-top:7px;">
+<input value="<?php echo $this->ticketTypeId; ?>" type='hidden' data-placeholder="-- apply to ticket type" name="note-tickettype" id="note-tickettype"></input>
+<div class="alert" style="clear:both;margin-top:12px;">
+    <?php echo $this->user->lang("Make this note available in tickets by assigning it to a ticket type."); ?>
+</div>
+</div>
+
+<script data-cfasync="false" type="text/javascript">
+    $("#note-tickettype").select2({
+        minimumResultsForSearch:10,
+        width: '170px',
+        allowClear:true,
+        initSelection: function (element, callback) {
+            $("#note-tickettype").select2("data", {id: <?php echo $this->ticketTypeId; ?>, text:'<?php echo $this->ticketTypeName; ?>'});
+        },
+        ajax: {
+            url: "index.php?fuse=support&action=gettickettypes&controller=tickettype&addAll=1",
+            dataType: 'json',
+            quietMillis: 0,
+            data: function () {return {}},
+            results: function (data, page) {
+                profilenotes.options = {results:[]};
+                profilenotes.options.results.push({id:-1,text:'-- All Types --'});
+                $(data.groups).each(function(index) {
+                    if (this.ticketTypeId != -1) {
+                        name = this.ticketTypeName.toString();
+                        profilenotes.options.results.push({id:this.ticketTypeId.toString(),text:name});
+                    }
+                });
+                return profilenotes.options;
+            }
+        }
+    });
+
+    $("#note-tickettype").on("open", function(){ $('.select2-drop .select2-search').css('display','none'); });
+</script>

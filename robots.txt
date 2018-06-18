@@ -1,0 +1,6 @@
+User-Agent: *
+Allow: blog/wp-content/uploads/
+Disallow: blog/wp-content/plugins/
+Disallow: blog/readme.html
+Disallow: members/
+Sitemap: http://hostmayo.com/sitemap.xml

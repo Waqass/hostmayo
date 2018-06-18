@@ -1,0 +1,76 @@
+<?php 
+    echo $this->partial('signuppublic/cartheader.phtml', array('tempInformation'=>$this->tempInformation,'user'=>$this->user,'step'=>$this->step, 'summary'=>$this->summary));
+?>
+
+<!-- list of product groups if any -->
+<div class="ce-box">
+	<div class="ce-box-inner">
+
+		<?php if ($this->bundled) {
+
+			foreach($this->productGroups as $group) {
+				if ($this->productgroup == $group['id']) {
+					$selectedgroup = $group;
+					if ($this->productgroup == 0) {
+						$this->productgroup = $group['id'];
+					}
+					echo "<h1>",$this->user->lang("Add")." ".$group['namelanguage']."</h1>";
+				}
+			}
+
+		} else { ?>
+
+
+			<h1><?php echo $this->user->lang("Select Package Type");?></h1>
+			<ul class="product-type-selection">
+				<?php
+
+				$firsttime = true;
+				foreach($this->productGroups as $group) {
+
+          			if (!$group['insignup'] && $this->productgroup != $group['id']) continue;
+
+					if ($this->productgroup == $group['id'] || ($group === reset($this->productGroups)) ) {
+						$selectedgroup = $group;
+						if ($this->productgroup == 0) {
+							$this->productgroup = $group['id'];
+						}
+					}
+
+				?>
+					<li>
+						<?php
+
+						if (!$firsttime) { ?>
+							<i class="icon-circle product-type-divider"></i>
+						<?php }
+
+						$firsttime = false;
+						if ($this->productgroup == $group['id']) { ?>
+							<span class="product_type_option product_type_option_active"><?php echo $group['namelanguage'];?></span>
+						<?php } else { ?>
+							<a href="order.php?step=0&productGroup=<?php echo $group['id'];?>"><span class="product_type_option"><?php echo $group['namelanguage'];?></span></a>
+						<?php } ?>
+					</li>
+				<?php } ?>
+			</ul>
+
+		<?php } ?>
+
+		<div style="margin-bottom: 20px;"></div>
+
+		<!-- if type is not domain then let's base it off of style -->
+		<?php
+
+			if($selectedgroup['type'] == "3") {
+				echo $this->partial('signuppublic/cart_style_domain.phtml', array('user'=>$this->user,'bundled'=>$this->bundled,'group'=>$selectedgroup, 'packages'=>$this->packages, 'domainName' => $this->domainName, 'tld' => $this->tld, 'cartParentPackage' => $this->cartParentPackage, 'subdomains' => $this->subdomains, 'autoSearchType' => $this->autoSearchType));
+			} else {
+				if ( $selectedgroup['style'] == '' ) {
+					$selectedgroup['style'] = 'default';
+				}
+				echo $this->partial('signuppublic/cart_style_'.$selectedgroup['style'].'.phtml', array('user'=>$this->user,'group'=>$selectedgroup, 'packages'=>$this->packages, 'bundled'=>$this->bundled, 'cartParentPackage' => $this->cartParentPackage, 'showSaved' => $this->showSaved, 'hideSetupFees' => $this->hideSetupFees));
+			}
+		?>
+
+	</div>
+</div>

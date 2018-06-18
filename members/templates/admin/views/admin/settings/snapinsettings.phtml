@@ -1,0 +1,84 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->user->lang("Snapin Settings"); ?></div>
+  <p class="alert-content"><?php echo $this->user->lang('Snapins are enhancements to your Clientexec experience by adding optional functionality by integrating with 3rd party providers.'); ?></p>
+</div>
+
+<!-- drop down list of plugins for the selected type -->
+<?php if (count($this->plugins) > 0) { ?>
+    <select onchange="jumpMenu2('self',this,0);">
+        <?php foreach ($this->plugins as $plugin) {
+            $selected = ($plugin['internalname'] == $this->selectedPlugin) ? "selected" : "";
+            ?>
+            <option <?php echo $selected; ?> value="index.php?fuse=admin&plugin=<?php echo $plugin['internalname']; ?>&view=snapinsettings&controller=settings&settings=plugins_snapins&type=Snapins"><?php echo $plugin['tabName']; ?></option>
+        <?php } ?>
+    </select>
+    <br/>
+<?php }?>
+
+<?php if (isset($this->groupNotes) && $this->groupNotes!="") { ?>
+    <br/>
+<div class="alert" style="width:560px;"><?php echo $this->groupNotes; ?></div>
+<?php }?>
+
+<form id="sitesettings" name="form_plugin" method="post" action="index.php?fuse=admin&controller=settings&action=update">
+    <input type="hidden" name="settingType" value="snapin" />
+    <input type="hidden" name="pluginName" value="<?php echo $this->selectedPlugin; ?>" />
+
+    <dl class="form noborder automation-options">
+        <?php echo $this->settingsfields($this->settings); ?>
+    </dl>
+
+    <div>
+        <button id="updatesettingbtn" class="btn" data-loading-text="<?php echo $this->user->lang("Saving");?>..."><?php echo $this->user->lang("Update Settings");?></button>
+    </div>
+
+    <?php if (count($this->settingsMappings) > 0) { ?>
+    <div>
+        <h3><?php echo $this->user->lang("Plugin Options");?></h3>
+        <table width="600">
+        <?php foreach ($this->settingsMappings as $key => $value) {
+            echo "<tr>";
+            echo "<td align='left'><button type='button' class='btn btn-warning btn-plugin-option' data-method='".$value['method']."' data-plugin='".$this->selectedPlugin."'>".$value['title']."</button></td>";
+            echo "<td width='450'>".$value['description']."</td>";
+            echo "</tr>";
+        }?>
+        </table>
+    </div>
+    <?php } ?>
+
+</form>
+
+<script data-cfasync="false" type="text/javascript">
+
+    $().ready(function(){
+        $('#snapinsettings tr:visible:odd').css("background-color","#F8F8F8 ");
+        $("#updatesettingbtn").click(function() {
+            $('#updatesettingbtn').button('loading');
+            var contactForm = $("#sitesettings");
+            $.ajax( {
+                url: contactForm.attr( 'action' ),
+                type: contactForm.attr( 'method' ),
+                data: contactForm.serialize(),
+                success: function (json){
+                    if (!json.error)
+                    {
+                        $('#updatesettingbtn').button('reset');
+                        ce.msg("Settings Updated");
+                    }
+                }
+            } );
+            return false;
+        });
+        $(".btn-plugin-option").click(function(){
+            RichHTML.mask();
+            $.getJSON('index.php?fuse=admin&controller=plugin&action=doplugin&type=snapin', {
+                plugin: $(this).attr('data-plugin'),
+                pluginaction : $(this).attr('data-method'),
+            }, function(json) {
+                RichHTML.unMask();
+                json = ce.parseResponse(json);
+            });
+        });
+
+    });
+</script>

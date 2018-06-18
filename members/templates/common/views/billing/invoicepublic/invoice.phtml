@@ -1,0 +1,324 @@
+<script data-cfasync="false" type="text/javascript">
+    invoice = {};
+    invoice.id = <?php echo $this->invoice_id;?>;
+    invoice.payment_method = "<?php echo $this->payment_method;?>";
+</script>
+
+<?php if ($this->show_change_of_billing_options) { ?>
+    <div class="alert ce-alert ce-alert-info">
+
+      <?php if ($this->accepts_cc && !$this->cc_added) { ?>
+        <p><?php echo $this->user->lang("You have not selected a payment method").". ".$this->user->lang("For any modifications please visit your ")."<a href='index.php?fuse=clients&controller=userprofile&view=paymentmethod'>".$this->user->lang("payment configuration page.")."</a> ".$this->user->lang("Keeping your payment options up to date will prevent any service disruption.");?></p>
+
+      <?php } else { ?>
+        <p><?php echo $this->user->lang("Your default payment source is set to")." ".$this->payment_type_name.". ".$this->user->lang("For any modifications please visit your ")."<a href='index.php?fuse=clients&controller=userprofile&view=paymentmethod'>".$this->user->lang("payment configuration page.")."</a> ".$this->user->lang("Keeping your payment options up to date will prevent any service disruption.");?></p>
+      <?php } ?>
+
+    </div>
+<?php } ?>
+
+<div class="invoice-container">
+    <div class="row">
+      <div class="pull-left">
+        <h1 class="invoice-title"><?php echo $this->title; ?> #<?php echo $this->invoice_id;?>&nbsp;<span class="invoicepdflink"><a href="index.php?sessionHash=<?php echo CE_Lib::getSessionHash(); ?>&fuse=billing&controller=invoice&action=generatepdfinvoice&invoiceid=<?php echo $this->invoice_id;?>" target="_blank"><img class="pdfimage" src="templates/admin/images/document-pdf-text.png" border="0" data-toggle="tooltip" title="<?php echo $this->user->lang("View PDF Invoice");?>" /></a></span></h1>
+        <?php if($this->includenextpayment != ''){ ?>
+        <div class="pull-right invoice-meta alert ce-alert <?php echo $this->metaBoxCSS; ?>">
+            <h2><?php echo $this->includenextpayment; ?></h2>
+        </div>
+        <?php } ?>
+        <address>
+            <strong><?php echo $this->escape($this->user->getOrganization()) ?></strong><br>
+            <strong><?php echo $this->escape($this->user->getFirstName()) ?> <?php echo $this->escape($this->user->getLastName()) ?> </strong><br>
+            <?php echo $this->user->getAddress();?><br>
+            <?php echo $this->user->getCity();?>, <?php echo $this->user->getState();?> <?php echo $this->user->getZipCode();?><br>
+            <?php echo $this->user->getCountry(true); ?>
+        </address>
+      </div>
+      <div class="pull-right invoice-meta alert ce-alert <?php echo $this->metaBoxCSS; ?>">
+        <table class="invoice-head">
+            <tbody>
+                <tr>
+                    <td class="pull-right"><strong><?php echo $this->user->lang("Status");?>:</strong>&nbsp;&nbsp;</td>
+                  <td><?php echo $this->invoice_status_name;?></td>
+                </tr>
+                <tr>
+                    <td class="pull-right"><strong><?php echo $this->user->lang("Customer");?> #:</strong>&nbsp;&nbsp;</td>
+                    <td><?php echo $this->user->getId();?></td>
+                </tr>
+                <tr>
+                    <td class="pull-right"><strong><?php echo $this->user->lang("Invoice");?> #:</strong>&nbsp;&nbsp;</td>
+                    <td><?php echo $this->invoice_id;?></td>
+                </tr>
+                <?php if($this->subscription_id){ ?>
+                <tr>
+                    <td class="pull-right"><strong><?php echo $this->user->lang("Subscription");?> #:</strong>&nbsp;&nbsp;</td>
+                    <td><?php echo $this->subscription_id;?></td>
+                </tr>
+                <?php } ?>
+                <tr>
+                    <td class="pull-right"><strong><?php echo $this->user->lang("Due Date");?>:</strong>&nbsp;&nbsp;</td>
+                    <td><?php echo $this->invoice_date;?></td>
+                </tr>
+                <?php if ($this->invoice_paid) { ?>
+                <tr>
+                    <td class="pull-right"><strong><?php echo $this->user->lang("Paid On");?>:</strong>&nbsp;&nbsp;</td>
+                    <td><?php echo $this->invoicePaidOn;?></td>
+                </tr>
+                <?php } else { ?>
+                <tr>
+                    <td class="pull-right"><strong><?php echo $this->user->lang("Sent On");?>:</strong>&nbsp;&nbsp;</td>
+                    <td><?php echo $this->invoice_sent_date;?></td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+        <?php if ($this->invoiceBalanceDue > 0 && $this->user->hasPermission( 'billing_apply_account_credit' ) && $this->user->getCreditBalance() > 0) { ?>
+            <button class="ce-btn ce-btn-huge btn-green btn-block btn-apply-credit">
+                <?php echo $this->user->lang("Apply my Credit");?>
+                <i class="icon-chevron-right pull-right"></i>
+            </button>
+        <?php } ?>
+      </div>
+    </div>
+    <br/><br/>
+    <div class="row">
+
+        <table class="table ce-table table-striped">
+            <thead>
+                <tr>
+                    <th><?php echo $this->user->lang("Description");?></th>
+                    <th width="100"><?php echo $this->user->lang("Type");?></th>
+                    <th width="100" class="text-right"><?php echo $this->user->lang("Amount");?></th>
+                    <?php if (count($this->invoice_tax) > 0) { ?>
+                        <th width="125" class="text-right"><?php echo $this->invoice_tax['tax1']['name'];?></th>
+                    <?php } ?>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach($this->items as $invoiceentry) { ?>
+            <tr>
+                <td>
+                    <?php echo $this->escape($invoiceentry['description']) ?><br/>
+                    <?php if ($invoiceentry['daterange'] != ''){ ?>
+                      <span class="entry-details">
+                        <?php echo $invoiceentry['daterange']; ?>
+                      </span><br>
+                    <?php } ?>
+                    <span class="entry-details"><?php echo nl2br($invoiceentry['detail']);?></span>
+                </td>
+                <td><?php echo $invoiceentry['billingtypename'];?></td>
+                <td class="text-right"><?php echo $invoiceentry['price'];?></td>
+                <?php if (count($this->invoice_tax) > 0) { ?>
+                    <td class="text-right"><?php echo $invoiceentry['taxamount'];?></td>
+                <?php } ?>
+            </tr>
+            <?php } ?>
+
+            <!-- only show sub total if we have tax and coupon -->
+            <?php if (count($this->invoice_tax) > 0) { ?>
+            <tr>
+                <?php if (count($this->invoice_tax) > 0) { ?>
+                    <td>&nbsp;</td>
+                <?php } ?>
+                <td>&nbsp;</td>
+                <td class="text-right"><strong><?php echo $this->user->lang("Sub Total");?></strong></td>
+                <td class="text-right"><strong><?php echo $this->unescape($this->subtotalprice);?></strong></td>
+            </tr>
+            <?php } ?>
+
+            <?php
+            $taxlabel = "";
+            foreach($this->invoice_tax as $tax) {
+                if ($taxlabel!="") $taxlabel .=" & ";
+                $taxlabel .= $tax['name']." (".floatval($tax['rate'])."%)";
+            } ?>
+
+            <?php if (count($this->invoice_tax) > 0) { ?>
+                <tr>
+                    <td colspan=3 class="text-right"><strong><?php echo $taxlabel;?></strong></td>
+                    <td class="text-right"><strong><?php echo $this->unescape($this->totaltax);?></strong></td>
+                </tr>
+            <?php } ?>
+            <tr>
+                <?php if (count($this->invoice_tax) > 0) { ?>
+                    <td>&nbsp;</td>
+                <?php } ?>
+                <td>&nbsp;</td>
+                <td class="text-right"><strong><?php echo $this->user->lang("Paid to Date");?></strong></td>
+                <td class="text-right"><strong><?php echo $this->unescape($this->totalpaid);?></strong></td>
+            </tr>
+            <tr>
+                <?php if (count($this->invoice_tax) > 0) { ?>
+                    <td>&nbsp;</td>
+                <?php } ?>
+                <td>&nbsp;</td>
+                <td class="text-right"><strong><?php echo $this->user->lang("Balance");?></strong></td>
+                <td class="text-right"><strong><?php echo $this->unescape($this->totalbalance);?></strong></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class='invoice-transactions'><?php echo $this->unescape(implode("<br/>", $this->pmtSuccessfulTransactions)); ?></div>
+
+        <?php if ( $this->invoiceNotes != '' ) { ?>
+        <br/>
+        <div class="well well-small">
+            <h4><?php echo $this->user->lang("Additional Notes");?>:</h4>
+            <?php echo $this->invoiceNotes; ?>
+        </div>
+        <?php } ?>
+    </div>
+    <?php if ($this->showpaybutton && $this->invoiceBalanceDue > 0 ) { ?>
+    <div class="" id="paymentOptions">
+    <form id="payinvoice-form" action="index.php?fuse=billing&controller=invoice&action=payinvoice" method="POST">
+        <input type="hidden" name="id" value="<?php echo $this->invoice_id; ?>">
+       <div class="payment_information_box">
+            <?php if(count($this->paymentMethods) != 0) { ?>
+                <h1 class="make_payment_using"><?php echo $this->user->lang("Choose Your Payment Method");?></h1>
+                <?php foreach($this->paymentMethods AS $tmpKey => $key) { ?>
+                    <?php if ($key['paymentTypeOptionValue'] == "paypal") {
+                        $key['description'] = $this->user->lang("Click the button below to log into PayPal and make your payment.");
+                    } else if (in_array($key['paymentTypeOptionValue'], array("quantumvault", "authnetcim"))) {
+                        $key['description'] = $this->user->lang("To update your credit card on file, <a href='index.php?fuse=clients&controller=userprofile&view=paymentmethod'>click here</a>.");
+
+                    } else if ($key['iscreditcard']) {
+                        $key['description'] = $this->user->lang("Make a secure payment using your credit card.");
+                    } ?>
+
+                    <label class="radio payment_method_radio_label <?php if($key['paymentTypeOptionSelected']) { echo "payment_method_selected"; } ?>">
+                        <div class="pull-right billing_accepting_cc">
+                            <?php if ( count($key['weaccept']['options']) > 0 ) { ?>
+                                <?php foreach($key['weaccept']['options'] as $weAccept) { ?>
+                                <img src="<?php echo $weAccept['img'];?>" id="<?php echo $weAccept['id'];?>" alt="<?php echo $weAccept['alt'];?>">
+                                <?php } ?>
+                            <?php } ?>
+                        </div>
+                        <input type="radio" class="payment_method_<?php echo $key['paymentTypeOptionValue'];?>" onclick="invoice.toggle_gateway(this.value);" name="paymentMethod" <?php if($key['paymentTypeOptionSelected']) { ?> checked="checked" <?php } ?> value="<?php echo $key['paymentTypeOptionValue'];?>" /> <span class="make_payment_option"><?php echo $this->user->lang("Pay with")." ".$key['paymentTypeOptionLabel'];?></span>
+                        <div id="payment_desc"><?php echo $key['description'];?></div>
+                    </label>
+                <?php } ?>
+            <?php } else { ?>
+                <strong><?php echo $this->user->lang('There are no Payment Processors configured!');?></strong>
+            <?php } ?>
+
+            <!-- Handle the extra fields for payment processors -->
+            <?php foreach($this->paymentMethods AS $key) { ?>
+
+                <input type="hidden" name="<?php echo $key['paymentTypeOptionValue']."_autopayment"?>" value="<?php echo $key['autoPayment'];?>"></input>
+                <?php if(@is_array($key['extraFields'])) { ?>
+                    <div class="payment_method_extra_fields" id="<?php echo $key['paymentTypeOptionValue'];?>-extraFields" <?php if(!$key['paymentTypeOptionSelected']) {?> style="visibility:hidden; display:none;" <?php } ?>>
+                         <?php foreach($key['extraFields'] AS $field) {
+                            $popupstr  = "";
+                            $requiredtype = "";
+                            /*
+                            if (isset($field['isrequired']) && $field['isrequired']) {
+                                $requiredtype = 'data-required="true"';
+                            }*/
+                            ?>
+                            <?php if ($field['fieldType'] == "hidden") { ?>
+                                  <input name="<?php echo $field['fieldName'];?>" type="hidden" value="<?php echo @$field['fieldValue'];?>" />
+                            <?php continue;  } ?>
+
+                            <?php if (isset($field['fieldDescription']) && $field['fieldDescription'] != "") {
+                                //field description
+                                $popupstr = 'data-toggle="popover-hover" data-html="true" data-placement="top" title="Description" data-content="'.addslashes($field['fieldDescription']).'" class="tip-target"';
+                                } ?>
+
+                            <?php if($field['fieldType'] == 'text') { ?>
+                                <div class="billing_extrafield">
+                                    <?php if ($field['labelpos'] != "low") { ?> <label for="<?php echo $field['fieldName'];?>" style="display:"><span <?php echo $popupstr; ?>><?php echo $field['fieldTitle'];?></span></label> <?php } ?>
+                                    <input id="<?php echo $field['fieldName'];?>" name="<?php echo $field['fieldName'];?>" <?php echo $requiredtype;?> type="text" style="width:<?php echo @$field['fieldSize'];?>px;" value="<?php echo @$field['fieldValue'];?>" <?php if(@$field['fieldDisabled']) {?> disabled <?php } ?> />
+                                    <?php if ($field['labelpos'] == "low") { ?> <label for="<?php echo $field['fieldName'];?>" class="sub_label" style="display:"><span <?php echo $popupstr; ?>><?php echo $field['fieldTitle'];?></span></label> <?php } ?>
+                                </div>
+                            <?php } elseif($field['fieldType'] == 'dropdown') { ?>
+                                <?php if ($field['labelpos'] != "low") { ?> <label for="<?php echo $field['fieldName'];?>" style="display:"><span <?php echo $popupstr; ?>><?php echo $field['fieldTitle'];?></span></label> <?php } ?>
+                                <select name="<?php echo $field['fieldName'];?>" <?php if(@$field['fieldDisabled']) {?> disabled <?php } ?>>
+                                    <?php foreach($field['fieldValue'] AS $value) { ?>
+                                        <option value="<?php echo $value['value'];?>" ><?php echo $value['text'];?>&nbsp;</option>
+                                    <?php } ?>
+                                </select>
+                                <?php if ($field['labelpos'] == "low") { ?> <label for="<?php echo $field['fieldName'];?>" class="sub_label" style="display:"><span <?php echo $popupstr; ?>><?php echo $field['fieldTitle'];?></span></label> <?php } ?>
+                            <?php } elseif($field['fieldType'] == 'yesno') { ?>
+                                <?php if ($field['labelpos'] != "low") { ?> <label for="<?php echo $field['fieldName'];?>" style="display:"><span <?php echo $popupstr; ?>><?php echo $field['fieldTitle'];?></span></label> <?php } ?>
+                                <select name="<?php echo $field['fieldName'];?>" <?php if(@$field['fieldDisabled']) {?> disabled <?php } ?>>
+                                    <option value="1" <?php if($field['fieldValue'] == 1) { ?>selected="selected"<?php } ?>><?php echo $this->user->lang('Yes');?>&nbsp;</option>
+                                    <option value="0" <?php if($field['fieldValue'] == 0) { ?>selected="selected"<?php } ?>><?php echo $this->user->lang('No');?>&nbsp;</option>
+                                </select>
+                                <?php if ($field['labelpos'] == "low") { ?> <label for="<?php echo $field['fieldName'];?>" class="sub_label" style="display:"><span <?php echo $popupstr; ?>><?php echo $field['fieldTitle'];?></span></label> <?php } ?>
+                            <?php } elseif($field['fieldType'] == "grouplabel") { ?>
+                                <hr/>
+                                <label><strong><?php echo $field['fieldTitle'];?></strong></label>
+                            <?php } ?>
+
+                         <?php } ?>
+                    </div>
+
+                <?php } // for each billing extrafields?>
+            <?php } ?>
+        </div>
+        <?php if(count($this->paymentMethods) != 0) { ?>
+        <div class="form-actions">
+            <span class='paymentbutton1'><button style="margin-left:0px;cursor:pointer;" class="pull-right btn btn-large" id="submitButton"><?php echo $this->user->lang('Pay Invoice'); ?></button></span>
+            <span class='paymentbutton2 pull-right'>
+                <?php echo $this->unescape($this->stripeCheckoutForm); ?>
+            </span>
+        </div>
+        <?php } ?>
+    </form>
+    </div>
+    <?php } ?>
+
+    <div class="company-info">
+        <?php if ( $this->additionalinfo != '' ) { ?>
+        <div class="row additionalinfo">
+            <?php echo $this->unescape($this->additionalinfo);?><br/><br/>
+        </div>
+        <?php } ?>
+        <?php if ( $this->company_name != '' ) { ?>
+        <div class="row">
+            <span class="span1 text-right"><strong><?php echo $this->user->lang("Company");?>:</strong></span>
+            <span class="span5"><?php echo $this->company_name;?></span>
+        </div>
+        <?php } ?>
+        <?php if ( $this->company_address != '' ) { ?>
+        <div class="row">
+            <span class="span1 text-right"><strong><?php echo $this->user->lang("Address");?>:</strong></span>
+            <span class="span5"><?php echo $this->company_address;?></span>
+        </div>
+        <?php } ?>
+        <?php if ( $this->company_email != '' ) { ?>
+        <div class="row">
+            <span class="span1 text-right"><strong><?php echo $this->user->lang("Email");?>:</strong></span>
+            <span class="span5"><a href="mailto:<?php echo $this->company_email;?>"><?php echo $this->company_email;?></a></span>
+        </div>
+        <?php } ?>
+        <?php if ( $this->company_url != '' ) { ?>
+        <div class="row">
+            <span class="span1 text-right"><strong><?php echo $this->user->lang("Website");?>:</strong></span>
+            <span class="span5"><a href="<?php echo $this->company_url;?>"><?php echo $this->company_url;?></a><span>
+        </div>
+        <?php } ?>
+    </div>
+</div>
+
+<script data-cfasync="false" type="text/javascript">
+    invoice.selected_gateway = '<?php echo @$this->defaultGateway;?>';
+    $(document).ready(function() {
+        invoice.toggle_gateway(invoice.selected_gateway);
+    });
+
+    $('#submitButton').click(function(){
+        RichHTML.mask();
+        paymentSelected = false;
+        $.each($('#payinvoice-form').serializeArray(), function(key, value){
+            if ( value['name'] == 'paymentMethod') {
+                paymentSelected = true;
+            }
+        });
+        if ( paymentSelected === false ) {
+            RichHTML.error(lang('Please select a payment method.'));
+            return false;
+        }
+        return true;
+    });
+</script>

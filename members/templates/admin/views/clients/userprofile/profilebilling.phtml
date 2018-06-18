@@ -1,0 +1,405 @@
+<style>
+    .form {
+        width: 100%;
+    }
+</style>
+
+<script data-cfasync="false" type="text/javascript">
+    function CheckForCCDisplay(selObj){
+        var inarray = 0;
+
+        // possible plugins that require cc information
+        validpluginsforcc = new Array(<?php echo $this->pluginsList;?>);
+        <?php echo $this->availableCCArray;?>
+
+        //for loop to take a look and see if the selected plugin accepts cc information
+        for (x = 0; x < <?php echo $this->arraycount;?>; x++){
+            if (selObj == validpluginsforcc[x]) {
+                inarray = 1;
+            }
+        }
+
+        visabit     = 0;
+        mcbit       = 0;
+        amexbit     = 0;
+        discoverbit = 0;
+
+        laserbit    = 0;
+        dinersbit   = 0;
+        switchbit   = 0;
+
+        //if inarray is 1 then we need to show credit card information
+        if (inarray == 1) {
+            if (pluginsforcc[selObj][<?php echo $this->cCREDITVISA;?>] == 1) {
+                visabit = 1;
+                document.getElementById('visa_logo').style.display = "";
+            } else {
+                document.getElementById('visa_logo').style.display = "none";
+            }
+
+            if (pluginsforcc[selObj][<?php echo $this->cCREDITMC;?>] == 1) {
+                mcbit = 1;
+                document.getElementById('mastercard_logo').style.display = "";
+            } else {
+                document.getElementById('mastercard_logo').style.display = "none";
+            }
+
+            if (pluginsforcc[selObj][<?php echo $this->cCREDITAMEX;?>] == 1) {
+                amexbit = 1;
+                document.getElementById('americanexpress_logo').style.display = "";
+            } else {
+                document.getElementById('americanexpress_logo').style.display = "none";
+            }
+
+            if (pluginsforcc[selObj][<?php echo $this->cCREDITDISC;?>] == 1) {
+                discoverbit = 1;
+                document.getElementById('discover_logo').style.display = "";
+            } else {
+                document.getElementById('discover_logo').style.display = "none";
+            }
+
+
+            if (pluginsforcc[selObj][<?php echo $this->cCREDITLASER;?>] == 1) {
+                laserbit = 1;
+                document.getElementById('lasercard_logo').style.display = "";
+            } else {
+                document.getElementById('lasercard_logo').style.display = "none";
+            }
+
+            if (pluginsforcc[selObj][<?php echo $this->cCREDITDINERS;?>] == 1) {
+                dinersbit = 1;
+                document.getElementById('dinersclub_logo').style.display = "";
+            } else {
+                document.getElementById('dinersclub_logo').style.display = "none";
+            }
+
+            if (pluginsforcc[selObj][<?php echo $this->cCREDITSWITCH;?>] == 1) {
+                switchbit = 1;
+                document.getElementById('switch_logo').style.display = "";
+            } else {
+                document.getElementById('switch_logo').style.display = "none";
+            }
+
+            //   document.forms['customerdata'].elements['c_ccnumber'].value = 'Invalid Credit Card Number';
+
+            <?php if ($this->forceCCRequirement) { ?>
+                        if (document.forms['customerdata'].elements['r_ccnumber'] != null) {
+                            document.forms['customerdata'].elements['r_ccnumber'].value = lang('Credit Card Required');
+                        }
+            <?php } ?>
+
+                        document.getElementById('creditcardinfo').style.display = "";
+                        //document.getElementById('nocreditcardinfo').style.display = "none";
+                    } else {
+                        if (document.forms['customerdata'].elements['c_ccnumber'] != null) {
+                            document.forms['customerdata'].elements['c_ccnumber'].value = '';
+                        }
+
+                        if (document.forms['customerdata'].elements['r_ccnumber'] != null) {
+                            document.forms['customerdata'].elements['r_ccnumber'].value = '';
+                        }
+
+                        document.getElementById('creditcardinfo').style.display = "none";
+                        //document.getElementById('nocreditcardinfo').style.display = "";
+                    }
+                    document.forms['customerdata'].elements['validcc'].value = "" + visabit + mcbit + amexbit + discoverbit + laserbit + dinersbit + switchbit + "";
+                }
+
+
+
+                function replaceString(oldS,newS,fullS) {
+                    for (var i=0; i<fullS.length; i++) {
+                        if (fullS.substring(i,i+oldS.length) == oldS) {
+                            fullS = fullS.substring(0,i)+newS+fullS.substring(i+oldS.length,fullS.length);
+                        }
+                    }
+                    return fullS;
+                }
+
+                function fixaddress(myfield) {
+                    myfield.value =  replaceString(" ","",myfield.value);
+                    myfield.value = myfield.value.toLowerCase();
+                }
+
+                function checkCreditBalance(form){
+                    if ( typeof(form.balance) !== "undefined" && typeof(form.balance.value) !== "undefined" ){
+                        if (isNaN(form.balance.value) || form.balance.value < 0){
+                            alert(lang("Your credit balance has a wrong format or is not valid"));
+                            return (false);
+                        }
+                    }
+                    return (true);
+                }
+
+                function showHideRecurring(value) {
+                    usingRecurring = document.getElementById('use_recurring');
+                    if (value == 'paypal') {
+                        usingRecurring.style.display = 'block';
+                    } else {
+                        usingRecurring.style.display = 'none';
+                    }
+                }
+
+                function showHidePaymentInformation(value) {
+                    if ($('.PaymentInformation').length > 0) {
+                        $('.PaymentInformation').hide();
+                    }
+                    if ($('.PaymentIframe').length > 0) {
+                        $('.PaymentIframe').attr('src', '');
+                    }
+                    if ($('.'+value+'PaymentInformation').length > 0) {
+                        $('.'+value+'PaymentInformation').show();
+                    }
+                    if ($('.'+value+'PaymentIframe').length > 0) {
+                        $('.'+value+'PaymentIframe').attr('src', 'index.php?fuse=admin&view=viewpluginurl&plugintoshow='+value);
+                    }
+                }
+
+                if (document.images) {
+                    pic1= new Image(167,14);
+                    pic1.src="<?php echo $this->gRelativePath;?>images/loading.gif";
+                }
+</script>
+
+<?php echo $this->profileheader($this->customer);?>
+
+<form method='post' id='customerdata' name='customerdata'>
+    <dl class="form">
+
+    <?php if ($this->canEditCustomer) { ?>
+
+        <dt style="border-top:0px;"><label><?php echo $this->user->lang("Invoice PDF Template");?></label></dt>
+        <dd style="border-top:0px;">
+            <?php if ($this->clients_edit_payment_type) { ?>
+                <select name='invoice_template'>
+                    <?php
+                        $selected = ($this->selected_invoice_template == $template) ? 'selected="selected"' : "";
+                    ?>
+                    <option value="0" <?php echo $selected;?>><?php echo $this->user->lang("Use system defined template");?></option>
+                    <?php foreach($this->invoice_templates as $template) {
+                        $selected = ($this->selected_invoice_template == $template) ? 'selected="selected"' : "";
+                        ?>
+                        <option value="<?php echo $template;?>"  <?php echo $selected;?> ><?php echo $template;?></option>
+                    <?php } ?>
+                </select>
+            <?php } else {
+                if ($this->selected_invoice_template == "") {
+                    echo $this->user->lang("Use system defined template");
+                } else {
+                    echo $this->selected_invoice_template;
+                }
+            } ?>
+        </dd>
+
+        <?php if ($this->billingEditCredit) { ?>
+            <dt style="border-top:0px;"><label><?php echo $this->user->lang("Credit Balance");?></label></dt>
+            <dd style="border-top:0px;">
+                <input type='text' name='balance' style="width:50px;" size='5' autocomplete="off" value="<?php echo $this->userBalance;?>">
+            </dd>
+        <?php } ?>
+
+        <?php if ($this->canSeeCredit) { ?>
+            <dt><label><?php echo $this->user->lang("Credit Balance");?></label></dt>
+            <dd>
+                <?php echo $this->creditBalance;?>
+            </dd>
+        <?php } ?>
+
+        <dt><label><?php echo $this->user->lang("Taxable");?></label></dt>
+        <dd>
+            <?php if ($this->clients_edit_payment_type) { ?>
+                <select name='taxable'>
+                    <option value='1' <?php echo $this->taxableYesSelected;?> ><?php echo $this->user->lang("Yes");?></option>
+                    <option value='0' <?php echo $this->taxableNoSelected;?> ><?php echo $this->user->lang("No");?></option>
+                </select>
+            <?php } else { ?>
+                <?php echo $this->taxableText; ?>
+            <?php } ?>
+        </dd>
+
+        <dt><label><?php echo $this->user->lang("Currency");?></label></dt>
+        <dd>
+            <?php if ($this->clients_edit_payment_type) { ?>
+                <?php echo $this->unescape($this->currencyDropdown);?>
+            <?php } else { ?>
+                <?php echo $this->currencyText; ?>
+            <?php } ?>
+        </dd>
+
+        <dt><label><?php echo $this->user->lang("Payment Type");?></label></dt>
+        <dd>
+            <?php if ($this->clients_edit_payment_type) { ?>
+                <select name='paymenttype' onChange="CheckForCCDisplay(this.options[this.selectedIndex].value); showHideRecurring(this.options[this.selectedIndex].value); showHidePaymentInformation(this.options[this.selectedIndex].value);">
+                    <?php foreach($this->plugins as $plugin) {?>
+                        <option value="<?php echo $plugin['paymentTypeOptionValue'];?>" <?php echo $plugin['paymentTypeOptionSelected'];?> ><?php echo $plugin['paymentTypeOptionLabel'];?></option>
+                    <?php } ?>
+                </select>
+            <?php } else { ?>
+                <?php echo $this->paymenttypeText; ?>
+            <?php } ?>
+        </dd>
+
+        <div id="use_recurring" class="tooltipnowrap"  style="display:<?php echo $this->displayRecurring;?>">
+            <dt style="margin-bottom:13px;"><label><span data-placement="right" data-html="true" title="<?php echo $this->user->lang("If you switch to Recurring Subscriptions don't forget<br/>to generate the pending invoices that will initiate the<br/>subscription with the 3rd Party Processor.");?>" class="tip-target" data-toggle="tooltip"><?php echo $this->user->lang("Use Subscription");?></span></label></dt>
+            <dd>
+                <?php if ($this->clients_edit_payment_type) { ?>
+                    <label class="radio inline">
+                        <input type="radio" name="recurring_paypal" value="0" <?php echo $this->recurringPaypalNo;?> />&nbsp;<?php echo $this->user->lang("No");?>
+                    </label>
+                    <label class="radio inline">
+                        <input type="radio" name="recurring_paypal" value="1" <?php echo $this->recurringPaypalYes;?> />&nbsp;<?php echo $this->user->lang("Yes");?>
+                    </label>
+                <?php } else { ?>
+                    <?php echo $this->recurringPaypalText; ?>
+                <?php } ?>
+            </dd>
+        </div>
+                <?php } ?>
+
+        <div id='creditcardinfo' style='display:<?php echo $this->displayCC;?>'>
+            <dt><label><?php echo $this->user->lang("Credit Card Number");?></label></dt>
+
+            <?php if ($this->showCreditCardSection) { ?>
+                <dd>
+                    <?php if ($this->isPassphrased) { ?>
+
+                        <?php if ($this->ccIsThere) { ?>
+
+                            <?php if ($this->canEditCreditCard) { ?>
+                                <?php if ($this->clients_passphrase_cc) { ?>
+                                    <div id="ccbuttons" style="width:230px;">
+                                        <a href="javascript:" id="viewcclink">xxxxxxxxxxxxx <?php echo $this->lastFour;?></a>&nbsp;&nbsp;&nbsp;
+                                        <?php if ($this->canDeleteCC) { ?>
+                                            <a class="rich-button white" id="btnDeletecc"><span class="buttontext">Delete CC</span></a>
+                                        <?php } ?>
+                                    </div>
+                                <?php } else {
+                                    echo "xxxxxxxxxxxxx".$this->lastFour; ?>
+                                    <?php if ($this->canDeleteCC) { ?>
+                                        &nbsp;&nbsp;&nbsp;<a class="rich-button white" id="btnDeletecc"><span class="buttontext">Delete CC</span></a>
+                                    <?php } ?>
+                                <?php } ?>
+                            <?php } ?>
+
+                            <?php echo $this->cantEditCC;
+                        } else {
+                            if ($this->clients_edit_credit_card) { ?>
+                                <input type=text name=ccnumber size=25>
+                                <input type='hidden' name='c_ccnumber' value="<?php echo $this->requiredMsg;?>" />
+                                <input type='hidden' name='r_ccnumber' value="<?php echo $this->ccRequiredMsg;?>" />
+                            <?php } else { 
+                                echo $this->user->lang("Not Available");
+                            }
+                        }
+                    } else {
+                            if ($this->hasCreditCard) {
+                                if ($this->canEditCreditCard) {
+                                    if ($this->cardCanBePassphrased) { ?>
+                                        <a href="<?php echo $this->someHelpURL;?>" title="<?php echo $this->someHelpPopupText;?>" class="red"><?php echo $this->someHelp;?></a>
+                                    <?php }
+
+                                    if ($this->awaitingValidation) { ?>
+                                        <font color='red'><?php echo $this->user->lang("Awaiting Validation");?></font>
+                                    <?php } ?>
+
+                                    <div id="ccbuttons" style="width:240px;">
+                                        <?php if ($this->clients_passphrase_cc) { ?>
+                                            <a class="rich-button white" id="btnValidatecc"><span class="buttontext">Validate CC</span></a>
+                                        <?php } ?>
+                                        <?php if ($this->clients_edit_credit_card) { ?>
+                                            <a class="rich-button white" id="btnDeletecc"><span class="buttontext">Delete CC</span></a>
+                                        <?php } ?>
+                                    </div>
+                                <?php } else if ($this->awaitingValidation) { ?>
+                                    <font color='red'><?php echo $this->user->lang("Awaiting Validation");?></font>
+                                <?php } ?>
+                            <?php } else { ?>
+                                <?php if ($this->clients_edit_credit_card) { ?>
+                                    <input type='text' name='ccnumber' size='25'>
+                                    <input type='hidden' name='c_ccnumber' value="<?php echo $this->requiredMsg;?>" />
+                                    <input type='hidden' name='r_ccnumber' value="<?php echo $this->ccRequiredMsg;?>" />
+                                <?php } else { 
+                                    echo $this->user->lang("Not Available");
+                                } ?>
+                            <?php } ?>
+                    <?php } ?>
+                </dd>
+
+                <?php if ($this->showNewCreditCardTextBox) {?>
+                <dt><label style="width:147px;"><span data-toggle="tooltip" title="<?php echo $this->user->lang("Only enter a credit card if you want to change the one on file");?>" class="tip-target"><?php echo $this->user->lang("New Credit Card Number");?></span></label></dt>
+                <dd>
+                    <input type='text' name='newccnumber' size='25'>
+                    <input type='hidden' name='c_newccnumber' value="<?php echo $this->requiredMsg;?>" />
+                    <input type='hidden' name='r_newccnumber' value="">
+                </dd>
+                <?php } ?>
+            <?php } ?>
+
+            <dt><label><?php echo $this->user->lang("Expiration Month");?></label></dt>
+            <dd>
+                <?php if ($this->clients_edit_credit_card) { ?>
+                    <select type='text' name='ccmonth'>
+                        <?php foreach ($this->months as $month) { ?>
+                            <option value="<?php echo $month['monthOptionsValue'];?>" <?php echo $month['monthOptionsSelected'];?> ><?php echo $month['monthOptionsLabel'];?></option>
+                        <?php } ?>
+                    </select>
+                <?php } else {
+                    if ($this->ccIsThere) {
+                        echo $this->monthText;
+                    } else {
+                        echo $this->user->lang("Not Available");
+                    }
+                } ?>
+            </dd>
+
+            <dt><label><?php echo $this->user->lang("Expiration Year");?></label></dt>
+            <dd>
+                <?php if ($this->clients_edit_credit_card) { ?>
+                    <select type='text' name='ccyear'>
+                        <?php foreach($this->years as $year) {
+                            if ($year['yearOptionsLabel'] == 0) {
+                                continue;
+                            }
+                        ?>
+                            <option value="<?php echo $year['yearOptionsValue'];?>" <?php echo $year['yearOptionsSelected'];?> ><?php echo $year['yearOptionsLabel'];?></option>
+                        <?php } ?>
+                    </select>
+                <?php } else {
+                    if ($this->ccIsThere) {
+                        echo $this->yearText;
+                    } else {
+                        echo $this->user->lang("Not Available");
+                    }
+                } ?>
+            </dd>
+
+            <dt><label><?php echo $this->user->lang("Accepting");?></label></dt>
+            <dd>
+                <img alt="visa" src="../images/creditcards/visa.gif" style="display:<?php echo $this->visaStyle;?>" id='visa_logo'>
+                <img alt="mastercard" src="../images/creditcards/mc.gif" style="display:<?php echo $this->mastercardStyle;?>" id='mastercard_logo'>
+                <img alt="americanexpress" src="../images/creditcards/amex1.gif" style="display:<?php echo $this->americanexpressStyle;?>" id='americanexpress_logo'>
+                <img alt="discover" src="../images/creditcards/discover.gif" style="display:<?php echo $this->discoverStyle;?>" id='discover_logo'>
+                <img alt="lasercard" src="../images/creditcards/laser.gif" style="display:<?php echo $this->lasercardStyle;?>" id='lasercard_logo'>
+                <img alt="dinersclub" src="../images/creditcards/diners.gif" style="display:<?php echo $this->dinersclubStyle;?>" id='dinersclub_logo'>
+                <img alt="switch" src="../images/creditcards/switch.gif" style="display:<?php echo $this->switchStyle;?>" id='switch_logo'>
+                <input type='hidden' name='validcc' value='<?php echo $this->visabit;?><?php echo $this->mcbit;?><?php echo $this->amexbit;?><?php echo $this->discbit;?><?php echo $this->laserbit;?><?php echo $this->dinersbit;?><?php echo $this->switchbit;?>' />
+            </dd>
+        </div>
+
+        <?php if ($this->clients_edit_payment_type) { ?>
+            <?php foreach ($this->gatewayIframes as $gatewayName => $gatewayIframeConfiguration) { ?>
+            <div class="PaymentInformation <?php echo $gatewayName."PaymentInformation"; ?>" id="<?php echo $gatewayName."PaymentInformation"; ?>" style="display:<?php echo ($gatewayName == $this->selectedPlugin)? "block" : "none"; ?>;">
+                <iframe class="PaymentIframe <?php echo $gatewayName."PaymentIframe"; ?>" id="<?php echo $gatewayName."PaymentIframe"; ?>" src ="<?php echo ($gatewayName == $this->selectedPlugin)? "index.php?fuse=admin&view=ViewPluginUrl&plugintoshow=".$gatewayName : ""; ?>" <?php echo $gatewayIframeConfiguration; ?> >
+                    <p><?php echo $this->user->lang("Your browser does not support iframes"); ?></p>
+                </iframe>
+            </div>
+            <?php } ?>
+        <?php } ?>
+
+    </dl>
+
+    <div style="clear:both;padding-top:10px;"></div>
+    <?php if ($this->clients_edit_payment_type || $this->billingEditCredit || ($this->clients_edit_credit_card && ($this->showCreditCardSection || $this->showNewCreditCardTextBox))) { ?>
+        <button id="btnUpdate" class="btn"><?php echo $this->user->lang("Save Changes");?></button>
+    <?php } ?>
+</form>

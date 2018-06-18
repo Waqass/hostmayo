@@ -1,0 +1,143 @@
+<script data-cfasync="false" type="text/javascript">
+    var oldstatus = <?php echo $this->oldstatus; ?>;
+    var oldstatusAliasto = <?php echo $this->oldstatusAliasto;?>;
+    var oldgroup = <?php echo $this->oldgroup; ?>;
+    var adminid = <?php echo $this->userId; ?>;
+    var deleteId = <?php echo $this->userId; ?>;
+</script>
+
+<div class="alert alert-info staff-profile-header  ce-page-header">
+    <div class="staff-profile-image">
+        <img class="ce-default-avatar-dark" src="<?php echo $this->profileurl;?>" />
+    </div>
+    <div class="staff-profile-label">
+        <?php echo $this->userName; ?>&nbsp;(<?php echo $this->userId; ?>)<br/>
+        <span class="staff-profile-status label <?php echo ($this->statusenum==1) ? "label-success" : "" ;?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->statusname;?>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    </div>
+</div>
+
+<?php if ($this->user->hasPermission("admin_staff_view") && $this->backtolist) { ?>
+    <div style="margin-top:-8px;margin-bottom:10px;"><i class="icon-level-up icon-flip-horizontal icon-back-to-parent-list"></i> <a href="index.php?fuse=admin&controller=staff&view=adminlist"><?php echo $this->user->lang("Staff list");?></a></div>
+<?php } ?>
+
+<ul class="nav nav-tabs">
+    <li class="active"><span><a href="#"><?php echo $this->user->lang("Profile");?></a></span></li>
+    <li><span><a href="index.php?fuse=admin&view=staffsettings&controller=staff<?php echo ($this->backtolist) ? "&adminid=".$this->userId : ""; ?>"><?php echo $this->user->lang("Preferences");?></a></span></li>
+</ul>
+
+<form method="post" action="index.php?fuse=admin&action=updateadmin&controller=staff">
+    <input type=hidden name=id value=<?php echo $this->userId; ?>>
+    <dl class="form">
+
+        <dt><label><?php echo $this->user->lang('Status'); ?>:</label></dt>
+        <dd class="ddelement" style="width:300px">
+            <select style="width:255px;" id="dropdown_adminstatus" name="dropdown_adminstatus" size="10" style="display:none" <?php if (!$this->parseProfileHeader['editAdminStatus']) { ?> disabled="disabled" <?php } ?> >
+                <option value="1" <?php echo $this->activeSelected; ?> ><?php echo $this->user->lang("Active");?></option>
+                <option value="-1" <?php echo $this->inactiveSelected; ?> ><?php echo $this->user->lang("Inactive");?></option>
+            </select>
+        </dd>
+
+        <dt><label><?php echo $this->user->lang('Group'); ?>:</label></dt>
+        <dd class="ddelement" style="width:300px">
+            <select style="width:255px;" id="dropdown_adminGroup" name="dropdown_adminGroup" style="display:none"  <?php if (!$this->parseProfileHeader['editAdminGroup']) { ?> disabled="disabled" <?php } ?> >
+            <?php foreach ($this->parseProfileHeader['adminGroupOption'] as $adminGroupOption) { ?>
+                <option value="<?php echo $adminGroupOption['adminGroupValue']; ?>" <?php echo $adminGroupOption['adminGroupSelected']; ?> ><?php echo $adminGroupOption['adminGroupName']; ?></option>
+            <?php } ?>
+            </select>
+        </dd>
+
+        <?php foreach ($this->parseCustomFields as $customFields) {
+		$NameAddId=trim($customFields['fieldId']);
+		if($NameAddId != 51 && $NameAddId != 52 ){ ?>
+        <dt><label><?php echo $customFields['rowLabel']; ?></label></dt>
+        <dd class="ddelement" style="width:300px;">
+            <?php switch($customFields['fieldType']) {
+                case 'LANGUAGE': ?>
+            <select name='CT_<?php echo $customFields['fieldId']; ?>' style="width:248px;">
+                <?php foreach ($customFields['languageOptions'] as $languageOptions) { ?>
+                <option size=30 value='<?php echo $languageOptions['typeLanguageOptionValue']; ?>' <?php echo $languageOptions['typeLanguageOptionSelected']; ?>><?php echo $languageOptions['typeLanguageOptionLabel']; ?></option>
+                <?php } ?>
+            </select>
+            <?php break; ?>
+
+            <?php case 'COUNTRY': ?>
+            <select name=CT_<?php echo $customFields['fieldId']; ?> style="width:248px;">
+                <?php echo $customFields['countryOptions']; ?>
+            </select>
+            <?php break; ?>
+
+            <?php case 'TEXTAREA': ?>
+            <textarea name='CT_<?php echo $customFields['fieldId']; ?>' style="width:236px; height:65px;" cols='<?php echo $customFields['fieldWidth']; ?>'><?php echo $customFields['value']; ?></textarea>
+            <?php break; ?>
+
+            <?php case 'DROPDOWN': ?>
+            <select name=CT_<?php echo $customFields['fieldId']; ?> style="width:255px;">
+                <?php foreach ($customFields['dropdownOptions'] as $dropdownOptions) { ?>
+                <option size=30 value='<?php echo $dropdownOptions['typeDropdownOptionValue']; ?>' <?php echo $dropdownOptions['typeDropdownOptionSelected']; ?>><?php echo $dropdownOptions['typeDropdownOptionLabel']; ?></option>
+                <?php } ?>
+            </select>
+            <?php break; ?>
+
+            <?php case 'DATE': ?>
+            <input style="width: 240px" class="datepicker" type="text" name="CT_<?php echo $customFields['fieldId']; ?>" id="CT_<?php echo $customFields['fieldId']; ?>" value="<?php echo $customFields['value']; ?>" ></input>
+            <?php break; ?>
+
+            <?php case 'YESNO': ?>
+            <select name=CT_<?php echo $customFields['fieldId']; ?> style="width:255px;">
+                <option value="1" <?php echo $customFields['yesSelected']; ?> ><?php echo $this->user->lang("Yes");?></option>
+                <option value="0" <?php echo $customFields['noSelected']; ?> ><?php echo $this->user->lang("No");?></option>
+            </select>
+            <?php break; ?>
+
+            <?php default: ?>
+            <input type="text"  name="CT_<?php echo $customFields['fieldId']; ?>" style="width:240px;" value="<?php echo $customFields['value']; ?>" />
+            <?php break; ?>
+            <?php } ?>
+
+            <?php if ($customFields['parseFieldInformation'] ) { ?>
+            &nbsp;
+            <img id='fieldInformation_<?php echo $customFields['fieldId']; ?>' class='tip-target' src='../templates/admin/images/information-button.png'/>
+            <?php } ?>
+
+            <?php if ($customFields['parseFieldRequired'] ) { ?>
+                <?php if ($customFields['parseEmailOriginalName'] ) { ?>
+                <input type=hidden name="e_CT_<?php echo $customFields['fieldId']; ?>" value="<?php echo $customFields['OriginalName']; ?> Format">
+                <?php } ?>
+
+            <input type=hidden name="r_CT_<?php echo $customFields['fieldId']; ?>" value="<?php echo $customFields['OriginalName']; ?>">
+            <?php } ?>
+        </dd>
+        <?php }} ?>
+
+
+        <dt><label><?php echo $this->user->lang("Signature");?></label></dt>
+        <dd class="ddelement">
+            <textarea style="width: 233px;" rows="5" name='signature' id='signature'><?php echo $this->signature_value; ?></textarea>
+        </dd>
+
+        <dt style="width:350px">
+            <font class=bodyheader color=red>
+                &nbsp;&nbsp;&nbsp;
+                <?php echo $this->user->lang("Note");?>: <?php echo $this->user->lang("Supply only if you want password changed");?>
+            </font>
+        </dt>
+        <dd></dd>
+        <br>
+        <br>
+        <dt><label><?php echo $this->user->lang("New Password");?></label></dt>
+        <dd class="ddelement" style="width:300px;">
+            <input  style="width:240px;" type="password" id="new_password" name="new_password" size="30" autocomplete="off">
+        </dd>
+
+        <dt><label><?php echo $this->user->lang("Confirm password");?></label></dt>
+        <dd class="ddelement" style="width:300px;">
+            <input  style="width:240px;" type="password" id="confirm_password" name="confirm_password" size="30" autocomplete="off">
+        </dd>
+    </dl>
+
+    <button class="rich-button"><span><?php echo $this->user->lang('Update'); ?></span></button>
+
+    <?php if ($this->parseDeleteAdminButtons) { ?>
+        <button id="deleteStaffButton" class="rich-button"><span><?php echo $this->user->lang('Delete'); ?></span></button>
+    <?php } ?>
+</form>

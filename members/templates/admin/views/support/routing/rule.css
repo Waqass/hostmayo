@@ -1,0 +1,20 @@
+@CHARSET "UTF-8";
+
+.select2-container {
+    margin-bottom: 10px;
+}
+
+.select2-container.select2-large ul {
+	height: 108px !important;
+    overflow-y: scroll;
+}
+
+.help-icon {
+	display: inline-block;
+    float: right;
+}
+
+/*TODO remove this once labels & checkbox styling are standarized*/
+label.checkbox input[type="checkbox"] {
+	margin-top: 1px;
+}

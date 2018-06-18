@@ -1,0 +1,27 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->user->lang("Email Templates"); ?></div>
+  <p class="alert-content"><?php echo $this->user->lang('Email templates that can be used throughout Clientexec'); ?></p>
+</div>
+
+<span class="grid-meta" id="emails-grid-metadata"></span>
+<div id="gridheader" class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+                <td><button id="addTemplateButton" class="rich-button""><span><?php echo $this->user->lang("Add Template");?></span></button></td>
+                <td align="left" style="width:60px">
+                    <select id="emails-grid-type">
+                    <?php foreach ( $this->emailTypes as $type ) { ?>
+                        <option value="<?php echo $type['id']; ?>"><?php echo $type['name']; ?></option>
+                    <?php } ?>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="emails-grid"></div>
+<div id="emails-grid-footer" style="display:none;">
+    <button class="rich-button" id="deleteTemplateButton"><span><?php echo $this->user->lang("Delete"); ?></span></button>
+</div>

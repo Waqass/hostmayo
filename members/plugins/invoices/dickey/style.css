@@ -1,0 +1,134 @@
+body {
+    font-family:'DejaVuSansCondensed';
+    margin:0 auto;
+    background-color: #fff;
+    color: #000;
+}
+@page {
+  margin: 0;
+}
+
+#logo {
+    padding-top: 40px;
+    padding-right: 40px;
+    margin:0;
+}
+
+.invoice-logo {
+    text-align: right;
+    height: 140px;
+    overflow: hidden;
+}
+
+.invoice-no-logo {
+    margin-top: 80px;
+}
+
+table {
+    width:100%;
+}
+
+td {
+    padding:8px;
+}
+
+.invoice-table-header {
+    padding-left:38px;
+    padding-right:33px;
+    color: #222;
+    font-size: 18px;
+}
+
+.address-block {
+    margin-top: 60px;
+    margin-right:30px;
+    margin-left: 40px;
+    color:#999;
+}
+
+.company-email{
+    color:#999;
+}
+
+.for-name {
+    text-decoration: italic;
+}
+
+.customer-name {
+    color:#888;
+    font-size: 20px;
+}
+
+.invoice-entry-description {
+    font-weight: bold;
+}
+
+.invoice-entry-details {
+    font-size: small;
+}
+
+.invoice-middle {
+    margin-top: 40px;
+    background-color: #BCDAE2;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.invoice-header {
+
+    text-align: left;
+    color: #555;
+    background-color:#fff;
+    padding: 5px;
+
+}
+
+.invoice-label {
+    text-align: left;
+    margin-top: -100px;
+    margin-left: 40px;
+    font-size: 30px;
+}
+
+.invoice-label-no-logo{
+    padding-top: 32px;
+}
+
+.invoice-label-text {
+    text-transform: uppercase;
+}
+
+.company-address-block {
+    margin-top: 40px;
+}
+
+.contact-us {
+    font-size: 30px;
+}
+
+.invoice-transactions {
+    font-size: 9px;
+}
+
+.invoice-footer,
+.invoice-total,
+.invoice-entries,
+.invoice-transactions {
+    margin-left: 40px;
+    margin-right:30px;
+}
+
+.invoice-footer {
+    margin-top: 30px;
+}
+
+.invoice-entries {
+    border-bottom: 8px solid #256579;
+}
+
+.invoice-dates {
+    margin-right: 45px;
+    text-align: left;
+    font-size: 14px;
+    color:orange;
+}

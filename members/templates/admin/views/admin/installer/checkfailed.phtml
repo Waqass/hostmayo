@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><?php echo $this->user->lang('Clientexec Installer') ?></title>
+    <link rel="Shortcut Icon" href="favicon.ico" />
+    <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Quattrocento+Sans:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="templates/admin/style/install.css" />
+    <script type="text/javascript">
+        var gHash = "<?php echo $this->gHash; ?>";
+    </script>
+    <script type="text/javascript" src="library/utilities/min/index.php?g=installer"></script>
+</head>
+
+<body>
+<div class="install-header"><?php echo $this->user->lang('Clientexec Installer') ?></div>
+<center>
+<div id="main" style="width:80%;min-width:900px">
+
+<div class="well">
+    <table border=0 cellspacing=1 cellpadding=4 bgcolor="#999999" style="width:100%;min-width:900px">
+        <tr>
+            <td bgcolor="#ffffff" style="text-align:center">
+    <table border=0 cellspacing=1 cellpadding=4 width=100%>
+        <tr>
+            <td align="center"><br>
+<b><?php echo $this->user->lang('Sorry, something about your current PHP / MySQL configuration may not be compatible with Clientexec, please review the errors below') ?>.
+<br><br><br>
+  <table class="table" width="100%">
+	<tr>
+	  <td width="220" class="bold"><?php echo $this->user->lang('Clientexec Version') ?></td>
+	  <td width="600"><?php echo $this->unescape($this->checkAppVersion); ?></td>
+	</tr>
+	<tr>
+	  <td width="220" class="bold"><?php echo $this->user->lang('PHP Version') ?></td>
+	  <td width="600"><?php echo $this->unescape($this->checkPhp); ?></td>
+	</tr>
+	<tr>
+	  <td width="220" class="bold"><?php echo $this->user->lang('PHP Memory') ?></td>
+	  <td width="600"><?php echo $this->unescape($this->checkMemory); ?></td>
+	</tr>
+	<tr>
+	  <td width="220" class="bold"><?php echo $this->user->lang('display_errors') ?></td>
+	  <td width="600"><?php echo $this->unescape($this->checkDisplayErrors); ?></td>
+	</tr>
+	<tr>
+	  <td width="220" class="bold"><?php echo $this->user->lang('Ioncube') ?></td>
+	  <td width="600"><?php echo $this->unescape($this->checkIoncube); ?></td>
+	</tr>
+	<tr>
+	  <td width="220" class="bold"><?php echo $this->user->lang('MySQL Version') ?></td>
+	  <td><?php echo $this->unescape($this->checkMysql); ?></td>
+	</tr>
+	<tr>
+	  <td width="220" class="bold"><?php echo $this->user->lang('Mcrypt Available') ?></td>
+	  <td><?php echo $this->unescape($this->checkMcrypt); ?></td>
+	</tr>
+	<tr>
+	  <td width="220" class="bold"><?php echo $this->user->lang('Mbstring Available') ?></td>
+	  <td><?php echo $this->unescape($this->checkMbstring); ?></td>
+	</tr>
+    <tr>
+      <td width="220" class="bold"><?php echo $this->user->lang('PDO_MYSQL Available') ?></td>
+      <td><?php echo $this->unescape($this->checkPDO); ?></td>
+    </tr>
+    <tr>
+      <td width="220" class="bold"><?php echo $this->user->lang('JSON Available') ?></td>
+      <td><?php echo $this->unescape($this->checkJSON); ?></td>
+    </tr>
+    <tr>
+      <td width="220" class="bold"><?php echo $this->user->lang('iconv Available') ?></td>
+      <td><?php echo $this->unescape($this->checkICONV); ?></td>
+    </tr>
+    <tr>
+      <td width="220" class="bold"><?php echo $this->user->lang('SimpleXML Available') ?></td>
+      <td><?php echo $this->unescape($this->checkSXML); ?></td>
+    </tr>
+	<tr>
+      <td width="220" class="bold"><?php echo $this->user->lang('cURL Available') ?></td>
+      <td><?php echo $this->unescape($this->checkCurl); ?></td>
+    </tr>
+    <tr>
+      <td width="220" class="bold"><?php echo $this->user->lang('cURL with SSL support') ?></td>
+      <td><?php echo $this->unescape($this->checkCurlSSL); ?></td>
+    </tr>
+	<tr>
+	  <td width="220" class="bold"><?php echo $this->user->lang('Crontab Accessible') ?></td>
+	  <td><?php echo $this->unescape($this->checkCrontab); ?></td>
+	</tr>
+	<tr>
+      <td width="220" class="bold"><?php echo $this->user->lang('IMAP Available') ?></td>
+      <td><?php echo $this->unescape($this->checkImap); ?></td>
+    </tr>
+	<tr>
+	  <td colspan="2">&nbsp;</td>
+	</tr>
+	<tr>
+	  <td class="bold"><?php echo $this->user->lang("'config.php' Writable") ?></td>
+	  <td><?php echo $this->unescape($this->checkConfig); ?></td>
+	</tr>
+	<tr>
+	  <td class="bold"><?php echo $this->user->lang("'Subdirs under /uploads Writable") ?></td>
+	  <td><?php echo $this->unescape($this->checkUploads); ?></td>
+	</tr>
+<?php echo $this->unescape($this->checkAffiliates); ?>
+  </table>
+            </td>
+        </tr>
+    </table>
+
+    <input type="button" class="btn" value="<?php echo $this->user->lang('Try Again') ?>" onclick="javascript:location.reload(true)" /> <?php echo $this->unescape($this->continue); ?><br><br>
+    </table>
+</div>
+
+        </div>
+        </center>
+</body>
+</html>

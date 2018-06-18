@@ -1,0 +1,145 @@
+<script data-cfasync="false" type="text/javascript">
+    invoices = {};
+    invoices.payment_method = "<?php echo $this->payment_method;?>";
+</script>
+
+<?php if (count($this->servers_status_messages) > 0 ) { ?>
+<div class="row-fluid">
+    <div class="span12 alert ce-alert ce-alert-error">
+      <?php foreach($this->servers_status_messages as $server_status_message) { ?>
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <p><strong>Server: <?php echo $server_status_message['name']." (".$server_status_message['sharedip'].")"; ?>:</strong><br/><?php echo $server_status_message['status_message'];?></p>
+      <?php } ?>
+    </div>
+</div>
+<?php } ?>
+
+<div class="row-fluid">
+
+    <div class="span8">
+        <h2><?php echo $this->user->lang('Latest Announcement'); ?></h2>
+        <?php if ( count($this->announcements) > 0 ) { ?>
+            <?php foreach ($this->announcements as $announcement) {  ?>
+                   <div class="announcement-title"><a href="index.php?fuse=home&controller=announcements&view=announcement&ann_id=<?php echo $announcement['annid']; ?>"><?php echo $announcement['title']; ?></a></div>
+                   <p class="anndesc"><i class="icon-time"></i> <?php echo $announcement['date'];?> &nbsp;&nbsp; <strong><?php echo $this->user->lang("by"); ?>:</strong> <?php echo $announcement['postedBy'];?></p>
+                   <div class="announcement-post"><?php echo $announcement['excerpt']; ?></div>
+                   <div class="ann-links"><a href="index.php?fuse=home&controller=announcements&view=announcement&ann_id=<?php echo $announcement['annid']; ?>"><?php echo $this->user->lang("Read more");?></a> <span class="muted">|</span> <a href="index.php?fuse=home&controller=announcements&view=announcements"><?php echo $this->user->lang("Past announcements");?></a></div>
+                <?php } //end loop announcements ?>
+        <?php } else  { ?>
+            <p><?php echo $this->user->lang("No Announcements"); ?></p>
+        <?php } //end if ?>
+    </div>
+
+    <div class="span4">
+        <h2><?php echo $this->user->lang('Account Statistics'); ?></h2>
+
+        <ul class="nav nav-list nav-list-vivid ce-account-stats">
+            <li>
+                <a>
+                <?php echo $this->user->lang('Account Status'); ?>
+                <span class="nav-counter"><?php echo $this->user->convertStatus($this->user->getStatus()); ?></span>
+                </a>
+            </li>
+            <li>
+                <a href="index.php?fuse=clients&controller=products&view=products">
+                <?php echo $this->user->lang('Total Products'); ?>
+                <span class="nav-counter"><?php echo $this->user->getTotalProducts(); ?></span></a>
+            </li>
+            <li>
+                <a href="index.php?fuse=support&controller=ticket&view=alltickets">
+                    <?php echo $this->user->lang('Support Tickets'); ?>
+                    <span class="nav-counter"><?php echo count($this->tickets); ?></span>
+                </a>
+            </li>
+
+            <li>
+                <a>
+                    <?php echo $this->user->lang('Account Credit Balance'); ?>
+                    <span class="nav-counter"><?php echo $this->user->getFormatedCreditBalance(); ?></span>
+                </a>
+            </li>
+            <?php if ($this->gHasInvoices) { ?>
+            <li>
+                <a href="index.php?fuse=billing&controller=invoice&view=allinvoices">
+                    <?php echo $this->user->lang('Due Invoice Balance'); ?>
+                    <span class="nav-counter"><?php echo $this->user->getFormatedTotalAmountDue(); ?></span>
+                </a>
+            </li>
+            <?php } ?>
+        </ul>
+    </div>
+
+</div>
+
+<?php if ( $this->user->hasPermission('support_view') ) { ?>
+
+<h2><?php echo $this->user->lang('Open Support Tickets'); ?></h2>
+<table class="table ce-table table-striped table-hover">
+    <thead>
+    <tr class="caption">
+        <th align="center" width="70"><?php echo $this->user->lang('Ticket'); ?></th>
+        <th><?php echo $this->user->lang('Subject'); ?></th>
+        <th class="text-right"><?php echo $this->user->lang('Status'); ?></th>
+        <?php foreach ($this->customCols as $label): ?>
+            <th><?php echo $label ?></th>
+        <?php endforeach ?>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($this->tickets as $ticket) { ?>
+    <tr>
+        <td align="center">#<?php echo $ticket['id']; ?></td>
+        <td><a href='index.php?fuse=support&controller=ticket&view=ticket&id=<?php echo $ticket['id'];?>'><?php echo $this->escape($ticket['subject']) ?></a></td>
+        <td class="text-right"><?php echo $ticket['ticketStatus']; ?></td>
+        <?php foreach ($ticket['customfields'] as $value): ?>
+            <td><?php echo $this->escape($value) ?></td>
+        <?php endforeach ?>
+    </tr>
+    <?php } //ending foreach ?>
+    <?php if (count($this->tickets) == 0) { ?>
+    <tr>
+        <td colspan="4" class="text-center"><?php echo $this->user->lang('There are currently no support tickets'); ?></td>
+    </tr>
+    <?php } ?>
+    </tbody>
+</table>
+<?php } ?>
+
+<?php if ($this->templateOptions['Show Product List in Dashboard']['value'] == 'Yes'): ?>
+    <h2><?php echo ucfirst($this->user->lang('Product list')) ?></h2>
+    <div id="products-grid" style="clear:both;margin-bottom: 30px;"></div>
+<?php endif ?>
+
+<!-- Outstanding Invoices -->
+<?php if ($this->gHasInvoices) { ?>
+    <h2><?php echo $this->user->lang('Outstanding Invoices'); ?></h2>
+
+    <table class="table ce-table table-striped table-hover">
+        <thead>
+        <tr class="caption">
+            <th><?php echo $this->user->lang('Description'); ?></th>
+            <th width="90" class="text-center" ><?php echo $this->user->lang('Balance Due'); ?>&nbsp;</th>
+            <th class="text-right" width="90"><?php echo $this->user->lang('Due Date'); ?></th>
+            <th class="text-right" width="100"><?php echo $this->user->lang('Status'); ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($this->invoices as $invoices) { ?>
+            <tr>
+                <td><a href="index.php?fuse=billing&controller=invoice&view=invoice&id=<?php echo $invoices['id'];?>"><?php echo $this->user->lang('Invoice #'); ?><?php echo $invoices['id']; ?></a>
+                    <br/><span class="addition_description"><?php echo ($invoices['subscription_id'])? ($this->user->lang("Subscription").": ".$invoices['subscription_id']) : '' ?></span>
+                </td>
+                <td class="text-center" ><?php echo $invoices['balancedue']; ?></td>
+                <td class="text-right" ><?php echo $this->dateRenderer($invoices['billdate']) ?></td>
+                <td class="text-right"><?php echo $invoices['status_name']; ?>
+                </td>
+            </tr>
+        <?php } //ending foreach ?>
+        <?php if (count($this->invoices) == 0) { ?>
+            <tr>
+                <td colspan="4" class="text-center"><?php echo $this->user->lang('There are currently no invoices due'); ?></td>
+            </tr>
+        <?php } ?>
+        </tbody>
+    </table>
+<?php } ?>

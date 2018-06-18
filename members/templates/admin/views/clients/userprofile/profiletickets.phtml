@@ -1,0 +1,40 @@
+<?php echo $this->profileheader($this->customer);?>
+<script data-cfasync="false" type="text/javascript">
+    ticketview = {};
+    ticketview.ticketid = null;
+    $(document).ready(function() {
+        ticketList.viewing_from_customer_profile = true;
+        ticketList.searchfilter = "<?php echo $this->searchfilter; ?>";
+        ticketList.searchcustomerid = "<?php echo $this->searchcustomerid; ?>";
+        ticketList.searchquery = "<?php echo $this->searchquery; ?>";
+        ticketList.searchtype = "<?php echo $this->searchtype; ?>";
+        ticketList.iscustom = "<?php echo $this->iscustomsearchquery; ?>";
+        ticketList.defaultFilterName = lang("Open Tickets");
+        ticketList.viewingFromProfile = true;
+        ticketList.customFields = <?php echo html_entity_decode($this->customfields) ?>;
+    });
+</script>
+
+<div style="clear:both;" class="grid-meta" id="ticketsgrid-metadata"></div>
+<div class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+                <td>
+                    <span id="spanTicketListTableLabel">Loading..</span>
+                </td>
+                <td align="right" style="width:80px"><span><?php echo $this->user->lang("Display"); ?></span>: &nbsp;&nbsp;</td>
+                <td align="left"  style="width:60px">
+                    <select id='ticketsgrid-filter' class="change-grid-showrecords" style='width:60px;'><option value='5'>5</option><option value='10'>10</option><option value='25'>25</option><option value='50'>50</option><option value='150'>150</option><option value='300'>300</option></select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="ticketsgrid"></div>
+<div id="ticketsgrid-footer" style="display:none;">
+    <button class="rich-button" id="btnCloseTicket"><span><?php echo $this->user->lang("Close Ticket(s)"); ?></span></button>
+    <button class="rich-button" id="btnMarkSpam"><span><?php echo $this->user->lang("Mark as Spam"); ?></span></button>
+    <button class="rich-button" id="btnDelTicket"><span><?php echo $this->user->lang("Delete Ticket(s)"); ?></span></button>
+    <button class="rich-button" id="btnMergeTickets"><span><?php echo $this->user->lang("Merge Ticket(s)"); ?></span></button>
+</div>

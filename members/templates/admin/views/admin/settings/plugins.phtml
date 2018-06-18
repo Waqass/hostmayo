@@ -1,0 +1,88 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->settings_type; ?></div>
+  <p class="alert-content"><?php echo $this->unescape($this->settings_type_desc); ?></p>
+</div>
+
+<select onchange="jumpMenu2('self',this,0);">
+<?php foreach ($this->plugins as $plugin) {
+    $selected  = ($plugin['linkPlugin'] == $this->selectedPlugin) ? "selected" : "";   ?>
+    <option <?php echo $selected;?> value="index.php?fuse=admin&amp;controller=settings&amp;settings=<?php echo $plugin['linkSettings'];?>&type=<?php echo $plugin['linkType']; ?>&view=<?php echo $plugin['linkView']; ?>&amp;setting=<?php echo $plugin['linkPlugin']; ?>"><?php echo $plugin['tabName']; ?></option>
+<?php } ?>
+</select>
+<br/>
+
+<?php if ($this->crontabWarningLinux) { ?>
+    <br/><div class="alert alert-danger">
+        <span class="bold-item"><?php echo $this->user->lang('Notice'); ?>:</span> <?php echo $this->user->lang('Crontab is not available in your system or you don\'t have permission to use it. Therefore, you must manually enter through your hosting control panel this cron job.'); ?>
+    </div>
+<?php } ?>
+
+<?php if ($this->crontabWarningWindows) { ?>
+    <br/><div class="alert alert-danger">
+        <span class="bold-item"><?php echo $this->user->lang('Notice'); ?>:</span> <?php echo $this->user->lang('Under Windows platforms the automatic setup of scheduled tasks is not supported. Therefore, after clicking on Yes and having saved the settings for a given service, you need to manually create an entry in the task scheduler, that runs every minute the command shown below. The PHP binary must be in the system\'s path.'); ?>
+    </div>
+<?php } ?>
+
+<?php if ($this->displayContents!="") { ?>
+    <br/><div class="alert alert-warning">
+        <div class="inside">
+            <?php echo $this->unescape($this->displayContents); ?>
+        </div>
+    </div>
+<?php } ?>
+
+<form method="post" id="sitesettings" action="index.php?fuse=admin&controller=settings&action=update" autocomplete="off">
+    <input type="hidden" name="settingType" value="plugin" />
+
+    <!-- need to pass so that we can update cron db info -->
+    <input type="hidden" name="setting" value="<?php echo $this->selectedPlugin;?>" />
+    <input type="hidden" name="pluginType" value="<?php echo $this->pluginType;?>" />
+
+    <dl class="form noborder automation-options">
+
+        <?php if ($this->defaultValue!="") { ?>
+            <dt><label><?php echo $this->user->lang('Default'); ?></label></dt>
+            <dd>
+                <?php echo $this->unescape($this->defaultValue); ?>
+            </dd>
+            <dd class="full desc">
+                <span>Setting this plugin as the default will cause it automatically be selected.</span>
+            </dd>
+        <?php } ?>
+
+        <?php echo $this->settingsfields($this->settings);?>
+    </dl>
+
+    <div>
+        <input type="hidden" name="settingsArray" value='<?php echo $this->settingsArray; ?>' />
+        <button id="updatesettingbtn" class="btn" data-loading-text="<?php echo $this->user->lang("Saving");?>..."><?php echo $this->user->lang("Update Settings");?></button>
+    </div>
+
+</form>
+
+<?php echo $this->unescape($this->extra); ?>
+
+<script data-cfasync="false" type="text/javascript">
+    $(function() {
+        $("#updatesettingbtn").click(function() {
+            $('#updatesettingbtn').button('loading');
+            if (check($("#sitesettings").get(0),$("#sitesettings").get(0).elements.length,false)) {
+                var contactForm = $("#sitesettings");
+                $.ajax( {
+                    url: contactForm.attr( 'action' ),
+                    type: contactForm.attr( 'method' ),
+                    data: contactForm.serialize(),
+                    success: function (response){
+                        var response = ce.parseResponse(response);
+                        $('#updatesettingbtn').button('reset');
+                        if (response.systemsetupcomplete) {
+                            $('.snapin_view_systemcheck').remove();
+                        }
+                    }
+                } );
+            }
+            return false;
+
+        });
+    });
+</script>

@@ -1,0 +1,76 @@
+<div id="add-canned-reply">
+    <label><strong><?php echo $this->user->lang('Reply Name'); ?></strong></label>
+    <input type='text' class='required' id='name' name='name' value="<?php echo $this->name ?>" style="width:100%; height:30px; box-sizing:border-box" />
+    <br/><br/>
+    <label><strong><?php echo $this->user->lang('Reply Text'); ?></strong></label>
+    <textarea name='response' class='required' style='height:80px;'><?php echo $this->responseText ?></textarea>
+    <div style="margin:10px 0">
+        <a href="#" id="toggleTags">
+            <?php echo $this->user->lang('Available Tags') ?>
+            <i class="icon-chevron-down"></i>
+            <i class="icon-chevron-up" style="display:none"></i>
+        </a>
+    </div>
+    <ul id="cannedTags" class="hide">
+        <li>
+            <b>[CLIENTNAME]</b>:
+            <?php echo $this->user->lang("Client's first and last name") ?>
+        </li>
+        <li>
+            <b>[FIRSTNAME]</b>:
+            <?php echo $this->user->lang("Client's First name") ?>
+        </li>
+        <li>
+            <b>[LASTNAME]</b>:
+            <?php echo $this->user->lang("Client's Last name") ?>
+        </li>
+        <li>
+            <b>[CLIENTEMAIL]</b>:
+            <?php echo $this->user->lang("Client's Email") ?>
+        </li>
+        <li>
+            <b>[ORGANIZATION]</b>:
+            <?php echo $this->user->lang("Client's Organization") ?>
+        </li>
+        <li>
+            <b>[CLIENTAPPLICATIONURL]</b>:
+            <?php echo $this->user->lang("Url to your Clientexec installation") ?>
+        </li>
+        <li>
+            <b>[BILLINGEMAIL]</b>:
+            <?php echo $this->user->lang("Email address for billing inquiries") ?>
+        </li>
+        <li>
+            <b>[SUPPORTEMAIL]</b>:
+            <?php echo $this->user->lang("Email to support staff") ?>
+        </li>
+        <li>
+            <b>[COMPANYNAME]</b>:
+            <?php echo $this->user->lang("Company name") ?>
+        </li>
+        <li>
+            <b>[COMPANYADDRESS]</b>:
+            <?php echo $this->user->lang("Company address") ?>
+        </li>
+        <li>
+            <b>[COMPANYURL]</b>:
+            <?php echo $this->user->lang("URL to your web site") ?>
+        </li>
+        <li>
+            <b>[PLANNAME]</b>:
+            <?php echo $this->user->lang("Client's Plan") ?>
+        </li>
+        <li>
+            <b>[CUSTOMPROFILE_xxxx]</b>:
+            <?php echo $this->user->lang("Custom Profile<br/><i style='font-size:smaller;'>where xxx is a profile custom field name (i.e. [CUSTOMPROFILE_somename])</i") ?>>
+        </li>
+        <li>
+            <b>[CUSTOMPACKAGE_xxxx]</b>:
+            <?php echo $this->user->lang("Custom Package Field<br/><i style='font-size:smaller;'>Where xxx is custom package field name (i.e. [CUSTOMPACKAGE_somename])</i>") ?>
+        </li>
+        <li>
+            <b>[SMARTDATE_xxx]</b>:
+            <?php echo $this->user->lang("Date calculated using PHP's <a href='http://php.net/manual/en/datetime.formats.relative.php' target='_blank'>strtotime()</a> function.<br><i style='font-size:smaller'>For example [SMARTDATE_next monday]</i>") ?>
+        </li>
+    </ul>
+</div>

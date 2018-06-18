@@ -1,0 +1,20 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->user->lang("Servers");?></div>
+  <p class="alert-content"><?php echo $this->user->lang("List of servers that have been configured.  These servers will be available in the advanced tab of hosting products.");?></p>
+</div>
+
+<span class="grid-meta" id="servers-grid-metadata"></span>
+<div id="gridheader" class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+                <td><a href="index.php?fuse=admin&view=addeditserver&controller=servers" class="rich-button white"><span class="buttontext"><?php echo $this->user->lang("Add Server");?></span></a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="servers-grid"></div>
+<div id="servers-grid-footer" style="display:none;">
+        <button class="rich-button white" id="deleteButton"><span><?php echo $this->user->lang("Delete"); ?></span></button>
+</div>

@@ -1,0 +1,16 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo lang("Support")." ".lang("Settings")." - ".lang("Departments"); ?></div>
+  <p class="alert-content"><?php echo lang("Organize support departments to best organize ticket routing"); ?></p>
+</div>
+
+<div class="grid-meta" id="div-departments-grid-metadata"></div>
+<div id="gridheader" class="blue-box">
+    <div class="change-grid-showrecords-wrapper">
+        <?php echo $this->user->lang('Display'); ?>:
+        <select id='departments-grid-filter' class="change-grid-showrecords" style='width:60px;'><option value='5'>5</option><option value='10'>10</option><option value='25'>25</option><option value='50'>50</option><option value='150'>150</option><option value='300'>300</option></select>
+    </div><button id="addDepartmentButton" class="rich-button"><span><?php echo $this->user->lang("Add Department");?></span></button></td>
+</div>
+<div id="div-departments-grid"></div>
+<div id="div-departments-grid-footer" style="display:none;">
+    <button class="rich-button" id="deleteDepartmentButton"><span><?php echo $this->user->lang("Delete Department(s)"); ?></span></button>
+</div>

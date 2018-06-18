@@ -1,0 +1,42 @@
+<div class="accordion recentlistchats">
+  <div class="recentlistchats-header">Active Chats</div>
+  <div class="recentlistchats-content">
+  {{#chats}}
+    <div class="accordion-heading item {{#isactive}}visitor-active{{/isactive}}">
+      <div class="visitor" data-roomid="{{roomid}}" data-ip="{{ip}}">
+        <div style="float:left;">
+            <span class="visitor_ip">{{^adminroom}}<em style="color:#dd514c;font-weight:600;">{{/adminroom}}{{fullname}}{{^adminroom}}</em>{{/adminroom}}</span>
+        </div>
+        <div style="float:right;">{{#haschats}}<span class="triangle-button red"><span class="count {{paddingclass}}">{{newchats}}</span></span>{{/haschats}}</div>
+        <div class="visitor_viewing" style="clear:both;">{{title}}</div>
+      </div>
+    </div>
+  {{/chats}}
+  {{^chats}}
+  <div class='no-data'>No Active Chats</div>
+  {{/chats}}
+  </div>
+  <div class="recentlistchats-header">Visitors</div>
+</div>
+<div class="accordion visitorlistplugin">
+{{#visitors}}
+    <div class="accordion-heading item">
+
+      <div class="visitor">
+        <div style="float:left;">
+          {{#data}}{{#location}}
+        <a class="visitorlink" data-long="{{longitude}}" data-lat="{{latitude}}">
+          <img src="../images/blank.png" class="link flag flag-{{countryCode}}" alt="Country Flag" />&nbsp;
+          {{/location}}{{/data}}</a>
+          <span class="visitor_ip">{{#customer}}{{identifier}}{{/customer}}</span>
+        </div>
+        <div style="float:right;"><span class="visitor_timeago">{{timeago}}</span></div>
+
+        <div class="visitor_viewing" style="clear:both;">{{#data}}{{#current_session}}<a href="{{url}}" target="_blank">{{title}}</a>{{/current_session}}{{/data}}
+        </div>
+      </div>
+
+    </div>
+{{/visitors}}
+{{^visitors}}<div class='no-data'>No Visitors Available</div>{{/visitors}}
+</div>

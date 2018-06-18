@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><?php echo $this->user->lang('Clientexec Installer') ?></title>
+    <link rel="Shortcut Icon" href="favicon.ico" />
+    <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Quattrocento+Sans:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="templates/admin/style/install.css" />
+    <link href="templates/default/css/style.css" rel="stylesheet" />
+    <script type="text/javascript">
+        var gHash = "<?php echo $this->gHash; ?>";
+    </script>
+    <script type="text/javascript" src="library/utilities/min/index.php?g=installer"></script>
+    <script type="text/javascript">
+       function toggleContinue()
+       {
+           el = document.getElementById('agreetoagreement');
+           btn = document.getElementById('agreementsubmit');
+           if (el.checked) {
+                btn.disabled = false;
+           } else {
+                btn.disabled = true;
+           }
+       }
+    </script>
+
+</head>
+
+<body style="color:#000">
+<div class="install-header"><?php echo $this->user->lang('Clientexec Installer') ?></div>
+
+<center>
+<div id="main" style="width:80%;min-width:900px">
+
+<strong style="font-size:20px;float:left"><?php echo $this->user->lang('End-user license agreement') ?><br><br></strong>
+<form action="index.php?fuse=admin&amp;view=startinstallation&amp;controller=installer" method="POST">
+    <input type="hidden" name="termsagreed" value="1" />
+    <span style="clear:both;text-align:left;float:left;font-size: 10px;">
+      <?php echo $this->user->lang('View and agree to the ClientExec EULA before continuing') ?>.  Last Modified: 04/30/2014
+    </span>
+    <textarea rows="20" cols="20" name="agreement" readonly style='clear:both;font:12px/18px "Lucida Grande","Lucida Sans Unicode",Verdana,Arial,sans-serif;width:100%;color: #333333;'>
+END-USER LICENSE AGREEMENT FOR <?php echo $this->gSoftwareName; ?>
+
+1. Description of Site
+Via its Web sites, ClientExec LLC ("CLIENTEXEC") provides you with access to a variety of resources, including download areas, communication forums and product information (collectively "the Site"). The Site, including any updates, enhancements, new features, and/or the addition of any new Web sites, are subject to these Terms and Conditions.
+
+
+2. Use of Software
+Any software that is made available to download from the Site is the copyrighted work of CLIENTEXEC and/or its suppliers. Any use of Software and accompanying documentation you download from the Site is governed by the terms of a software license agreement between you and CLIENTEXEC. You must read the license agreement and indicate your agreement to its terms prior to installing or using the software. CLIENTEXEC reserves all rights, title and interest not expressly granted. Any reproduction or redistribution of the Software not in accordance with the license agreement is expressly prohibited by law, and may result in severe civil and criminal penalties. Violators will be prosecuted to the maximum extent possible.
+
+
+3. Responsibility of Payment
+It is the customer's responsibility to make all payment by the given due date.  It is not the responsibilty of CLIENTEXEC to contact customer about any recurring invoices.  Customer is given the opportunity to log into the billing center and at any time see their next invoice due date and pay any outstanding invoices.  Credit card on file will always be used for one time requests or recurring requests unless customer requests otherwise.  Note:  If customer is inactive due to lack of payment and wishes to reactivate, customer will be billed with the most current price for packages in his/her plan.  A $10 Late Fee will be added to any invoice past due more than fifteen days.   If account is canceled due to lack of payment the customer will need to pay 25% of amount due if they wish to reactivate their account.
+
+
+4. Cancellation of Leased License Cancellation of Leased Licenses needs to be submitted via support ticket no later then 48 hours prior to their next payment due date.  No refunds will be provided on payments already withdrawn, unless notification was submitted 48 hours prior. Note: Upon cancellation request please let us know if you need the license extended to the last day, otherwise it will be deleted on the day of your request.
+
+
+5. Use of Forums and Public Communication.
+"Forum" means a discussion group, chat area, bulletin board, news group, letter to CLIENTEXEC, its Webmaster or employees, or email function offered as part of the Site. You agree not to upload, email, post, publish or otherwise transmit through a Forum any content that: (a) is false or misleading; (b) is defamatory; (c) is harassing or invades another's privacy, or promotes bigotry, racism, hatred or harm against any group or individual; (d) is obscene; (e) infringes another's rights, including but not limited to intellectual property rights; (f) constitutes unsolicited bulk email, "junk mail," "spam" or chain letters; (g) violates any applicable laws or regulations; or (h) includes a virus or worm or other such software that may damage the computer or information of another.
+
+Forums shall be used in a noncommercial manner only. You shall not distribute or otherwise publish any content containing a solicitation of funds, promotion, advertising, solicitation for goods or services, or other commercial matter. You agree not to solicit other users of the Site to use or join or become members of any commercial online or off-line service or other organization. Except where expressly authorized by CLIENTEXEC, you agree not to collect or store personal data about other users. CLIENTEXEC will not post nor allow posting of personal correspondence between users or between customer and CLIENTEXEC.  Trouble ticket responses are for you and your special situation and are not to be posted in any public forums.
+
+By uploading, emailing, posting, publishing or otherwise transmitting content to any Forum or submitting any content to CLIENTEXEC, you automatically grant (or warrant that the owner of such rights has expressly granted) CLIENTEXEC a perpetual, royalty-free, irrevocable, nonexclusive right and license to use, reproduce, modify, adapt, publish, transmit and distribute such content on in any form, medium, or technology now known or later developed. In addition, you warrant that all so-called moral rights in the content have been waived.
+
+
+6. Reseller Licenses.
+Reseller can only issue licenses to domains owned by internal customers.  Internal customers are defined as customers whom you provide a  dedicated server or a reseller account. You can not provide a license to a domain your customer is going to resell or give away.  You can not provide ClientExec licenses as a hosted only service.  Meaning you can not provide a hosting service where you provide nothing other then ClientExec licenses. DO NOT OFFER CLIENTEXEC LICENSES TO DOMAINS THAT ARE NOT FOR YOUR EXISTING CUSTOMER'S USE.  If you are interested in offering External Licenses please contact reseller@clientexec.com for more information.  ClientExec can not be included in a bundle where the worth of ClientExec is more than the worth of the hosting account.
+
+
+7. Termination of Use.
+You agree that CLIENTEXEC may, in its sole discretion, at any time terminate your access to the Site and any account(s) you may have in connection with the Site due to your failure to follow the terms listed in this agreement. Access to the Site may be monitored by CLIENTEXEC. CLIENTEXEC also maintains the right to terminate your purchase providing a full refund if initiated prior to the deletion of the license.
+
+
+8. Right of Refusal. CLIENTEXEC holds the right to refuse any order.  All payments will be refunded to the customer in less than 48 hours.
+
+
+9. Transfer of Ownership.
+Transferring ownership of your purchased license is prohibited unless written permission is obtained from CLIENTEXEC.  Only owners with active support will be able to transfer ownership.  The cost to the new owner will be of the amount of $25 USD.  If you received a discount when purchasing your version of ClientExec you will not be approved a transfer.  Purchase had to be full price before staff will agree to transfer request.  Please submit a support ticket for these requests.
+
+
+10. Change of Domain.
+If you need ClientExec to function on a different domain that was used at time of your initial order you will need to pay a $3.95 service fee for this change to be made to the license server.
+
+
+11. No Local Host.  You can not run ClientExec on a private server without the approval of CLIENTEXEC LLC.
+
+
+12. Limitation of Liability
+IN NO EVENT SHALL CLIENTEXEC BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES, OR DAMAGES FOR LOSS OF PROFITS, REVENUE, DATA OR USE, INCURRED BY YOU OR ANY THIRD PARTY, WHETHER IN AN ACTION IN CONTRACT OR TORT, ARISING FROM YOUR ACCESS TO, OR USE OF, THE SITE.
+
+SOME JURISDICTIONS DO NOT ALLOW THE LIMITATION OR EXCLUSION OF LIABILITY. ACCORDINGLY, SOME OF THE ABOVE LIMITATIONS MAY NOT APPLY TO YOU.
+
+
+13. Indemnity
+You agree to defend, indemnify and hold harmless CLIENTEXEC, its officers, directors, employees and agents from and against any and all claims, liabilities, damages, losses or expenses, including reasonable attorneys' fees and costs, arising out of or in any way connected with your access to or use of the Site.
+
+
+14. Copyright/Trademark Information
+The Web pages in the Site are copyrighted by CLIENTEXEC LLC. All rights reserved. CLIENTEXEC also reserves all copyrights in Documents and any Software available via the Site, per the copyright notices on those Documents and Software.  At no time shall customer state otherwise by changing copyright or powered by logo without getting permission from ClientExec staff via support ticket ONLY.
+
+
+15. Contact Information
+If you have any questions regarding these Terms of Use, please contact CLIENTEXEC at info@clientexec.com.
+
+</textarea>
+    <br/><br/>
+    <div style="background-color: #F3F3F3;border: 1px solid #E2E2E2; margin-bottom: 14px;padding: 6px;text-align:left">
+      <label class="checkbox">
+        <input id="agreetoagreement" type="checkbox" onclick="toggleContinue();">
+        <?php echo $this->user->lang('By checking this box I confirm that I have read and agree to be bound by the Agreement above') ?>.
+        </label>
+    </div>
+    <div style="width: 100%; border-top: 1px solid #cdcdcd;">
+        <input id="agreementsubmit" style="margin-top:14px;" type="submit" value="<?php echo $this->user->lang('Continue') ?>" disabled="true" class="btn"/>
+    </div>
+</form>
+
+<br/><br/>
+
+</div>
+</center>
+
+</body>
+</html>

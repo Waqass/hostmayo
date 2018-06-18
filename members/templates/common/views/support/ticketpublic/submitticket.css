@@ -1,0 +1,61 @@
+.support-ticket-form {
+    margin-top:20px;
+}
+
+.support-ticket-message{
+    width: 100%;
+}
+
+.ticket-subject,
+#guestEmail,
+#guestName {
+    width: 385px;
+}
+
+label {
+    margin-top: 10px;
+}
+
+.drop-ticket-type,
+.drop-product-list {
+    width:400px;
+    margin-bottom:15px;
+}
+
+.review-questions-desc,
+.file-ticket-desc {
+    margin-bottom:15px;
+}
+
+.customfields-header,
+.file-ticket-header,
+.review-questions-header {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.top-questions-block {
+    display:none;
+}
+
+.loading-ticket-type {
+    display:none;
+    position: relative;
+    top: 3px;
+}
+.subject-article-desc{
+    margin-bottom:10px;
+}
+
+.share-upload-desc {
+    margin-bottom:7px;
+}
+
+.fieldset-customfields{
+    display:none;
+    margin-bottom:20px;
+}
+
+.spacer-bottom {
+    clear:both;
+}

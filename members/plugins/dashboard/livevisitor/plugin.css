@@ -1,0 +1,167 @@
+.visitors {
+    font-size: 11px;
+    margin: 0 0 10px 0;
+}
+
+.visitor {
+    list-style: none;
+}
+
+.visitor .flag {
+    position:relative;
+    top:-2px;
+}
+
+.visitor_viewing {
+    padding-top:3px;
+}
+
+.visitor_viewing a{
+    color:#999;
+}
+
+.visitor_timeago {
+    margin-right:0;
+}
+
+.recentlistchats .visitor,
+.visitorlistplugin .visitor{
+    margin-left:10px;
+    margin-top:5px;
+    margin-bottom:5px;
+    margin-right:15px;
+}
+
+.recentlistchats .visitor-active {
+    background: rgb(247, 205, 172) !important;
+}
+
+.recentlistchats .visitor-active .visitor {
+    color: #333;
+    /*text-shadow: none;*/
+}
+
+.recentlistchats {
+    margin-bottom:0;
+}
+
+.recentchatcounter {
+    padding-top:1px;
+    padding-bottom:1px;
+    padding-right:5px;
+    font-size:11px;
+    position:relative;
+    top:-1px;
+}
+
+.recentlistchats-header{
+    background-color: #d9edf7;
+    color           : #333;
+    font-weight     : 600;
+    text-align      : left;
+    padding         : 4px;
+    padding-left    :10px;
+}
+
+/* list available rooms */
+.listofrooms {
+    margin-left:-15px;
+}
+
+.listofrooms .roomlink {
+    text-decoration: none;
+    color: #444;
+}
+
+.listofrooms .roomlink:hover {
+    text-decoration: none;
+}
+
+.listofrooms .news {
+    min-height: 85px;
+}
+
+.listofrooms .news-text {
+    margin-top: 5px;
+    text-decoration: none;
+    color: #777;
+}
+
+.listofrooms .news-title {
+    font-weight: 700;
+    font-size: 16px;
+    color: #bd5a35;
+    text-decoration: none;
+    border-bottom: 1px solid #ccc;
+    display: inline;
+}
+
+.listofrooms .box-section {
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #fff;
+    padding: 15px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.listofrooms .news.with-icons .news-content {
+    margin-left: 55px;
+}
+
+.listofrooms .news-content {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.listofrooms .news-time {
+    position: relative;
+    top: 14px;
+    float: right;
+    color: rgb(213, 213, 214);
+    text-shadow: 0 1px rgba(255,255,255,0.5);
+    font-size: 14px;
+    text-align: center;
+}
+
+.listofrooms .news-time span {
+    display: block;
+    font-size: 30px;
+    font-weight: 600;
+    top: -9px;
+    position: relative;
+}
+
+.listofrooms .news .avatar {
+    float: left;
+    height: 36px;
+    width: 36px;
+    line-height: 36px;
+    text-align: center;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.4) inset;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.listofrooms .avatar {
+    display: inline-block;
+    color: rgb(150, 150, 150);
+    position: relative;
+    top: -4px;
+}
+
+.listofrooms .avatar a {
+    text-decoration: none;
+}
+
+.listofrooms .dropdown-menu a {
+    text-align: left;
+}
+
+.listofrooms #norooms {
+  margin-top: 40px;
+  text-align: center;
+}

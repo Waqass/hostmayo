@@ -1,0 +1,1 @@
+DELETE FROM `setting` WHERE `name` LIKE 'plugin_cetransactions_%';

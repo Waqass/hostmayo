@@ -1,0 +1,62 @@
+<?php echo $this->publicproductheader($this->user);?>
+
+<div class="alert ce-alert selectedproduct-configuration-wrapper">
+
+    <h2><?php echo $this->user->lang("Your Configuration");?></h2>
+    <div id="selectedproduct-configuration">
+
+        <div class="config-header-price">
+            <?php
+                if ($this->package['price'] == "") {
+                    echo "<span class='muted'>".$this->user->lang("Pricing not set")."</span>";
+                } else {
+                    echo $this->package['price']." / ".$this->package['termText'];
+                    
+                    if ($this->package['setupprice'] !== false) {
+                        echo "<br><span style='float:right;'>+ ".$this->package['setupprice']." ".$this->package['setupText']."</span><br><br>";
+                    }
+                }
+            ?>
+        </div>
+
+        <div class="config-header config-product-header"><?php echo $this->user->lang("Main Package");?><br/>
+            <div class="config-header-data"><?php echo $this->unescape($this->package['desc']); ?></div>
+            <div class="config-header-data"><?php echo $this->user->lang('Next Billing Date');?>: <?php echo $this->package['nextBillDate']; ?></div>
+        </div>
+
+        <?php foreach ( $this->addons as $addon ) { ?>
+        <div data-toggle="tooltip" data-html="true" title="<?php echo $addon['descriptionlanguage']; ?>" class="config-header"><?php echo $addon['namelanguage'];?></div>
+        <div class="config-header-price"><?php echo $addon['optionnamelanguage'].' '.$addon['optioncustomerprice'].' / '.$addon['optioncycle'];
+            if($addon['optionsetupprice'] !== false){
+                echo '<br><span style="float:right;">+ '.$addon['optionsetupprice'].' / '.$addon['optionsetup'].'</span><br><br>';
+            } ?></div>
+        <?php } ?>
+
+        <?php foreach ( $this->coupons as $coupon ) { ?>
+        <div data-toggle="tooltip" data-html="true" title="<?php echo $coupon['description']; ?>" class="config-header"><?php echo $coupon['name'];?></div>
+        <div class="config-header-price"><?php echo $coupon['price'].' / '.$coupon['cycle']; ?></div>
+        <?php } ?>
+
+        <?php foreach ( $this->appliesToPackage as $applies2Package ) { ?>
+        <div data-toggle="tooltip" data-html="true" title="<?php echo $applies2Package['description']; ?>" class="config-header"><?php echo $applies2Package['name'];?></div>
+        <div class="config-header-price"><?php echo $applies2Package['price'].' / '.$applies2Package['cycle']; ?></div>
+        <?php } ?>
+    </div>
+
+    <div  class="configuration-update-warning"></div>
+
+</div>
+
+<?php if ( $this->displaytoogleautomaticcccharge ) { ?>
+    <div class="alert ce-alert ce-alert-info info">
+        <label class="checkbox">
+            <input class="toogleautomaticcccharge" name="toogleautomaticcccharge" type="checkbox" <?php if ( $this->checkedtoogleautomaticcccharge == true ) { ?>checked="checked" <?php } ?>>
+            <?php echo $this->user->lang('Allow Automatic Credit Card Charging'); ?>
+            <small>(recommended)</small>
+        </label>
+    </div>
+<?php } ?>
+
+<script type="text/javascript">
+    var productid = '<?php echo $this->productId; ?>';
+</script>

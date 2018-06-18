@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html >
+    <head >
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+    </head>
+    <body>
+        <table>
+            <tr>
+            	<td width="50%" align="left" valign="middle">
+                    <?php if ($this->invoicelogo != "") {?>
+                	   <img id="logo" alt="logo"  border="0" src="<?php echo $this->invoicelogo; ?>" />
+                    <?php } ?>
+                </td>
+                <td width="50%" align="right" valign="top">
+                    <div class="invoice-header"><b><?php echo $this->invoice; ?>  #<?php echo $this->invoiceNum; ?></b></div>
+                	<?php
+                		if (trim($this->duedate) != "") {
+                			echo "<b>".$this->user->lang("Due Date").": </b>".$this->duedate."<br>";
+                		}
+                		if (trim($this->paidDate) != "") {
+                			echo "<b>".$this->user->lang("Paid").": </b>".$this->unescape($this->paidDate)."<br>";
+                		}
+                		if (trim($this->paymentMethod) != "") {
+                			echo "<b>".$this->paymentLabel.": </b>".$this->paymentMethod."<br>";
+                		}
+                		if (trim($this->pmtRef) != "") {
+                			echo "<b>".$this->user->lang('Pmt Reference').": </b>".$this->pmtRef."<br>";
+                		}
+                	?>
+                </td>
+            </tr>
+        </table>
+
+        <table class="address-block">
+            <tr style="width: 100%">
+                <td width="35%">
+                	<b><?php echo $this->user->lang("Bill To");?>:</b><br/>
+                	<?php
+
+	                	if (trim($this->customerOrg) != "") {
+	                		echo $this->customerOrg."<br/>";
+	                	}
+	                	if (trim($this->customerName) != "") {
+	                		echo $this->customerName."<br/>";
+	                	}
+	                	if (trim($this->customerAddress) != "") {
+	                		echo $this->unescape($this->customerAddress)."<br/>";
+	                	}
+	                	if (trim($this->customerPhone) != "") {
+	                		echo $this->customerPhone."<br/>";
+	                	}
+	                	if (trim($this->customerEmail) != "") {
+	                		echo $this->customerEmail."<br/>";
+	                	}
+
+                	?>
+                </td>
+                <td width="35%">
+                    <?php if ($this->status != "") {?>
+                        <img alt="status"  border="0" src="images/<?php echo $this->status;?>_stamp.jpg" />
+                    <?php } ?>
+                </td>
+                <td width="35%" align="right">
+                	<?php
+                		echo $this->companyName."<br>";
+                		if (trim($this->companyAddress) != "") {
+                            echo nl2br($this->companyAddress)."<br/>";
+	                	}
+	                	if (trim($this->companyEmail) != "") {
+	                		echo "<a href='mailto:".$this->companyEmail."'>".$this->companyEmail."</a><br/>";
+	                	}
+                	?>
+                </td>
+            </tr>
+        </table>
+
+        <?php if ($this->vatNumber != "") { ?>
+            <table align="right">
+                <tr><td><b><?php echo $this->user->lang('VAT Number'); ?></b> <?php echo $this->vatNumber; ?></td></tr>
+            </table>
+        <?php } ?>
+
+        <table>
+            <tr class="invoice-table-header">
+                <?php foreach ( $this->invoiceheaders as $header ) { ?>
+                <td width="<?php echo $header['width']; ?>" align="<?php echo $header['align']; ?>" style="">
+                    <span>&nbsp;<b><?php echo $header['text']; ?></b></span>
+                </td>
+                <?php } ?>
+            </tr>
+            <?php foreach ( $this->invoiceEntries as $invoiceEntry ) {
+                $placement = ($placement == "odd") ? "even" : "odd";
+            ?>
+            <tr class="<?php echo $placement;?>">
+                <?php foreach ( $invoiceEntry['data'] as $data ) { ?>
+                    <td valign="top" width="<?php echo $data['width']; ?>" align="<?php echo $data['align']; ?>">
+                    	<?php if (is_array($data['data'])) { ?>
+							<span class="invoice-entry-description"><?php echo $data['data'][0];?></span>
+	                        <span class="invoice-entry-details">
+	                        <?php
+	                        	if ($data['data'][1] != "") {
+		                        	echo "<br/>".$data['data'][1];
+		                        }
+	                        ?>
+	                        </span>
+                    	<?php } else {
+                    		echo $data['data'];
+                    	 } ?>
+                    </td>
+                <?php } ?>
+            </tr>
+            <?php } ?>
+        </table>
+
+        <table>
+            <?php foreach ( $this->totalLabels as $total ) { ?>
+            <tr>
+                <td align="right" width="595">
+                    <b><?php echo $total['totalLabel']; ?></b>
+                </td>
+                <td align="right" width="105" <?php echo $total['colspan']; ?>>
+                    <b><?php echo $total['totalPrice']; ?></b>
+                </td>
+            </tr>
+        	<?php } ?>
+        </table>
+
+        <div class='invoice-transactions'><?php echo $this->unescape($this->pmtSuccessfulTransactions); ?></div>
+
+        <?php if ($this->additionalnotes != "") { ?>
+	        <p>
+	        	<b><?php echo $this->user->lang("Additional Notes");?></b><br/>
+	            <?php echo nl2br($this->unescape($this->additionalnotes)); ?>
+	        </p>
+        <?php } ?>
+
+        <?php
+        	echo "<p>".nl2br($this->footerContent)."</p>";
+        	if ($this->disclaimerContent != "") {
+        		echo "<hr>";
+        		echo "<small>".nl2br($this->disclaimerContent)."</small>";
+        	}
+        ?>
+
+	</body>
+</html>

@@ -1,0 +1,96 @@
+<?php $languages = CE_Lib::getEnabledLanguages();
+if(count($languages) > 1){
+    $active = true; ?>
+    <ul class="nav nav-pills">
+    <?php foreach($languages as $languageKey => $language){ ?>
+        <li <?php if($active){echo 'class="active"';} ?> >
+            <a <?php if($active){$active = false; echo 'class="default-language-tab"';} ?> href="javascript:void(0)" onclick="kbcategory.filterBy(this,'<?php echo $languageKey; ?>')"><?php echo $languageKey; ?></a>
+        </li>
+    <?php } ?>
+    </ul>
+<?php } ?>
+
+<table width="100%">
+<tr>
+<td>
+	<label><strong><?php echo $this->user->lang('Name'); ?></strong></label>
+</td>
+<td>
+	<label><strong><?php echo $this->user->lang('Order'); ?></strong></label>
+</td>
+</tr>
+<tr>
+<td>
+    <?php if(count($languages) > 1){
+        $active = true;
+        foreach($languages as $languageKey => $language){ ?>
+            <span class="language <?php echo $languageKey; ?>" <?php if(!$active){echo 'style="display: none"';} ?> ><input class='required' type='text' style="width: 330px;" name='title<?php echo $languageKey; ?>' <?php if($active){$active = false; echo 'id="mainlanguagetitle"';} ?> value='<?php echo $this->nameLanguages[$languageKey];?>' /></span>
+        <?php }
+    }else{ ?>
+        <input class='required' type='text' style="width: 330px;" id='mainlanguagetitle' name='title' value='<?php echo $this->name;?>' />
+    <?php } ?>
+</td>
+<td>
+	<input type='text' style="width:40px;" class='required' id='my_order' name='my_order' value='<?php echo $this->my_order;?>' />
+</td>
+</tr>
+</table>
+<br/>
+<label><strong><?php echo $this->user->lang('Description'); ?></strong></label>
+<?php if(count($languages) > 1){
+    $active = true;
+    foreach($languages as $languageKey => $language){ ?>
+        <span class="language <?php echo $languageKey; ?>" <?php if(!$active){echo 'style="display: none"';} ?> >
+            <textarea name='description<?php echo $languageKey; ?>' <?php if($active){$active = false; echo 'id="mainlanguagedescription"';} ?> style='height:80px;'><?php echo $this->descriptionLanguages[$languageKey];?></textarea>
+        </span>
+    <?php }
+}else{ ?>
+    <textarea name='description' id='mainlanguagedescription' style='height:80px;'><?php echo $this->description;?></textarea>
+<?php } ?>
+<br/><br/>
+<label class="checkbox inline">
+	<input type="checkbox" name="staffonly" value="1" <?php if ($this->staffonly == 1) { ?>checked="checked"<?php }?>> <?php echo $this->user->lang("Staff Only"); ?>
+</label>
+<label class="checkbox inline">
+	<input type="checkbox" id="is_series" name="is_series" value="1" <?php if ($this->is_series == 1) { ?>checked="checked"<?php }?>> <span class="tip-target" data-toggle="tooltip" data-html="true" title="<?php echo $this->user->lang("Articles in this category will contain footer links to the next article in the series."); ?>"><?php echo $this->user->lang("Treat as a series"); ?></span>
+</label>
+<label class="checkbox inline" id="is_global_series" style="display:none;">
+	<input type="checkbox" name="is_global_series" value="1" <?php if ($this->is_global_series == 1) { ?>checked="checked"<?php }?>> <span class="tip-target" data-toggle="tooltip" data-html="true" title="<?php echo $this->user->lang("If checked this category will be listed with all other global series in a sidebar navigation UI.  This allows presentation of your global series together."); ?>"><?php echo $this->user->lang("Global series?"); ?></span>
+</label>
+<script data-cfasync="false" type="text/javascript">
+	if ($('#is_series:checked').val() == 1) {
+		$('#is_global_series').show();
+	}
+	$('#is_series').on('change',function(){
+		if ($('#is_series:checked').val() == 1) {
+			$('#is_global_series').show();
+		} else {
+			$('#is_global_series').hide();
+		}
+	});
+
+    kbcategory = {};
+    kbcategory.filterBy = function(el,filter) {
+        $(el).closest('.nav-pills').find('li').removeClass('active')
+        $(el).closest('li').addClass('active');
+
+        $('.language').hide();
+        $('.'+filter).show();
+    }
+
+    articles.categorywindow.options.beforeSubmit = function() {
+        var pass = true;
+        if(!$(".nav-pills li:first").hasClass("active")){
+            $(".default-language-tab").click();
+            if(!$('#mainlanguagetitle').valid()){
+                pass = false;
+            }
+            if(!$('#mainlanguagedescription').valid()){
+                pass = false;
+            }
+        }
+        if (!pass) {
+            return false;
+        }
+    }
+</script>

@@ -1,0 +1,325 @@
+<?php if ($this->settings['section_counts']) {?>
+    <div class="dashboard-counts">
+        <div class="count-blocks"></div>
+    </div>
+    <a class="count-settings count-settings-with-block"><i class="icon-cog"></i></a>
+<?php } else { ?>
+    <a class="count-settings"><i class="icon-cog"></i></a>
+<?php } ?>
+
+
+<?php if (!DEMO && ($this->loginHistory) && isset($this->loginHistory[1]['location'])) { ?>
+    <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <?php echo $this->user->lang('Your last login was from a different location on '); ?>
+        <span class="bold"><?php echo $this->loginHistory[1]['date']->format($this->dateFormat.' g:ia'); ?></span>
+        <?php echo $this->user->lang('from IP'); ?>
+        <span class="bold"><?php echo $this->loginHistory[1]['ip'].(isset($this->loginHistory[1]['location']) && $this->loginHistory[1]['location']['cityName'] != '-' ? ' ('.ucwords($this->loginHistory[1]['location']['cityName']).', '.ucwords($this->loginHistory[1]['location']['countryName']).')' : ''); ?></span>
+    </div>
+<?php } ?>
+
+<div  style="margin-top:25px;"></div>
+
+<div class="dashboard container-fluid">
+
+    <?php if ($this->settings['section_reports'] && $this->show_graph) { ?>
+        <div class="box bordered withtabs" style="margin-top:20px;">
+            <div class="report-header-wrapper">
+                <div class="report_options" style="float:right;margin-right:40px;"></div>
+                <div class="report-title" style="float:left;"></div><br/>
+                <div class="report-description" style="float:left;"></div>
+            </div>
+
+            <div class="padded">
+                <div class="graph-wrapper">
+                    <figure style="padding-left:0; margin-left:0; width: 100%; height: 200px;" id="myChart"></figure>
+                </div>
+            </div>
+
+            <div class="graph-slider-btn graph-slider-btn-prev">
+                <i class="icon-chevron-left"></i>
+            </div>
+            <div id="slider-code">
+                <div class="viewport graph_buttons">
+
+                  <ul class="overview">
+                    <?php $graph_count = 0;
+                        foreach($this->graph_options as $graph_options) { ?>
+                        <li data-report-value="<?php echo $graph_options['option_value'];?>" class="<?php echo ($graph_options['option_selected']) ? "active" : "inactive" ;?>" style="left:<?php echo $graph_count;?>%;">
+                            <span class="num" id="header-client-status"><?php echo $this->user->lang($graph_options['option_name']) ?></span>
+                            <span class="bar">
+                              <span class="progress" style="width: 0%;"></span>
+                            </span>
+                            <span class="report-count-label"><?php echo $this->user->lang($graph_options['report_type']) ?></span>
+                        </li>
+                    <?php $graph_count+=25; } ?>
+                  </ul>
+
+                </div>
+            </div>
+            <div class="graph-slider-btn graph-slider-btn-next">
+                <i class="icon-chevron-right"></i>
+            </div>
+        </div>
+    <?php } ?>
+
+    <?php if ($this->showDashboardPanel) {?>
+        <div class="dashboard-bottom-graph <?php if ($this->settings['section_reports'] && $this->show_graph) echo "graph-present"; ?>">
+
+            <?php if ($this->settings['section_orders']) { ?>
+                <div class="box bordered tab-content tab-content-border withtabs" id="orders-tab" style="clear:both;margin-top:20px;">
+                    <div class="tab-pane active">
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <div class="padded">
+                                    <h4> <i class="icon-bookmark"></i>&nbsp;&nbsp;&nbsp;<?php echo $this->user->lang('Pending Orders'); ?></h4>
+                                    <table class="table table-striped sortable orders-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="header" width="150"><?php echo $this->user->lang("Date");?></th>
+                                                <th class="header"><center><?php echo $this->user->lang("Package Name");?></center></th>
+                                                <th class="header" width="150"><center><?php echo $this->user->lang("Customer");?></center></th>
+                                                <th class="header" width="150"><center><?php echo $this->user->lang("Status");?></center></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
+
+
+
+            <?php if ($this->settings['section_tickets'] && $this->showTickets) { ?>
+                <div class="box bordered tab-content tab-content-border withtabs" id="favorited-tickets-tab" style="clear:both;margin-top:20px;">
+                    <div class="tab-pane active">
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <div class="padded">
+                                    <h4> <i class="icon-bookmark"></i>&nbsp;&nbsp;&nbsp;Tickets - <span class="favorite-tickets-label">...</span></h4>
+                                    <table class="table table-striped sortable favorited-tickets-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="header"><?php echo $this->user->lang("Subject");?></th>
+                                                <th class="header" width="150"><center><?php echo $this->user->lang("Created By");?></center></th>
+                                                <th class="header" width="150"><center><?php echo $this->user->lang("Assigned To");?></center></th>
+                                                <th class="header" width="50"><center><?php echo $this->user->lang("Elapsed");?></center></th>
+                                                <th class="header" width="150"><center><?php echo $this->user->lang("Status");?></center></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
+
+            <?php if ($this->showLastSection) {?>
+
+            <div class="box bordered tab-content tab-content-border withtabs" style="clear:both;margin-top:20px;">
+
+                <div class="tab-pane active" id="vitals-tab">
+                    <div class="row-fluid">
+                        <div class="span12">
+
+                            <div class="padded">
+
+                                <?php if ($this->top_dashboard_html != "") { ?>
+                                    <br/>
+                                    <div class="row-fluid">
+                                        <!-- html for top-active-panel -->
+                                        <?php echo $this->unescape($this->top_dashboard_html);?>
+                                        <!-- end html for top-active-panel -->
+                                    </div>
+                                <?php } ?>
+
+
+                                <?php if ($this->settings['section_automation']) { ?>
+
+                                    <div class="row-fluid">
+
+                                        <div class="span12">
+                                            <div class="table-panel">
+                                                <h4> <i class="icon-tasks"></i>&nbsp;&nbsp;&nbsp;<?php echo $this->user->lang("Automation Status");?></h4>
+                                                <table class="table table-striped sortable tbl-need-your-attention">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="header"><?php echo $this->user->lang("Service");?></th>
+                                                            <th class="header" width="150"><center><?php echo $this->user->lang("Last Run");?></center></th>
+                                                            <th class="header" width="150"><center><?php echo $this->user->lang("Next Run");?></center></th>
+                                                            <th class="header" width="50"><center><?php echo $this->user->lang("Execute");?></center></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr><td colspan="3"><center><?php echo $this->user->lang("Getting records ..");?></center></td></tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <?php if (count($this->activeServices) > 0) { ?>
+                                        <br/>
+                                        <div class="row-fluid">
+                                            <div class="span12">
+                                                <h4 class="pull-left"> <i class="icon-bolt"></i>&nbsp;&nbsp;&nbsp;<?php echo $this->user->lang("Automation Summary For");?> </h4>
+                                                <div class="selectedrange pull-left">
+                                                   <span class="dropdown"><a class="dropdown-toggle dropdown-toggle-automation" data-toggle="dropdown" href="#" style="white-space: nowrap;">
+                                                        <span class="selected-automation-name"></span> <b class="caret"></b></a>
+                                                        <ul class="dropdown-menu pull-right">
+                                                            <?php foreach ( $this->activeServices as $key => $service ) { ?>
+                                                            <li class="active-service-select" data-value="<?php echo $key; ?>"><a><?php echo $this->user->lang($service) ?></a></li>
+                                                            <?php } ?>
+                                                        </ul>
+                                                    </span>
+                                                </div>
+                                                <div style="clear:both;position: relative;top: -10px;"> <i><?php echo $this->user->lang("Upcoming items that this automation service will interact with");?></i></div>
+                                            </div>
+                                        </div>
+                                        <div class="stats" style="clear:both;">
+                                            <div class="row-fluid">
+                                                <div class="span12">
+                                                    <div class="table-panel" id="upcoming-events-table"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+
+                                <?php } // automation services ?>
+
+                                <?php if ($this->middle_dashboard_html != "") { ?>
+                                    <br/>
+                                    <div class="row-fluid">
+                                        <!-- html for top-active-panel -->
+                                        <?php echo $this->unescape($this->middle_dashboard_html);?>
+                                        <!-- end html for top-active-panel -->
+                                    </div>
+                                <?php } ?>
+
+                                <?php if ($this->settings['section_warnings']) { ?>
+                                    <br/>
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <div class="table-panel">
+                                                <h4> <i class="icon-bug"></i>&nbsp;&nbsp;&nbsp;<?php echo $this->user->lang("Recent Errors or Warnings");?></h4>
+                                                <table class="table table-striped sortable recent-error-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="20" class="header"></th>
+                                                            <th width="180" class="header"><?php echo $this->user->lang("Date");?></th>
+                                                            <th class="header"><?php echo $this->user->lang("Warning Message");?></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        <?php
+
+                                                        $count = count($this->eventsList['data']);
+                                                        if ($count == 0) {
+                                                            echo "<tr><td colspan='3'><center>".$this->user->lang("No errors or warnings found")."</center></td></tr>";
+                                                        } else {
+
+                                                            foreach ( $this->eventsList['data'] as $event ) {
+
+                                                                $tDate =  strtotime($event['raw_event_date']);
+                                                                $last24 = false;
+                                                                if((time()-(60*60*24)) < $tDate) {
+                                                                    $last24 = true;
+                                                                }
+
+                                                                $logaction = $this->escape($event['logaction']);
+                                                                if($event['tpl']=="clickForBody"){
+                                                                    $logaction = sprintf("%s (<a onclick=\"clientexec.eventdetailwindow(%s,'email');\" href='#'>view</a>)",$logaction,$event['entryid']);
+                                                                }else if($event['tpl']=="clickForStaffNote"){
+                                                                    $logaction = sprintf("%s (<a onclick=\"clientexec.eventdetailwindow(%s,'note');\" href='#'>view</a>)",$logaction,$event['entryid']);
+                                                                }else if($event['tpl']=="clickForProfileDetails"){
+                                                                    $logaction = sprintf("%s (<a onclick=\"clientexec.eventdetailwindow(%s,'profile');\" href='#'>view</a>)", $logaction,$event['entryid']);
+                                                                }else if($event['tpl']=="clickForPaypalCallbackDetails"){
+                                                                    $logaction = sprintf("%s (<a onclick=\"clientexec.eventdetailwindow(%s,'paypal');\" href='#'>view</a>)", $logaction,$event['entryid']);
+                                                                }else if($event['tpl']=="clickFor2CheckoutCallbackDetails"){
+                                                                    $logaction = sprintf("%s (<a onclick=\"clientexec.eventdetailwindow(%s,'2checkout');\" href='#'>view</a>)", $logaction,$event['entryid']);
+                                                                }else if($event['tpl']=="clickForPackageDetails"){
+                                                                    $logaction = sprintf("%s (<a onclick=\"clientexec.eventdetailwindow(%s,'package');\" href='#'>view</a>)", $logaction,$event['entryid']);
+                                                                }
+                                                                ?>
+
+                                                            <tr>
+                                                                <td><i class="icon-remove delete-event" data-event-id="<?php echo $event['event_id'];?>"></i></td>
+                                                                <td <?php if($last24) echo 'class="error"'; ?>><?php echo $event['logdate'];?><br><span style='font-size:10px'>Ip: <?php echo $event['ip'];?></span></td>
+                                                                <td><?php echo $logaction; ?></td>
+                                                            </tr>
+                                                            <?php } ?>
+                                                            <tr>
+                                                                <td colspan="3" style="padding-top:15px;">
+                                                                    <a class="btn" style="text-decoration:none;" href="index.php?fuse=home&controller=events&view=viewevents"><?php echo $this->user->lang("View all events");?></a>
+                                                                    <?php if ( $this->showDeleteEvents ) { ?>
+                                                                    <a class="btn btn-danger btn-delete-warnings" style="text-decoration:none;" href="javascript:void(0);"><?php echo $this->user->lang("Delete all errors");?></a>
+                                                                    <?php } ?>
+                                                                </td>
+                                                            </tr>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+
+                                <?php if ($this->bottom_dashboard_html != "") { ?>
+                                    <br/>
+                                    <div class="row-fluid">
+                                        <!-- html for top-active-panel -->
+                                        <?php echo $this->unescape($this->bottom_dashboard_html);?>
+                                        <!-- end html for top-active-panel -->
+                                    </div>
+                                <?php } ?>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="automation-tab">
+
+                </div>
+            </div>
+            <?php } ?>
+        </div>
+    <?php } ?>
+
+</div>
+<script data-cfasync="false" type="text/javascript">
+    $(document).ready(function(){
+
+        <?php if ($this->cache_at_a_glance != "") { ?>
+            // watch out for backslashes that are interpreted in js
+            var cache_at_a_glance = jQuery.parseJSON('<?php echo str_replace('\\', '\\\\',  $this->unescape($this->cache_at_a_glance)) ?>');
+            dashboard.renderAtAGlance(cache_at_a_glance);
+            $('.dashboard-counts').attr('data-has-cache-data',true);
+        <?php }?>
+
+        <?php /*if ($this->need_your_attention != "") { ?>
+            var need_your_attention = jQuery.parseJSON('<?php echo $this->unescape($this->need_your_attention) ?>');
+            var output = Mustache.render(dashboard.vital.need_attention_template, {arr:need_your_attention});
+            $('.tbl-need-your-attention tbody').html(output);
+            $('.tbl-need-your-attention tbody').attr('data-has-cache-data',true);
+        <?php } */?>
+
+        dashboard.ticketfilter = "<?php echo $this->ticketfilter;?>";
+        dashboard.ticketfilter_name = "<?php echo $this->ticketfilter_name;?>";
+        dashboard.events.getUpcomingEvents('<?php echo $this->activeService; ?>');
+        <?php if ($this->show_graph && $this->selected_graph != "") { ?>
+            clientexec.populate_report('<?php echo $this->selected_graph;?>','#myChart',{indashboard:1});
+        <?php } ?>
+        dashboard.total_num_of_reports = <?php echo count($this->graph_options);?>;
+    });
+</script>

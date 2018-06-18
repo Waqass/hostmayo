@@ -1,0 +1,334 @@
+<div class="alert alert-info clients-main-alert ce-page-header">
+  <div class="alert-header" style="font-size: 25px;"><?php echo $this->user->lang("Clientexec Settings");?></div>
+  <p class="alert-content">
+  	<span><?php echo $this->user->lang("Settings are divided into their appropriate group.  For detailed descriptions and assistance make sure to use ")."<a href=\"javascript:void(0);\" onclick=\"javascript:$('#feedback_tab').trigger('click');\">".$this->user->lang("Help")."</a>";?></span>
+  </p>
+</div>
+<div class='setting-wrapper'>
+	<div class='setting-type-container' style="margin-top: -25px;color:#333">
+		<div class="setting-type-name"><?php echo $this->user->lang("Company");?></div>
+		<div class="setting-type-name-description"><?php echo $this->user->lang("Manage company settings and change the style of your installation");?></div>
+		<div class="setting-type-items">
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=viewsettings&settings=admin_general" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("General Company");?>"
+			 data-content="<?php echo $this->user->lang("General Clientexec settings");?>">
+				<span data-icon="&#xe85e;"></span>
+				<label><?php echo $this->user->lang("General Company");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=viewsettings&settings=admin_localization"  data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Localization");?>"
+			 data-content="<?php echo $this->user->lang("Localization settings for your Clientexec installation");?>">
+				<span data-icon="&#xe779;"></span>
+				<label><?php echo $this->user->lang("Localization");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=viewsettings&settings=admin_email" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Mail Configuration");?>"
+			 data-content="<?php echo $this->user->lang("General email configurations");?>">
+				<span data-icon="&#xe909;"></span>
+				<label><?php echo $this->user->lang("Mail Configuration");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=emailtemplates&settings=mail" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Email Templates");?>"
+			 data-content="<?php echo $this->user->lang("Email templates that can be used throughout Clientexec");?>">
+				<span data-icon="&#xe8d4;"></span>
+				<label><?php echo $this->user->lang("Email Templates");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=templateoptions&settings=style_options" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Style");?>"
+			 data-content="<?php echo $this->user->lang("Customize the public portal style. Each template might have their own custom settings");?>">
+				<span data-icon="&#xe6d2;"></span>
+				<label><?php echo $this->user->lang("Style");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=templatehtml&settings=style_options" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Customize HTML");?>"
+			 data-content="<?php echo $this->user->lang("Add customized HTML, CSS, or Javascript to your Clientexec Template");?>">
+				<span data-icon="&#xe799;"></span>
+				<label><?php echo $this->user->lang("Customize HTML");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=viewsettings&settings=admin_social" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Social Sharing");?>"
+			 data-content="<?php echo $this->user->lang("Determine which social features Clientexec exposes");?>">
+				<span data-icon="&#xe94a;"></span>
+				<label><?php echo $this->user->lang("Social Sharing");?></label>
+			</div>
+		</div>
+	</div>
+	<div class='setting-type-container' style="color:#FF9188;">
+		<div class="setting-type-name"><?php echo $this->user->lang("Users");?></div>
+		<div class="setting-type-name-description"><?php echo $this->user->lang("Add new staff, profile custom fields, and assign permissions ");?></div>
+		<div class="setting-type-items">
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=staff&view=adminlist" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Staff Management");?>"
+			 data-content="<?php echo $this->user->lang("Organize your staff into staff roles. Update permissions and staff");?>">
+				<span data-icon="&#xe721;"></span>
+				<label><?php echo $this->user->lang("Staff Management");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=groups&view=viewgroups" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Customer Permissions");?>"
+			 data-content="<?php echo $this->user->lang("Create custom groups for easy access and for identification purposes");?>">
+				<span data-icon="&#xe748;"></span>
+				<label><?php echo $this->user->lang("Customer Groups");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=usercustomfields" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Custom Fields");?>"
+			 data-content="<?php echo $this->user->lang("Add/Edit any additional custom fields to be viewed in the customer or admin profile");?>">
+				<span data-icon="&#xe751;"></span>
+				<label><?php echo $this->user->lang("Custom Fields");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&view=statusalias&controller=settings&settings=users_statusalias&type=3" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Status Aliases");?>"
+			 data-content="<?php echo $this->user->lang("Customize the statuses you wish to use in your Clientexec installation. Note: For advanced users, do not edit if you do not need additional statuses");?>">
+				<span data-icon="&#xe741;"></span>
+				<label><?php echo $this->user->lang("Status Aliases");?></label>
+			</div>
+		</div>
+	</div>
+
+	<?php if ($this->user->hasPermission("admin_billing_setup")) { ?>
+	<div class='setting-type-container' style="color: #f90;">
+		<div class="setting-type-name"><?php echo $this->user->lang("Billing");?></div>
+		<div class="setting-type-name-description"><?php echo $this->user->lang("Configure your standard billing settings and create coupons");?></div>
+		<div class="setting-type-items">
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=viewsettings&settings=billing_billing" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("General Billing");?>"
+			 data-content="<?php echo $this->user->lang("Customize your billing module");?>">
+				<span data-icon="&#xe670;"></span>
+				<label><?php echo $this->user->lang("General Billing");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=viewsettings&settings=billing_invoicing" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Invoices");?>"
+			 data-content="<?php echo $this->user->lang("Customize how invoices should be handled in your installation");?>">
+				<span data-icon="&#xe648;"></span>
+				<label><?php echo $this->user->lang("Invoices");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&view=billingtypes&controller=settings&settings=billing" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Billing Types");?>"
+			 data-content="<?php echo $this->user->lang("Configure billing types available in invoices");?>">
+				<span data-icon="&#xe649;"></span>
+				<label><?php echo $this->user->lang("Billing Types");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=coupons&settings=billing" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Coupons");?>"
+			 data-content="<?php echo $this->user->lang("Manage coupon codes");?>">
+				<span data-icon="&#xe661;"></span>
+				<label><?php echo $this->user->lang("Coupons");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=currencies&settings=billing" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Currencies");?>"
+			 data-content="<?php echo $this->user->lang("Identify which currencies are supported in your Clientexec");?>">
+				<span data-icon="&#xe653;"></span>
+				<label><?php echo $this->user->lang("Currencies");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=taxes&settings=billing" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Taxes");?>"
+			 data-content="<?php echo $this->user->lang("Add tax support to your Clientexec");?>">
+				<span data-icon="&#xe5fb;"></span>
+				<label>Taxes</label>
+			</div>
+		</div>
+	</div>
+	<?php } ?>
+
+
+	<?php if ($this->user->hasPermission("admin_support_setup")) {?>
+	<div class='setting-type-container' style="color:#777;">
+		<div class="setting-type-name"><?php echo $this->user->lang("Support");?></div>
+		<div class="setting-type-name-description"><?php echo $this->user->lang("Setup how you want to manage your support department");?></div>
+		<div class="setting-type-items">
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=viewsettings&settings=support_support" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("General Support");?>"
+			 data-content="<?php echo $this->user->lang("General support settings that determine how Clientexec's support module operates");?>">
+				<span data-icon="&#xe801;"></span>
+				<label><?php echo $this->user->lang("General Support");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=departments&settings=support" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Departments");?>"
+			 data-content="<?php echo $this->user->lang("Organize support departments to best organize ticket routing");?>">
+				<span data-icon="&#xe85f;"></span>
+				<label><?php echo $this->user->lang("Departments");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&view=emailrouting&controller=settings&settings=support" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Routing");?>"
+			 data-content="<?php echo $this->user->lang("Configure how you want your email address routed to tickets");?>">
+				<span data-icon="&#x73;"></span>
+				<label><?php echo $this->user->lang("Routing");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=support&controller=cannedresponse&view=cannedresponses" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Canned Replies");?>"
+			 data-content="<?php echo $this->user->lang("List of canned replies available to staff when replying to support tickets");?>">
+				<span data-icon="&#xe91a;"></span>
+				<label><?php echo $this->user->lang("Canned Replies");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&view=tickettypes&controller=settings&settings=support" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Ticket Types");?>"
+			 data-content="<?php echo $this->user->lang("Help your customers identify what issues they are having by creating ticket types. Can be used with Email routing");?>">
+				<span data-icon="&#xe669;"></span>
+				<label><?php echo $this->user->lang("Ticket Types");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&view=ticketcustomfields&controller=settings&settings=support" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Custom Fields");?>"
+			 data-content="<?php echo $this->user->lang("Determine what custom fields Clientexec will expose for your customers to fill out with their support tickets. Can be associated to ticket types");?>">
+				<span data-icon="&#xe751;"></span>
+				<label><?php echo $this->user->lang("Custom Fields");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&view=supportwidget&controller=settings&settings=support" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Site Widget");?>"
+			 data-content="<?php echo $this->user->lang("Create a site widget for customers to submit tickets and search your KB articles");?>">
+				<span data-icon="&#xe792;"></span>
+				<label><?php echo $this->user->lang("Site Widget");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&view=statusalias&controller=settings&settings=support_statusalias&type=2" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Status Aliases");?>"
+			 data-content="<?php echo $this->user->lang("Customize the statuses you wish to use in your Clientexec installation. Note: For advanced users, do not edit if you do not need additional statuses");?>">
+				<span data-icon="&#xe741;"></span>
+				<label><?php echo $this->user->lang("Status Aliases");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=viewsettings&settings=support_knowledgebase" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Knowledge base");?>"
+			 data-content="<?php echo $this->user->lang("Knowledge base settings for your installation");?>">
+				<span data-icon="&#xe602;"></span>
+				<label><?php echo $this->user->lang("Knowledge base");?></label>
+			</div>
+		</div>
+	</div>
+	<?php } ?>
+
+	<div class='setting-type-container' style="color:#55acee;">
+		<div class="setting-type-name"><?php echo $this->user->lang("Products");?></div>
+		<div class="setting-type-name-description"><?php echo $this->user->lang("Add & configure products to start selling");?></div>
+		<div class="setting-type-items">
+
+			<?php if ($this->user->hasPermission("admin_view_packagetypes")) { ?>
+			<div class="setting-group" data-url="index.php?fuse=admin&view=products&controller=products" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Products");?>"
+			 data-content="<?php echo $this->user->lang("Create and edit products available to your customers");?>">
+				<span data-icon="&#xe682;"></span>
+				<label><?php echo $this->user->lang("Products");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=addons&view=productaddons" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Addons");?>"
+			 data-content="<?php echo $this->user->lang("Addons are additional services/product addons that can be attached to product orders");?>">
+				<span data-icon="&#xe681;"></span>
+				<label><?php echo $this->user->lang("Addons");?></label>
+			</div>
+			<?php } ?>
+
+			<?php if ($this->user->hasPermission("admin_edit_servers")) { ?>
+			<div class="setting-group" data-url="index.php?fuse=admin&view=servers&controller=servers" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Servers");?>"
+			 data-content="<?php echo $this->user->lang("List of servers that have been configured. These servers will be available in the advanced tab of hosting products");?>">
+				<span data-icon="&#x76;"></span>
+				<label><?php echo $this->user->lang("Servers");?></label>
+			</div>
+			<?php } ?>
+
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=viewsettings&settings=admin_signup" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Order Pages");?>"
+			 data-content="<?php echo $this->user->lang("Customize your order page settings");?>">
+				<span data-icon="&#xe683;"></span>
+				<label><?php echo $this->user->lang("Order Pages");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=productcustomfields" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Custom Fields");?>"
+			 data-content="<?php echo $this->user->lang("Add/Edit any additional custom fields to be viewed in customer's products");?>">
+				<span data-icon="&#xe751;"></span>
+				<label><?php echo $this->user->lang("Custom Fields");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&view=statusalias&controller=settings&settings=packages_statusalias&type=1" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Status Alias");?>"
+			 data-content="<?php echo $this->user->lang("Customize the statuses you wish to use in your Clientexec installation. Note: For advanced users, do not edit if you do not need additional statuses");?>">
+				<span data-icon="&#xe741;"></span>
+				<label><?php echo $this->user->lang("Status Alias");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=viewsettings&settings=admin_domain" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Domains");?>"
+			 data-content="<?php echo $this->user->lang("Domain management settings");?>">
+				<span data-icon="&#xe876;"></span>
+				<label><?php echo $this->user->lang("Domains");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=viewsettings&settings=admin_stock" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Stock Control");?>"
+			 data-content="<?php echo $this->user->lang("Stock management settings");?>">
+				<span data-icon="&#xe679;"></span>
+				<label><?php echo $this->user->lang("Stock Control");?></label>
+			</div>
+		</div>
+	</div>
+
+	<?php if ($this->user->hasPermission("admin_manage_plugins")) {?>
+	<div class='setting-type-container'>
+		<div class="setting-type-name"><?php echo $this->user->lang("Plugins");?></div>
+		<div class="setting-type-name-description"><?php echo $this->user->lang("Configure plugins to expand Clientexec functionality");?></div>
+		<div class="setting-type-items">
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=snapinsettings&plugin=licensedefender&settings=plugins_snapins&type=Snapins" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Snapins");?>"
+			 data-content="<?php echo $this->user->lang("Manage additional functionality in Clientexec");?>">
+				<span data-icon="&#xe889;"></span>
+				<label><?php echo $this->user->lang("Snapins");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=plugins&settings=plugins_gateways&type=gateways" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Payment Processors");?>"
+			 data-content="<?php echo $this->user->lang("Manage what payment gateways are available to your users");?>">
+				<span data-icon="&#xe889;"></span>
+				<label><?php echo $this->user->lang("Payment Processors");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=plugins&settings=plugins_services&type=Services" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Automation Services");?>"
+			 data-content="<?php echo $this->user->lang("Manage automated tasks");?>">
+				<span data-icon="&#xe889;"></span>
+				<label><?php echo $this->user->lang("Automation Services");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=plugins&settings=plugins_registrars&type=Registrars" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Registrars");?>"
+			 data-content="<?php echo $this->user->lang("Manage what registrar(s) you use");?>">
+				<span data-icon="&#xe889;"></span>
+				<label><?php echo $this->user->lang("Registrars");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=plugins&settings=plugins_ssl&type=SSLRegistrars" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("SSL");?>"
+			 data-content="<?php echo $this->user->lang("Manage SSL registrar(s)");?>">
+				<span data-icon="&#xe889;"></span>
+				<label><?php echo $this->user->lang("SSL");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=plugins&settings=plugins_fraud&type=Fraud" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Fraud");?>"
+			 data-content="<?php echo $this->user->lang("Manage fraud checking settings");?>">
+				<span data-icon="&#xe889;"></span>
+				<label><?php echo $this->user->lang("Fraud");?></label>
+			</div>
+			<?php if ( $this->showPhoneVerification ) { ?>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=plugins&settings=plugins_phoneverification&type=PhoneVerification" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Phone Verification");?>"
+			 data-content="<?php echo $this->user->lang("Manage phone verification settings");?>">
+				<span data-icon="&#xe889;"></span>
+				<label><?php echo $this->user->lang("Phone Verification");?></label>
+			</div>
+			<?php } ?>
+		</div>
+	</div>
+	<?php } ?>
+
+	<div class='setting-type-container' style="color:#BD4925;">
+		<div class="setting-type-name"><?php echo $this->user->lang("Security");?></div>
+		<div class="setting-type-name-description"><?php echo $this->user->lang("Don’t be caught unprotected, protect what matters to your business");?></div>
+		<div class="setting-type-items">
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=viewsettings&settings=admin_passwords"  data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Passwords");?>"
+			 data-content="<?php echo $this->user->lang("Select how strict you want to make password selection throughout Clientexec");?>">
+				<span data-icon="&#x71;"></span>
+				<label><?php echo $this->user->lang("Passwords");?></label>
+			</div>
+            <?php if (!DEMO): ?>
+                <div class="setting-group" data-url="index.php?fuse=admin&view=apikey&controller=settings&settings=security"  data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Application Key");?>"
+                 data-content="<?php echo $this->user->lang("Generate an API key for external integration with Clientexec");?>">
+                    <span data-icon="&#xe600;"></span>
+                    <label><?php echo $this->user->lang("Application Key");?></label>
+                </div>
+            <?php endif ?>
+			<div class="setting-group" data-url="index.php?fuse=admin&view=passphraseinfo&controller=settings&settings=security"  data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("CC Passphrase");?>"
+			 data-content="<?php echo $this->user->lang("Manage your credit card passphrase");?>">
+				<span data-icon="&#xe673;"></span>
+				<label><?php echo $this->user->lang("CC Passphrase");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&view=viewsettings&controller=settings&settings=admin_bannedips" data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Banned IPs");?>"
+			 data-content="<?php echo $this->user->lang("Settings determine how Clientexec should work with IP management");?>">
+				<span data-icon="&#xe728;"></span>
+				<label>Banned IPs</label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&controller=settings&view=viewsettings&settings=admin_captcha"  data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Captcha");?>"
+			 data-content="<?php echo $this->user->lang("Add captcha security to your Clientexec installation");?>">
+				<span data-icon="&#xe603;"></span>
+				<label><?php echo $this->user->lang("Captcha");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&view=domainpasswords&controller=settings&settings=security"  data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Domain Encryption");?>"
+			 data-content="<?php echo $this->user->lang("Description of what settings are available here");?>">
+				<span data-icon="&#xe720;"></span>
+				<label><?php echo $this->user->lang("Domain Encryption");?></label>
+			</div>
+		</div>
+	</div>
+
+	<?php if ($this->user->hasPermission("admin_view_import_export")) { ?>
+	<div class='setting-type-container'>
+		<div class="setting-type-name"><?php echo $this->user->lang("Utilities");?></div>
+		<div class="setting-type-name-description"><?php echo $this->user->lang("Advanced utilities, we recommend speaking to Clientexec staff before using these.");?></div>
+		<div class="setting-type-items">
+			<?php if ($this->user->isSuperAdmin()) { ?>
+			<div class="setting-group" data-url="index.php?fuse=admin&view=showdatabaseoptions&controller=index"  data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("SQL Tool");?>"
+			 data-content="<?php echo $this->user->lang("This tool allows you to query the database tables directly. This is intended for experienced users who are familiar with SQL queries");?>">
+				<span data-icon="&#xe605;"></span>
+				<label><?php echo $this->user->lang("SQL Tool");?></label>
+			</div>
+			<?php } ?>
+			<div class="setting-group" data-url="index.php?fuse=admin&view=viewimportplugins&controller=importexport"  data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Import Data");?>"
+			 data-content="<?php echo $this->user->lang("This import plugin imports customers, packages, and invoices from a Clientexec exported file");?>">
+				<span data-icon="&#xe8ae;"></span>
+				<label><?php echo $this->user->lang("Import Data");?></label>
+			</div>
+			<div class="setting-group" data-url="index.php?fuse=admin&view=viewexportplugins&controller=importexport"  data-toggle="popover-hover" data-placement="bottom" title="<?php echo $this->user->lang("Export Data");?>"
+			 data-content="<?php echo $this->user->lang("This export plugin exports all your data to the default Clientexec format, which is a compressed CSV file");?>">
+				<span data-icon="&#xe8af;"></span>
+				<label><?php echo $this->user->lang("Export Data");?></label>
+			</div>
+		</div>
+	</div>
+	<?php } ?>
+</div>

@@ -1,0 +1,197 @@
+<form class="update-profile-method-frm" action="index.php?fuse=clients&controller=userprofile&action=saveprofile" method="POST">
+
+<div class="customerdata" style="display: none">
+
+    <div class="ce-box-inner">
+
+        <h1 class="pull-left"><?php echo $this->user->lang("Edit Profile");?></h1>
+        <div class="customfields-wrapper"></div>
+        <div class="form-actions">
+            <button class="btn btn-update-profile-method" type="button"><?php echo $this->user->lang('Update Profile'); ?></button>
+        </div>
+    </div>
+</div>
+
+</form>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        <?php echo "var customFields = " . json_encode($this->customFields) . ";\n"; ?>
+        process_profile_customfields(customFields);
+
+        // Set values for all our custom fields
+        <?php foreach ( $this->customFieldValues as $id => $value ) { ?>
+            $('#CT_<?php echo $id; ?>').val("<?php echo str_replace("\r\n", "\\r\\n", $this->escapeScriptVars($value)) ?>");
+            <?php
+                $view = $this; // needed for php < 5.4
+                array_walk($this->customFields, function($val) use ($view, $id, $value) {
+                if ($val['fieldtype'] == typeDATE && $val['id'] == $id) {
+                    echo "$('input[name=CT_$id]').val(\"" . $view->dateRenderer($value) . "\");\n";
+                }
+            }) ?>
+        <?php } ?>
+        <?php foreach ( $this->selectCustomFields as $id => $value ) { ?>
+        $('#CT_<?php echo $id; ?>').val("<?php echo $this->escape($value) ?>").select2();
+        <?php } ?>
+
+        state_var_id = 'CT_<?php echo $this->state_var_id;?>';
+        $("#"+state_var_id).bind('blur',function(){
+            validate_vat();//tax purposes
+        });
+        country_var_id = 'CT_<?php echo $this->country_var_id;?>';
+        $("#"+country_var_id).bind('change',function(){
+            validate_vat();//tax purposes
+        });
+        vat_var_id = 'CT_<?php echo $this->vat_var_id;?>';
+        $("#"+vat_var_id).bind('blur',function(){
+            validate_vat();//tax purposes
+        });
+
+        validate_vat();
+
+    });
+
+    function validate_vat() {
+        if(document.getElementById('vat_validating') != undefined){
+            document.getElementById('vat_validating').style.display = '';
+            document.getElementById('vat_valid').style.display = 'none';
+            document.getElementById('vat_invalid').style.display = 'none';
+            document.getElementById('vat_error').style.display = 'none';
+        }
+        // Get the country and state information to pass to the view
+        var selectedState = document.getElementById(state_var_id).value;
+        var selectedCountry = document.getElementById(country_var_id).options[document.getElementById(country_var_id).selectedIndex].value;
+        if(document.getElementById(vat_var_id)) {
+            var selectedVATNumber = document.getElementById(vat_var_id).value;
+        }
+        $.getJSON('index.php?fuse=billing&action=checkvat&ignoreuser=1&requestVAT=1',
+            { country: selectedCountry, state: selectedState, vat: selectedVATNumber } ,
+            function(response) {
+                respArr = response.responseText.split("|");
+
+                if (document.getElementById('VAT'+vat_var_id)) {
+                    if(selectedCountry == 'GR'){
+                        selectedCountry = 'EL';
+                    }
+                    $("#vat_country").html(selectedCountry);
+                    document.getElementById('vat_validating').style.display = 'none';
+                    if (respArr[3] == '1') {
+                        if(selectedVATNumber != ""){
+                            switch(respArr[0]){
+                                case "-1":
+                                    document.getElementById('vat_error').style.display = '';
+                                    break;
+                                case "0":
+                                    document.getElementById('vat_invalid').style.display = '';
+                                    break;
+                                case "1":
+                                    document.getElementById('vat_valid').style.display = '';
+                                    break;
+                            }
+                        }
+                        document.getElementById('VAT'+vat_var_id).style.display = 'block';
+                    } else {
+                        document.getElementById(vat_var_id).value = '';
+                        document.getElementById('VAT'+vat_var_id).style.display = 'none';
+                    }
+                }
+            }
+        );
+    }
+
+
+    function process_profile_customfields(fields) {
+
+        customFields.load(fields,function(data) {
+            $('.customfields-wrapper').append($("<div class='customfield'>").append(data));
+        }, function(){
+            clientexec.postpageload('.customfields-wrapper');
+            $('.searching-customfields').remove();
+
+            /*** FULL NAME */
+            //let's check for full name and full address and pretty up the display
+            $('.type_11').parent().addClass('first_name').appendTo($('.type_63').parent());
+            $('.type_11').parent().find('label').addClass('sub_label').text(lang('First')).appendTo($('.first_name')); //moving label below field
+
+            $('.type_12').parent().addClass('second_name').appendTo($('.type_63').parent());
+            $('.type_12').parent().find('label').addClass('sub_label').text(lang('Last')).appendTo($('.second_name')); //moving label below field
+
+            //$('.type_14').parent().addClass('organization').appendTo($('.type_63').parent());
+            //$('.type_14').parent().find('label').addClass('sub_label').text(lang('Organization')).appendTo($('.organization')); //moving label below field
+
+            $('.type_13').parent().addClass('email');
+            $('#password').parent().parent().appendTo($('.type_13').parent());
+
+            /* move password to email */
+
+           /* $('.type_13').parent().addClass('email').after($('#password').parent());
+            $('.type_13').parent().after($('password').parent().html('<span class="label label-important">Important</span>'));*/
+
+            /*** FULL ADDRESS **/
+            //let's move around address
+            $('.type_2').parent().addClass('address').appendTo($('.type_64').parent());
+            $('.type_2').parent().find('label').addClass('sub_label').text(lang('Address')).appendTo($('.address')); //moving label below field
+
+            $('.type_3').parent().addClass('city').appendTo($('.type_64').parent());
+            $('.type_3').parent().find('label').addClass('sub_label').text(lang('City')).appendTo($('.city')); //moving label below field
+
+            $('.type_4').parent().addClass('state').appendTo($('.type_64').parent());
+            $('.type_4').parent().find('label').addClass('sub_label').text(lang('State / Province / Region')).appendTo($('.state')); //moving label below field
+
+            $('.type_5').parent().addClass('zipcode').appendTo($('.type_64').parent());
+            $('.type_5').parent().find('label').addClass('sub_label').text(lang('Postal / Zip Code')).appendTo($('.zipcode')); //moving label below field
+
+            $('.type_6').parent().addClass('country').appendTo($('.type_64').parent());
+            $('.type_6').parent().find('label').addClass('sub_label').text(lang('Country')).appendTo($('.country')); //moving label below field
+
+            //bold the group label
+            $('.type_64').hide().parent().addClass('customfield_group');
+            $('.type_63').hide().parent().addClass('customfield_group');
+
+            $('.customfield').addClass('customfield_not_ingroup');
+            $('.customfield_group,.customfield_group .customfield').removeClass('customfield_not_ingroup');
+            $('.customfield_hidden, .type_65, .type_13').parent('.customfield').removeClass('customfield_not_ingroup');
+
+            $('.customerdata').css('display', 'block');
+
+            // we don't want to require password on this page
+            $('#password').removeAttr('parsley-required');
+            $('#password').removeAttr('data-required');
+
+            $('.btn-update-profile-method').bind('click',function(e){
+                <?php if ( $this->enforcePassword ) { ?>
+                    e.preventDefault();
+                    var password_validated = true;
+
+                    $('.parsley-error-list').remove();
+
+                    if ( $.trim($('#password').val() ) != "") {
+                        $.ajax({
+                            type: "GET",
+                            data: {
+                                'password': $('#password').val()
+                            },
+                            url: 'index.php?controller=signup&fuse=admin&action=testpasswordstrength',
+                            async: false,
+                            success : function(response) {
+                                json = ce.parseResponse(response);
+                                if (!json.valid) {
+                                    password_validated = false;
+                                    // float:left is for when there's a long list of errors, to avoid bleeding out under the email field (#987)
+                                    $('#password').after('<ul class="parsley-error-list" style="display: block; float:left"><li class="required" style="display: list-item;">'+json.errorMessage+'</li></ul>');
+                                }
+                            }
+                        });
+                    }
+                    if ( password_validated && $('.update-profile-method-frm').parsley('validate') ) {
+                       $('.update-profile-method-frm').submit();
+                    }
+                <?php } else { ?>
+                    if ( $('.update-profile-method-frm').parsley('validate') ) {
+                        $('.update-profile-method-frm').submit();
+                    }
+                <?php } ?>
+            });
+     });
+    }
+</script>

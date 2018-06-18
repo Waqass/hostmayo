@@ -1,0 +1,1 @@
+ALTER TABLE `invoiceentry` ADD `includenextpayment` TINYINT( 4 ) NOT NULL DEFAULT '0';

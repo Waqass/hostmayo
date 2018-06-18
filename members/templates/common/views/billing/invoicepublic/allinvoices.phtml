@@ -1,0 +1,39 @@
+<script type="text/javascript">
+  invoices = {};
+  invoices.payment_method = "<?php echo $this->payment_method;?>";
+  invoices.filter = '<?php echo $this->filter; ?>';
+</script>
+
+<?php if ($this->show_change_of_billing_options) { ?>
+    <div class="alert ce-alert ce-alert-info">
+
+      <?php if ($this->accepts_cc && !$this->cc_added) { ?>
+        <p><?php echo $this->user->lang("You have not selected a payment method").". ".$this->user->lang("For any modifications please visit your ")."<a href='index.php?fuse=clients&controller=userprofile&view=paymentmethod'>".$this->user->lang("payment configuration page.")."</a> ".$this->user->lang("Keeping your payment options up to date will prevent any service disruption.");?></p>
+
+      <?php } else { ?>
+        <p><?php echo $this->user->lang("Your payment source is set to")." ".$this->payment_type_name.". ".$this->user->lang("For any modifications please visit your ")."<a href='index.php?fuse=clients&controller=userprofile&view=paymentmethod'>".$this->user->lang("payment configuration page.")."</a> ".$this->user->lang("Keeping your payment options up to date will prevent any service disruption.");?></p>
+      <?php } ?>
+
+
+    </div>
+<?php } ?>
+
+<ul class="nav nav-pills pull-right ce-nav-pills" id="filter-ul">
+  <li <?php if ($this->filter=="open") echo "class='active'";?>><a href="javascript:void(0)" onclick="invoices.filterBy('open')"><?php echo $this->user->lang("Unpaid");?></a></li>
+  <li <?php if ($this->filter=="paid") echo "class='active'";?>><a href="javascript:void(0)" onclick="invoices.filterBy('paid')"><?php echo $this->user->lang("Paid");?></a></li>
+  <?php if ( $this->hasDraftInvoices ) { ?>
+  <li <?php if ($this->filter=="draft") echo "class='active'";?>><a href="javascript:void(0)" onclick="invoices.filterBy('draft')"><?php echo $this->user->lang("Draft");?></a></li>
+  <?php } ?>
+  <li <?php if ($this->filter=="all") echo "class='active'";?>><a href="javascript:void(0)" onclick="invoices.filterBy('all')"><?php echo $this->user->lang("All");?></a></li>
+</ul>
+
+<div class="gridheader">
+    <span class="grid-meta" id="invoices-grid-metadata"></span>
+</div>
+
+<div id="invoices-grid" style="clear:both;"></div>
+<div id="invoices-grid-footer" style="display:none" class="grid-footer">
+    <?php if($this->user->hasPermission( 'billing_send_invoices' )){ ?>
+    <button class="rich-button" id="sendInvoice"><span><?php echo $this->user->lang("Send Invoice(s)"); ?></span></button>
+    <?php } ?>
+</div>

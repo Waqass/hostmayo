@@ -1,0 +1,9 @@
+<div id="knowledge_base_artlce">
+    <div class="article-meta"><span class="<?php echo $this->articleTypeClass; ?>"><?php echo $this->articleType; ?> Article</span> #<?php echo $this->articleId; ?> | <?php echo $this->articleModified; ?> | by <?php echo $this->articleAuthor; ?></div>
+    <?php if ($this->showPublicLink) { ?>
+        <div class="article-link"><a href="<?php echo $this->articleLink; ?>" target="_blank">Public Link</a></div>
+    <?php } ?>
+    <div class="kb_title"><?php echo $this->articleName; ?></div>
+
+    <div class="kb_description"><?php echo $this->unescape($this->articleDescription) ?></div>
+</div>

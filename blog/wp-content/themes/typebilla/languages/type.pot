@@ -1,0 +1,635 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-03-01 16:03+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/"
+
+#: comments.php:34
+#, php-format
+msgctxt "comments title"
+msgid "One Reply to &ldquo;%s&rdquo;"
+msgstr ""
+
+#. 1: number of comments, 2: post title
+#: comments.php:38
+#, php-format
+msgctxt "comments title"
+msgid "%1$s Reply to &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s Replies to &ldquo;%2$s&rdquo;"
+msgstr[0] ""
+msgstr[1] ""
+
+#: comments.php:53 comments.php:73
+msgid "Comment navigation"
+msgstr ""
+
+#: comments.php:55 comments.php:75
+msgid "Older Comments"
+msgstr ""
+
+#: comments.php:56 comments.php:76
+msgid "Newer Comments"
+msgstr ""
+
+#: comments.php:88
+msgid "Comments are closed."
+msgstr ""
+
+#: search.php:27
+#, php-format
+msgid "Search Results for: %s"
+msgstr ""
+
+#: search.php:29 template-parts/post/content-none.php:19
+msgid "Nothing Found"
+msgstr ""
+
+#: search.php:51
+msgid ""
+"Sorry, but nothing matched your search terms. Please try again with some "
+"different keywords."
+msgstr ""
+
+#: footer.php:66
+msgid "https://wordpress.org/"
+msgstr ""
+
+#: footer.php:66
+#, php-format
+msgid "Powered by %s"
+msgstr ""
+
+#. Author URI of the theme
+#: footer.php:68
+msgid "https://www.designlabthemes.com/"
+msgstr ""
+
+#: footer.php:68
+#, php-format
+msgid "Theme by %s"
+msgstr ""
+
+#: functions.php:42 header.php:39
+#: template-parts/navigation/navigation-main.php:11
+msgid "Main Menu"
+msgstr ""
+
+#: functions.php:43
+msgid "Social Menu"
+msgstr ""
+
+#. If there are characters in your language that are not supported by Nunito Sans, translate this to 'off'. Do not translate into your own language.
+#: functions.php:102
+msgctxt "Nunito Sans: on or off"
+msgid "on"
+msgstr ""
+
+#. If there are characters in your language that are not supported by Poppins, translate this to 'off'. Do not translate into your own language.
+#: functions.php:107
+msgctxt "Poppins: on or off"
+msgid "on"
+msgstr ""
+
+#. To add an additional character subset specific to your language, translate this to 'greek', 'cyrillic', 'devanagari' or 'vietnamese'. Do not translate into your own language.
+#: functions.php:112
+msgctxt "Add new subset (greek, cyrillic, devanagari, vietnamese)"
+msgid "no-subset"
+msgstr ""
+
+#: functions.php:172
+msgid "Sidebar"
+msgstr ""
+
+#: functions.php:174
+msgid "Add widgets here to appear in your sidebar."
+msgstr ""
+
+#: functions.php:181
+msgid "Footer Widget Area 1"
+msgstr ""
+
+#: functions.php:183 functions.php:192 functions.php:201
+msgid "Add widgets here to appear in your footer."
+msgstr ""
+
+#: functions.php:190
+msgid "Footer Widget Area 2"
+msgstr ""
+
+#: functions.php:199
+msgid "Footer Widget Area 3"
+msgstr ""
+
+#: functions.php:208
+msgid "Footer Bottom Widget Area"
+msgstr ""
+
+#: functions.php:210
+msgid ""
+"One Column Widget Area. Add widgets here to appear at the bottom of the page."
+msgstr ""
+
+#: functions.php:218
+msgid "Shop Sidebar"
+msgstr ""
+
+#: functions.php:220
+msgid "Add widgets here to appear in your Shop."
+msgstr ""
+
+#: functions.php:319
+msgid "Home"
+msgstr ""
+
+#: functions.php:379
+msgid "Read More"
+msgstr ""
+
+#: functions.php:562
+msgid "Y"
+msgstr ""
+
+#: header.php:27
+msgid "Skip to content"
+msgstr ""
+
+#: header.php:30
+msgid "Menu"
+msgstr ""
+
+#: searchform.php:12
+msgctxt "label"
+msgid "Search for:"
+msgstr ""
+
+#: searchform.php:13
+msgctxt "placeholder"
+msgid "Search &hellip;"
+msgstr ""
+
+#: searchform.php:17
+msgctxt "submit button"
+msgid "Search"
+msgstr ""
+
+#: 404.php:18
+msgid "Oops! That page can&rsquo;t be found."
+msgstr ""
+
+#: 404.php:23
+msgid "It looks like nothing was found at this location. Maybe try a search?"
+msgstr ""
+
+#: inc/template-tags.php:30
+msgctxt "Used before publish date."
+msgid "Posted on"
+msgstr ""
+
+#: inc/template-tags.php:38 inc/template-tags.php:47
+msgctxt "Used before post author name."
+msgid "Author"
+msgstr ""
+
+#. used between list items, there is a space after the comma
+#. used between list items, there is a space after the comma
+#: inc/template-tags.php:64 inc/template-tags.php:70
+msgid ", "
+msgstr ""
+
+#: inc/template-tags.php:66
+#, php-format
+msgid "Posted in %1$s"
+msgstr ""
+
+#: inc/template-tags.php:72
+#, php-format
+msgid "Tagged %1$s"
+msgstr ""
+
+#. %s: post title
+#: inc/template-tags.php:79
+#, php-format
+msgid "Leave a Comment<span class=\"screen-reader-text\"> on %s</span>"
+msgstr ""
+
+#. %s: Name of current post
+#. %s: Name of current post
+#: inc/template-tags.php:86 template-parts/page/content-page.php:47
+#, php-format
+msgid "Edit %s"
+msgstr ""
+
+#: inc/customizer.php:32
+msgid "Try Type Plus"
+msgstr ""
+
+#: inc/customizer.php:36
+msgid "Theme Homepage"
+msgstr ""
+
+#: inc/customizer.php:40
+msgid "Theme Documentation"
+msgstr ""
+
+#: inc/customizer.php:44
+msgid "Rate This Theme"
+msgstr ""
+
+#: inc/customizer.php:48
+msgid "Follow on Twitter"
+msgstr ""
+
+#: inc/customizer.php:75
+msgid "Site Title"
+msgstr ""
+
+#: inc/customizer.php:95
+msgid "Type Links"
+msgstr ""
+
+#: inc/customizer.php:110
+msgid "Theme Settings"
+msgstr ""
+
+#: inc/customizer.php:116 inc/customizer.php:584
+msgid "General"
+msgstr ""
+
+#: inc/customizer.php:128
+msgid "Display Read More Link"
+msgstr ""
+
+#: inc/customizer.php:135 inc/customizer.php:602
+msgid "Header"
+msgstr ""
+
+#: inc/customizer.php:138
+msgid ""
+"Settings for Site Header. Go to \"Theme Settings &raquo; Header Image\" to "
+"upload an image."
+msgstr ""
+
+#: inc/customizer.php:148 inc/customizer.php:459 inc/customizer.php:524
+msgid "Style"
+msgstr ""
+
+#: inc/customizer.php:152
+msgid "Site Title centered over Header Image + Navbar below"
+msgstr ""
+
+#: inc/customizer.php:153
+msgid "Site Title centered above Header Image + Navbar below"
+msgstr ""
+
+#: inc/customizer.php:154
+msgid "Site Title centered above Header Image + Top Navbar"
+msgstr ""
+
+#: inc/customizer.php:155
+msgid "Site Title left + Menu above Header Image"
+msgstr ""
+
+#: inc/customizer.php:165
+msgid "Display Search Icon"
+msgstr ""
+
+#: inc/customizer.php:177
+msgid "Display Social Links"
+msgstr ""
+
+#: inc/customizer.php:189
+msgid "Padding above and below Header Image"
+msgstr ""
+
+#: inc/customizer.php:203
+msgid "Header Image Opacity"
+msgstr ""
+
+#: inc/customizer.php:204
+msgid ""
+"Add a dark overlay to the Header Image, to ensure the right text readability "
+"and contrast."
+msgstr ""
+
+#: inc/customizer.php:210
+msgid "0%"
+msgstr ""
+
+#: inc/customizer.php:211
+msgid "10%"
+msgstr ""
+
+#: inc/customizer.php:212
+msgid "20%"
+msgstr ""
+
+#: inc/customizer.php:213
+msgid "30%"
+msgstr ""
+
+#: inc/customizer.php:214
+msgid "40%"
+msgstr ""
+
+#: inc/customizer.php:215
+msgid "50%"
+msgstr ""
+
+#: inc/customizer.php:216
+msgid "60%"
+msgstr ""
+
+#: inc/customizer.php:217
+msgid "70%"
+msgstr ""
+
+#: inc/customizer.php:218
+msgid "80%"
+msgstr ""
+
+#: inc/customizer.php:228
+msgid "Logo Size"
+msgstr ""
+
+#: inc/customizer.php:233
+msgid "Fullwidth"
+msgstr ""
+
+#: inc/customizer.php:234
+msgid "Resize"
+msgstr ""
+
+#: inc/customizer.php:243
+msgid "Logo Max Width (desktop)"
+msgstr ""
+
+#: inc/customizer.php:256
+msgid "Logo Max Width (mobile)"
+msgstr ""
+
+#: inc/customizer.php:265
+msgid "Featured Posts"
+msgstr ""
+
+#: inc/customizer.php:276
+msgid "Display Featured Posts"
+msgstr ""
+
+#: inc/customizer.php:277
+msgid ""
+"Check this option to highlight some content to your visitors at the top of "
+"the Homepage."
+msgstr ""
+
+#: inc/customizer.php:288
+msgid "Select a Category"
+msgstr ""
+
+#: inc/customizer.php:300
+msgid "Avoid duplicate posts"
+msgstr ""
+
+#: inc/customizer.php:301
+msgid "Enable this option to remove Featured Posts from the Homepage content."
+msgstr ""
+
+#: inc/customizer.php:312
+msgid "Display Title"
+msgstr ""
+
+#: inc/customizer.php:323
+msgid "Title"
+msgstr ""
+
+#: inc/customizer.php:324
+msgid "Default is Category Name"
+msgstr ""
+
+#: inc/customizer.php:331
+msgid "Blog"
+msgstr ""
+
+#: inc/customizer.php:334
+msgid "Settings for Blog Posts Index Page."
+msgstr ""
+
+#: inc/customizer.php:344 inc/customizer.php:396
+msgid "Post Layout"
+msgstr ""
+
+#: inc/customizer.php:348 inc/customizer.php:400
+msgid "List"
+msgstr ""
+
+#: inc/customizer.php:349 inc/customizer.php:401
+msgid "Grid"
+msgstr ""
+
+#: inc/customizer.php:350 inc/customizer.php:402
+msgid "Large"
+msgstr ""
+
+#: inc/customizer.php:360 inc/customizer.php:412 inc/customizer.php:476
+#: inc/customizer.php:541 inc/customizer.php:566
+msgid "Sidebar Position"
+msgstr ""
+
+#: inc/customizer.php:364 inc/customizer.php:416 inc/customizer.php:480
+#: inc/customizer.php:546 inc/customizer.php:571
+msgid "Right Sidebar"
+msgstr ""
+
+#: inc/customizer.php:365 inc/customizer.php:417 inc/customizer.php:481
+#: inc/customizer.php:547 inc/customizer.php:572
+msgid "Left Sidebar"
+msgstr ""
+
+#: inc/customizer.php:366 inc/customizer.php:418 inc/customizer.php:483
+#: inc/customizer.php:573
+msgid "No Sidebar Full width"
+msgstr ""
+
+#: inc/customizer.php:376 inc/customizer.php:428
+msgid "Excerpt length"
+msgstr ""
+
+#: inc/customizer.php:383
+msgid "Categories & Archives"
+msgstr ""
+
+#: inc/customizer.php:386
+msgid "Settings for Category, Tag, Search and Archive Pages."
+msgstr ""
+
+#: inc/customizer.php:435
+msgid "Post"
+msgstr ""
+
+#: inc/customizer.php:447 inc/customizer.php:512
+msgid "Display Featured Image"
+msgstr ""
+
+#: inc/customizer.php:463 inc/customizer.php:528
+msgid "Large Featured Image"
+msgstr ""
+
+#: inc/customizer.php:464 inc/customizer.php:529
+msgid "Full width Featured Image"
+msgstr ""
+
+#: inc/customizer.php:482
+msgid "No Sidebar Centered"
+msgstr ""
+
+#: inc/customizer.php:493
+msgid "Display Author Bio"
+msgstr ""
+
+#: inc/customizer.php:500
+msgid "Page"
+msgstr ""
+
+#: inc/customizer.php:542
+msgid ""
+"Sidebar options for Static Pages. To remove the Sidebar apply No Sidebar "
+"Template to the Page."
+msgstr ""
+
+#: inc/customizer.php:552
+msgid "WooCommerce"
+msgstr ""
+
+#: inc/customizer.php:553
+msgid ""
+"WooCommerce Settings. Cart, Checkout and Account are standard pages. To "
+"remove the Sidebar apply the Full width Template to the page."
+msgstr ""
+
+#: inc/customizer.php:567
+msgid "Sidebar options for WooCommerce Pages (Shop, Product, Product Category)"
+msgstr ""
+
+#: inc/customizer.php:578
+msgid "Colors"
+msgstr ""
+
+#: inc/customizer.php:595
+msgid "Accent Color"
+msgstr ""
+
+#: inc/customizer.php:613
+msgid "Header Background"
+msgstr ""
+
+#: inc/customizer.php:625
+msgid "Site Tagline"
+msgstr ""
+
+#: inc/customizer.php:637
+msgid "Navbar Background"
+msgstr ""
+
+#: inc/customizer.php:650
+msgid "Menu Item"
+msgstr ""
+
+#: inc/customizer.php:662
+msgid "Menu Item hover"
+msgstr ""
+
+#: inc/customizer.php:663
+msgid "This option overrides the Accent Color."
+msgstr ""
+
+#: inc/customizer.php:675
+msgid "Social Link"
+msgstr ""
+
+#: inc/customizer.php:687
+msgid "Search Icon"
+msgstr ""
+
+#: inc/customizer.php:694
+msgid "Footer"
+msgstr ""
+
+#: inc/customizer.php:705
+msgid "Footer Widget Area Background"
+msgstr ""
+
+#: inc/customizer.php:716
+msgid "Footer Background"
+msgstr ""
+
+#. Name of the template
+msgid "No Sidebar, Full Width"
+msgstr ""
+
+#. Name of the template
+msgid "No Sidebar, Centered"
+msgstr ""
+
+#: template-parts/page/content-page.php:36
+#: template-parts/post/content-single.php:44
+msgid "Pages:"
+msgstr ""
+
+#: template-parts/post/content-none.php:27
+#, php-format
+msgid ""
+"Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr ""
+
+#: template-parts/post/content-none.php:31
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching can help."
+msgstr ""
+
+#: template-parts/post/author-bio.php:20
+msgid "Author:"
+msgstr ""
+
+#: template-parts/post/author-bio.php:24
+#, php-format
+msgid "View all posts by %s"
+msgstr ""
+
+#: inc/customize-pro/class-customize.php:76
+msgid "Type Plus"
+msgstr ""
+
+#: inc/customize-pro/class-customize.php:77
+msgid "View Type Plus"
+msgstr ""
+
+#. Name of the theme
+msgid "Type"
+msgstr ""
+
+#. Description of the theme
+msgid ""
+"Build a professional blog, an online store or a magazine style website with "
+"Type WordPress Theme. Type lets you easily combine 4 Header Styles, 3 Layout "
+"variations, Sidebar Position and more. Quickly upload a Custom Logo, create "
+"an impressive Header Image, showcase your Featured Posts and see the preview "
+"in real-time. The Theme includes also a basic support for WooCommerce plugin."
+msgstr ""
+
+#. URI of the theme
+msgid "https://www.designlabthemes.com/type-wordpress-theme/"
+msgstr ""
+
+#. Author of the theme
+msgid "Design Lab"
+msgstr ""

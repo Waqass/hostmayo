@@ -1,0 +1,34 @@
+<?php
+  $raw_post = $this->unescape($this->post);
+  //we need to remap the url as it is hard coded for admin portal
+  $this->post = str_replace(array("../uploads/knowledgebase/", "&lt;br&gt;"),array("uploads/knowledgebase/", "<br>"), $raw_post);
+?>
+
+<ul class="announcement">
+    <li>
+        <h2><div class="announcement-title"><?php echo $this->title; ?></div></h2>
+        <div class="announcement-meta"><i class="icon-time"></i> <?php echo $this->date." ".$this->user->lang("by");?> <?php echo $this->postedBy; ?></div>
+    </li>
+    <li><p><?php echo $this->post; ?></p></li>
+</ul>
+
+<div class="announcement-footer-actions">
+    <div class="btn-set pull-left">
+        <div class="btn-group">
+          <a class="btn" href="<?php echo $this->prevlink; ?>" <?php echo ($this->previousId == null) ? "disabled" : "";?>><i class="icon-angle-left"></i>&nbsp;&nbsp;<?php echo $this->user->lang('Previous') ?></a>
+          <a class="btn" href="<?php echo $this->nextlink; ?>" <?php echo ($this->nextId == null) ? "disabled" : "";?>><?php echo $this->user->lang('Next') ?>&nbsp;&nbsp;<i class="icon-angle-right"></i></a>
+        </div>
+    </div>
+    <div class="btn-set pull-right"><i class="icon-twitter announcement-twitter"></i><span class="btn-label"> &nbsp;<a href="#" target="_blank" class="tweet" title="<?php echo $this->title . ' ' . $this->escape(CE_Lib::getSoftwareURL()) . '/index.php?fuse=home&controller=announcements&view=announcement&ann_id=' . $this->currentId ; ?>">Tweet</a></span></div>
+</div>
+
+<script type="text/javascript">
+    // We bind a new event to our link
+    $('a.tweet').click(function(e){
+      //We tell our browser not to follow that link
+      e.preventDefault();
+      var loc  = escape(window.location.origin + window.location.pathname);
+      var title  = escape($(this).attr('title'));
+      window.open('https://twitter.com/share?url=' + loc + '&text=' + title + '&', 'twitterwindow', 'height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2 +', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
+    });
+</script>

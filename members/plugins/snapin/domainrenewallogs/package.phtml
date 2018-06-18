@@ -1,0 +1,26 @@
+<span class="grid-meta" id="domainrenewals-grid-metadata"></span>
+<div id="domainrenewals-grid-header" class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+                <td align="right" style="width:65px">
+                    <select id='domainrenewals-grid-filter' class="change-grid-showrecords" style='width:60px;'>
+                        <option value='5'>5</option>
+                        <option value='10'>10</option>
+                        <option value='25'>25</option>
+                        <option value='50'>50</option>
+                        <option value='150'>150</option>
+                        <option value='300'>300</option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="domainrenewals-grid"></div>
+<div id="domainrenewals-footer">
+    <button class="rich-button" id="export-button" disabled="disabled">
+        <span><?php echo $this->user->lang("Export"); ?></span>
+    </button>
+</div>

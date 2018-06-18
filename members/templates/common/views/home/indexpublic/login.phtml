@@ -1,0 +1,60 @@
+
+<?php if ($this->showloginneededwarning) { ?>
+    <div class="alert ce-alert ce-alert-error">
+        <a class="close" data-dismiss="alert">×</a>
+        <?php echo "<b>".$this->user->lang("Access denied")."</b><br/>".$this->user->lang("You must login before performing that action"); ?>
+    </div>
+<?php } ?>
+
+<div class="alert ce-alert ce-alert-success alert-reset-password-success">
+    <a class="close" data-dismiss="alert">×</a>
+    <?php echo $this->user->lang("An email has been sent to your account to reset your password.");?>
+</div>
+
+<div class="alert ce-alert ce-alert-success alert-registration-success">
+    <a class="close" data-dismiss="alert">×</a>
+    <?php echo $this->user->lang("Thank you for registering. An email has been sent to your account to complete your registration.");?>
+</div>
+
+<center>
+    <div class='ce-loginbox'>
+        <div class='ce-loginbox-header'></div>
+        <div class="alert-loginalerts alert alert-info"><?php echo $this->user->lang("You must log in to access the client area");?>.</div>
+        <!--<div class='sociallogin'><?php echo $this->user->lang("Login using a social network");?><br/>
+        <button class='twitter'/> <button class='facebook'/> </div>-->
+        <div class='registeredlogin'><?php echo $this->user->lang("Login using your registered account");?><br/>
+        <form method='post' name='login' action='index.php?fuse=admin&amp;action=Login'>
+        <div id='youEmail'><input type='text' name='email'></div>
+        <div id='youPassw'><input type='password' name='passed_password'></div>
+        <div class='forgotpasswordurl'><a><?php echo $this->user->lang("Forgot your password");?></a></div>
+        <div id='loginbtn'>
+            <button class="btn" type='submit'><span><?php echo $this->user->lang("Sign In");?></span></button>
+        </div>
+        </form>
+        <?php if ( $this->allowRegistration ) { ?>
+        <div class='newaccounturl'><a><?php echo $this->user->lang("Don't have an account?  Register now");?></a></div>
+        <?php }?>
+        </div>
+    </div>
+</center>
+
+<?php if ($this->showForgot) { ?>
+<script type="text/javascript">
+$(document).ready(function(){
+    setTimeout(function(){
+        $('.forgotpasswordurl').trigger('click');
+    },0);
+})
+</script>
+<?php } ?>
+
+
+<?php if ( $this->allowRegistration && $this->showRegister) { ?>
+<script type="text/javascript">
+$(document).ready(function(){
+    setTimeout(function(){
+        $('.newaccounturl').trigger('click');
+    },0);
+})
+</script>
+<?php } ?>

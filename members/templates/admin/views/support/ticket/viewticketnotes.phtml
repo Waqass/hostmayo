@@ -1,0 +1,16 @@
+<?php foreach($this->groups as $group) { ?>
+    <span style="font-size:11px;padding-left:5px;"><strong><?php echo $group['name'];?></strong></span>
+    <?php foreach($group['notes'] as $note) { ?>
+        <div class="alert alert-info" style="margin-bottom:13px;">
+            <div class="ticket-notes-content">
+            <?php echo $this->escape($note['noteContents']); ?>
+            </div>
+            <div class="ticket-notes-author">
+            <?php echo $note['authorAndDate'];?>
+            <?php if ($note['isVisibleByCustomer']) { ?>
+              - <?php echo $this->user->lang("Visible by customer");?>
+            <?php } ?>
+            </div>
+         </div>
+    <?php } ?>
+<?php } ?>

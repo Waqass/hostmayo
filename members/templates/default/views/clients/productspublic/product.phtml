@@ -1,0 +1,96 @@
+<?php echo $this->publicproductheader($this->user);?>
+
+<style type="text/css">
+    .info {
+        font-size:14px;
+        margin-right: 20px;
+    }
+
+</style>
+
+
+<div class="alert ce-alert ce-alert-info info">
+    <table cellpadding="3">
+        <?php if ( $this->package['productType'] != PACKAGE_TYPE_DOMAIN ) { ?>
+        <tr>
+            <td><?php echo $this->user->lang('Product'); ?>:</td>
+            <td><?php echo $this->package['product']; ?></td>
+        </tr>
+        <?php } ?>
+        <tr>
+            <td><?php echo $this->user->lang('Next Billing Date');?>:</td>
+            <td><?php echo $this->package['nextBillDate']; ?></td>
+        </tr>
+        <tr>
+            <td><?php echo $this->user->lang('Product Group'); ?>:</td>
+            <td><?php echo $this->package['productGroup']; ?></td>
+        </tr>
+        <?php foreach ( $this->package['customFields'] as $customField ) { ?>
+        <tr>
+            <td><?php echo $customField['name']; ?>:</td>
+            <td><?php
+                    if ( isset($customField['password']) ) {
+                        echo $customField['value'];
+                    } else if ($customField['value'] == "") {
+                        echo "<span class='muted'>".$this->user->lang("Left Blank")."</span>";
+                    } else {
+                        echo $this->escape($customField['value']);
+                    }
+                ?>
+            </td>
+        </tr>
+        <?php } ?>
+
+    <?php if ($this->package['productType'] == PACKAGE_TYPE_DOMAIN) { ?>
+
+
+    <?php if ( $this->registrar != '' ) { ?>
+        <tr><td>Registrar: </td><td><?php echo $this->registrar; ?></td></tr>
+    <?php } ?>
+
+    <?php
+        if ($this->transferStatus == "") $this->transferStatus = $this->user->lang("Unknown");
+        if ($this->transferId == "")  $this->transferId = $this->user->lang("Unknown");
+    ?>
+
+    <tr><td><?php echo $this->user->lang("Registration Status");?>: </td><td><?php echo $this->registrationStatus; ?> </td></tr>
+
+    <?php if ( $this->isTransfer ) { ?>
+    <tr><td><?php echo $this->user->lang("Transfer Id");?>: </td><td><?php echo $this->transferId; ?> </td></tr>
+    <tr><td><?php echo $this->user->lang("Transfer Status");?>: </td><td><?php echo $this->transferStatus; ?></td></tr>
+    <?php } ?>
+
+    <tr><td><?php echo $this->user->lang("Expiration Date");?>: </td><td><?php echo $this->expirationDate; ?> </td></tr>
+    <tr><td><?php echo $this->user->lang("Purchase Status");?>: </td><td><?php echo $this->purchaseStatus; ?> </td></tr>
+    <tr><td><?php echo $this->user->lang("Registration Length");?>: </td><td><?php echo $this->registrationLength; ?> </td></tr>
+
+    <tr>
+        <td>
+            <h2><?php echo $this->user->lang('Options'); ?></h2>
+            <?php if ( $this->registrarLock != '' ) { ?>
+            <?php if ( $this->canToggleRegLock ) { ?>
+            <?php echo $this->user->lang('Registrar-Lock');?><br/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <label class="radio inline">
+            <input class="reglock" name="registrarlock" type="radio" value="1" <?php if ( $this->regLockValue == true ) { ?>checked="checked" <?php } ?>><?php echo $this->user->lang('Enable'); ?>
+        <small>(recommended)</small>
+        </label>
+
+        <label class="radio inline">
+            <input class="reglock" name="registrarlock" type="radio" value="0" <?php if ( $this->regLockValue == false   ) { ?>checked="checked" <?php } ?>><?php echo $this->user->lang('Disable'); ?>
+        </label>
+        </td>
+    </tr>
+        <?php } else { ?>
+        <tr><td><?php echo $this->user->lang('Registrar-Lock');?>: <?php echo $this->registrarLock; ?></td></tr>
+        <?php } ?>
+    <?php } ?>
+    <script data-cfasync="false" type="text/javascript">
+        var productid = '<?php echo $this->productId; ?>';
+    </script>
+    <?php } ?>
+    </table>
+</div>

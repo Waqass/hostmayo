@@ -1,0 +1,37 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->user->lang("Customize HTML"); ?></div>
+  <p class="alert-content"><?php echo $this->user->lang('Add customized HTML, CSS, or Javascript to your Clientexec Template.'); ?></p>
+</div>
+
+<script data-cfasync="false" type="text/javascript">
+    templateOptions = {};
+    templateOptions.defaultTemplate = "<?php echo $this->default;?>";
+</script>
+
+<form id="sitesettings" name="settings" method="post" action="index.php?fuse=admin&amp;action=saveTemplateHTML">
+
+<dl class="form noborder automation-options">
+    <dt><label><?php echo $this->user->lang("Template");?></label></dt>
+    <dd>
+        <select id="templateselector" name="templateselector">
+            <?php
+            foreach ($this->templates as $template) {
+                if ($this->default === $template['name']) {
+                    $checked = "selected='selected'";
+                } else {
+                    $checked = "";
+                }
+                echo "<option value='".$template["name"]."' ".$checked.">".$template['name']."</option>";
+            }
+            ?>
+        </select>
+    </dd>
+    <!-- Setting Description -->
+    <dd class="full desc">
+        <span>
+            <?php echo $this->user->lang("Select the template you wish to add custom javascript/css or html for. These customizations are template specific.");?>
+        </span>
+    </dd>
+</dl>
+<button id="updatesettingbtn" class="btn" data-loading-text="<?php echo $this->user->lang("Saving");?>..."><?php echo $this->user->lang("Update Settings");?></button>
+</form>

@@ -1,0 +1,39 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo lang("Billing Types"); ?></div>
+  <p class="alert-content"><?php echo lang("Configure billing types available in invoices."); ?></p>
+</div>
+
+<span class="grid-meta" id="billingTypes-grid-metadata"></span>
+<div id="gridheader" class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+                <td><button id="addTypeButton" class="rich-button white"><span><?php echo $this->user->lang("Add Type");?></span></button></td>
+                <td align="right"><label><?php echo $this->user->lang("Show");?></label></td>
+                <td align="left" style="width:190px;">
+                    <select class="dropdown-select" style="width:180px;" id='billingTypes-grid-filterbystatus'>
+                        <option value="0"><?php echo $this->user->lang("Active Billing Types");?></option>
+                        <option value="1"><?php echo $this->user->lang("Archived Billing Types");?></option>
+                    </select>
+                </td>
+                <td align="left" style="width:60px">
+                    <select id='billingTypes-grid-filter' class="change-grid-showrecords" style='width:60px;'>
+                        <option value='5'>5</option>
+                        <option value='10'>10</option>
+                        <option value='25'>25</option>
+                        <option value='50'>50</option>
+                        <option value='150'>150</option>
+                        <option value='300'>300</option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="billingTypes-grid"></div>
+<div id="billingTypes-grid-footer" style="display:none;">
+    <button class="rich-button" id="deleteTypesButton"><span><?php echo $this->user->lang("Delete"); ?></span></button>
+    <button class="rich-button" id="archiveTypesButton"><span><?php echo $this->user->lang("Archive"); ?></span></button>
+</div>
+

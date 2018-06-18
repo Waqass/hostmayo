@@ -1,0 +1,85 @@
+<?php /*
+You can use the following parameters:
+  This is the Invoice ID
+    <?php echo $this->invoice_id;?>
+
+  Whether tax should be included in the affiliate amount or not:
+    - This is the Invoice amount excluding Taxes
+        <?php echo $this->invoice_amount_no_tax;?>
+
+    - This is the Invoice Amount including Taxes
+        <?php echo $this->invoice_amount;?>
+
+  You will also need some values like:
+    IMAGE_URL: The full URL to your Affiliate sale.php. Examples:
+      - For JROX:           http://mydomain.com/jrox/sale.php
+      - For iDevAffiliate:  http://mydomain.com/idevaffiliate/sale.php
+
+    SALE_AMOUNT_VARIABLE: The variable that iDevAffiliate uses for the sale amount. Examples:
+      - For JROX:           amount
+      - For iDevAffiliate:  idev_saleamt
+
+    INVOICE_NUMBER_VARIABLE: The variable that iDevAffiliate uses for the invoice number. Examples:
+      - For JROX:           trans_id
+      - For iDevAffiliate:  idev_ordernum
+
+You can call the Affiliate URL as follows:
+  If tax should be included in the affiliate amount
+    <img border="0" src="IMAGE_URL?SALE_AMOUNT_VARIABLE=<?php echo $this->invoice_amount;?>&INVOICE_NUMBER_VARIABLE=<?php echo $this->invoice_id;?>" width="1" height="1">
+
+  If tax should not be included in the affiliate amount
+    <img border="0" src="IMAGE_URL?SALE_AMOUNT_VARIABLE=<?php echo $this->invoice_amount_no_tax;?>&INVOICE_NUMBER_VARIABLE=<?php echo $this->invoice_id;?>" width="1" height="1">
+
+  You will need to replace IMAGE_URL, SALE_AMOUNT_VARIABLE, and INVOICE_NUMBER_VARIABLE with the proper values.
+  */
+?>
+
+<div class="ce-box">
+    <div class="ce-box-inner">
+
+		<h1><?php echo $this->user->lang("Order Complete");?></h1>
+		<?php echo $this->user->lang("Congratulations! Your order has been successfully completed.  A detailed welcome email will be sent shortly.");?>
+
+        <?php if ($this->shareTwitter || $this->shareGPlus || $this->shareFB): ?>
+            <div style="margin:20px 0 10px">
+                <?php echo $this->user->lang('If you liked this buying experience, let your friends know!') ?>
+            </div>
+            <ul id="checkout-social">
+                <?php if ($this->shareTwitter): ?>
+                    <li>
+                        <a href="https://twitter.com/share" class="twitter-share-button" data-text="<?php echo $this->tweet ?>" data-url="<?php echo $this->companyUrl ?>">Tweet</a>
+                        <script data-cfasync="false" type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                    </li>
+                <?php endif ?>
+
+                <?php if ($this->shareGPlus): ?>
+                    <li>
+                        <div class="g-plusone" data-size="medium"></div>
+                        <!-- Place this tag after the last +1 button tag. -->
+                        <script data-cfasync="false" type="text/javascript">
+                            (function() {
+                                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                                po.src = 'https://apis.google.com/js/plusone.js';
+                                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+                            })();
+                        </script>
+                    </li>
+                <?php endif ?>
+
+                <?php if ($this->shareFB): ?>
+                    <li>
+                        <span id="fb-root"></span>
+                        <script data-cfasync="false" type="text/javascript">(function(d, s, id) {
+                          var js, fjs = d.getElementsByTagName(s)[0];
+                          if (d.getElementById(id)) return;
+                          js = d.createElement(s); js.id = id;
+                          js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=<?php echo $this->fbAppId ?>&version=v2.0";
+                          fjs.parentNode.insertBefore(js, fjs);
+                        }(document, 'script', 'facebook-jssdk'));</script>
+                        <div class="fb-share-button" data-href="<?php echo $this->companyUrl ?>" data-type="button_count"></div>
+                    </li>
+                <?php endif ?>
+            </ul>
+        <?php endif ?>
+	</div>
+</div>

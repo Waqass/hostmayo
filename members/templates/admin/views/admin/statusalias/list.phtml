@@ -1,0 +1,27 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->headerText; ?></div>
+  <p class="alert-content"><?php echo $this->headerContent; ?></p>
+</div>
+
+<div id="blueGridBox" class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+                <td style="height:26px;">
+                    <a class="btn rich-button" id="add-alias-button">
+                        <span><?php echo $this->user->lang("Add Alias");?></span>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="alias-list"></div>
+<div id="alias-list-footer" style="margin-top: 10px;display:none;">
+    <button class="rich-button" id="delete-alias-button"><span><?php echo $this->user->lang("Delete Alias(es)"); ?></span></button>
+</div>
+<script data-cfasync="false" type="text/javascript">
+    var packagealias = {};
+    packagealias.typeId = '<?php echo $this->typeId; ?>';
+</script>

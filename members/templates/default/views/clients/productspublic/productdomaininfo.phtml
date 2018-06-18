@@ -1,0 +1,47 @@
+<?php echo $this->publicproductheader($this->user);?>
+
+<div class="alert ce-alert ce-alert-info info">
+
+	<?php if ( $this->registrar != '' ) { ?>
+	    Registrar: <?php echo $this->registrar; ?> <br/>
+	<?php } ?>
+
+	<?php
+		if ($this->transferStatus == "") $this->transferStatus = $this->user->lang("Unknown");
+		if ($this->transferId == "")  $this->transferId = $this->user->lang("Unknown");
+	?>
+
+	<?php echo $this->user->lang("Registration Status");?>: <?php echo $this->registrationStatus; ?> <br/>
+
+	<?php if ( $this->isTransfer ) { ?>
+	<?php echo $this->user->lang("Transfer Id");?>: <?php echo $this->transferId; ?> <br />
+	<?php echo $this->user->lang("Transfer Status");?>: <?php echo $this->transferStatus; ?> <br />
+	<?php } ?>
+
+	<?php echo $this->user->lang("Expiration Date");?>: <?php echo $this->expirationDate; ?> <br />
+	<?php echo $this->user->lang("Purchase Status");?>: <?php echo $this->purchaseStatus; ?> <br />
+	<?php echo $this->user->lang("Registration Length");?>: <?php echo $this->registrationLength; ?> <br/>
+
+	<br />
+	<h2><?php echo $this->user->lang('Options'); ?></h2>
+	<?php if ( $this->registrarLock != '' ) { ?>
+		<?php if ( $this->canToggleRegLock ) { ?>
+		<?php echo $this->user->lang('Registrar-Lock');?><br/>
+
+		<label class="radio inline">
+			<input class="reglock" name="registrarlock" type="radio" value="1" <?php if ( $this->regLockValue == true ) { ?>checked="checked" <?php } ?>><?php echo $this->user->lang('Enable'); ?>
+		<small>(recommended)</small>
+		</label>
+
+		<label class="radio inline">
+			<input class="reglock" name="registrarlock" type="radio" value="0" <?php if ( $this->regLockValue == false 	 ) { ?>checked="checked" <?php } ?>><?php echo $this->user->lang('Disable'); ?>
+		</label>
+		<?php } else { ?>
+		<?php echo $this->user->lang('Registrar-Lock');?>: <?php echo $this->registrarLock; ?>
+		<?php } ?>
+	<?php } ?>
+
+</div>
+<script data-cfasync="false" type="text/javascript">
+	var productid = '<?php echo $this->productId; ?>';
+</script>

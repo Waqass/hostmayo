@@ -1,0 +1,28 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->user->lang("Products");?></div>
+  <p class="alert-content"><?php echo $this->user->lang("Create and edit products available to your customers.");?></p>
+</div>
+
+<script data-cfasync="false" type="text/javascript">
+    var admin_edit_packagetypes = <?php echo ($this->user->hasPermission('admin_edit_packagetypes')) ? "true" : "false"; ?>;
+</script>
+
+<div id="blueGridBox" class="blue-box" style="<?php echo ($this->user->hasPermission('admin_edit_packagetypes')) ? '' : 'display:none'; ?> ">
+    <table class="automation">
+        <tbody>
+            <tr>
+                <td style="height:26px;">
+                    <?php if ($this->user->hasPermission('admin_edit_packagetypes')) { ?>
+                        <a class="btn rich-button add-product-group" onclick='productview.showgroupwindow(0);'><span><?php echo $this->user->lang("Add Product Group");?></span></a>
+                    <?php } ?>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="products-list"></div>
+<div id="products-list-footer" style="margin-top: 10px;display:none;">
+    <button class="rich-button" id="btnDelProduct"><span><?php echo $this->user->lang("Delete Product(s)"); ?></span></button>
+    <button class="rich-button" id="btnCloneProduct"><span><?php echo $this->user->lang("Clone Product"); ?></span></button>
+</div>

@@ -1,0 +1,9 @@
+<?php foreach ($this->articles as $article) {?>
+    <div class="alert alert-info">
+        <strong>
+        <a href="#" onclick="clientexec.popupKBArticle(<?php echo $article['articleId']; ?>,'<?php echo str_replace(array("'","\""),"",$article['articleTitle']); ?>');"><?php echo $article['articleTitle']; ?></a>
+        </strong><br/>
+        <span style="font-size:10px;"><?php echo $article['articleCreated']; ?> <?php echo $this->user->lang("by");?> <?php echo $article['articleAuthor']; ?></span><br/>
+        <?php echo $this->user->lang("Excerpt");?>: <?php echo $this->unescape($article['articleExcerpt']); ?>
+    </div>
+<?php } ?>

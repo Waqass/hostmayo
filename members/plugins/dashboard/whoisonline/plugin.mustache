@@ -1,0 +1,14 @@
+<div id="whoisonline" style="margin: 30px;margin-left:30px;">
+  Who's Logged In
+  <ul class="dots" id="onlineusers">
+  {{#onlineusers}}
+    <li class="{{color}}"><a href="{{link}}">{{name}}</a></li>
+  {{/onlineusers}}
+  </ul>
+  <span id='lastxseen'>Last Seen Logged In</span>
+  <ul class="dots" id="offlineusers">
+  {{#offlineusers}}
+    <li class="{{color}}"><a href="{{link}}"><span data-toggle="tooltip" title="Logged Off {{time}}&nbsp;ago">{{name}}</span></a></li>
+  {{/offlineusers}}
+  </ul>
+</div>

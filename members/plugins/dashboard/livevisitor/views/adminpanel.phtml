@@ -1,0 +1,57 @@
+<?php if ($this->roomid >0) { ?>
+
+	<div class="alert alert-info chat-request-info" style="display:none;">
+
+	    <div class="chat-request-roominfo">
+	    	<div class='close-room' style="display:none;">
+	    		<button type='button' class='btn-small btn btn-danger'><span>Close</span></button>
+	    	</div>
+	    	<div class='leave-room'>
+	    		<button type='button' class='btn-small btn btn-danger'><span>Leave</span></button>
+	    	</div>
+	    	<div class='options-room-sound'>
+	    		<button type='button' class='btn-small btn'><i class=''></i></button>
+	    	</div>
+	    </div>
+
+	    <div class="chat-request-info-map">
+	      <div class="profile-photo-container"><div class="profile-photo-view"><img class="chat-request-map-image" src="" title="customer located here"></div></div>
+	      <div class="browser"></div>
+	      <div class="location"><img src="../images/blank.png" class="flag" alt="Country Flag"></div>
+	      <div class="operating-system"><img src="" /></div>
+	    </div>
+	    <div class="chat-request-customer" >
+	        <div class="chat-request-fullname"></div>
+	        <p class="alert-content alert-content-location"><i class="icon-map-marker" style="padding-right: 7px;padding-left:3px;"></i> <span class="chat-visitor-location"></span></p>
+	        <div class="room-attendees" style="float:left;margin-top:6px"><i class="icon-group" style="float:left;"></i><div class="hello-users"></div></div>
+	    </div>
+	</div>
+
+	<button id="request_permission" class="btn" style="display:none;" href="#"><?php echo $this->user->lang("Set notification permissions for this page");?></button>
+
+	<div id="log"></div>
+
+	<div id="livevisitorchat">
+	    <textarea id="msgreply" placeholder="Enter your comment here&hellip;" data-content="testing"></textarea>
+	    <div class="msgreply-options">
+	        <span type="button" class="btn msgreply-upload-btn">
+	            <i class="icon-paper-clip"></i>
+	            <input id="fileupload" type="file" name="files[]" data-url="../index.php?fuse=admin&controller=plugin&action=doplugin&pluginaction=uploadfile&plugin=livevisitor&roomid=<?php echo $this->escape($_REQUEST['roomid']); ?>;?>">
+	        </span>
+	    </div>
+	</div>
+
+	<div class="livevisitorchat-closed well well-large"><em><?php echo $this->user->lang("This chat has closed");?></em></div>
+	<div class="scrolltome"></div>
+
+	<dl id="skeleton" style="display: none;">
+	    <dt><span class="avatar"><img class="usergravatar" src="../plugins/dashboard/livevisitor/assets/avatar.png" alt="Avatar" /></span><div class="msgtime"></div></dt>
+	    <dd></dd>
+	</dl>
+
+<?php } ?>
+
+<script type="text/javascript">
+var roomid = <?php echo $this->escape($this->roomid);?>;
+</script>
+

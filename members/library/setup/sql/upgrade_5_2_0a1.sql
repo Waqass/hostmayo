@@ -1,0 +1,20 @@
+ALTER TABLE `packageaddon_prices` ADD `price36` FLOAT(23,2) NOT NULL DEFAULT '-1.00' AFTER `price24_force`;
+ALTER TABLE `packageaddon_prices` ADD `price36_force` TINYINT(4) NOT NULL DEFAULT '0' AFTER `price36`;
+ALTER TABLE `packageaddon_prices` ADD `price48` FLOAT(23,2) NOT NULL DEFAULT '-1.00' AFTER `price36_force`;
+ALTER TABLE `packageaddon_prices` ADD `price48_force` TINYINT(4) NOT NULL DEFAULT '0' AFTER `price48`;
+ALTER TABLE `packageaddon_prices` ADD `price60` FLOAT(23,2) NOT NULL DEFAULT '-1.00' AFTER `price48_force`;
+ALTER TABLE `packageaddon_prices` ADD `price60_force` TINYINT(4) NOT NULL DEFAULT '0' AFTER `price60`;
+ALTER TABLE `packageaddon_prices` ADD `price72` FLOAT(23,2) NOT NULL DEFAULT '-1.00' AFTER `price60_force`;
+ALTER TABLE `packageaddon_prices` ADD `price72_force` TINYINT(4) NOT NULL DEFAULT '0' AFTER `price72`;
+ALTER TABLE `packageaddon_prices` ADD `price84` FLOAT(23,2) NOT NULL DEFAULT '-1.00' AFTER `price72_force`;
+ALTER TABLE `packageaddon_prices` ADD `price84_force` TINYINT(4) NOT NULL DEFAULT '0' AFTER `price84`;
+ALTER TABLE `packageaddon_prices` ADD `price96` FLOAT(23,2) NOT NULL DEFAULT '-1.00' AFTER `price84_force`;
+ALTER TABLE `packageaddon_prices` ADD `price96_force` TINYINT(4) NOT NULL DEFAULT '0' AFTER `price96`;
+ALTER TABLE `packageaddon_prices` ADD `price108` FLOAT(23,2) NOT NULL DEFAULT '-1.00' AFTER `price96_force`;
+ALTER TABLE `packageaddon_prices` ADD `price108_force` TINYINT(4) NOT NULL DEFAULT '0' AFTER `price108`;
+ALTER TABLE `packageaddon_prices` ADD `price120` FLOAT(23,2) NOT NULL DEFAULT '-1.00' AFTER `price108_force`;
+ALTER TABLE `packageaddon_prices` ADD `price120_force` TINYINT(4) NOT NULL DEFAULT '0' AFTER `price120`;
+UPDATE `packageaddon_prices` SET `price1_force` = '0', `price3_force` = '0', `price6_force` = '0', `price12_force` = '0', `price24_force` = '0' WHERE `packageaddon_id` IN (SELECT `addon_id` FROM `productgroup_addon` WHERE `productgroup_id` IN (SELECT `id` FROM `promotion` WHERE `type` = 3));
+
+UPDATE `invoice` SET `sentdate`='0000-00-00' WHERE `sentdate`='1969-12-31';
+UPDATE `invoice` SET `datepaid`='0000-00-00' WHERE `datepaid`='1969-12-31';

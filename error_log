@@ -1,0 +1,6 @@
+[15-Nov-2017 19:22:59 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/hostmayo/public_html/nav.php:31) in /home/hostmayo/public_html/blog/wp-includes/feed-rss2.php on line 8
+[27-Nov-2017 18:13:17 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/hostmayo/public_html/nav.php:31) in /home/hostmayo/public_html/blog/wp-includes/feed-rss2.php on line 8
+[09-Jan-2018 08:15:17 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/hostmayo/public_html/nav.php:31) in /home/hostmayo/public_html/blog/wp-includes/functions.php on line 3761
+[13-Jan-2018 15:45:15 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/hostmayo/public_html/nav.php:31) in /home/hostmayo/public_html/blog/wp-includes/load.php on line 211
+[13-Jan-2018 15:45:15 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/hostmayo/public_html/nav.php:31) in /home/hostmayo/public_html/blog/wp-includes/load.php on line 212
+[13-Jan-2018 15:45:15 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/hostmayo/public_html/nav.php:31) in /home/hostmayo/public_html/blog/wp-includes/load.php on line 213

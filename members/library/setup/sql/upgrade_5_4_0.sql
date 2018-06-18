@@ -1,0 +1,2 @@
+UPDATE `customuserfields` SET `isChangable`=0, `showcustomer`=0, `showadmin`=0, `inSettings`=0 WHERE `name` IN ('Sitewide-ShowActiveUserPanel', 'Support-TicketReplyOnTop');
+UPDATE `users` SET `autopayment` = '1' WHERE `paymenttype` IN ('quantumvault', 'authnetcim');

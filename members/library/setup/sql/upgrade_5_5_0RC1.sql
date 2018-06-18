@@ -1,0 +1,1 @@
+UPDATE `customField` SET `fieldType`= 65 WHERE `name` = 'Password' AND `groupId`=2 and `subGroupId`=1;

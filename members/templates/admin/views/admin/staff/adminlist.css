@@ -1,0 +1,8 @@
+.addStaffLink{
+	text-decoration: none;
+}
+
+a.addStaffLink:hover {
+	text-decoration: none;
+	color: white;
+}

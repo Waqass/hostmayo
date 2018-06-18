@@ -1,0 +1,72 @@
+@CHARSET "UTF-8";
+
+.install-table {
+    margin      : 0 auto;
+    background  : rgb(239,239,239);
+    font-size:90% 
+}
+
+.install-table thead {
+    background:    rgb(239,239,239);
+}
+
+.install-table th, .install-table td {
+    padding:6px;
+}
+
+td {
+    font-size : 10pt;
+}
+
+ul {
+    margin  : 0;
+}
+
+.even {
+    background:    #ffffff;
+}
+
+.odd {
+}
+.progress {
+    background:#f0f9dc;
+    border:1px solid #85b70b;
+    font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
+    font-size:12px;
+    min-width:900px;
+}
+.step_comp {
+    background:url(progressbg.gif) repeat-x;
+}
+.step_prog {
+    background:url(progress.gif) no-repeat;
+}
+.prtext {
+    padding-left:10px;
+    font-weight:bold;
+}
+.prtext2 {
+    padding-right:10px;
+    font-weight:bold;
+}
+a { text-decoration:underline; }
+
+.install-header {
+    height: 45px;
+    background-color: #333;
+    border-bottom: 4px solid #CC371B;
+    font-size: 30px;
+    padding-top: 20px;
+    padding-left: 20px;
+    color: white;
+    margin-bottom: 80px;
+}
+
+.install-label{
+    padding-top: 8px;
+}
+
+.submeta {
+    position: relative;
+    top: -10px;
+}

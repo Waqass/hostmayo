@@ -1,0 +1,41 @@
+<div class="fieldwrapper withcolor">
+    <form id="generaltab">
+
+        <table cellpadding="0" cellspacing="10">
+            <tr>
+                <td width="340">
+                    <label class="fieldlabel" style="margin-bottom: 10px;"><?php echo $this->user->lang("Select addon to add to this product");?></label>
+                    <div style="position:relative;top:-3px;float:left;">
+                    <select name="product-addons-toadd" style="width:200px;" id="product-addons-toadd">
+                        <option value="-1">-- <?php echo $this->user->lang("Select an Addon");?> --</option>
+                        <?php foreach($this->addons as $addon) { ?>
+                            <option value="<?php echo $addon['id'];?>"><?php echo $addon['name'];?></option>
+                        <?php } ?>
+                    </select>
+                    </div>
+
+                    <button class="rich-button" disabled="disabled" id="btnAddAddon" style="float:right;position:relative;top:-4px;right:15px;"><span><?php echo $this->user->lang("Add to Product"); ?></span></button>
+
+                </td>
+                <td style="padding-left:30px;">
+                    <label class="fieldlabel" style="margin-bottom: 10px;"><span class="tip-target" data-toggle="tooltip" title="The style of all addons associated to this product" ><?php echo $this->user->lang("Display type");?></span></label>
+                    <div style="position:relative;top:-3px;">
+                    <select name="product-addons-type" style="width:200px;" id="product-addons-type">
+                        <option value="0" <?php if ($this->style == 0) echo "selected";?>><?php echo $this->user->lang("Drop-down menus");?></option>
+                        <option value="1" <?php if ($this->style == 1) echo "selected";?>><?php echo $this->user->lang("Radio buttons");?></option>
+                    </select>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <br/>
+        <label class="fieldlabel" style="margin-bottom: 10px;"><?php echo $this->user->lang("Included Addons");?></label>
+        <div id="addons-list"></div>
+        <div id="addons-list-footer" style="display:none;">
+            <button class="rich-button" id="btnDelAddon"><span><?php echo $this->user->lang("Delete Addon(s)"); ?></span></button>
+        </div>
+
+
+    </form>
+</div>
+

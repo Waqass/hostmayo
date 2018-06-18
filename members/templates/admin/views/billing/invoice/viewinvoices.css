@@ -1,0 +1,58 @@
+.filter-invoice-user {
+    text-decoration: none;
+}
+
+.addition_description {
+    color: #888;
+    font-size: smaller;
+}
+
+.xxlong-currency {
+    font-size:10px;
+}
+
+.xlong-currency {
+    font-size:11px;
+}
+
+.long-currency {
+    font-size:12px;
+}
+
+/* Column Cells - Invoice Status Style */
+.invoicenotpaid,
+.invoicenotpaid a,
+.invoiceoverdue,
+.invoiceoverdue a{
+    border-top: 0px !important;
+    border-bottom: 1px solid #de2141 !important;
+    background-color: #CC0000 !important;
+    color:white !important;
+    text-shadow: none !important;
+}
+
+.pdfimage {
+    width:12px;
+    position: relative;
+    top: -1px;
+}
+
+.invoicepaid,
+.invoicepaid a{
+    border-top: 0px !important;
+    border-bottom: 1px solid #84b584 !important;
+    background-color: #669966 !important;
+    color:white !important;
+    text-shadow: none !important;
+    text-decoration: none;
+}
+
+.invoicevoidrefund,
+.invoicevoidrefund a{
+    border-top: 0px !important;
+    border-bottom: 1px solid #dfdfdf !important;
+    background-color: #dfdfdf !important;
+    color:black !important;
+    text-shadow: none !important;
+}
+/* End Column Cells - Invoice Status Style */

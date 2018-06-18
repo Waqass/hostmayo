@@ -1,0 +1,60 @@
+<dl class="form noborder automation-options">
+  <dt><label><?php echo $this->user->lang('CSV file'); ?></label></dt>
+  <dd>
+    <input type="file" name="file" size="12" />
+  </dd>
+  <dd class="full desc" />
+
+  <dt><label><?php echo $this->user->lang('Skip first row?'); ?> (<?php echo $this->user->lang('if contains field names'); ?>)</label></dt>
+  <dd>
+    <input type="checkbox" name="skipFirstRow" checked="checked" />
+  </dd>
+  <dd class="full desc" />
+
+  <dt><label><?php echo $this->user->lang('Field delimiter'); ?></label></dt>
+  <dd>
+     <input type="text" name="fieldDelimiter" value="," size="2" />
+  </dd>
+  <dd class="full desc" />
+
+  <dt><label><?php echo $this->user->lang('Field enclosure'); ?></label></dt>
+  <dd>
+    <input type="text" name="fieldEnclosure" value="&quot;" size="2" />
+  </dd>
+  <dd class="full desc" />
+</dl>
+
+<div class="alert ce-alert">
+  <div class="inside">
+    <?php echo $this->user->lang('Enter the column number for each field (first column is 1)'); ?>.<br />
+    <?php echo $this->user->lang('Enter 0 or leave empty to skip a field'); ?>.<br />
+    <?php echo $this->user->lang('Required fields can not be empty, unless you decide they are not required by unchecking the checkbox'); ?>.<br />
+    <?php echo $this->user->lang('The possible values for <b>Country</b> are the country codes. United States is US, etc'); ?>.<br />
+    <?php echo $this->user->lang('The possible values for <b>Receive Email Announcements</b> are 0 for NO and 1 for YES'); ?>.<br />
+    <?php echo $this->user->lang('The possible values for <b>Language</b> are Dutch, English, French, Portuguese, Spanish, or any other custom language in use'); ?>.<br />
+    <?php echo $this->user->lang('The possible values for <b>Credit Card Number</b> are numerical values without any other characters. You will need to validate them later with your passphrase'); ?>.<br />
+    <?php echo $this->user->lang('The possible values for <b>Expiration Month</b> are numerical values from 1 to 12'); ?>.<br />
+    <?php echo $this->user->lang('The possible values for <b>Expiration Year</b> are numerical values with 4 digits'); ?>.<br />
+  </div>
+</div>
+<dl class="form noborder automation-options">
+
+  <dt><label><span class="bold-item"><?php echo $this->user->lang('Field Name'); ?></span></label></dt>
+    <dd>
+      <span class="bold-item"><?php echo $this->user->lang('Column #'); ?>
+      &nbsp;&nbsp;&nbsp;
+      <?php echo $this->user->lang('Is Required'); ?></span>
+    </dd>
+    <dd class="full desc" />
+
+    <?php foreach ( $this->customFields as $customField ) { ?>
+  <dt><label><?php echo $customField['name']; ?></label></dt>
+    <dd>
+      <input type="text" name="<?php echo $customField['inputName']; ?>" size="2" />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="checkbox" name="<?php echo $customField['inputRequired']; ?>" <?php echo $customField['checked']; ?> <?php echo $customField['disabled']; ?>/>
+    </dd>
+    <dd class="full desc" />
+    <?php } ?>
+</dl>
+<button class="rich-button" id="importButton"><span><?php echo $this->user->lang("Import"); ?></span></button>

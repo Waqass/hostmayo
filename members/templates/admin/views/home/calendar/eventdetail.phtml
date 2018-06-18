@@ -1,0 +1,111 @@
+<style type="text/css">
+    .window-description .inputRow {
+    	position: relative;
+    }
+    .window-description .inputRow label, .window-description .inputRow input.eventInput {
+    	display: inline-block;
+    	vertical-align: top;
+    }
+    .window-description .inputRow input[type="checkbox"] {
+    	margin-top: 19px;
+    }
+    .window-description .inputRow label {
+    	width: 40px;
+    	margin-top: 15px;
+    }
+    .window-description .inputRow input.datetimeSelect {
+    	width: 71px;
+    	text-align: right;
+    }
+    .window-description .select2-container {
+    	vertical-align: top;
+    	margin-top: 12px;
+    }
+    .window-description #textareaDescription {
+    	height: 167px;
+    }
+    .window-description #textAreaDescriptionDisabled {
+    	width: 539px;
+        height: 186px;
+        border: 1px solid #DDDDDD;
+        padding: 10px;
+        overflow: auto;
+    }
+    .richwindow .window-description {
+    	overflow: hidden;
+    }
+    .window-description #createdBy {
+    	float: right;
+        margin-top: 18px;
+    }
+</style>
+<div class="inputRow">
+    <label for="inputTitle"><?php echo $this->user->lang('Title'); ?>:</label>
+    <input type="text" name="title" id="inputEventTitle" class="eventInput" style="width: 493px;" value="<?php echo $this->eventData['title']; ?>" <?php echo !$this->eventData['editable'] ? 'DISABLED ' : '' ?>/>
+</div>
+<div class="inputRow">
+    <label for="inputStartDate"><?php echo $this->user->lang('Start'); ?>:</label>
+    <input type="text" name="startDate" id="inputStartDate" class="eventInput datetimeSelect" value="<?php echo $this->eventData['startDate']; ?>" <?php echo !$this->eventData['editable'] ? 'DISABLED ' : '' ?>/>
+    <input type="text" name="startTime" id="inputStartTime" class="eventInput datetimeSelect" value="<?php echo $this->eventData['startTime']; ?>" <?php echo !$this->eventData['editable'] ? 'DISABLED ' : '' ?>/>
+    <label for="inputEndDate"><?php echo $this->user->lang('End'); ?>:</label>
+    <input type="text" name="endDate" id="inputEndDate" class="eventInput datetimeSelect" value="<?php echo $this->eventData['endDate']; ?>" <?php echo !$this->eventData['editable'] ? 'DISABLED ' : '' ?>/>
+    <input type="text" name="endTime" id="inputEndTime" class="eventInput datetimeSelect" value="<?php echo $this->eventData['endTime']; ?>" <?php echo !$this->eventData['editable'] ? 'DISABLED ' : '' ?>/>
+    <label for="inputAllDay"><?php echo $this->user->lang('All Day'); ?>:</label>
+    <input type="checkbox" name="allDay" id="inputAllDay" class="eventInput" <?php echo $this->eventData['allDay'] ? 'CHECKED ' : '';  echo !$this->eventData['editable'] ? 'DISABLED ' : '' ?>/>
+</div>
+<label for="inputDescription"><?php echo $this->user->lang('Description'); ?></label>
+<?php if ($this->eventData['editable']) { ?>
+<textarea name="description" id="textareaDescription"><?php echo $this->eventData['description']; ?></textarea>
+<?php } else { ?>
+<div id="textAreaDescriptionDisabled"><?php echo $this->eventData['description'] ?></div>
+<?php } ?>
+<div class="inputRow">
+    <div id="createdBy"><?php echo $this->user->lang('Created by ').$this->eventData['createdBy']; ?></div>
+    <label for="inputPrivacy"><?php echo $this->user->lang('Privacy'); ?>:</label>
+    <select name="privacy" id="selectPrivacy" class="eventInput"<?php echo !$this->eventData['editable'] ? ' DISABLED' : '' ?>>
+        <option value="0" <?php echo $this->eventData['isPrivate'] == 0 ? 'SELECTED' : '' ?>><?php echo $this->user->lang('All Staff'); ?></option>
+        <option value="1" <?php echo $this->eventData['isPrivate'] == 1 ? 'SELECTED' : '' ?>><?php echo $this->user->lang('Private'); ?></option>
+    </select>
+</div>
+<script type="text/javascript">
+    teamCalendar.inputStartDate = $('#inputStartDate');
+    teamCalendar.inputStartTime = $('#inputStartTime');
+    teamCalendar.inputEndDate = $('#inputEndDate');
+    teamCalendar.inputEndTime = $('#inputEndTime');
+    teamCalendar.inputAllDay = $('#inputAllDay');
+    teamCalendar.selectPrivacy = $('#selectPrivacy');
+    teamCalendar.textareaDescription = $('#textareaDescription');
+    $(document).ready(function(){
+        $(teamCalendar.inputStartDate)
+        .add(teamCalendar.inputEndDate)
+        .datepicker({
+            format: 'yyyy-mm-dd'
+        });
+        $(teamCalendar.inputStartTime)
+        .add(teamCalendar.inputEndTime)
+        .timepicker({
+            defaultTime: 'value'
+        });
+        teamCalendar.selectPrivacy.select2({
+            width: 'resolve',
+            minimumResultsForSearch: 10
+        });
+        <?php if ($this->eventData['editable']) { ?>
+        $(teamCalendar.textareaDescription).redactor({
+            autoresize: false
+        });
+        teamCalendar.inputAllDay.change(function(){
+            if ($(this).prop('checked')) {
+                $(teamCalendar.inputStartTime)
+                .add(teamCalendar.inputEndTime)
+                .val('12:00 AM')
+                .prop('disabled', true);
+            } else {
+                $(teamCalendar.inputStartTime)
+                .add(teamCalendar.inputEndTime)
+                .prop('disabled', false);
+            }
+        }).change();
+        <?php } ?>
+    });
+</script>

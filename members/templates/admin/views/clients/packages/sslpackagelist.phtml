@@ -1,0 +1,86 @@
+<script data-cfasync="false" type="text/javascript">
+    var packages = packages || {};
+    packages.config = {
+        customFields: <?php echo html_entity_decode($this->customfields) ?>
+    }
+    <?php
+        if($this->selected_group == ''){
+            $this->selected_group = 0;
+        }
+    ?>
+    packages.groupid = <?php echo $this->selected_group; ?>;
+</script>
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->user->lang("SSL Package List");?></div>
+  <p class="alert-content"><?php echo $this->user->lang("List of your customer's SSL packages.");?></p>
+</div>
+
+<span class="grid-meta" id="sslpackages-grid-metadata"></span>
+<div id="gridheader" class="blue-box" style="clear:both;padding:4px !important;">
+    <table class="automation">
+        <tbody>
+            <tr>
+               <td align="right"><?php echo $this->user->lang('Package Type Filter'); ?>:&nbsp;</td>
+                <td align="left" width="50">
+                    <select onchange="togglePackageListType(this.options[this.selectedIndex].value);" style='width:200px;'>
+                    <?php
+                        foreach($this->productgroups as $key=>$cat) {
+                            $selected = "";
+                            if(in_array($this->selected_group, array("", 0)) && strtolower($key) == 'ssl'){
+                                $this->selected_group = 0;
+                                $selected = "selected";
+                            }
+                            echo "<option class='optionGroup' value='".strtolower($key)."_0' ".$selected.">".$key."</option>";
+                            foreach($cat as $productgroup) {
+                                $selected = "";
+                                if($productgroup['id'] == $this->selected_group){
+                                    $selected = "selected";
+                                }
+                                echo "<option class='optionChild' value='".strtolower($key)."_".$productgroup['id']."' ".$selected.">".$productgroup['name']."</option>";
+                            }
+                        }
+                    ?>
+                    </select>
+
+               </td>
+                <td align="right" width="110"><?php echo $this->user->lang('Package Filter'); ?>:&nbsp;</td>
+                <td align="left" width="80">
+                    <select id="sslpackages-grid-package-filter" style='width:200px;'>
+                        <option value="active"><?php echo $this->user->lang('Active Certificates'); ?></option>
+                        <option value="all"><?php echo $this->user->lang('All Certificates'); ?></option>
+                        <option value="pending"><?php echo $this->user->lang('Pending Certificates'); ?></option>
+                        <option value="pendingcancel"><?php echo $this->user->lang('Certificates Pending Cancelation'); ?></option>
+                        <option value="expired"><?php echo $this->user->lang('Expired Certificates'); ?></option>
+                        <option value="30days"><?php echo $this->user->lang('Expires within 30 Days'); ?></option>
+                        <option value="15days"><?php echo $this->user->lang('Expires within 15 Days'); ?></option>
+                        <option value="tomorrow"><?php echo $this->user->lang('Expires Tomorrow'); ?></option>
+                        <option value="today"><?php echo $this->user->lang('Expires Today'); ?></option>
+                        <option value="canceled"><?php echo $this->user->lang('Cancelled Certificates'); ?></option>
+                    </select>
+                </td>
+                <td align="right" style="width:80px"><?php echo $this->user->lang('Display'); ?>: &nbsp;&nbsp;</td>
+                <td align="left" style="width:60px">
+                    <select id='sslpackages-grid-filter' class="change-grid-showrecords" style='width:60px;'>
+                        <option value='5'>5</option>
+                        <option value='10'>10</option>
+                        <option value='25'>25</option>
+                        <option value='50'>50</option>
+                        <option value='150'>150</option>
+                        <option value='300'>300</option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="sslpackages-grid"></div>
+<div id="sslpackages-grid-footer" style="display:none;">
+    <span class="btn-group dropup">
+        <a class="btn rich-button multi-action-button" disabled="disabled"><span>Actions</span></a>
+        <a class="btn rich-button dropdown-toggle multi-action-button" disabled="disabled" data-toggle="dropdown"><span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a class="action-button" data-action="cancel"><?php echo $this->user->lang('Cancel Certificates(s)'); ?></a><li>
+            <li><a class="action-button" data-action="delete"><?php echo $this->user->lang('Delete Certificates(s)'); ?></a><li>
+        </ul>
+    </span>
+</div>

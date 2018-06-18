@@ -1,0 +1,152 @@
+<script data-cfasync="false" type="text/javascript">
+    var packagemanager = {};
+    packagemanager.showperformonserver      = true; //default unless panel doesn't need to show this option
+    packagemanager.paneldescription         = "";
+    packagemanager.hasplugin                = <?php echo ($this->productinfo['hasplugin']=="") ? "false": "true";?>;
+    //any panel setting type that requires lazy loading needs to be in this list
+    packagemanager.arrayOfLazyLoadingPanels = ["hosting","domaininfo","hostrecords","nameservers", 'certinfo'];
+    packagemanager.activeTab                = "<?php echo $this->activetab;?>";
+    packagemanager.permissions              = null;
+    packagemanager.producttype              = <?php echo $this->productinfo['producttype'];?>;
+    packagemanager.package_id               = <?php echo $this->packageid;?>;
+    packagemanager.newhostrecordid          = 0;
+    <?php
+    $js_array = json_encode($this->productinfo['panels']);
+    echo "packagemanager.panels = ". $js_array . ";\n";
+    ?>
+
+</script>
+
+<div class="alert alert-info productheader">
+    <div id="productheaderbox">
+        <div class="alert-header" id="productidentifier"><?php echo $this->escape($this->productinfo['name']); ?></div>
+        <div id="divpluginactiondropdown" class="btn-group pull-right">
+          <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">Plugin Action&nbsp;&nbsp;<span class="caret"></span></button>
+          <ul class="dropdown-menu" id="plugindropdown"></ul>
+        </div>
+        <p class="alert-content"><?php echo $this->user->lang("Group");?>: <?php echo $this->productinfo['productgroupname']." (".$this->productinfo['producttypename'];?>) &nbsp;&nbsp;&nbsp; <?php echo $this->user->lang("Activated");?>: <?php echo $this->productinfo['dateactivated'];?> &nbsp;&nbsp;&nbsp; <span id="product_desc_details"><?php echo $this->productinfo['desc_details'];?></span></p>
+    </div>
+</div>
+
+<div style="margin-top:-8px;margin-bottom:10px;"><i class="icon-level-up icon-flip-horizontal icon-back-to-parent-list"></i> <a href="index.php?fuse=clients&controller=userprofile&view=profileproducts"><?php echo $this->user->lang("Package list");?></a></div>
+
+<div id="selectedproduct-view-header">
+    <div id="vtabsBar" style="height:366px !important;">
+        <div id="settingtype_groupinfo" class="vtab active" onclick="packagemanager.showManageSettingByType('groupinfo');" style="cursor:pointer;display:none;">
+            <div>
+                <span><?php echo $this->user->lang("General");?></span>
+            </div>
+            <div class="hidingBorder"></div>
+        </div>
+        <div id="settingtype_addons" class="vtab" onclick="packagemanager.showManageSettingByType('addons');" style="cursor:pointer;display:none;">
+            <div>
+                <span><?php echo $this->user->lang("Package Addons");?></span>
+            </div>
+            <div class="hidingBorder"></div>
+        </div>
+        <?php if ( $this->user->hasPermission('billing_view') ) { ?>
+        <div id="settingtype_billing" class="vtab" onclick="packagemanager.showManageSettingByType('billing');" style="cursor:pointer;display:none;">
+            <div>
+                <span><?php echo $this->user->lang("Billing");?></span>
+            </div>
+            <div class="hidingBorder"></div>
+        </div>
+        <?php } ?>
+        <div id="settingtype_hosting" class="vtab" onclick="packagemanager.showManageSettingByType('hosting');" style="cursor:pointer;display:none;">
+            <div>
+                <span><?php echo $this->user->lang("Hosting Account");?></span>
+            </div>
+            <div class="hidingBorder"></div>
+        </div>
+        <div id="settingtype_domaininfo" class="vtab" onclick="packagemanager.showManageSettingByType('domaininfo');" style="cursor:pointer;display:none;">
+            <div>
+                <span><?php echo $this->user->lang("Domain Information"); ?></span>
+            </div>
+            <div class="hidingBorder"></div>
+        </div>
+        <div id="settingtype_domaincontactinfo" class="vtab" onclick="packagemanager.showManageSettingByType('domaincontactinfo');" style="cursor:pointer;display:none;">
+            <div>
+                <span><?php echo $this->user->lang("Contact Information"); ?></span>
+            </div>
+            <div class="hidingBorder"></div>
+        </div>
+        <div id="settingtype_hostrecords" class="vtab" onclick="packagemanager.showManageSettingByType('hostrecords');" style="cursor:pointer;display:none;">
+            <div>
+                <span><?php echo $this->user->lang("Host Records"); ?></span>
+            </div>
+            <div class="hidingBorder"></div>
+        </div>
+        <div id="settingtype_nameservers" class="vtab" onclick="packagemanager.showManageSettingByType('nameservers');" style="cursor:pointer;display:none;">
+            <div>
+                <span><?php echo $this->user->lang("Name Servers");?></span>
+            </div>
+            <div class="hidingBorder"></div>
+        </div>
+         <div id="settingtype_certinfo" class="vtab" onclick="packagemanager.showManageSettingByType('certinfo');" style="cursor:pointer;display:none;">
+            <div>
+                <span><?php echo $this->user->lang("Certificate Information");?></span>
+            </div>
+            <div class="hidingBorder"></div>
+        </div>
+
+        <?php foreach ($this->product_tab_snapins as $snapin) {
+          $cls = "";
+          if ( ($snapin['key'] == $this->snapin_key) &&
+               ($snapin['plugin'] == $this->snapin_name)) {
+            $cls = "active";
+          }
+
+          ?>
+
+            <div id="product_plugin_<?php echo $snapin['plugin'];?>" class="vtab" onclick='packagemanager.showManageSettingByPlugin("index.php?fuse=clients&controller=userprofile&view=productsnapinview&key=<?php echo $snapin['key'];?>&name=<?php echo $snapin['plugin'];?>&id=<?php echo $this->packageid;?>");' style="cursor:pointer;">
+                <div>
+                    <span><?php echo $this->user->lang($snapin['title']); ?>;?></span>
+                </div>
+                <div class="hidingBorder"></div>
+            </div>
+
+        <?php } ?>
+
+    </div>
+
+    <div id="vtabContent">
+
+        <img id="selectedproductlogo" style="display:<?php echo ($this->productinfo['productpluginlogo'] == "") ? "none" : "";?>;" src="<?php echo $this->gRelativePath;?>plugins/<?php echo $this->productinfo['productpluginlogo'];?>" alt="pluginlogo" />
+
+        <div id="accountwarning" class="label label-important"></div>
+
+        <div id="paneldescriptiondiv" style="display:none;" class="alert alert-warning"></div>
+
+        <form id="productsettingsform" action="index.php?fuse=clients&action=adminupdateuserpackage" method="post">
+        <input type="hidden" name="settingtype" id="settingtype" />
+        <input type="hidden" name="userPackageId" id="userPackageId" value ="<?php echo $this->packageid;?>" />
+
+        <div id="selectedproduct-view"></div>
+
+        <div id="btnoptionsseperator" style="display:none;">
+            <div id="performonserver_wrapper">
+                <label class="checkbox">
+                <input id="performonserver" name="performonserver" type="checkbox" checked="checked" />&nbsp;<span class="labelwithtooltip" data-placement="top" title="<?php echo $this->user->lang('Checking this checkbox will also update the package with the appropriate server plugin.'); ?>"><?php echo $this->user->lang("Update via plugin if necessary"); ?></span>
+                </label>
+            </div>
+            <div style="float:right;padding-right:5px;">
+                <button id="btnUpdateProduct" type="button" class="btn" style="display: none"><span><?php echo $this->user->lang('Update Package');?></span></button>
+            </div>
+        </div>
+
+        </form>
+        <?php echo $this->unescape($this->customOutput); ?>
+    </div>
+
+</div>
+
+<script data-cfasync="false" type="text/javascript">
+$(document).ready(function(){
+    if ($('#selectedproduct-view-header .snapin_view').length > 0) {
+        $('#view-productsnapinview .snapin_view').show();
+    } else {
+        $('#vtabContent').css({ float: "left" });
+        $('#vtabContent').css({ paddingLeft: "15px" });
+    }
+});
+</script>

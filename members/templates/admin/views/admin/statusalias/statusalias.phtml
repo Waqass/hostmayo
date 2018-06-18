@@ -1,0 +1,25 @@
+<table cellpadding="5" cellspacing="0">
+    <tr>
+        <td>
+            <label class="fieldlabel"><?php echo $this->user->lang("Name");?></label>
+            <input class="required" type="text" name="name" style="padding-right:20px;" value="<?php echo $this->name;?>" />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <label class="fieldlabel"><?php echo $this->user->lang("Alias To");?></label>
+            <select name="aliasto" <?php if ( $this->system ) { ?> disabled="disabled" <?php } ?> >
+                <?php foreach ( $this->systemStatuses as $systemStatus ) { ?>
+                <option value="<?php echo $systemStatus['statusid']; ?>" <?php if ($this->aliasto == $systemStatus['statusid'] ) {?> selected="selected" <?php } ?>><?php echo $systemStatus['name']; ?></option>
+                <?php } ?>
+            </select>
+        </td>
+    </tr>
+</table>
+<input type="hidden" name="id" value="<?php echo $this->id; ?>" />
+
+<script data-cfasync="false" type="text/javascript">
+    $(document).ready(function(){
+        clientexec.postpageload('.richwindow');
+    });
+</script>

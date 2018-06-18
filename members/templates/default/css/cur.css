@@ -1,0 +1,50 @@
+@font-face {
+	font-family: "Currency";
+	src: url("../font/cur.eot");
+	src: url("../font/cur.eot#iefix") format("embedded-opentype"),
+		url("../font/cur.woff") format("woff"),
+		url("../font/cur.ttf") format("truetype"),
+		url("../font/cur.svg") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="cur-"], [class*=" cur-"] {
+	font-family: 'Currency';
+	font-style: normal;
+	font-weight: normal;
+	text-decoration:inherit;
+	font-size: smaller;
+	margin-right: .2em;
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.cur-eur:before {
+	content: "\f153";
+}
+.cur-gbp:before {
+	content: "\f154";
+}
+.cur-usd:before {
+	content: "\f155";
+}
+.cur-inr:before {
+	content: "\f156";
+}
+.cur-jpy:before {
+	content: "\f157";
+}
+.cur-rub:before {
+	content: "\f158";
+}
+.cur-krw:before {
+	content: "\f159";
+}
+.cur-btc:before {
+	content: "\f15a";
+}
+.cur-try:before {
+	content: "\f195";
+}

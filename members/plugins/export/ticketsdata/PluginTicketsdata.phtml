@@ -1,0 +1,17 @@
+<b><?php echo $this->user->lang('Select which fields you wish to export and press the button to download the file'); ?>:</b><br />
+<table>
+    <?php foreach ( $this->fields as $field ) { ?>
+    <tr>
+        <td valign="top">
+            <input style="margin-right:5px;" type="checkbox" name="tickets_field__<?php echo $field['inputName']; ?>" <?php echo $field['checked']; ?> /><?php echo $field['fieldName']; ?><br />
+        </td>
+    </tr>
+    <?php } ?>
+</table><br />
+<b><?php echo $this->user->lang('Tickets status'); ?>:</b>
+<select name="tickets_status">
+    <option value="all" selected><?php echo $this->user->lang('All Tickets'); ?></option>
+    <option value="opened"><?php echo $this->user->lang('Only Open Tickets'); ?></option>
+    <option value="closed"><?php echo $this->user->lang('Only Closed Tickets'); ?></option>
+</select><br /><br />
+<button class="rich-button" id="exportButton"><span><?php echo $this->user->lang("Download .csv"); ?></span></button>

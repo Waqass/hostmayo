@@ -1,0 +1,134 @@
+<?php $languages = CE_Lib::getEnabledLanguages(); ?>
+<?php foreach ($this->settings as $setting) { ?>
+    <dt><label><?php echo $setting['settingName']; ?></label></dt>
+
+    <?php if ($setting['settingType'] == "yesno") { ?>
+        <dd>
+            <input type="radio" id="value_<?php echo $setting['settingId']; ?>" name="value_<?php echo $setting['settingId']; ?>" value="0" <?php echo $setting['noSelected']; ?> <?php echo $setting['settingIsDisabled']; ?>> <?php echo $this->user->lang("No"); ?>&nbsp;&nbsp;
+            <input type="radio"  id="value_<?php echo $setting['settingId']; ?>" name="value_<?php echo $setting['settingId']; ?>" value="1" <?php echo $setting['yesSelected']; ?> <?php echo $setting['settingIsDisabled']; ?>> <?php echo $this->user->lang("Yes"); ?>&nbsp;&nbsp;
+        </dd>
+        <dd class="full desc settingdescription">
+            <span>
+                <?php echo $setting['settingDescription']; ?>
+            </span>
+        </dd>
+    <?php } ?>
+
+    <?php if ($setting['settingType'] == "password") { ?>
+        <dd class="full desc settingdescription">
+            <span>
+                <?php echo $setting['settingDescription']; ?>
+            </span>
+        </dd>
+        <dd class="nextline">
+            <input autocomplete="off" type='password' name='value_<?php echo $setting['settingId']; ?>' style="width: 590px;" value="<?php echo $setting['settingValue']; ?>" <?php echo $setting['settingIsDisabled']; ?>/>
+        </dd>
+    <?php } ?>
+
+    <?php if ($setting['settingType'] == "text") { ?>
+        <dd class="full desc">
+            <span>
+                <?php echo $setting['settingDescription']; ?>
+            </span>
+        </dd>
+        <dd class="nextline">
+            <?php if($setting['settingIsLanguages'] && count($languages) > 1){
+                $active = true;
+                foreach($languages as $languageKey => $language){ ?>
+                    <span class="language <?php echo $languageKey; ?>" <?php if(!$active){echo 'style="display: none"';} ?> ><input autocomplete="off" type='text' name='value_<?php echo $setting['settingId'].'_'.$languageKey; ?>' <?php if($active){$active = false; echo 'id="mainlanguagevalue_'.$setting['settingId'].'"';} ?> style="width: 590px;" value="<?php echo $setting['settingValueLanguages'][$languageKey]; ?>" <?php echo $setting['settingIsDisabled']; ?>/></span>
+                <?php }
+            }else{ ?>
+                <input autocomplete="off" type='text' name='value_<?php echo $setting['settingId']; ?>' id='mainlanguagevalue_<?php echo $setting['settingId']; ?>' style="width: 590px;" value="<?php echo $setting['settingValue']; ?>" <?php echo $setting['settingIsDisabled']; ?>/>
+            <?php } ?>
+        </dd>
+    <?php } ?>
+
+    <?php if ($setting['settingType'] == "daterange") { ?>
+        <dd class="full desc">
+            <span>
+                <?php echo $setting['settingDescription']; ?>
+            </span>
+        </dd>
+        <dd class="nextline">
+            <input autocomplete="off" type='text' name='value_array_<?php echo $setting['settingId']; ?>[]' style="width: 280px;" value="<?php echo $setting['field1']; ?>" <?php echo $setting['settingIsDisabled']; ?>/>
+             -
+            <input autocomplete="off" type='text' name='value_array_<?php echo $setting['settingId']; ?>[]' style="width: 280px;" value="<?php echo $setting['field2']; ?>" <?php echo $setting['settingIsDisabled']; ?>/>
+        </dd>
+    <?php } ?>
+
+    <?php if ($setting['settingType'] == "options") { ?>
+        <dd>
+            <select id="value_<?php echo $setting['settingId']; ?>" name="value_<?php echo $setting['settingId']; ?>" <?php echo $setting['settingIsDisabled']; ?>>
+                <?php foreach ($setting['optionItems'] as $optionItem) { ?>
+                    <option value="<?php echo $optionItem['optionTypeItemValue']; ?>" <?php echo $optionItem['optionTypeItemSelected']; ?>><?php echo $optionItem['optionTypeItemLabel']; ?>&nbsp;&nbsp;</option>
+                <?php } ?>
+            </select>
+        </dd>
+        <dd class="full desc settingdescription">
+            <span>
+                <?php echo $setting['settingDescription']; ?>
+            </span>
+        </dd>
+    <?php } ?>
+
+
+    <?php if ($setting['settingType'] == "multipleoptions") { ?>
+        <dd>
+            <select name="value_array_<?php echo $setting['settingId']; ?>[]" multiple="true" size="5" style="width:230px;" <?php echo $setting['settingIsDisabled']; ?>>
+                <?php foreach ($setting['optionItems'] as $optionItem) { ?>
+                    <option value="<?php echo $optionItem['optionTypeItemValue']; ?>" <?php echo $optionItem['optionTypeItemSelected']; ?>><?php echo $optionItem['optionTypeItemLabel']; ?>&nbsp;&nbsp;</option>
+                <?php } ?>
+            </select>
+        </dd>
+        <dd class="full desc settingdescription">
+            <span>
+                <?php echo $setting['settingDescription']; ?>
+            </span>
+        </dd>
+    <?php } ?>
+
+
+
+    <?php if ($setting['settingType'] == "smallTextarea") { ?>
+        <dd class="full desc settingdescription" style="border-bottom:0px;">
+            <span>
+                <?php echo $setting['settingDescription']; ?>
+            </span>
+        </dd>
+        <dd class="full textarea">
+            <?php if($setting['settingIsLanguages'] && count($languages) > 1){
+                $active = true;
+                foreach($languages as $languageKey => $language){ ?>
+                    <span class="language <?php echo $languageKey; ?>" <?php if(!$active){echo 'style="display: none"';} ?> ><textarea name="value_<?php echo $setting['settingId'].'_'.$languageKey; ?>" <?php if($active){$active = false; echo 'id="mainlanguagevalue_'.$setting['settingId'].'"';} ?> cols="" rows="5" <?php echo $setting['settingIsDisabled']; ?>><?php echo $setting['settingValueLanguages'][$languageKey]; ?></textarea></span>
+                <?php }
+            }else{ ?>
+                <textarea name="value_<?php echo $setting['settingId']; ?>" id="mainlanguagevalue_<?php echo $setting['settingId']; ?>" cols="" rows="5" <?php echo $setting['settingIsDisabled']; ?>><?php echo $setting['settingValue']; ?></textarea>
+            <?php } ?>
+        </dd>
+    <?php } ?>
+
+    <?php if ($setting['settingType'] == "textarea") { ?>
+        <dd class="full desc settingdescription" style="border-bottom:0px;">
+            <span>
+                <?php echo $setting['settingDescription']; ?>
+            </span>
+        </dd>
+        <dd class="full textarea">
+            <?php if($setting['settingIsLanguages'] && count($languages) > 1){
+                $active = true;
+                foreach($languages as $languageKey => $language){ ?>
+                    <span class="language <?php echo $languageKey; ?>" <?php if(!$active){echo 'style="display: none"';} ?> ><textarea name="value_<?php echo $setting['settingId'].'_'.$languageKey; ?>" <?php if($active){$active = false; echo 'id="mainlanguagevalue_'.$setting['settingId'].'"';} ?> cols="" rows="10" <?php echo $setting['settingIsDisabled']; ?>><?php echo $setting['settingValueLanguages'][$languageKey]; ?></textarea></span>
+                <?php }
+            }else{ ?>
+                <textarea name="value_<?php echo $setting['settingId']; ?>" id="mainlanguagevalue_<?php echo $setting['settingId']; ?>" cols="" rows="10" <?php echo $setting['settingIsDisabled']; ?>><?php echo $setting['settingValue']; ?></textarea>
+            <?php } ?>
+        </dd>
+    <?php } ?>
+
+    <?php if ($setting['settingType'] == "label") { ?>
+        <dd class="full desc settingdescription" style="border-bottom:0px;">
+            <span>
+                <?php echo $setting['settingDescription']; ?>
+        </dd>
+    <?php } ?>
+<?php } ?>

@@ -1,0 +1,87 @@
+<div class="table-summary table-summary-white" style="padding:8px 8px 0 !important;height:33px;">
+    <div style="float:left;">
+        <select id="article-category-filter" data-format="articles_category_format" style="width:300px;">
+            <option value="-1" data-blanks='-1'> -- All Categories -- </option>
+            <?php
+                foreach ($this->arrayCategories as $cat) {
+                    if ($cat['is_global_series']) {
+                        $cat['name'] .= " (".$this->user->lang("Global Series").")";
+                    }else if ($cat['is_series']) {
+                        $cat['name'] .= " (".$this->user->lang("Series").")";
+                    }
+                    echo "<option value='".$cat['id']."' data-blanks='".$cat['blanks']."'>".$cat['name']."</option>";
+                }
+            ?>
+        </select>
+    </div>
+    <table style="position:relative;top:-2px;left:10px;">
+        <tr>
+        <?php if ($this->user->hasPermission('knowledgebase_manageCategories')) {?>
+            <td><button class="rich-button" id="addcategorybtn"><span><?php echo $this->user->lang("+"); ?></span></button></td>
+            <td><button class="rich-button" id="editcategorybtn" disabled="disabled"><span><?php echo $this->user->lang("Edit"); ?></span></button></td>
+            <td><button class="rich-button" id="deletecategorybtn" disabled="disabled"><span><?php echo $this->user->lang("Delete"); ?></span></button></td>
+        <?php } ?>
+        </tr>
+    </table>
+</div>
+
+<!-- position:relative;top:-23px; -->
+<div style="clear:both;" class="grid-meta" id="articles-grid-metadata"></div>
+<div class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+                <td>
+                    <?php if ($this->user->hasPermission('knowledgebase_add_article')): ?>
+                        <button class="rich-button" id="addArticleBtn"><span><?php echo $this->user->lang("Add New Article"); ?></span></button>
+                    <?php endif ?>
+                </td>
+                <td align="right" style="width:230px;" nowrap="nowrap">
+                    <div style="float:left;position:relative;top:6px;">&nbsp;&nbsp;&nbsp;<?php echo $this->user->lang("Filters");?>:</div> &nbsp;&nbsp;
+                    <select id='article-sort-filter' style='width:170px;'>
+                        <option value='all'><?php echo $this->user->lang("All Articles");?></option>
+                        <option value='public'><?php echo $this->user->lang("Public Articles");?></option>
+                        <option value='draft'><?php echo $this->user->lang("Draft Articles");?></option>
+                        <option value='staff'><?php echo $this->user->lang("Staff-Only Articles");?></option>
+                        <option value='members'><?php echo $this->user->lang("Members-Only Articles");?></option>
+                    </select>
+                </td>
+                <td class="td_filter_by_tag" align="right" style="display:none;width:215px;" nowrap="nowrap">
+                    <div style="float:left;position:relative;top:6px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->user->lang("Tags");?>:</div>&nbsp;&nbsp;
+                        <select style='width:160px;' class="existing_filters disableSelect2AutoLoad">
+                            <option value='0' selected><?php echo $this->user->lang("None");?></option>
+                        </select>
+                </td>
+                <td align="left" style="width:60px">
+                    <select id='article-grid-filter' class="change-grid-showrecords" style='width:60px;'><option value='5'>5</option><option value='10'>10</option><option value='25'>25</option><option value='50'>50</option><option value='150'>150</option><option value='300'>300</option></select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="articles-grid"></div>
+<div id="articles-grid-footer" style="display:none;">
+	    <div style="float:left;">
+        <?php if ($this->user->hasPermission('knowledgebase_manageArticles')): ?>
+          <button class="rich-button" id="delArticles"><span><?php echo $this->user->lang("Delete Article(s)"); ?></span></button>
+        <?php endif ?>
+        </div>
+        <div style="float:left;color:#ddd;" class="form-inline">
+            <?php if ($this->user->hasPermission('knowledgebase_manageArticles')): ?>
+              <label id="article-category-move-label" style="padding-left:10px;padding-top:4px;"><?php echo $this->user->lang('Move to') ?>:</label>
+              <select disabled="disabled" id="article-category-move" data-format="articles_category_format" style="width:300px;">
+                  <option value="-1" data-blanks="-1"> -- Select Category --</option>
+                  <?php
+                      foreach ($this->arrayCategories as $cat) {
+                        if ($cat['is_global_series']) {
+                            $cat['name'] .= " (".$this->user->lang("Global Series").")";
+                        }else if ($cat['is_series']) {
+                            $cat['name'] .= " (".$this->user->lang("Series").")";
+                        }
+                        echo "<option value='".$cat['id']."' data-blanks='".$cat['blanks']."'>".$cat['name']."</option>";
+                      }
+                  ?>
+              </select>
+            <?php endif ?>
+        </div>
+</div>

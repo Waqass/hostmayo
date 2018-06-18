@@ -1,0 +1,103 @@
+<?php
+	$hostname = $_SERVER['HTTP_HOST'];
+	$dirName = dirname($_SERVER['SCRIPT_NAME']);
+	$users = array();
+?>
+
+<?php if ($this->alert_msg != "") { ?>
+	<div class="alert ce-alert ce-alert-info">
+		<center><?php echo $this->alert_msg; ?></center>
+	</div>
+<?php } ?>
+
+<section id="public_room_page" class="corp" style="min-height: 200px; padding-bottom: 30px;">
+	<section class="content">
+		<?php if ($this->room_id > 0) { ?>
+	  	<div class="room_description alert ce-alert ce-alert-info">
+	  		<div class="pull-left room-description">Getting room details ...</div>
+	  		<div class="pull-right btn-log-out-room"><a class="btn"><i class="icon-off"></i> Leave room</a></div>
+	  	</div>
+	  	<?php } ?>
+
+		<section class="sidebar">				
+
+			<ul class="nav nav-list nav-list-vivid">
+	            <li class="nav-header"><?php echo $this->user->lang("Available Rooms");?></li>
+	            <?php foreach ($this->rooms as $room) { 
+	            	$li_class = "";
+					if ($this->room_id == $room['room']['id']) {
+						$users = $room['users'];
+						$li_class = "active";
+					}
+					?>
+					<li class="<?php echo $li_class;?>"><a href="index.php?fuse=admin&controller=plugin&view=doplugin&pluginaction=showpublicroom&plugin=livevisitor&id=<?php echo $room['room']['id'];?>"><?php echo $room['room']['title'];?><span class="nav-counter"><?php echo count($room['users']);?></span></a></li>
+				<?php } ?>
+			</ul>
+			<ul class="nav nav-list nav-list-vivid room-user-list">
+				<?php if ($this->room_id > 0) { ?>
+		            <li class="divider"></li>
+		            <li class="nav-header"><?php echo $this->user->lang("Already chatting");?></li>
+		            <?php foreach($users as $user) {?>
+						<li class="list-user"><a href="#"><?php if ($user['usertype']) { ?><i class="icon-certificate"></i>&nbsp;&nbsp;<?php }?><?php echo $user['fullname'];?></a></li>
+					<?php } ?>		            
+				<?php } ?>
+	          </ul>
+
+		</section>
+
+		<section class="non-sidebar" style="min-height: 200px">	  
+
+			<?php if ($this->room_id > 0) {?>
+				<div class="login-wrapper">
+					<div class="room-status-message" class="loading"><?php echo $this->user->lang("Loading");?>&hellip;</div>
+				</div>
+
+				<!-- chat window -->
+				<div class="msgs-wrapper">
+					<!--
+					<h1 class="room_title">Somethign</h1>
+					<div class="room-status-message" class="loading">Loading&hellip;</div>
+					-->
+					<div id="log"><div class="scrolltome"></div></div>
+
+					<form id="messageform" action="#">
+						<fieldset>
+							<input id="msg" placeholder="Enter your comment here&hellip;" />
+						</fieldset>
+						<footer>
+							<span class="typing_wrapper"></span>							
+						</footer>
+					</form>
+
+				</div>
+
+				<audio preload="auto" id="soundreceived">
+					<source src="plugins/dashboard/livevisitor/assets/message_received.mp3" type="audio/mp3">
+				</audio>
+
+				<dl id="skeleton" style="display: none;">
+					<dt><span class="avatar"><img class="usergravatar" src="plugins/dashboard/livevisitor/assets/avatar.png" alt="Avatar" /></span></dt>
+					<dd></dd>
+				</dl>
+
+
+				<!-- end chat window -->
+
+			<?php } else { ?>
+				<h1 class="choose-room-title"><?php echo $this->user->lang("Join one of our public rooms");?></h1>  
+				<h4 class="choose-room-subtitle"><?php echo $this->user->lang("Click on one of the available rooms to the left.");?></h4>
+			<?php } ?>
+
+		</section>	
+
+		<div style="clear:both;">
+		</div>
+
+	</section>
+</section>
+
+<?php if ($this->room_id > 0) { ?>
+	<script type="text/javascript">
+		var public_room_id = <?php echo $this->room_id;?>;
+	</script>
+<?php } ?>

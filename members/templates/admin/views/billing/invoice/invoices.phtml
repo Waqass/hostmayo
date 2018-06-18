@@ -1,0 +1,115 @@
+<script data-cfasync="false" type="text/javascript">
+    var invoicelist_filter = "<?php echo $this->filter;?>";
+</script>
+
+<div class="alert alert-info ce-page-header">
+    <div class="alert-header"><?php echo $this->user->lang("Invoices");?></div>
+    <p class="alert-content filter-description"></p>
+    <p class="filter-totals"></p>
+</div>
+
+<span class="grid-meta" id="invoicelist-grid-metadata"></span>
+<div id="invoicelist-grid-header" class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+                <td id="viewing-invoices-text"><span><?php echo $this->user->lang("Viewing Invoices");?></span></td>
+                <td align="left" style="width:150px;">
+                    <select style="width:150px;" id='invoicelist-grid-filterbydate'>
+                        <option value='billdate'><?php echo $this->user->lang("Bill Date");?></option>
+                        <option value='datepaid'><?php echo $this->user->lang("Date Paid");?></option>
+                    </select>
+                </td>
+                <td align="left" style="width:160px;">
+                    <span class='link periodStart' data-date=''>&nbsp;<span id='periodStart-display'><?php echo $this->user->lang("Start Date");?></span></span> - <span class='link periodEnd' data-date=''>&nbsp;<span id='periodEnd-display'><?php echo $this->user->lang("End Date");?></span></span>
+                </td>
+                <td align="right" width="50">
+                    &nbsp;&nbsp;<span><?php echo $this->user->lang("Show");?></span>:&nbsp;
+                </td>
+                <td align="left" style="width:150px;">
+                    <select style="width:150px;" id='invoicelist-grid-filterbystatus'>
+                        <option value='0' <?php echo ($this->filter == 0) ? "selected": "";?>><?php echo $this->user->lang("Overdue Invoices");?></option>
+                        <option value='1' <?php echo ($this->filter == 1) ? "selected": "";?>><?php echo $this->user->lang("Unpaid Invoices");?></option>
+                        <option value='4' <?php echo ($this->filter == 4) ? "selected": "";?>><?php echo $this->user->lang("Pending Invoices");?></option>
+                        <option value='5' <?php echo ($this->filter == 5) ? "selected": "";?>><?php echo $this->user->lang("Draft Invoices");?></option>
+                        <option value='2' <?php echo ($this->filter == 2) ? "selected": "";?>><?php echo $this->user->lang("All Invoices");?></option>
+                        <option value='-2' <?php echo ($this->filter == -2) ? "selected": "";?>><?php echo $this->user->lang("Failed Invoices");?></option>
+                        <option value='3'><?php echo $this->user->lang("By User");?></option>
+                    </select>
+                </td>
+                <td id="td-for-userid" style="display:none;width:70px;" align="left">
+                    <input type="text" id="invoice-userid" name="invoice-userid" style="width:50px;" value="<?php echo $this->customerid; ?>" placeholder="<?php echo $this->user->lang("User Id");?>" />
+                </td>
+                <td align="right" style="width:65px">
+                    <select id='invoicelist-grid-filter'  class="change-grid-showrecords" style='width:60px;'><<option value='5'>5</option><option value='10'>10</option><option value='25'>25</option><option value='50'>50</option><option value='150'>150</option><option value='300'>300</option></select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="invoicelist-grid"></div>
+<div id="invoicelist-footer">
+    <div id="invoicelist-grid-buttons" style="float:left;display:none;">
+        <!-- payment buttons -->
+        <span class="btn-group dropup" id="btnPayment">
+            <!-- either show mark paid or mark unpaid -->
+            <a class="btn rich-button" disabled="disabled"><span><?php echo $this->user->lang("Payment Btn");?></span></a>
+            <a class="btn rich-button dropdown-toggle" disabled="disabled" data-toggle="dropdown"><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li data-actionname="inv-markpaid"><a><?php echo $this->user->lang("Mark Paid"); ?></a><li>
+                <li data-actionname="inv-markunpaid"><a><?php echo $this->user->lang("Mark Un-Paid"); ?></a><li>
+                <li data-actionname="inv-process"><a><?php echo $this->user->lang("Process Invoice(s)"); ?></a><li>
+                <li data-actionname="inv-varpayment"><a><?php echo $this->user->lang("Add Payment"); ?></a><li>
+                <li data-actionname="inv-applycredit"><a><?php echo $this->user->lang("Apply Credit"); ?></a><li>
+            </ul>
+        </span>
+        <span class="btn-group dropup" id="btnSend">
+            <a class="btn rich-button" disabled="disabled"><span><?php echo $this->user->lang("Send Btn");?></span></a>
+            <a class="btn rich-button dropdown-toggle" disabled="disabled" data-toggle="dropdown"><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li data-actionname="inv-send"><a><?php echo $this->user->lang("Send Invoice"); ?></a><li>
+                <li data-actionname="inv-sendoverdue"><a><?php echo $this->user->lang("Send Overdue"); ?></a><li>
+                <li data-actionname="inv-sendreceipt"><a><?php echo $this->user->lang("Send Receipt"); ?></a><li>
+                <li data-actionname="inv-senddraft"><a><?php echo $this->user->lang("Send Draft"); ?></a><li>
+            </ul>
+        </span>
+
+        <span class="btn-group dropup" id="btnRefund">
+            <a class="btn rich-button" disabled="disabled"><span><?php echo $this->user->lang("Refund Btn");?></span></a>
+            <a class="btn rich-button dropdown-toggle" disabled="disabled" data-toggle="dropdown"><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li data-actionname="inv-refund"><a><?php echo $this->user->lang("Refund"); ?></a><li>
+                <li data-actionname="inv-credit"><a><?php echo $this->user->lang("Credit"); ?></a><li>
+                <li data-actionname="inv-markrefunded"><a><?php echo $this->user->lang("Mark Refunded"); ?></a><li>
+                <li data-actionname="inv-markcredited"><a><?php echo $this->user->lang("Mark Credited"); ?></a><li>
+            </ul>
+        </span>
+
+        <a class="btn rich-button" data-actionname="inv-recalculate" disabled="disabled"><span><?php echo $this->user->lang("Recalculate"); ?></span></a>
+
+        <a class="btn rich-button" data-actionname="inv-merge" disabled="disabled"><span><?php echo $this->user->lang("Merge"); ?></span></a>
+
+        <a class="btn rich-button" data-actionname="inv-clone" disabled="disabled"><span><?php echo $this->user->lang("Clone"); ?></span></a>
+
+        <span class="btn-group dropup" id="btnDelete">
+            <a class="btn rich-button" disabled="disabled"><span><?php echo $this->user->lang("Delete Btn");?></span></a>
+            <a class="btn rich-button dropdown-toggle" disabled="disabled" data-toggle="dropdown"><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li data-actionname="inv-deleteinvoices"><a><?php echo $this->user->lang("Delete"); ?></a><li>
+                <li data-actionname="inv-voidinvoices"><a><?php echo $this->user->lang("Void"); ?></a><li>
+            </ul>
+        </span>
+
+        <a class="btn rich-button" data-actionname="inv-cancelsub" disabled="disabled"><span><?php echo $this->user->lang("Cancel Subscription"); ?></span></a>
+
+    </div>
+</div>
+
+<div id="invoice" style="padding-top:30px;"></div>
+<script data-cfasync="false" type="text/javascript">
+    gridEl = 'invoicelist-grid';
+    $(document).ready(function(){
+        viewinvoices.addinvoicedescription(<?php echo $this->filter;?>);
+    });
+</script>

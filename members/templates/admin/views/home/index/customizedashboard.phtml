@@ -1,0 +1,91 @@
+<div class="table-summary" style="margin: 5px;padding-bottom:10px;">
+    <h2><?php echo $this->user->lang("Sidebar Plugin Settings");?></h2>
+	<?php echo $this->user->lang("The settings below allow you to customize your sidebar plugins.  Note that changing these settings does not affect other staff member's experience using Clientexec.");?>
+</div>
+
+<div class="dashboardchanges alert" <?php if ($this->shownotice === 0) echo 'style="display:none;"'; ?>>
+  <strong><?php echo $this->user->lang("Warning");?>!</strong> <?php echo $this->user->lang("A page refresh will be performed on close.");?>.
+</div>
+
+<?php if (count($this->enabledplugins) > 0) { ?>
+
+    <span class="label label-inverse" style="margin-bottom:5px;"><?php echo $this->user->lang("Enabled Plugins");?></span>
+    <div class="accordion" id="enabledpluginaccordion">
+    <?php foreach($this->enabledplugins as $plugin) { ?>
+
+        <div class="accordion-group">
+            <div class="accordion-heading" style="height: 35px;">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#enabledpluginaccordion" href="#enabledplugin_<?php echo $plugin['pluginId'];?>">
+
+                <?php echo $plugin['pluginName'];
+                    if($plugin['sharedSettings']) echo "<span style='padding-left:8px;'><i class='icon-lock'></i></span>";
+                ?>
+
+                <?php if ($plugin['canedit']) {?>
+                <a href="javascript:void(0);" onclick='clientexec.disablePlugin("<?php echo $plugin['pluginId'];?>",<?php echo ($plugin['sharedSettings']) ? 1 : 0;?>)' style='position: relative; top: -26px; right: -310px;'><?php echo $this->user->lang("Disable Plugin");?></a>
+                <?php } ?>
+              </a>
+            </div>
+            <div id="enabledplugin_<?php echo $plugin['pluginId'];?>" data-canedit="<?php echo ($plugin['canedit']) ? "true" : "false"; ?>" class="accordion-body collapse">
+              <div class="accordion-inner">
+                <span class="description"><?php echo $plugin["pluginDescription"];?></span>
+              </div>
+            </div>
+        </div>
+    <?php } ?>
+    </div>
+
+<?php } ?>
+
+<?php if (count($this->plugins) > 0) { ?>
+    <span class="label" style="margin-bottom:5px;"><?php echo $this->user->lang("Disabled Plugins");?></span>
+    <div class="accordion" id="disabledpluginsaccordion">
+    <?php foreach($this->plugins as $plugin) { ?>
+
+        <div class="accordion-group">
+            <div class="accordion-heading" style="height: 35px;">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#disabledpluginsaccordion" href="#disabledplugin_<?php echo $plugin['pluginId'];?>">
+
+                <?php echo $this->user->lang($plugin['pluginName']);
+                    if($plugin['sharedSettings']) echo "<span style='padding-left:8px;'><i class='icon-lock'></i></span>";
+                ?>
+                <?php if ($plugin['canedit']) {?>
+                <a href="javascript:void(0);" onclick='clientexec.enablePlugin("<?php echo $plugin['pluginId'];?>",<?php echo ($plugin['sharedSettings']) ? 1 : 0;?>)' style='position: relative; top: -26px; right: -310px;'><?php echo $this->user->lang("Enable Plugin");?></a>
+                <?php } ?>
+              </a>
+            </div>
+            <div id="disabledplugin_<?php echo $plugin['pluginId'];?>" class="accordion-body collapse">
+              <div class="accordion-inner">
+                <span class="description"><?php echo $plugin["pluginDescription"];?></span>
+              </div>
+            </div>
+        </div>
+    <?php } ?>
+    </div>
+<?php } ?>
+
+<script data-cfasync="false" type="text/javascript">
+
+    //let's unmask in the event we were
+    clientexec.customizePlugins.unMask();
+    $('#enabledpluginaccordion').on('show', function (e) {
+
+        var pluginId = $(e.target).attr('id');
+        var canedit = $(e.target).attr('data-canedit');
+        $('.accordion-heading').removeClass('selected');
+
+        pluginId = pluginId.split("enabledplugin_");
+
+        if (canedit == "true") {
+            clientexec.pluginMgr.getPluginConfigOptions(pluginId[1]);
+        }
+
+        $(e.target).parent().find('.accordion-heading').addClass('selected');
+
+    });
+
+    $('#enabledpluginaccordion').on('hidden', function (e) {
+        $(e.target).parent().find('.accordion-heading').removeClass('selected');
+    });
+
+</script>

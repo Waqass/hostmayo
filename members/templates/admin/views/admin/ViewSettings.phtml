@@ -1,0 +1,18 @@
+<div class="table-summary" style="margin-bottom:10px;margin-top:10px">
+    <h2><?php echo $this->ActiveSettingName;?> <?php echo $this->user->lang("Module");?> <?php echo $this->user->lang("Settings");?></h2>
+    <?php echo $this->user->lang("The settings below allow you to change the way your modules behave.");?>
+</div>
+
+<div id="vtabsContainer">
+    <div id="vtabsBar">
+        <?php foreach($this->hooks as $hook) { ?>
+        <a href="index.php?fuse=admin&amp;controller=settings&amp;view=viewsettings&amp;group=<?php echo $hook['settinginternalname'];?>"><div class="vtab <?php echo $hook['settingactive'];?>"><?php echo $hook['settingname'];?></div></a>
+        <?php } ?>
+    </div>
+</div>
+
+<?php if ($this->showNoSettings) { ?>
+<div id="vtabContent">
+    <h1 style="padding-top:20px;"><?php echo $this->user->lang("There are currently no 3rd Party modules installed.");?></h1>
+</div>
+<?php } ?>

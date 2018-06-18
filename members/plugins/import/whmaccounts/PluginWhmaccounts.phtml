@@ -1,0 +1,74 @@
+<?php if ( count($this->servers) == 0 ) { ?>
+<div class="notice notice-red">
+  <?php echo $this->user->lang('No cPanel / WHM servers are setup.'); ?>
+</div>
+<?php } else { ?>
+<script type="text/javascript" src="../plugins/import/whmaccounts/PluginWhmaccounts.js?version=<?php echo $this->gVersion; ?>"></script>
+
+<div id="gridheader" class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+                <td align="right">
+                    Select Server:
+                    &nbsp;&nbsp;
+                </td>
+                <td align="right" style="width:150px;">
+                    <select name="server" id="server-select">
+                        <option value="--">----&nbsp;&nbsp;</option>
+                        <?php foreach ( $this->servers as $server) { ?>
+                        <option <?php if ( $this->serverId == $server['id']) { ?>selected="selected"<?php } ?> value="<?php echo $server['id']; ?>"><?php echo $server['name']; ?>&nbsp;&nbsp;</option>
+                        <?php } ?>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<?php if ( $this->serverId > 0 ) { ?>
+<br/>
+<form method="POST" action="index.php?fuse=admin&controller=importexport&action=importproduct" id="import-products">
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th class="header"><?php echo $this->user->lang('Username'); ?></th>
+            <th class="header"><?php echo $this->user->lang('Domain'); ?></th>
+            <th class="header"><?php echo $this->user->lang('Plan'); ?></th>
+            <th class="header"><?php echo $this->user->lang('Clientexec Product'); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($this->accounts as $account ) { ?>
+    <tr>
+        <input type="hidden" value="<?php echo $account['user']; ?>" name="<?php echo $account['user']; ?>_user" />
+        <input type="hidden" value="<?php echo $account['domain']; ?>" name="<?php echo $account['user']; ?>_domain" />
+        <input type="hidden" value="<?php echo $account['email']; ?>" name="<?php echo $account['user']; ?>_email" />
+        <td><input type="checkbox" name="<?php echo $account['user']; ?>_selected" /></td>
+        <td><?php echo $account['user']; ?></td>
+        <td><?php echo $account['domain']; ?></td>
+        <td><?php echo $account['plan']; ?></td>
+        <td>Product:
+              <select name="<?php echo $account['user']; ?>_product" class="disableSelect2AutoLoad">
+                <?php
+                    foreach ($this->packages as $key=>$cat) {
+                        echo "<optgroup value='0' label='Groups of type: ".$this->packageGroups[$key]['name']."'>";
+                        foreach($cat as $value => $productgroup) {
+                            $selected = "";
+                            echo "<option value='".$value."'>".$productgroup."</option>";
+                        }
+                        echo "</optgroup>";
+                    }
+                ?>
+                </select>
+        </td>
+    </tr>
+    <?php } ?>
+    <tr>
+        <td colspan="4"><button class="rich-btn btn">Import Accounts</button></td>
+    </tr>
+</table>
+</form>
+<br/><br/>
+<?php } ?>
+<?php } ?>

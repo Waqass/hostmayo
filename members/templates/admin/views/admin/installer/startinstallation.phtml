@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><?php echo $this->user->lang('Clientexec Installer') ?></title>
+    <link rel="Shortcut Icon" href="favicon.ico" />
+    <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Quattrocento+Sans:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="templates/admin/style/install.css" />
+    <script type="text/javascript">
+        var gHash = "<?php echo $this->gHash; ?>";
+    </script>
+    <script type="text/javascript" src="library/utilities/min/index.php?g=installer"></script>
+
+    <script type="text/javascript">
+       function toggleContinue()
+       {
+           el = document.getElementById('agreedbbackup');
+           btn = document.getElementById('continueButton');
+           if (el.checked) {
+                btn.disabled = false;
+           } else {
+                btn.disabled = true;
+           }
+       }
+    </script>
+</head>
+
+<body>
+<div class="install-header"><?php echo $this->user->lang('Clientexec Installer') ?></div>
+
+<center>
+<div id="main" style="width:80%;min-width:900px">
+
+    <div class="well">
+        <table border=0 cellspacing=1 cellpadding=4 style="width:100%;min-width:900px">
+            <tr>
+                <td>
+                    <div style="padding:10px 0">
+                        <?php if ( isset($this->newInstallMessage) ) { ?>
+                        <h1><?php echo $this->user->lang('The next step will start the installation') ?></h1>
+                        <?php } ?>
+
+                        <?php if ( isset($this->upgradeMessage) ) { ?>
+                        <h1><?php echo $this->user->lang('You are about to perform an upgrade') ?></h1>
+                        <?php } ?>
+
+                        <?php if ( isset($this->message) ) { ?>
+                        <div style="font-weight:bold; color:red"><?php echo $this->message; ?></div>
+                        <?php } ?>
+                    </div>
+                    <form method="post" action="index.php?fuse=admin&view=checkfileintegrity&controller=installer">
+                        <?php if ( isset($this->backupNotice) ) { ?>
+                        <div style="margin:10px 0">
+                            <b style="color:orangered;"><?php echo $this->user->lang('Please make a backup of your database before proceeding') ?>.</b><br />
+                            <?php echo $this->user->lang('If the upgrade fails restore this backup before trying the upgrade again') ?>.
+                        </div>
+                        <?php } ?>
+                        <div style="margin:10px 0">
+                            <b><?php echo $this->user->lang('The next step may take several minutes to complete, please do not close your browser') ?>.</b>
+                        </div>
+                        <?php echo $this->unescape($this->upgradeConfirm) ?>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+</div>
+</center>
+
+</body>
+</html>

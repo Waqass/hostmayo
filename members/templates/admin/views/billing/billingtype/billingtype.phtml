@@ -1,0 +1,29 @@
+<table cellpadding="5" cellspacing="0">
+    <tr>
+        <td>
+            <label class="fieldlabel"><?php echo $this->user->lang("Name");?></label>
+            <input class="required" type="text" name="name" style="padding-right:20px;" value="<?php echo $this->name;?>" />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <label class="fieldlabel"><?php echo $this->user->lang("Description");?></label>
+            <input class="required" type="text" name="description" style="padding-right:20px;" value="<?php echo $this->description;?>" />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <label class="fieldlabel"><?php echo $this->user->lang("Details");?></label>
+            <textarea name="detail"><?php echo $this->detail; ?></textarea>
+        </td>
+    </tr>
+     <tr>
+        <td colspan="3">
+            <label class="fieldlabel"><?php echo $this->user->lang("Price");?></label>
+            <input class="required" type="text" name="price" style="padding-right:20px;" value="<?php echo $this->price;?>" />
+        </td>
+    </tr>
+
+
+</table>
+<input type="hidden" name="id" value="<?php echo $this->id; ?>" />

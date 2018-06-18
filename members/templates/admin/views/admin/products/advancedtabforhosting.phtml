@@ -1,0 +1,90 @@
+<script data-cfasync="false" text="text/javascript">
+    productview.hosting = {};
+    productview.hosting.pluginid = '<?php echo $this->selectedplugin;?>';
+    <?php
+        $js_array = json_encode($this->servers);
+        echo "productview.hosting.servers = ". $js_array . ";\n";
+    ?>
+
+    function togglereseller(){
+        $.each($('tr'), function(index, value) {
+            var attr = $(this).attr('toggle');
+            if (typeof attr !== 'undefined' && attr !== false){
+                if(attr == 'reseller'){
+                    $(this).toggle();
+                }
+            }
+        });
+    }
+</script>
+<div class="fieldwrapper withcolor">
+    <form id="advancedtab" autocomplete="off">
+    <table cellpadding="5" cellspacing="5" style="width:100%">
+        <tr class='donotdelete'>
+            <td class="serverselectionfield">
+                <label class="fieldlabel" style="margin-bottom: 10px;"><?php echo $this->user->lang("Associated Servers");?></label>
+                <div style="position:relative;top:-3px;">
+                <select multiple="multiple" style="width:99%" id="servers">
+                    <?php foreach ($this->servers as $server) { ?>
+                        <option value='<?php echo $server['serverid'];?>' <?php if($server['checked']) echo "selected";?>><?php echo $server['servernameandplugin'];?></option>
+                    <?php } ?>
+                </select>
+                </div>
+            </td>
+        </tr>
+
+        <tr class="donotdelete nooption" style="display:none;">
+            <td>
+                <br/>
+                <div class="alert">
+                  <strong>Notice</strong> You have selected a server that does not have a plugin configured for it.
+                </div>
+            </td>
+        </tr>
+
+        <tr class="donotdelete multipleservers lastadvancedoptionadded" style="display:none;">
+            <td>
+                <br/>
+                <div class="alert" style="margin-bottom: -15px;position: relative;top: -11px;">
+                  <strong>Notice:</strong> When selecting more than one server for a given product it is imperative that you ensure each server is configured exactly the same.  The configuration options below are used for all servers listed above.  For plugin types that obtain values from the server it will only be retrieved from the first server listed and it is assumed the second server is configred the same.
+                </div>
+            </td>
+        </tr>
+
+        <tr class="donotdelete rowtoclone-text" style="display:none;">
+            <td><label class="fieldlabel" style="margin-bottom: 10px;"><span class="clonelabel">placeholder</span></label><input type="text" /></td>
+        </tr>
+        <tr class="donotdelete rowtoclone-password" style="display:none;">
+            <td><label class="fieldlabel" style="margin-bottom: 10px;"><span class="clonelabel">placeholder</span></label><input type="password" /></td>
+        </tr>
+        <tr class="donotdelete rowtoclone-check" style="display:none;">
+            <td><label class="checkbox"><input type="checkbox" id="" name="" value="1" /> <span class='clonelabel'>placeholder</span></label></td>
+        </tr>
+        <tr class="donotdelete rowtoclone-yesno" style="display:none;">
+            <td><label class="checkbox"><input type="checkbox" id="" name="" value="1" /> <span class='clonelabel'>placeholder</span></label></td>
+        </tr>
+        <tr class="donotdelete rowtoclone-fieldset" style="display:none;">
+            <td><hr/><label class="label label-info" style="margin-bottom: 10px;"><span class="clonelabel">placeholder</span></label></td>
+        </tr>
+        <tr class="donotdelete rowtoclone-dropdown" style="display:none;">
+            <td>
+                <!-- multiple="multiple" -->
+                <label class="fieldlabel" style="margin-bottom: 10px;"><span class="clonelabel">placeholder</span></label>
+                <div style="position:relative;top:-3px;">
+                    <select name="someitem" style="200px;" id="someitem" ></select>
+                </div>
+            </td>
+        </tr>
+
+        <tr class="donotdelete">
+            <td>
+                <div class="form-actions">
+                    <div class="pull-right">
+                      <button type="submit" class="submit-hosting-advanced btn btn-primary"><?php echo $this->user->lang("Save Changes");?></button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    </form>
+</div>

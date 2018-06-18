@@ -1,0 +1,131 @@
+<script language="javascript" type="text/javascript">
+    // <![CDATA[
+    //keep track of what customer's old value for paypal subscription
+    //was so that we can show the proper warning when updating
+    paymentmethod = {};
+    paymentmethod.selectedplugin='<?php echo $this->selectedpluginname; ?>';
+    paymentmethod.selectedpluginrealname='<?php echo $this->selectedpluginrealname; ?>';
+    // ]]>
+</script>
+
+<h1><?php echo $this->user->lang("Edit Your Payment Method");?></h1>
+
+<form action="index.php?fuse=clients&controller=userprofile&action=updatepaymentmethod" class="update-payment-method-frm"  id="billingform" name="billingform" method="post">
+<input type="hidden" name="old_selectedplugin" class="old_selectedplugin" value="<?php echo $this->selectedpluginname; ?>" />
+
+<fieldset>
+    <label><?php echo $this->user->lang("Payment Type");?></label>
+    <select <?php if ( !$this->canEditPaymentType ) { ?>readonly="readonly"<?php } ?> class="paymenttype-list" name="paymenttype" style="display: none;">
+        <?php foreach ($this->paymentmethods as $paymentmethod) { ?>
+            <option value="<?php echo $paymentmethod['paymentTypeOptionValue']; ?>" <?php echo $paymentmethod['paymentTypeOptionSelected']; ?> ><?php echo $paymentmethod['paymentTypeOptionLabel']; ?></option>
+        <?php } //end foreach ?>
+    </select>
+</fieldset>
+
+
+<div class="alert ce-alert ce-alert-info plugin_description" style="display:none;"></div>
+
+<div id="use_recurring" style="display:none;">
+    <div class="alert ce-alert ce-alert-danger ce-recurring-warning">
+      <p><b><?php echo $this->user->lang("3rd party subscription");?></b><br/><?php echo $this->user->lang("Your selected payment method is set to start a subscription after payment of your first invoice.");?></p>
+    </div>
+</div>
+
+
+<div id="vaultpaymentinformation" style="display:none;">
+    <label><?php echo $this->user->lang("We do not store credit card information for your selected payment type"); ?></label><br/><br/>
+    <iframe id="vaultpaymentiframe" src ="" width="100%" height="300" scrolling="auto" frameborder="0">
+        <p><?php echo $this->user->lang("Your browser does not support iframes"); ?></p>
+    </iframe>
+</div>
+
+<div id="authnetcimpaymentinformation" style="display:none;">
+    <label><?php echo $this->user->lang("We do not store credit card information for your selected payment type"); ?></label><br/><br/>
+    <iframe id="authnetcimpaymentiframe" src ="" width="100%" height="600" scrolling="auto" frameborder="0">
+        <p><?php echo $this->user->lang("Your browser does not support iframes"); ?></p>
+    </iframe>
+</div>
+
+<div id="stripecheckoutpaymentinformation" style="display:none;">
+    <label><?php echo $this->user->lang("We do not store credit card information for your selected payment type"); ?></label><br/><br/>
+    <?php echo $this->unescape($this->stripeCheckoutForm); ?>
+</div>
+
+<div id="creditcardinfo" style="display:none;">
+    <?php if ($this->canEditCreditCard) { ?>
+        <label><?php echo $this->user->lang("Credit Card Number"); ?></label>
+        <span id="lastfourspan">
+            <input type="text" id="lastfour" name="ccnumber" size="30" disabled />
+        </span>
+        <span id="deleteccspan">
+            <input type="button" class="btn btn-small btn-danger" id="deleteccbutton" value="<?php echo $this->user->lang("Delete Credit Card");?>" />
+        </span>
+        <span id="ccnumberspan">
+            <input type="text" data-required="true" id="ccnumber" name="ccnumber" parsley-luhn="true" data-luhn="true" size="30" />
+        </span>
+        <span id="awaitingvalidationspan">
+            <span class="label ce-label label-info" id="awaitingvalidation"></span>
+            <br />
+        </span>
+        <div id="newccspan">
+            <label><span data-toggle="tooltip" data-trigger="hover" data-placement="right" data-title="<?php echo $this->helpCCChange; ?>" class="tip-target new-card-info"><?php echo $this->user->lang("New Credit Card Number"); ?></span>
+            </label>
+            <input type="text" id="newccnumber" name="newccnumber" parsley-luhn="true" data-luhn="true" />
+        </div>
+
+        <label><?php echo $this->user->lang("Credit Card Expiration Date"); ?></label>
+        <select id="ccmonth" name="ccmonth">
+            <?php foreach ($this->months as $month) { ?>
+                <option value="<?php echo $month['monthOptionsValue']; ?>" <?php echo $month['monthOptionsSelected']; ?> ><?php echo $month['monthOptionsLabel']; ?></option>
+            <?php } ?>
+            </select>
+
+            <select id="ccyear" name="ccyear">
+            <?php foreach ($this->years as $year) { ?>
+                <option value="<?php echo $year['yearOptionsValue']; ?>" <?php echo $year['yearOptionsSelected']; ?> ><?php echo $year['yearOptionsLabel']; ?></option>
+            <?php } //end years ?>
+        </select>
+
+        <label><?php echo $this->user->lang("Accepted Credit Cards"); ?></label>
+        <img src="images/creditcards/visa.gif" id="visa_logo" alt="" />
+        <img src="images/creditcards/mc.gif" id="mastercard_logo" alt="" />
+        <img src="images/creditcards/amex1.gif" id="americanexpress_logo" alt="" />
+        <img src="images/creditcards/discover.gif" id="discover_logo" alt="" />
+
+        <img src="images/creditcards/laser.gif" id="lasercard_logo" alt="" />
+        <img src="images/creditcards/diners.gif" id="dinersclub_logo" alt="" />
+        <img src="images/creditcards/switch.gif" id="switch_logo" alt="" />
+        <input type="hidden" name="validcc" id="validccbits" value='' />
+
+    <?php } else { ?>
+
+    <?php } //edit credit card ifs ?>
+
+
+    <table class="ts2" cellspacing="0">
+        <?php if ($this->canEditCreditCard) { ?>
+
+        <?php } else { ?>
+        <tr>
+            <td class="label"><?php echo $this->user->lang("Credit Card Number"); ?>:</td>
+            <td><span id="lastfourspan">
+            <span id="lastfour"></span>
+        </span><span id="ccnumberspan"><input type="text" style="height:20px;width:180px;padding:1px;"   id="ccnumber" name="ccnumber" size="30" />
+          <input type=hidden name=c_ccnumber value="<?php echo $this->requiredMsg; ?>" />
+          <input type=hidden name=r_ccnumber value="<?php echo $this->ccRequiredMsg; ?>" />
+        </span><span id="awaitingvalidationspan">
+            <span id="awaitingvalidation"></span>
+            <br />
+        </span>
+        <span id="newccspan">
+        </span></td>
+        </tr>
+        <?php } //edit credit card ifs ?>
+    </table>
+</div>
+
+<div class="form-actions" id="btnupdatepaymentmethod" style="display:none;">
+  <button class="btn btn-update-payment-method" type="button"><?php echo $this->user->lang("Update Payment Method");?></button>
+</div>
+
+</form>

@@ -1,0 +1,20 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->user->lang("Pending Orders"); ?></div>
+  <p class="alert-content"><?php echo $this->user->lang("List of pending orders awaiting approval. For details make sure to expand each detailed row."); ?></p>
+</div>
+
+<span class="grid-meta" id="Accounts-grid-metadata"></span>
+<div id="gridheader" class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+            	<td><label><?php echo $this->user->lang("Pending Orders");?></label></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="Accounts-grid"></div>
+<div id="Accounts-grid-footer" style="display:none;">
+		<button class="rich-button" id="activateAccount"><span><?php echo $this->user->lang("Activate Packages(s)"); ?></span></button>
+    <button class="rich-button" id="delAccount"><span><?php echo $this->user->lang("Delete Packages(s)"); ?></span></button>
+</div>

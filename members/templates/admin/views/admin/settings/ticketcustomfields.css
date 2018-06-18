@@ -1,0 +1,76 @@
+@CHARSET "UTF-8";
+
+#divCustomFieldTree, #divCustomFieldInfo {
+    vertical-align: top;
+}
+
+#divCustomFieldInfo {
+    display: none;
+	margin: 0 10px 0 25px;
+}
+
+#divCustomFieldTree {
+	display: inline-block;
+	width: 300px;
+    margin-top:5px;
+}
+
+#divCustomFieldTree #rootNode > ins {
+    display: none;
+}
+
+#divCustomFieldTree #rootNode > ul > li {
+    margin-left: 0;
+}
+
+#divCustomFieldTree li.jstree-leaf a ins.jstree-icon {
+	background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -80px -32px no-repeat !important;
+}
+
+#divCustomFieldInfo legend {
+	margin-bottom: 5px;
+}
+
+#divCustomFieldInfo label {
+	display: inline-block;
+    width: 150px;
+}
+
+#divCustomFieldInfo input[type="checkbox"] {
+    margin: 0px;
+}
+
+#divCustomFieldInfo input, #divCustomFieldInfo textarea, #divCustomFieldInfo .select2-container {
+	margin-bottom: 5px;
+}
+
+#divCustomFieldInfo button {
+	float: right;
+}
+
+#divTypesAssociated ul {
+	list-style-image: none;
+    list-style-type: none;
+    margin: 0;
+}
+
+#divTypesAssociated ul li {
+    background: none repeat scroll 0 0 #E0E0E0;
+    border-radius: 4px 4px 4px 4px;
+    display: inline-block;
+    line-height: 12px;
+    margin-right: 10px;
+    padding: 3px;
+}
+
+#fromplugin .alert {
+    margin-bottom: 8px;
+}
+
+#fs-tickettypeassociations {
+    width: 375px;
+}
+
+#divTypesAssociated ul li {
+    margin-top: 3px;
+}

@@ -1,0 +1,42 @@
+#use_recurring {
+    margin-top:10px;
+}
+
+label {
+    margin-top: 10px;
+}
+
+#ccmonth {
+    width:140px;
+}
+
+#ccyear {
+    width:80px;
+}
+
+.btn-update-payment-method{
+    margin-right:10px;
+}
+
+#deleteccbutton{
+    width: 220px;
+}
+
+#deleteccspan {
+    padding-bottom:10px;
+    margin-top:-5px;
+    display:block;
+}
+
+.plugin_description {
+    margin-top:10px;
+}
+.ce-recurring-warning {
+    margin-top:20px;
+}
+
+#ccnumber,
+#newccnumber,
+#lastfour {
+    letter-spacing: 2.5px;
+}

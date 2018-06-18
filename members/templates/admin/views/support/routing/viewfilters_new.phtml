@@ -1,0 +1,123 @@
+<style type="text/css">
+    #div-filter-list {
+    	overflow-y: scroll;
+    	height: 220px;
+    	border: 1px solid #aaaaaa;
+    	border-radius: 4px;
+    }
+    #s2id_input-header-name .select2-choice {
+    	font-size: 14px;
+    	height: 28px;
+    	border-top-right-radius: 0;
+    	border-bottom-right-radius: 0;
+    }
+    #s2id_input-header-name .select2-choice div {
+    	border-top-right-radius: 0;
+    	border-bottom-right-radius: 0;
+    }
+    .input-append input[type="text"] {
+        border-top-left-radius: 0;
+    	border-bottom-left-radius: 0;
+    }
+    #div-filter-list.select2-container-multi .select2-choices {
+    	border: 0;
+    }
+    #div-filter-list.select2-container-multi .select2-choices li {
+    	float: none;
+    	margin-right: 5px;
+    }
+    .help-icon {
+    	float: right;
+    }
+</style>
+<div class="help-icon" data-toggle="tooltip" title="
+    <?php echo $this->user->lang('Filters are based on email header values.'); ?>
+    <br />
+    <?php echo $this->user->lang('Enter a header name and text to match against, then click Add. (ex. Subject: SPAM)'); ?>
+    <br />
+    <?php echo $this->user->lang('Emails matching the filter will be discarded. (ex. Emails with a subject of "SPAM" will be ignored)'); ?>
+"></div>
+<label class="bold" for="input-filter"><?php echo $this->user->lang('Enter rules to discard incoming emails'); ?></label>
+<div class="input-append">
+    <input id="input-header-name" class="input-medium" type="hidden" name="header-name" />
+    <input id="input-header-content" class="input-xlarge" type="text" name="header-content">
+    <button id="button-addFilter" class="btn" type="button">Add Rule</button>
+</div>
+<label class="bold"><?php echo $this->user->lang('Emails matching the following filters will be discarded'); ?></label>
+<div id="div-filter-list" class="select2-container-multi">
+    <ul id="ul-filter-list" class="select2-choices">
+    </ul>
+</div>
+<input id="input-filters" type="hidden" name="filters" />
+<script data-cfasync="false" type="text/javascript">
+    var routingFilters = {
+        dom: {
+            inputHeaderName: $('#input-header-name'),
+            inputHeaderContent: $('#input-header-content'),
+            ulFilterList: $('#ul-filter-list'),
+            buttonAddFilter: $('#button-addFilter'),
+            divFilterList: $('#div-filter-list'),
+            inputFilters: $('#input-filters')
+        },
+        list: {
+            mailHeaders: <?php echo json_encode($this->mailHeaders); ?>,
+            filters: <?php echo json_encode($this->filters); ?>
+        },
+        'function': {
+            sortFilters: function(a, b){
+                var sortValueA = a.header + ': ' + a.content, sortValueB = b.header + ': ' + b.content;
+                if (sortValueA > sortValueB) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+                return 0;
+            }
+        }
+    }
+
+    $(document).ready(function(){
+
+        routingFilters.dom.inputHeaderName.select2({
+            query: function(query) {
+                var data = { results: [] };
+                if (query.term != '') {
+                    for (var i = 0; i < routingFilters.list.mailHeaders.length; i ++) {
+                        if (routingFilters.list.mailHeaders[i].text.toLowerCase().indexOf(query.term) != -1) {
+                            data.results.push({id: routingFilters.list.mailHeaders[i].id, text: routingFilters.list.mailHeaders[i].text});
+                        }
+                    }
+                    data.results.push({id: query.term, text: query.term});
+                } else {
+                    data.results = routingFilters.list.mailHeaders;
+                }
+                query.callback(data);
+            },
+            multiple: false
+        });
+
+        routingFilters.dom.buttonAddFilter.click(function(e){
+            var headerName = routingFilters.dom.inputHeaderName.val(), headerContent = routingFilters.dom.inputHeaderContent.val();
+            if (headerName != '' && headerContent != '') {
+                routingFilters.list.filters.push({header: headerName, content: headerContent});
+                $('<li class="select2-search-choice"><a class="select2-search-choice-close" data-filter-header-name="'+headerName+'" data-filter-header-content="'+headerContent+'">&times;</a><span class="italic">'+headerName+': </span>'+headerContent+'</li>').appendTo(routingFilters.dom.ulFilterList);
+                routingFilters.dom.divFilterList.scrollTop(routingFilters.dom.ulFilterList.height());
+            }
+            e.preventDefault();
+        });
+
+        routingFilters.dom.ulFilterList.on('click', 'a', function(){
+            var id = $(this).attr('data-filter-id');
+            routingFilters.list.filters.splice(routingFilters.list.filters.indexOfObject({header: $(this).attr('data-filter-header-name'), content: $(this).attr('data-filter-header-content')}), 1);
+            $(this).parent().remove();
+        });
+
+        var filters = '';
+        routingFilters.list.filters.sort(routingFilters.function.sortFilters);
+        for (var i = 0; i < routingFilters.list.filters.length; i++) {
+            filters += '<li class="select2-search-choice"><a class="select2-search-choice-close" data-filter-header-name="'+routingFilters.list.filters[i].header+'" data-filter-header-content="'+routingFilters.list.filters[i].content+'">&times;</a><span class="italic">'+routingFilters.list.filters[i].header+': </span>'+routingFilters.list.filters[i].content+'</li>';
+        }
+        $(filters).appendTo(routingFilters.dom.ulFilterList);
+
+    });
+</script>

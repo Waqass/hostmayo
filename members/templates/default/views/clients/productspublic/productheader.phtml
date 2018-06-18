@@ -1,0 +1,48 @@
+<script data-cfasync="false" type="text/javascript">
+	productview = {};
+	productview.package_id = <?php echo $this->product_id;?>;
+	productview.package_type = "<?php echo $this->product_type;?>";
+	productview.product_type_name = "";
+</script>
+<div id="productheaderbox">
+	<?php if ( count($this->pluginActions) > 0 ) { ?>
+	<div id="divpluginactiondropdown" class="btn-group pull-right" style="display: block;">
+		<button class="btn dropdown-toggle" data-toggle="dropdown">
+			<?php echo $this->user->lang('Package Actions'); ?> &nbsp;&nbsp;<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu ce-dropdown-menu" id="plugindropdown">
+			<?php $additionalHTML = ''; ?>
+			<?php foreach ( $this->pluginActions as $action ) { ?>
+				<?php if ( isset($action['url']) ) { ?>
+			<li><a href="<?php echo $action['url']; ?>"><?php echo $action['name']; ?></a></li>
+				<?php } else if ( isset($action['form']) ) { ?>
+				<?php echo $actionsHtml .= $action['link']; ?>
+				<?php $additionalHTML .= $action['form']; ?>
+				<?php } else { ?>
+			<li><a onclick="productview.callPluginAction('<?php echo $action['command']; ?>', <?php echo $this->product_id;?>);"><?php echo $action['name']; ?></a></li>
+				<?php } ?>
+			<?php } ?>
+		</ul>
+		<?php echo $additionalHTML; ?>
+    </div>
+    <?php } ?>
+	<h1 class="nomargin smalllineheight"><?php echo $this->product_name;?> </h1>
+	<?php echo $this->user->lang("Status");?>: <?php echo $this->status_name['statusText'];?><i class="icon-circle product-header-divider"></i>
+	<?php echo $this->user->lang("Product Id");?>:  #<?php echo $this->product_id;?><i class="icon-circle product-header-divider"></i>
+	<?php echo $this->user->lang("Product type");?>: <?php echo $this->product_type_name;?>
+</div>
+<br/><br/>
+<ul class="nav nav-tabs">
+<?php foreach ($this->tabs as $tab) { ?>
+    <li class="<?php echo $tab['class'];?>"><a href="index.php?fuse=clients&controller=products&view=<?php echo $tab['view'];?>&id=<?php echo $this->product_id;?>" class="product_<?php echo $tab['type'] ;?>"><?php echo $tab['name'];?></a></li>
+<?php } ?>
+<?php foreach ( $this->product_tab_snapins as $tab ) {
+	$class = "";
+	if ( ($tab['key'] == $this->product_snapin_key) && ($tab['plugin'] == $this->product_snapin_name)) {
+		$class = "active";
+	} ?>
+<li class="<?php echo $class; ?>"><a href="index.php?fuse=clients&controller=products&view=productsnapinview&key=<?php echo $tab['key'];?>&name=<?php echo $tab['plugin'];?>&id=<?php echo $this->product_id;?>"><?php echo $tab['title'];?></a></li>
+<?php } ?>
+</ul>
+
+<?php echo $this->unescape($this->customOutput); ?>

@@ -1,0 +1,211 @@
+<?php
+
+$showBoxes = $this->templateOptions['Show Action Boxes']['value'];
+$colors = array("#113F8C","#FFA601", "#CD321D","#01A4A4","#00A1CB","#61AE24","#006699","#D0D102","#32742C","#D70060", "#E54028","#F18D05","#616161","#71E1FF","#69D6FF");
+$color_index = 0;
+$boxes = 4;
+?>
+
+<?php if ($showBoxes == "Yes") { ?>
+
+  <div class="support-boxes support-boxes-<?php echo $boxes;?>">
+
+      <a href="index.php?fuse=home&view=dashboard" class="support-box">
+        <div class="feature-block">
+            <span class="feature-tab" style="background-color: <?php echo $colors[$color_index++]; ?>"><i class="icon-cogs" style="margin:1px;"></i></span>
+            <h2><?php echo $this->user->lang("Manage account");?></h2>
+            <p><?php echo $this->user->lang("Enter your account area if you are registered");?></p>
+        </div>
+      </a>
+
+      <?php if ( $this->user->hasPermission('knowledgebase_view') ) { ?>
+        <a href="<?php echo CE_Lib::generateMainKBLink(); ?>" class="support-box">
+        <div class="feature-block">
+            <span class="feature-tab" style="background-color: <?php echo $colors[$color_index++]; ?>"><i style="margin:1px;" class="icon-cloud"></i></span>
+            <h2><?php echo $this->user->lang("Search our KB");?></h2>
+            <p><?php echo $this->user->lang("Browse our Knowledge base by Topic or Search");?></p>
+        </div>
+      </a>
+      <?php } ?>
+
+      <?php if ( $this->user->hasPermission('support_submit_ticket') ) { ?>
+      <a href="index.php?fuse=support&controller=ticket&view=submitticket" class="support-box">
+        <div class="feature-block">
+            <span class="feature-tab" style="background-color: <?php echo $colors[$color_index++]; ?>"><i class="icon-ticket" style="margin:2px;"></i></span>
+            <h2><?php echo $this->user->lang("Submit an issue");?></h2>
+            <p><?php echo $this->user->lang("Having a problem?  Our support staff can assist");?></p>
+        </div>
+      </a>
+      <?php } ?>
+
+      <?php
+          $url = "order.php";
+          $cart_count = "";
+          if ( $this->summary['cartCount'] > 0 ) {
+            $url = "order.php?step=3";
+            $cart_count = $this->summary['cartCount'];
+          }
+        ?>
+      <a href="<?php echo $url ;?>" class="support-box">
+        <div class="feature-block">
+            <span class="feature-tab" style="background-color: <?php echo $colors[$color_index++]; ?>"><i class="icon-shopping-cart" style="margin:3px;"></i></span>
+            <span class="badge badge-important cart-badge"><?php echo $cart_count;?></span>
+            <h2 class="<?php echo ($cart_count !="") ? "has-cart-badge" : "" ;?>" ><?php echo $this->user->lang("Order New Service");?></h2>
+            <p><?php echo $this->user->lang("Browse the Products & Services we offer");?></p>
+        </div>
+      </a>
+
+      <?php
+
+      //var_dump($this->snapins);
+      if (count($this->snapins) > 0) { ?>
+          <?php foreach ($this->snapins as $snapin) {
+
+            foreach($snapin->mapping['publicmain'] as $hash_key => $map) {
+              if ($color_index > 14) $color_index = 0;
+              ?>
+              <a href="<?php echo "index.php?fuse=admin&view=snapin&controller=snapins&h=".urlencode(base64_encode("publicmain:".$hash_key))."&plugin=".$snapin->getInternalName(); ?>" class="support-box">
+                  <div class="feature-block">
+                      <?php
+                        $snapin_icon_class = ($map['icon'] != "") ? $map['icon'] : "icon-exclamation";
+                        $snapin_icon_style = ($map['iconstyle'] != "") ? $map['iconstyle'] : "margin:12px;position:relative;top:2px;";
+                      ?>
+                      <span class="feature-tab" style="background-color:<?php echo $colors[$color_index++]; ?>"><i class="<?php echo $snapin_icon_class;?>" style="<?php echo $snapin_icon_style;?>"></i></span>
+                      <h2><?php echo substr($map['title'],0,20);?></h2>
+                      <p><?php echo $snapin->getVariable('Public Description'); ?></p>
+                  </div>
+              </a>
+          <?php
+          }
+           } ?>
+<?php } ?>
+
+      <!-- Show Global Series Separately -->
+
+      <?php if ($this->show_series_name != "") { ?>
+        <a href="index.php?fuse=knowledgebase&controller=articles&view=article&articleId=<?php echo $this->series_url_id;?>" class="support-box">
+          <div class="feature-block">
+              <span class="feature-tab" style="background-color: <?php echo $colors[$color_index++]; ?>"><i style="margin:6px;" class="icon-file-text-alt"></i></span>
+              <h2><?php echo $this->show_series_name;?></h2>
+              <p><?php echo $this->show_series_subname;?></p>
+          </div>
+        </a>
+      <?php } ?>
+
+  </div>
+
+<?php } ?>
+
+<div class="main-bottom-blox">
+
+    <?php if (count($this->announcements) > 0) {?>
+    <?php for ($i = 0; $i < count($this->announcements); $i++) {?>
+    <div class="post-date">
+      <div class="day"><?php echo $this->announcements[$i]['day'];?></div>
+      <div class="month"><?php echo $this->announcements[$i]['month'];?></div>
+    </div>
+    <ul class="announcement">
+        <li>
+            <h2><div class="announcement-title"><a href="index.php?fuse=home&controller=announcements&view=announcement&ann_id=<?php echo $this->announcements[$i]['annid']; ?>"><?php echo $this->announcements[$i]['title']; ?></a></div></h2>
+            <div class="announcement-meta"><i class="icon-time"></i> <?php echo $this->announcements[$i]['date'];?> <?php echo $this->user->lang("by"); ?> <?php echo $this->announcements[$i]['postedBy'];?></div>
+        </li>
+        <li class="ann-post"><?php echo $this->announcements[$i]['excerpt']; ?></li>
+        <?php if ( $i == (count($this->announcements)-1) ) {?>
+        <li class="ann-links">
+            <a href="index.php?fuse=home&controller=announcements&view=announcements"><?php echo $this->user->lang("View past announcements");?></a>
+        </li>
+        <?php } ?>
+    </ul>
+    <?php } ?>
+    <?php } ?>
+
+  <?php if ( $this->user->hasPermission('knowledgebase_view') ) { ?>
+  <ul class="nav nav-tabs">
+    <?php if (count($this->faqs) > 0) {
+      $latestclass = "";
+      $latesttabclass = "";
+      $faqtabclass = "in active";
+      $populartabclass = '';
+      $populartabcontentclass = '';
+      ?>
+      <li class="active"><a href="#faqtab" data-toggle="tab"><?php echo $this->user->lang("Frequently Asked Questions");?></a></li>
+    <?php } elseif (!$this->showLatestArticles) {
+      $latestclass = "";
+      $latesttabclass = "";
+      $faqtabclass = "";
+      $populartabclass = 'in active';
+      $populartabcontentclass = 'active';
+    } else {
+      $latestclass = "active";
+      $latesttabclass = "in active";
+      $faqtabclass = "";
+      $populartabclass = '';
+      $populartabcontentclass = '';
+    } ?>
+
+    <?php if ($this->showLatestArticles): ?>
+        <li class="<?php echo $latestclass;?>"><a href="#articlestab" data-toggle="tab"><?php echo $this->user->lang("Latest Articles");?></a></li>
+    <?php endif ?>
+    <?php if (count($this->populararticles)  > 0) { ?>
+      <li class="<?php echo $populartabclass ?>"><a href="#populartab" data-toggle="tab"><?php echo $this->user->lang("Popular Articles");?></a></li>
+    <?php } ?>
+  </ul>
+  <?php } ?>
+</div>
+
+<?php if ( $this->user->hasPermission('knowledgebase_view') ) { ?>
+<div class="tab-content">
+
+    <div class="tab-pane fade <?php echo $faqtabclass;?>" id="faqtab">
+      <div class="accordion" id="faq-accordion">
+        <?php
+        $artcount = 1;
+        foreach ($this->faqs as $faq) { ?>
+            <div class="accordion-group">
+              <div class="accordion-heading faq-accordion-heading">
+                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#faq-accordion" href="#art<?php echo $faq['id'];?>">
+                  <?php echo $artcount;$artcount++; ?>.&nbsp;&nbsp;<?php echo $faq['articlename'];?>
+                </a>
+              </div>
+              <div id="art<?php echo $faq['id'];?>" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <?php echo  str_replace(array("../uploads/knowledgebase/", "&lt;br&gt;"),array("uploads/knowledgebase/", "<br>"), $faq['content']); ?>
+                </div>
+              </div>
+            </div>
+        <?php } ?>
+      </div>
+    </div>
+
+    <?php if ($this->showLatestArticles): ?>
+        <div class="tab-pane fade <?php echo $latesttabclass;?>" id="articlestab">
+          <table class="table table-striped recent-articles ">
+            <?php foreach ($this->latestarticles as $article) { ?>
+            <tr class="recent-article">
+              <td>
+                <div class="article-image"><i class="icon-file-text-alt"></i></div>
+                <div class="articleName"><a href="<?php echo $article['article_link']; ?>"><?php echo $article['articleTitle']; ?></a></div>
+                <div class='articleMeta'><a class="categoryName" href="<?php echo $article['category_link']; ?>"><?php echo $article['categoryName']." &raquo;</a></div>";?>
+              </td>
+            </tr>
+            <?php } ?>
+          </table>
+        </div>
+    <?php endif ?>
+
+    <div class="tab-pane <?php echo $populartabcontentclass ?>" id="populartab">
+      <table class="table table-striped recent-articles ">
+        <?php foreach ($this->populararticles as $article) { ?>
+        <tr class="recent-article">
+          <td>
+            <div class="article-image"><i class="icon-file-text-alt"></i></div>
+            <div class="articleName"><a href="<?php echo $article['article_link']; ?>"><?php echo $article['title']; ?></a></div>
+            <div class='articleMeta'><a class="categoryName" href="<?php echo $article['category_link']; ?>"><?php echo $article['categoryname']." &raquo;</a></div>";?>
+          </td>
+        </tr>
+        <?php } ?>
+      </table>
+    </div>
+
+</div>
+<?php } ?>

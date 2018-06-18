@@ -1,0 +1,54 @@
+<style type="text/css">
+#productaddongrid .x-form-checkbox {
+    margin-left: 5px;
+}
+</style>
+
+<script data-cfasync="false" type="text/javascript">
+    var admin_edit_packagetypes = <?php echo ($this->user->hasPermission('admin_edit_packagetypes')) ? 1 : 0; ?>;
+</script>
+
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->user->lang("Product Addons");?></div>
+  <p class="alert-content"><?php echo $this->user->lang("Addons are additional services/product addons that can be attached to product orders.");?></p>
+</div>
+
+<div class="grid-meta" id="addon-list-metadata"></div>
+<div id="gridheader" class="blue-box" style="<?php echo ($this->user->hasPermission('admin_edit_packagetypes')) ? '' : 'display:none'; ?>">
+    <table class="automation">
+        <tr>
+            <td>
+                <button id="addaddon" class="rich-button"><span><?php echo $this->user->lang("Add Product Addon");?></span></button></td>
+            </td>
+            <td align="right">
+                <?php echo $this->user->lang('Group'); ?>:&nbsp;&nbsp;
+            </td>
+            <td align="left" style="width:190px;">
+                <select id='addon-list-filter'>
+                <?php
+                    foreach ($this->productgroups as $key=>$cat) {
+                        echo "<optgroup value='0' label='".$key."'>";
+                        foreach($cat as $productgroup) {
+                            $selected = "";
+                            if ($productgroup['id'] == $this->selected_group) $selected = "selected";
+                            echo "<option value='".$productgroup['id']."' ".$selected.">".$productgroup['name']."</option>";
+                        }
+                        echo "</optgroup>";
+                    }
+                ?>
+                </select>
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="addon-list"></div>
+<div id="addon-list-footer" style="display:none;">
+    <button class="rich-button" id="buttonDelete"><span><?php echo $this->user->lang("Delete Addon(s)"); ?></span></button>
+</div>
+
+<div class="alert alert-warning" style="margin-top:20px;">
+<?php echo $this->user->lang("Addons can only belong to a single product type, for example 'Hosting' addons cannot be used by 'Domain' products and vice versa.");?>
+<br/>
+<?php echo $this->user->lang("Addons can be shared among different products of the same type & changes to one addon will affect all products that use it. Create a new addon if your product requires unique settings for the addon.");?>
+<br>
+</div>

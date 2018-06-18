@@ -1,0 +1,168 @@
+<?php
+    $colors = array("green","blue","red","orange","pink");
+    $last = false;
+    $p_index = -1;
+    $additional_btn_classes = "";
+
+    if (trim($this->group['descriptionlanguage']) != "") { ?>
+	<div class="alert ce-alert ce-alert-info">
+	    <?php echo $this->unescape($this->group['descriptionlanguage']);?>
+	</div>
+
+<?php } ?>
+
+<script data-cfasync="false" type="text/javascript">
+    <?php echo "js_pricing = {};" ?>
+</script>
+
+<h1><?php //echo $this->user->lang("Select a Package");?></h1>
+
+<center>
+<div class="pricing_box price_style1">
+    <ul>
+
+        <?php
+        $colcount = 0;
+        foreach($this->packages as $package) {
+            $colcount++;
+            if ($colcount == 5) {
+                $colcount = 1;
+            }
+
+            if ($colcount == 1) {
+                $first = true;
+                $last = false;
+            }
+
+            if ( ( ($package === end($this->packages)) && ($package['highlight'] == 0) ) || ($colcount == 4) ) {
+                $last = true;
+            }
+
+            //description should be shortened to fit one line
+            $description = substr(strip_tags($package['descriptionlanguage']),0,30);
+            $pricing = $package['pricing'][0];
+            $p_index = (!isset($colors[++$p_index])) ? 0 : $p_index++;
+            ?>
+
+            <!-- how to show different pricing -->
+            <li class="price_col price_col_<?php echo $colors[$p_index];?> <?php if ($last) echo "last";?> <?php if ($package['highlight'] == 1) echo "col_active";?> <?php if ($first) echo "first";?>" style="width: 190px;">
+                <div class="price_item item_package_<?php echo $package['id'];?>">
+                    <div class="price_col_head">
+                        <span class="price">
+                          <?php echo $this->priceAdaptiveSize(
+                            $package['pricing'][0]['price_raw'][0],
+                            $package['pricing'][0]['price_raw'][1],
+                            $package['pricing'][0]['price_raw'][2],
+                            $package['pricing'][0]['term']
+                          ) ?>
+                        </span>
+                    </div>
+                    <div class="price_col_body">
+                        <div class="price_body_top">
+                            <strong><?php echo $package['plannamelanguage'];?></strong><br>
+                            <?php
+                                if($package['stockLevel'] >= 0){
+                                    if($package['stockControl'] == 1){
+                                        echo '<b>[ '.$this->user->lang("not available").' ]</b><br>';
+                                    }else{
+                                        echo '<b>[ '.$package['stockLevel'].' '.$this->user->lang("available").' ]</b><br>';
+                                    }
+                                }
+                            ?>
+                            <span><?php echo $description;?></span>
+                        </div>
+                        <?php echo $package['assetHTMLlanguage'];?>
+                    </div>
+                    <div class="price_col_foot">
+
+                        <?php
+                            if (count($package['pricing']) > 1) {
+                                $additional_btn_classes = "btn-gotosetp2-submit";
+                                foreach($package['pricing'] as $pricing) {
+
+                                    $js_pricing = json_encode($pricing);
+                                    echo '<script data-cfasync="false" type="text/javascript">';
+                                    echo "js_pricing.term_".$package['id']."_".$pricing['termId']." = ".$js_pricing;
+                                    echo "</script>";
+
+                                    $save = (trim($pricing['save'])=="-") ? "" : $this->user->lang("Save")." ".$pricing['save'];
+                                    ?>
+                                    <label class="radio" style="text-align: left;margin-left: 12px;" >
+                                      <input data-package-id="<?php echo $package['id'];?>" class="priceTerm priceTerm_<?php echo $package['id'];?>" name="priceTerm_<?php echo $package['id'];?>" type="radio" value="<?php echo $pricing['termId'];?>" <?php if($package['stockControl'] == 0 && $pricing['selected'] == 1) { echo " checked";} elseif($package['stockControl'] == 1){ echo " disabled";}?> /> <?php echo $pricing['term']."&nbsp;&nbsp;<span class='foot_save'>".$save."</span>";?>
+                                    </label>
+                                    <?php
+                                }
+                            } else {
+                                $additional_btn_classes = "";
+                                $package['nextUrl'] = $package['nextUrl']."&paymentterm=".$pricing['termId'];
+                            }
+                        ?>
+
+                        <a href="<?php echo $package['nextUrl'];?>" data-package-id="<?php echo $package['id'];?>" class="btn btn-large <?php echo $additional_btn_classes;?> <?php if ($package['highlight'] == 1) { echo "btn-danger"; } else { echo "btn-gray"; } ?>" hidefocus="true" style="outline: none;"><span><?php echo $this->user->lang("Order Now");?></span></a>
+                    </div>
+                </div>
+            </li>
+
+        <?php
+            $first = false;
+        }
+
+        ?>
+
+    </ul>
+</div>
+</center>
+
+<?php if ( $this->bundled ) { ?>
+<script data-cfasync="false" type="text/javascript">
+    $(document).ready(function() {
+        $('a:not(.button, .btn, .dropdown-toggle)').click(function(e){
+            e.stopImmediatePropagation();
+            var selectedLink = this;
+            if ($(this).hasClass('showcancelalert')) {
+                RichHTML.msgBox(lang('Are you sure you want to cancel this item?'),
+                {
+                    type: 'yesno'
+                },
+                function(result) {
+                    if ( result.btn == lang('Yes') ) {
+                        confirmDleteItemFromCart(selectedLink);
+                    }
+                });
+                return false;
+            } else if ($(this).hasClass('nopopupalert')) {
+                confirmDeleteItemFromCart(selectedLink);
+            } else {
+                RichHTML.msgBox(lang('Leaving now will cancel this item.  Are you sure you want to leave?'),
+                {
+                    type: 'yesno'
+                },
+                function(result) {
+                    if ( result.btn == lang('Yes') ) {
+                        confirmDleteItemFromCart(selectedLink);
+                    }
+                });
+                return false;
+            }
+        });
+    });
+
+
+    confirmDleteItemFromCart = function(link)
+    {
+        var cartItem = "<?php echo $this->cartParentPackage;?>";
+        if(cartItem != ''){
+            $.ajax({
+            url: 'index.php?fuse=admin&controller=signup&action=deletecartitem',
+                success: function () {
+                    window.location = link;
+            },
+            data: { cartItem: cartItem },
+            dataType: 'json'
+        });
+      } else {
+        window.location = link;
+      }
+    }
+</script>
+<?php } ?>

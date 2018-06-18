@@ -1,0 +1,24 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->activePluginName; ?> <?php echo $this->importerOrExporter; ?></div>
+  <p class="alert-content"><?php echo $this->activePluginDescription; ?></p>
+</div>
+
+<div id="vtabsContainer">
+  <div id="vtabsBar">
+    <?php foreach ( $this->tabs as $tab ) { ?>
+    <a href="index.php?fuse=admin&amp;view=<?php echo $tab['linkView']; ?>&amp;plugin=<?php echo $tab['linkPlugin']; ?>&amp;controller=importexport"><div class="vtab <?php echo $tab['active']; ?>"><?php echo $tab['name']; ?></div></a>
+    <?php } ?>
+  </div>
+  <div id="vtabContent">
+    <form name="ImportExportPlugin" id="importExportForm" method="post" action="index.php?fuse=<?php echo $this->formModule; ?>&amp;action=<?php echo $this->formAction; ?>&amp;plugin=<?php echo $this->activePluginKey; ?>&amp;controller=index" enctype="multipart/form-data" >
+      <?php echo $this->unescape($this->activePluginContent); ?>
+    </form>
+  </div>
+</div>
+<script data-cfasync="false" type="text/javascript">
+    $(document).ready(function() {
+        $('#exportButton').click(function() {
+            $('#importExportForm').submit();
+        });
+    });
+</script>

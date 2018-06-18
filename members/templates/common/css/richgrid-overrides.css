@@ -1,0 +1,70 @@
+
+.richtable table {
+	border-top:none;
+	background:none;
+	border:none;
+	font-size: 15.988px;
+	color:#333;
+}
+
+.richtable table th {
+	border:none;
+	text-shadow:none;
+	background-image:none;
+	font-size: inherit;
+	color: #111;
+	padding-bottom: 6px;
+	padding-top: 6px;
+}
+
+.richtable table td {
+	padding: 8px 25px;
+	padding-left: 0px;
+	border-top: 2px solid #eef0f0 !important;
+}
+
+.richtable table th.sortable:hover {
+	background-color: inherit;
+}
+
+
+.richtable table tr td {
+	background-color: inherit;
+}
+
+.richtable table tr:hover td {
+	background: inherit;
+}
+
+.richtable table tr.odd td {
+	background: #f9fafb;
+}
+
+.richtable table th.sortable-selected,
+.richtable table th.sortable-selected:hover,
+.richtable table th.checkbox:hover,
+.richtable table th.checkbox-checked:hover {
+	background-color: rgb(236, 236, 236);
+	background-image: none;
+	border-top:none;
+	cursor: pointer;
+}
+
+.richtable table th.sortable span.sort-icon {
+	background-position: -17px -30px;
+}
+
+.richtable table tr td.col-selected {
+	background: #f9fafb;
+	border-left: 0;
+	border-right: 0;
+}
+
+.richtable .rich-footer {
+	display: none;
+}
+
+.richgrid-pagenavi-wrapper {
+	float:left;
+	display:none;
+}

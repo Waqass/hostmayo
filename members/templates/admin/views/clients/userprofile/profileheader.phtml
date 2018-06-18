@@ -1,0 +1,129 @@
+<script data-cfasync="false" type="text/javascript">
+    var customerid=<?php echo $this->userId;?>;
+</script>
+
+<div class="alert alert-info full-contact-alert full-contact-alert-info ce-page-header">
+
+    <div class="profile-header-block">
+      <h3><table><tr><td><?php echo $this->userName ?></td><td>&nbsp;(<?php echo $this->userId;?>)</td></tr></table></h3>
+      <?php if (!$this->customer->isGuest()) { ?>
+<!--         <div class="profile-header-created"><i class="icon-time"></i>&nbsp;<?php echo $this->user->lang("Created");?>:&nbsp;<?php echo $this->dateActivated;?></div>
+        <div class="profile-header-lastseen"><i class="icon-time"></i>&nbsp;<?php echo $this->user->lang("Last Seen");?>:&nbsp;<?php echo $this->lastSeenPretty;?></div> -->
+      <?php } ?>
+    </div>
+
+    <?php if (!$this->customer->isGuest()) { ?>
+      <div  class="registered-status-wrapper">
+        <span style="position:relative; right:5px;font-weight: bold; font-size: 15px;">Status:</span>
+          <?php if ($this->showStatus) { ?>
+              <?php if ($this->canEditStatus) { ?>
+              <select id="dropdown_customerstatus" style='display:none;' name="dropdown_customerstatus">
+                  <?php
+                    $it = StatusAliasGateway::getInstance($this->user)->getUserAliases();
+                    while ($status = $it->fetch()) {
+                        echo '<option value="'.$status->statusid.'" '.(($this->customerStatus == $status->statusid) ? "selected=selected" : "").' data-aliasto="'.$status->getSystemStatus().'">'.$this->user->lang($status->name).'</option>';
+                    }
+                  ?>
+              </select>
+              <?php } else { echo $this->statusname; } ?>
+          <?php } ?>
+      </div>
+    <?php } else { ?>
+      <div class="register-guest-btn-wrapper">
+        <a class="btn flat-btn btn-large btn-danger"><?php echo $this->user->lang("Register Guest");?></a>
+      </div>
+    <?php } ?>
+
+</div>
+
+<?php
+
+// var_dump($this->active_customer_counts);
+$have_counts = false;
+if (!isset($this->active_customer_counts['ticket_count'])) {
+  $ticket_count = "";
+} else {
+  $have_counts = true;
+  $ticket_count = " (".$this->active_customer_counts['ticket_count'].")";
+}
+
+if (!isset($this->active_customer_counts['invoice_count'])) {
+  $invoice_count = "";
+} else {
+  $have_counts = true;
+  $invoice_count = " (".$this->active_customer_counts['invoice_count'].")";
+}
+
+if (!isset($this->active_customer_counts['package_count'])) {
+  $package_count = "";
+} else {
+  $have_counts = true;
+  $package_count = " (".$this->active_customer_counts['package_count'].")";
+}
+
+if (!isset($this->active_customer_counts['altaccounts_count'])) {
+  $altaccounts_count = "";
+} else {
+  $have_counts = true;
+  $altaccounts_count = " (".$this->active_customer_counts['altaccounts_count'].")";
+}
+
+if (!isset($this->active_customer_counts['notes_count'])) {
+  $notes_count = "";
+} else {
+  $have_counts = true;
+  $notes_count = " (".$this->active_customer_counts['notes_count'].")";
+}
+
+if (!isset($this->active_customer_counts['recurring_charges'])) {
+  $recurring_charges = "";
+} else {
+  $have_counts = true;
+  $recurring_charges = " (".$this->active_customer_counts['recurring_charges'].")";
+}
+
+?>
+
+
+<ul class="nav nav-tabs">
+    <li class="<?php echo $this->contacttabclass;?>"><span class="clickable-link"><a href="index.php?fuse=clients&controller=userprofile&view=profilecontact"><?php echo $this->user->lang("Contact");?></a></span></li>
+    <li class="<?php echo $this->productstabclass;?>"><span class="clickable-link"><a href="index.php?fuse=clients&controller=userprofile&view=profileproducts"><?php echo $this->user->lang("Packages")." <span class='profile_packages_count'>".$package_count."</span>";?></a></span></li>
+    <li class="<?php echo $this->billingtabclass;?>"><span class="clickable-link"><a href="index.php?fuse=clients&controller=userprofile&view=profilebilling"><?php echo $this->user->lang("Billing");?></a></span></li>
+    <li class="<?php echo $this->recurringchargestabclass;?>"><span class="clickable-link"><a href="index.php?fuse=clients&controller=userprofile&view=profilerecurringcharges"><?php echo $this->user->lang("Recurring")." <span class='profile_recurring_count'>".$recurring_charges."</span>";?></a></span></li>
+    <li class="<?php echo $this->invoicestabclass; ?>"><span class="clickable-link"><a href="index.php?fuse=clients&controller=userprofile&view=profileinvoices"><?php echo $this->user->lang("Invoices")." <span class='profile_invoices_count'>".$invoice_count."</span>";?></a></span></li>
+    <li class="<?php echo $this->ticketstabclass;?>"><span class="clickable-link"><a href="index.php?fuse=clients&controller=userprofile&view=profiletickets"><?php echo $this->user->lang("Tickets")." <span class='profile_ticket_count'>".$ticket_count."</span>";?></a></span></li>
+    <li class="<?php echo $this->accountstabclass;?>"><span class="clickable-link"><a href="index.php?fuse=clients&controller=userprofile&view=profileaccounts"><?php echo $this->user->lang("Alt. Accounts")."<span class='profile_altaccounts_count'>".$altaccounts_count."</span>";?></a></span></li>
+    <li class="<?php echo $this->notestabclass;?>"><span class="clickable-link"><a href="index.php?fuse=clients&controller=userprofile&view=profilenotes"><?php echo $this->user->lang("Notes")."<span class='profile_notes_count'>".$notes_count."</span>";?></a></span></li>
+    <li class="<?php echo $this->eventstabclass;?>"><span class="clickable-link"><a href="index.php?fuse=clients&controller=userprofile&view=profileevents"><?php echo $this->user->lang("Events");?></a></span></li>
+    <?php foreach ($this->profile_snapins as $snapin) {
+      $cls = "";
+      if ( ($snapin['key'] == $this->profile_snapin_key) &&
+           ($snapin['plugin'] == $this->profile_snapin_name)) {
+        $cls = "active";
+      }
+      ?>
+      <li class="<?php echo $cls;?>"><span class="clickable-link"><a href="index.php?fuse=clients&controller=userprofile&view=snapinview&key=<?php echo $snapin['key'];?>&name=<?php echo $snapin['plugin'];?>"><?php echo $this->user->lang($snapin['title']);?></a></span></li>
+    <?php } ?>
+</ul>
+
+
+<script data-cfasync="false" type="text/javascript">
+    var haspackages = <?php echo $this->haspackages;?>;
+    var oldstatus = <?php echo $this->oldstatus;?>;
+    var oldstatusAliasto = <?php echo $this->oldstatusAliasto;?>;
+    var hasplugin = <?php echo $this->packageWithPlugin;?>;
+
+    $(document).ready(function(){
+      <?php if (!$have_counts) {?>
+        if (typeof(profile) == "undefined") {
+          // setInterval(profile.get_counts,6000);
+        } else {
+          setTimeout(function() {
+            profile.get_counts();
+          },1000);
+        }
+      <?php } ?>
+
+    });
+
+</script>

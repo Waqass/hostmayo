@@ -1,0 +1,375 @@
+<script data-cfasync="false" type="text/javascript">
+      var invoiceview = invoiceview || {};
+      invoiceview.total = 0.00;
+      invoiceview.tax1total = 0.00;
+      invoiceview.tax2total = 0.00;
+      invoiceview.invoiceid = <?php echo $this->invoiceid;?>;
+      invoiceview.newinvoice = (invoiceview.invoiceid === 0) ? true : false;
+      $(document).ready(function(){
+          invoiceview.packages = <?php echo $this->packages?>;
+          if (invoiceview.invoiceid === 0) $('div.newinvoicealert').show();
+      });
+      <?php if ($this->showTaxOptions) { ?>
+      invoiceview.tax = {};
+      invoiceview.tax.hastax1 = <?php echo $this->jshastax1; ?>;
+      invoiceview.tax.hasrate2 = <?php echo $this->jshastax2; ?>;
+      invoiceview.tax.rate1 = parseFloat('<?php echo ($this->customertax == -1) ? 0 : $this->customertax; ?>');
+      invoiceview.tax.rate2 = parseFloat('<?php echo ($this->customertax2 == -1) ? 0 : $this->customertax2; ?>');
+      invoiceview.tax.multiplier1 = ( (invoiceview.tax.rate1 / 100) + 1);
+      invoiceview.tax.multiplier2 = ( (invoiceview.tax.rate2 / 100) + 1);
+      invoiceview.tax.rate2compound = (<?php echo $this->customertax2compound; ?> === 0) ? false : true;
+      <?php } ?>
+
+      invoiceview.currency = {};
+      invoiceview.currency.symbol = '<?php echo $this->currency["symbol"]; ?>';
+      invoiceview.currency.decimalssep = "<?php echo $this->currency['decimalssep']; ?>";
+      invoiceview.currency.thousandssep = "<?php echo $this->currency['thousandssep']; ?>";
+      invoiceview.currency.alignment = "<?php echo $this->currency['alignment']; ?>";
+      invoiceview.currency.precision = "<?php echo $this->currency['precision']; ?>";
+
+</script>
+
+<?php
+  $showTaxOptions2 = false;
+  if ($this->showTaxOptions) {
+
+    if ($this->jshastax2 == "true") {
+      $showTaxOptions2 = true;
+    }
+    $colspanfooter = 2;
+    $colspanforprice = 1;
+    $colspan_enterpayment = 5;
+    $widthofpricecol = "210px;";
+    $taxName = $this->customertaxname;
+  } else {
+    $colspanfooter = 1;
+    $colspanforprice = 2;
+    $colspan_enterpayment = 4;
+    $widthofpricecol = "390px;";
+  }
+?>
+
+<h1 class="invoicelabel"><?php echo ($this->newinvoice) ? $this->user->lang("New Invoice") : $this->user->lang("Invoice").": ".$this->invoiceid;?><span style="float:right;"><?php if (!$this->invoicecanbeedited || $this->invoicestatusname == 'Draft') {echo $this->invoicestatusname;}?></span>
+  <?php if (!$this->newinvoice) { ?>
+  &nbsp;<span class="invoicepdflink"><a href="index.php?sessionHash=<?php echo CE_Lib::getSessionHash(); ?>&fuse=billing&controller=invoice&action=generatepdfinvoice&invoiceid=<?php echo $this->invoiceid; ?>" target="_blank"><img class="pdfimage" src="../templates/admin/images/document-pdf-text.png" border="0" data-toggle="tooltip" title="<?php echo $this->user->lang('View PDF Invoice'); ?>" /></a></span>
+  <?php } ?>
+</h1>
+
+<div id="breadcrumbback">
+    <?php if ( $this->fromProfile == 1 ) { ?>
+        <a href="index.php?fuse=clients&controller=userprofile&view=profileinvoices&frmClientID=<?php echo $this->customer_id;?>"><small><?php echo $this->user->lang('Back to invoice list'); ?></small></a>
+    <?php } else { ?>
+        <a href="index.php?fuse=billing&controller=invoice&view=invoices&customerid=<?php echo $this->customer_id;?>"><small><?php echo $this->user->lang('Back to invoice list'); ?></small></a>
+    <?php } ?>
+    <span style="float:right;"><?php if ($this->invoicesubscription) { echo $this->user->lang( "Subscription" ).': '.$this->invoicesubscription;} ?></span>
+</div>
+
+<?php echo $this->unescape($this->top_snapin_html); ?>
+
+<div class="alert alert-block newinvoicealert">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->user->lang("You are creating a new invoice. Entries are added using the <b>'Add Line'</b> button below."); ?>
+</div>
+
+<div class="alert alert-block changesalert"><?php echo $this->user->lang("You currently have unsaved changes"); ?><a id='btn-saveinvoice' style="position:relative;top:-5px;right:-30px;" class="pull-right btn rich-button"><span><?php echo $this->user->lang("Save Changes");?></span></a></div>
+
+<?php if (!$this->invoicecanbeedited) { ?>
+  <?php if ($this->invoicesubscription) { ?>
+    <div class="alert ce-alert ce-alert-error"><b><?php echo $this->user->lang("It is recommended that you make no modifications to this subscription based invoice.");?></b><br><span id="subscription-warning"><?php echo $this->user->lang("Please make sure you know what you are doing before overriding this lock.");?><br><button type='button' class="btn btn-danger" style="margin-top:10px;" onclick="invoiceview.enableButtons(1); $('#subscription-warning').toggle();"><?php echo $this->user->lang("Unlock Invoice Options");?></button></span></div>
+  <?php } else { ?>
+    <div class="alert alert-info"><?php echo $this->user->lang("This invoice can not be edited because it is not in unpaid status");?></div>
+  <?php } ?>
+<?php } else { ?>
+  <table>
+    <tr>
+      <td>
+        <div class="switch-block" style="margin-left:5px;">
+          <label class="control-label"><strong><?php echo $this->user->lang("Draft");?></strong></label>
+          <div style="z-index: 4;" class="invoice-switch switch switch-small switch-square" data-preference-name="draft" tabindex="0" data-on-label="<i class='icon-ok icon-white'></i>" data-off-label="<i class='icon-remove'></i>">
+              <input name="draft" style="display:none;" type="checkbox" <?php echo ($this->invoicestatusname == 'Draft') ? "checked" : "";?> onchange="$('#div-includenextpayment').toggle();" />
+          </div>
+        </div>
+      </td>
+      <td style="padding-left:30px;">
+        <div class="switch-block" id='div-includenextpayment' style="margin-left:5px; display:<?php echo ($this->invoicestatusname == 'Draft')? '' : 'none' ?>;" >
+          <label class="control-label"><strong><?php echo $this->user->lang("Merge on next recurring invoice");?></strong></label>
+          <div style="z-index: 4;" class="invoice-switch switch switch-small switch-square" data-preference-name="includenextpayment" tabindex="0" data-on-label="<i class='icon-ok icon-white'></i>" data-off-label="<i class='icon-remove'></i>">
+              <input name="includenextpayment" style="display:none;" type="checkbox" <?php echo ($this->includenextpayment) ? "checked" : "";?> />
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table><br/>
+<?php } ?>
+
+<div class="date-block">
+  <label class="control-label"><strong><?php echo $this->user->lang("Due Date");?></strong></label>
+  <?php if ($this->invoicecanbeedited) { ?>
+  <span class="link show-invoiceDate" data-date="<?php echo (!$this->newinvoice) ? $this->dateDue : $this->gDate;?>">
+    <span id="datedue-start-display"><?php echo (!$this->newinvoice) ? $this->dateDue : $this->gDate;?></span>
+    <span class="link caret" style="position: relative;top: 6px;"></span>
+  </span>
+  <?php } else { echo $this->dateDue; } ?>
+</div>
+
+<div class="address-block">
+    <address>
+      <strong id="address-name">
+        <?php echo $this->escape($this->customer->getFirstName()) . ' ' . $this->escape($this->customer->getLastName()) ?>
+        <?php if ($this->customer->isOrganization()): ?>
+            <br><?php echo $this->escape($this->customer->getOrganization()) ?>
+        <?php endif ?>
+      </strong><br/>
+      <span id="address-line1"><?php echo $this->escape($this->customer->getAddress());?></span><br/>
+      <span id="address-citystatezip"><?php echo $this->escape($this->customer->getCity()).", ".$this->escape($this->customer->getState())." ".$this->escape($this->customer->getZipCode());?></span><br/>
+      <span id="address-phone"><?php echo $this->escape($this->customer->getPhone());?></span><br/>
+      <small><a href="index.php?fuse=clients&controller=userprofile&view=profilecontact"><?php echo $this->user->lang("Edit Address");?></a></small>
+    </address>
+</div>
+
+<table class="table table-striped table-condensed invoice-entries" style="table-layout: fixed;margin-bottom:50px;" >
+  <thead>
+    <tr>
+        <th width="10"></th>
+        <th width="180"><?php echo $this->user->lang("Type");?></th>
+        <th><?php echo $this->user->lang("Description");?></th>
+        <?php if ($this->showTaxOptions) { ?>
+        <th style="text-align: center;" width="60"><?php echo $this->customer->lang("Taxed"); ?></th>
+        <?php } ?>
+        <th colspan="<?php echo $colspanforprice;?>" style="width:<?php echo $widthofpricecol;?>; text-align: right;"><?php echo $this->user->lang("Price");?></th>
+        <?php if ($this->showTaxOptions) { ?>
+        <th style="text-align: right;" width="160"><?php echo $this->customer->lang("Tax"); ?></th>
+        <?php } ?>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="invoiceentry-row entry-clone" style="display:none;">
+      <td>
+          <div class="icon_menu dropdown">
+              <span class="link icon-actions dropdown-toggle" data-toggle="dropdown" style="text-decoration:none;margin-top: -8px;margin-left: 2px;" data-icon="&#x23;"></span>
+              <ul class="dropdown-menu invoice-entry-actions" role="menu" style="min-width: 120px;" aria-labelledby="dLabel">
+                  <li><span class='link icon_remove-wrap'><?php echo $this->user->lang("Remove");?></span></li>
+              </ul>
+          </div>
+      </td>
+      <td class="invoiceentry-type">
+          <div class="dropdown pull-left">
+              <span class="link dropdown-toggle" data-varid="0" data-toggle="dropdown" >- Type -</span>
+              <span class="link caret dropdown-toggle" data-toggle="dropdown"></span>
+              <ul class="dropdown-menu dropdown-menu-scrollable" role="menu" style="min-width: 72px;" aria-labelledby="dLabel">
+                  <?php foreach ($this->billingtypes as $billingtype) { ?>
+                    <li><span class="link"  tabindex="-1" data-price="<?php echo $billingtype['price'];?>" data-varid="<?php echo $billingtype['id'];?>" data-description="<?php echo $billingtype['description'];?>" data-detail="<?php echo $billingtype['detail'];?>" href="#"><?php echo $billingtype['name'];?></span></li>
+                  <?php } ?>
+              </ul>
+          </div>
+      </td>
+      <td class="invoiceentry-description">
+        <span class="edit-appliestoid"></span>
+        <span class="link edit-entry"><?php echo $this->user->lang("Invoice Entry");?></span><br/>
+        <div class="hide">
+          <span class="edit-start"></span> -
+          <span class="edit-end"></span>
+          </span>
+        </div>
+        <span class="edit-details"></span>
+      </td>
+      <?php if ($this->showTaxOptions) { ?>
+      <td class="invoiceentry-tax">
+          <div class="dropdown" >
+              <span class="link dropdown-toggle" data-varid="1" data-toggle="dropdown" >Yes</span>
+              <span class="link caret dropdown-toggle" data-toggle="dropdown"></span>
+              <ul class="dropdown-menu" role="menu" style="min-width: 72px;" aria-labelledby="dLabel">
+                  <li><span class="link"  tabindex="-1" data-varid="1" href="#">Yes</span></li>
+                  <li><span class="link"  tabindex="-1" data-varid="0" href="#">No</span></li>
+              </ul>
+          </div>
+      </td>
+      <?php } ?>
+      <td class="invoiceentry-amount" colspan="<?php echo $colspanforprice;?>" style="text-align: right;">
+        <div class="input-prepend input-append invoiceentry-price-div">
+        <span class="add-on"><?php echo htmlspecialchars_decode($this->currencysymbol); ?></span><input class="invoiceentry-price" type="text" data-taxed="0" data-original="0" value="0" />
+        </div>
+      </td>
+      <?php if ($this->showTaxOptions) { ?>
+        <td class="invoiceentry-tax-amount"><div style='text-align:right;position:relative;top:5px;'><?php echo $this->user->lang("NA");?></div></td>
+      <?php }?>
+    </tr>
+    <?php foreach ($this->invoiceentries as $entry) { ?>
+    <tr class="invoiceentry-row" data-entryid="<?php echo $entry['invoiceentryid']; ?>" data-appliestoid="<?php echo $entry['appliestoid']; ?>" data-isrecurring="<?php echo $entry['isrecurring']; ?>" data-recurringappliestoid="<?php echo $entry['recurringappliestoid']; ?>">
+      <td>
+        <?php if ($this->invoicecanbeedited && $entry['billtypeid'] != -3) { ?>
+            <div class="icon_menu dropdown" style="display:none">
+                <span class="link icon-actions dropdown-toggle" data-toggle="dropdown" style="text-decoration:none;margin-top: -8px;margin-left: 2px;" data-icon="&#x23;"></span>
+                <ul class="dropdown-menu invoice-entry-actions" role="menu" style="min-width: 120px;" aria-labelledby="dLabel">
+                    <li><span class='link icon_merge-wrap'><?php echo $this->user->lang("Merge Into Invoice");?></span></li>
+                    <li><span class='link icon_split-wrap'><?php echo $this->user->lang("Split Entry");?></span></li>
+                    <li><span class='link icon_remove-wrap'><?php echo $this->user->lang("Delete Entry");?></span></li>
+                </ul>
+            </div>
+        <?php }?>
+      </td>
+      <td class="invoiceentry-type">
+
+          <?php if ($this->invoicecanbeedited && $entry['billtypeid'] != -3) { ?>
+            <div class="dropdown pull-left" style="float:left;">
+            <span class="link dropdown-toggle" data-varid="<?php echo $entry['billtypeid'];?>" data-toggle="dropdown" ><?php echo $entry['billtype'];?></span>
+            <span class="link caret dropdown-toggle" data-toggle="dropdown"></span>
+            <ul class="dropdown-menu dropdown-menu-scrollable" role="menu" style="min-width: 72px;" aria-labelledby="dLabel">
+                <?php foreach ($this->billingtypes as $billingtype) { ?>
+                  <li><span class="link"  tabindex="-1" data-price="<?php echo $billingtype['price'];?>" data-varid="<?php echo $billingtype['id'];?>" data-description="<?php echo $billingtype['description'];?>" data-detail="<?php echo $billingtype['detail'];?>" href="#"><?php echo $billingtype['name'];?></span></li>
+                <?php } ?>
+            </ul>
+            </div>
+          <?php } else { ?>
+              <span class="dropdown-toggle" data-varid="<?php echo $entry['billtypeid'];?>" data-toggle="dropdown" ><?php echo $entry['billtype'];?></span>
+          <?php }?>
+
+      </td>
+      <td class="invoiceentry-description">
+        <span data-entryid="<?php echo $entry['invoiceentryid']; ?>" class="edit-appliestoid"><?php echo ($entry['appliestoid'] > 0)? $entry['reference'].' - ' : '';?></span>
+        <?php /* can't have line-breaks here cuz we're grabbing .text() in js */ ?>
+        <span data-entryid="<?php echo $entry['invoiceentryid']; ?>" class="link edit-entry"><?php echo $this->escape($entry['description']) ?></span><br/>
+        <div class="<?php echo ($entry['periodStart']? '' : 'hide') ?>">
+          <span data-entryid="<?php echo $entry['invoiceentryid']; ?>" class="edit-start"><?php echo ($entry['periodStart']? $this->dateRenderer($entry['periodStart']) : '') ?></span> -
+          <span data-entryid="<?php echo $entry['invoiceentryid']; ?>" class="edit-end"><?php echo ($entry['periodStart']? $this->dateRenderer($entry['periodEnd']) : '') ?></span>
+          </span>
+        </div>
+        <span data-entryid="<?php echo $entry['invoiceentryid']; ?>" class="edit-details"><?php echo nl2br($entry['detail']);?></span>
+      </td>
+      <?php if ($this->showTaxOptions) { ?>
+      <td class="invoiceentry-tax">
+          <?php if ($this->invoicecanbeedited && $entry['billtypeid'] != -3) { ?>
+          <div class="dropdown" >
+              <span class="link dropdown-toggle" data-varid="<?php echo $entry['taxed'];?>" data-toggle="dropdown" ><?php echo ($entry['taxed'] == 0) ? $this->user->lang("No") : $this->user->lang("Yes");?></span>
+              <span class="link caret dropdown-toggle" data-toggle="dropdown"></span>
+              <ul class="dropdown-menu" role="menu" style="min-width: 72px;" aria-labelledby="dLabel">
+                  <li><span class="link" tabindex="-1" data-varid="0" href="#"><?php echo $this->user->lang("No");?></span></li>
+                  <li><span class="link" tabindex="-1" data-varid="1" href="#"><?php echo $this->user->lang("Yes");?></span></li>
+              </ul>
+          </div>
+          <?php } else { ?>
+              <span class="dropdown-toggle" data-varid="<?php echo $entry['taxed'];?>" data-toggle="dropdown" ><?php echo ($entry['taxed'] == 0) ? $this->user->lang("No") : $this->user->lang("Yes");?></span>
+          <?php } ?>
+      </td>
+      <?php } ?>
+      <td class="invoiceentry-amount" colspan="<?php echo $colspanforprice;?>" style="text-align: right;">
+        <div class="input-prepend input-append invoiceentry-price-div">
+        <span class="add-on"><?php echo $entry['currencysymbol'];?></span><input class="invoiceentry-price" data-taxed="<?php echo $entry['taxed'];?>" type="text" <?php if (!$this->invoicecanbeedited) { echo 'disabled="true"'; }?> data-original="<?php echo $entry['price'];?>" value="<?php echo $entry['price'];?>" <?php echo ($entry['billtypeid'] == -3)? 'disabled' : '';?> />
+        </div>
+      </td>
+      <?php if ($this->showTaxOptions) { ?>
+        <td class="invoiceentry-tax-amount"><div style='text-align:right;position:relative;top:5px;'><?php echo ($entry['taxed'] == 0) ? $this->user->lang("NA") :  $entry['taxamount'];?></div></td>
+      <?php }?>
+    </tr>
+    <?php } ?>
+    <!-- footer -->
+    <tr class="footer-row">
+        <td colspan="3"><?php if($this->invoicecanbeedited) { ?><a class="btn rich-button" id="addinvoiceline"><span><?php echo $this->user->lang("Add Line"); ?></span></a><?php } ?></td>
+        <td colspan="<?php echo $colspanfooter;?>" id="invoiceentries-total-label"><span style="padding-right:20px;"><?php echo $this->user->lang("Sub Total");?></span></td>
+        <td id="invoiceentries-total">0</td>
+      </tr>
+      <?php
+        if ($this->showTaxOptions || $showTaxOptions2) {
+          $strTaxLabel = "";
+          if ($this->showTaxOptions) $strTaxLabel .= $this->customertaxname." (".$this->customertax."%)";
+          if ($strTaxLabel != "" && $showTaxOptions2) $strTaxLabel .= " & ";
+          if ($showTaxOptions2) $strTaxLabel .= $this->customertax2name." (".$this->customertax2."%)";
+          ?>
+          <tr>
+            <td colspan="5" id="invoiceentries-total-label"><span style="padding-right:20px;"><?php echo $strTaxLabel;?></span></td>
+            <td id="invoiceentries-tax-total">0</td>
+          </tr>
+      <?php } ?>
+      <tr>
+        <td colspan="3"></td>
+        <td colspan="<?php echo $colspanfooter;?>" id="invoiceentries-paid-label"><span style="padding-right:20px;"><?php echo $this->user->lang("Paid to Date");?></span></td>
+        <td id="invoiceentries-paid"><?php echo $this->partiallypaid;?></td>
+      </tr>
+      <tr>
+        <td colspan="3"></td>
+        <td colspan="<?php echo $colspanfooter;?>" id="invoiceentries-balance-label"><span style="padding-right:20px;"><?php echo $this->user->lang("Balance");?> (<?php echo $this->currencywords;?>)</span></td>
+        <td id="invoiceentries-balance">0</td>
+      </tr>
+      <?php if (!$this->newinvoice && $this->invoicecanbeedited) { /* ?>
+      <tr><td colspan="<?php echo $colspan_enterpayment;?>" style="text-align:right;"><button id="enterpayment" class="btn btn-primary <?php if ($this->showTaxOptions) { echo "withtax"; }?>"><i class="icon-plus icon-white"></i> <?php echo $this->user->lang("Enter New Payment");?></button></td></tr>
+      <?php */ }  ?>
+  </tbody>
+</table>
+
+
+<div id="invoice-buttons" style="display:none;position: relative;top: -20px; ">
+    <!-- payment buttons -->
+    <span class="btn-group dropup" id="btnPayment">
+        <!-- either show mark paid or mark unpaid -->
+        <a class="btn rich-button" disabled="disabled"><span><?php echo $this->user->lang("Payment Btn");?></span></a>
+        <a class="btn rich-button dropdown-toggle" disabled="disabled" data-toggle="dropdown"><span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li data-actionname="inv-markpaid"><a><?php echo $this->user->lang("Mark Paid"); ?></a><li>
+            <li data-actionname="inv-markunpaid"><a><?php echo $this->user->lang("Mark Un-Paid"); ?></a><li>
+            <li data-actionname="inv-process"><a><?php echo $this->user->lang("Process Invoice(s)"); ?></a><li>
+            <li data-actionname="inv-varpayment"><a><?php echo $this->user->lang("Add Payment"); ?></a><li>
+            <li data-actionname="inv-applycredit"><a><?php echo $this->user->lang("Apply Credit"); ?></a><li>
+        </ul>
+    </span>
+    <span class="btn-group dropup" id="btnSend">
+        <a class="btn rich-button" disabled="disabled"><span><?php echo $this->user->lang("Send Btn");?></span></a>
+        <a class="btn rich-button dropdown-toggle" disabled="disabled" data-toggle="dropdown"><span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li data-actionname="inv-send"><a><?php echo $this->user->lang("Send Invoice"); ?></a><li>
+            <li data-actionname="inv-sendoverdue"><a><?php echo $this->user->lang("Send Overdue"); ?></a><li>
+            <li data-actionname="inv-sendreceipt"><a><?php echo $this->user->lang("Send Receipt"); ?></a><li>
+            <li data-actionname="inv-senddraft"><a><?php echo $this->user->lang("Send Draft"); ?></a><li>
+        </ul>
+    </span>
+
+    <span class="btn-group dropup" id="btnRefund">
+        <a class="btn rich-button" disabled="disabled"><span><?php echo $this->user->lang("Refund Btn");?></span></a>
+        <a class="btn rich-button dropdown-toggle" disabled="disabled" data-toggle="dropdown"><span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li data-actionname="inv-refund"><a><?php echo $this->user->lang("Refund"); ?></a><li>
+            <li data-actionname="inv-credit"><a><?php echo $this->user->lang("Credit"); ?></a><li>
+                <li data-actionname="inv-markrefunded"><a><?php echo $this->user->lang("Mark Refunded"); ?></a><li>
+                <li data-actionname="inv-markcredited"><a><?php echo $this->user->lang("Mark Credited"); ?></a><li>
+        </ul>
+    </span>
+
+    <a class="btn rich-button" data-actionname="inv-recalculate" disabled="disabled"><span><?php echo $this->user->lang("Recalculate"); ?></span></a>
+
+    <a class="btn rich-button" data-actionname="inv-clone" disabled="disabled"><span><?php echo $this->user->lang("Clone"); ?></span></a>
+
+    <span class="btn-group dropup" id="btnDelete">
+        <a class="btn rich-button" disabled="disabled"><span><?php echo $this->user->lang("Delete Btn");?></span></a>
+        <a class="btn rich-button dropdown-toggle" disabled="disabled" data-toggle="dropdown"><span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li data-actionname="inv-deleteinvoices"><a><?php echo $this->user->lang("Delete"); ?></a><li>
+            <li data-actionname="inv-voidinvoices"><a><?php echo $this->user->lang("Void"); ?></a><li>
+        </ul>
+    </span>
+
+    <a class="btn rich-button" data-actionname="inv-cancelsub" disabled="disabled"><span><?php echo $this->user->lang("Cancel Subscription"); ?></span></a>
+
+</div>
+
+<div style="position: relative;top: 30px; clear:both;">
+  <strong><?php echo $this->user->lang("Notes visible to customer");?></strong><br/>
+  <textarea id="invoice-note" class="invoicenotes" <?php if (!$this->invoicecanbeedited) { echo 'disabled="true"'; } ?>><?php echo $this->note;?></textarea>
+  <br/><br/>
+  <?php if (!$this->newinvoice) { ?>
+  <ul class="nav nav-tabs">
+    <li class="active"><span href="#tab-transactions" data-toggle="tab"><a href="#"><?php echo $this->user->lang("Transactions");?></a></span></li>
+    <?php if ( $this->user->hasPermission('admin_view_events') ) { ?>
+    <li><span href="#tab-events" data-toggle="tab"><a href="#"><?php echo $this->user->lang("Events");?></a></span></li>
+    <?php } ?>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab-transactions">
+      <div id="invoice-transactions"></div>
+    </div>
+    <?php if ( $this->user->hasPermission('admin_view_events') ) { ?>
+    <div class="tab-pane" id="tab-events">
+      <div id="invoice-events"></div>
+    </div>
+    <?php } ?>
+  </div>
+  <?php }?>
+</div>

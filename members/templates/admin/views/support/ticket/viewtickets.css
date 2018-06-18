@@ -1,0 +1,75 @@
+#spanTicketListTableLabel a {
+    text-decoration: none;
+    color: #222222;
+}
+
+#spanTicketListTableLabel a:hover {
+    text-decoration: underline;
+    color: #bd5a35;
+}
+
+.all-tickets-view {
+    min-height: 320px;
+}
+
+.ticket-top-bar-buttons
+{
+	position: relative;
+	top: 4px;
+	left: 10px;
+}
+
+.customergroupstyle {
+    color: #FFFFFF;
+}
+
+.favorite-filter {
+	color: #888;
+	margin-right: 5px;
+}
+
+.favorite-filter .icon-star,
+.favorite-filter:hover {
+	color:#ff4000;
+	cursor:pointer;
+}
+
+.ticket-top-bar-assignedto li img {
+	width: 20px;
+	height: 20px;
+	border-radius: 3px;
+}
+
+#tktAdvancedSearch-fetch,
+#tktAdvancedSearch-clear {
+    float: right;
+}
+
+#tktAdvancedSearch {
+    margin-top: 10px;
+}
+
+#tktAdvancedSearch .well {
+    background-color: #FFDD94;
+    border: 1px solid #FFAD32;
+    margin-top: 10px;
+    width: 498px;
+}
+
+#tktAdvancedSearch > a {
+    margin-top: 10px;
+    color: #bd5a35;
+    font-size: 13px;
+    text-decoration: underline;
+}
+
+#tktAdvancedSearch > div {
+    width: 450px;
+}
+
+#tktAdvancedSearch label {
+    display: inline;
+    margin-right: 5px;
+    font-size: 13px;
+}
+

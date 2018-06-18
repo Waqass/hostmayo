@@ -1,0 +1,24 @@
+.product-group-name {
+    font-weight: bold;
+}
+
+.dropdown-menu li a:hover{
+    text-decoration: none;
+    color:white;
+}
+
+.xxlong-currency {
+    font-size:9px;
+}
+
+.xlong-currency {
+    font-size:10px;
+}
+
+.long-currency {
+    font-size:11px;
+}
+
+.price-muted {
+	color :#b8b8b8;
+}

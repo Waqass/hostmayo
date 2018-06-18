@@ -1,0 +1,87 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->user->lang("Webhooks");?></div>
+  <p class="alert-content"><?php echo $this->user->lang("You can subscribe to events via webhooks that will push JSON notifications to a given URL");?>
+  <?php if (!$this->service_enabled) { ?>
+  <br/><strong><?php echo $this->user->lang("Warning: The webhooks automation service needs to be enabled. &nbsp;&nbsp;Please enable at");?>&nbsp;<a href="index.php?fuse=admin&controller=settings&settings=plugins_services&type=Services&view=plugins&setting=webhook">service settings</a>.</strong>
+  <?php } else { ?>
+  <!-- <br/><a href="index.php?fuse=admin&controller=index&action=executeservice&service=webhook">Run service manually</a> -->
+  <?php } ?>
+  </p>
+</div>
+
+<?php $segment_content = "Enter your Segment.io Secret key, found in your project settings.  Visit <b>https://segment.io</b> for more information about integrating CE events to many of today's popular services";
+	$placeholder_segment = $this->user->lang("Your secret key");
+	$placeholder_webhook = "https://webhookurlhere.com";
+?>
+
+<br/>
+
+<form class="frm-webhooks">
+<div class="webhooks-content">
+
+	<?php foreach($this->webhooks as $webhook) { ?>
+		<div class="input-append hook-group">
+			<div class="hook-radio-group">
+			  	<label class="radio inline">
+				  <input type="radio" name="webhook_type_<?php echo $webhook['id'];?>" value="0" <?php echo ($webhook['providertype'] == 0) ? "checked":"" ;?>> Webhook URL
+				</label>
+				<label class="radio inline">
+				  <input type="radio" name="webhook_type_<?php echo $webhook['id'];?>" value="1" <?php echo ($webhook['providertype'] == 1) ? "checked":"" ;?>> <span data-toggle="tooltip" class="tip-target" data-html="true" data-placement="right" title="<?php echo $segment_content;?>">Segment.io</span>
+				</label>
+			</div>
+		  	<input class="input-block-level webhook-url" placeholder="<?php echo ($webhook['providertype'] == 0) ? $placeholder_webhook : $placeholder_segment ;?>" name="webhook-url" value="<?php echo $webhook['url'];?>" type="text" />
+			<div class="btn-group">
+				<button class="btn dropdown-toggle btn-event-type" data-toggle="dropdown">
+				  <span class="active-event-type" data-event-type=""> ... </span>
+				  <span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+				  	<li class="event-type <?php echo ($webhook['eventtype'] == 1) ? "active":"" ;?>"><a class="dropdown-event-type" href="javscript:void(0);" data-event-type="1"><?php echo $this->user->lang("All Events");?></a></li>
+				    <!-- <li class="event-type <?php echo ($webhook['eventtype'] == 2) ? "active":"" ;?>"><a class="dropdown-event-type" href="javscript:void(0);" data-event-type="2"><?php echo $this->user->lang("Billing Events");?></a></li> -->
+				    <li class="event-type <?php echo ($webhook['eventtype'] == 3) ? "active":"" ;?>"><a class="dropdown-event-type" href="javscript:void(0);" data-event-type="3"><?php echo $this->user->lang("Ticket Events");?></a></li>
+				    <li class="event-type <?php echo ($webhook['eventtype'] == 4) ? "active":"" ;?>"><a class="dropdown-event-type" href="javscript:void(0);" data-event-type="4"><?php echo $this->user->lang("Profile Events");?></a></li>
+				    <!-- <li class="event-type <?php echo ($webhook['eventtype'] == 5) ? "active":"" ;?>"><a class="dropdown-event-type" href="javscript:void(0);" data-event-type="5"><?php echo $this->user->lang("Package Events");?></a></li> -->
+				</ul>
+			</div>
+
+		  <button href="#self" class="remove-event btn" data-event-id="<?php echo $webhook['id'];?>" type="button">Remove</button>
+
+		</div>
+	<?php } ?>
+
+</div>
+</form>
+<div class="webhooks-footer">
+	<span class="add-additional-hook"><a href=""><?php echo $this->user->lang("Add another webhook URL");?></a></span>
+	<div class="form-actions">
+	  <button type="button" class="btn btn-test-hooks"><?php echo $this->user->lang("Test Hook(s)");?></button>&nbsp;&nbsp;
+	  <button type="button" class="btn btn-primary btn-save-changes"><?php echo $this->user->lang("Save changes");?></button>
+	</div>
+
+</div>
+
+<!-- clone item -->
+<div class="input-append hook-group-base" style="display:none;">
+	<div class="hook-radio-group">
+	  	<label class="radio inline">
+			<input type="radio" name="webhook_type" value="0" checked> Webhook URL
+		</label>
+		<label class="radio inline">
+			<input type="radio" name="webhook_type" value="1"> <span data-toggle="tooltip" class="tip-target" data-html="true" data-placement="right" title="<?php echo $segment_content;?>">Segment.io</span>
+		</label>
+	</div>
+  <input class="input-block-level webhook-url" name="webhook-url" placeholder="https://webhookurlhere.com" type="text">
+  <div class="btn-group">
+    <button class="btn dropdown-toggle btn-event-type" data-toggle="dropdown">
+      <span class="active-event-type" data-event-type="1"><?php echo $this->user->lang("All Events");?></span>
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      	<li class="event-type active"><a class="dropdown-event-type" href="javscript:void(0);" data-event-type="1"><?php echo $this->user->lang("All Events");?></a></li>
+	    <!-- <li class="event-type"><a class="dropdown-event-type" href="javscript:void(0);" data-event-type="2"><?php echo $this->user->lang("Billing Events");?></a></li> -->
+	    <li class="event-type"><a class="dropdown-event-type" href="javscript:void(0);" data-event-type="3"><?php echo $this->user->lang("Ticket Events");?></a></li>
+	    <li class="event-type"><a class="dropdown-event-type" href="javscript:void(0);" data-event-type="4"><?php echo $this->user->lang("Profile Events");?></a></li>
+	    <!-- <li class="event-type"><a class="dropdown-event-type" href="javscript:void(0);" data-event-type="5"><?php echo $this->user->lang("Package Events");?></a></li> -->
+    </ul>
+  </div>
+</div>

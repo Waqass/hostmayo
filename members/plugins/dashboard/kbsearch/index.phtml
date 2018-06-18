@@ -1,0 +1,14 @@
+<div id="kbsearchdiv" class="content rightbardiv">
+    <div id="kbsearchcontainer">
+            <input type="text" class="required" id="kbquery" name="kbquery" placeholder="Search KB" value="<?php echo $this->cache_KBSearchquery; ?>" />
+            <button id="search-kb-button" class="rich-button"><span>Search</span></button>
+            <div id="kbsearchresults"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var kbsearch = kbsearch || {};
+    $(document).ready(function(){
+        kbsearch.bindclick();
+    });
+</script>

@@ -1,0 +1,19 @@
+#kbsearchcontainer {
+	width: 180px !important;
+	padding-left: 20px;
+}
+
+#kbquery {
+	width: 160px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#kbsearchresultsmore {
+	margin-left: 52px;
+	margin-top:20px;
+}
+
+.kbsearchresult-article {
+	padding-top:5px;
+}

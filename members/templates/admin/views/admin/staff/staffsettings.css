@@ -1,0 +1,53 @@
+.staff-profile-image .ce-default-avatar-dark{
+    width: 50px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.staff-profile-image,
+.staff-profile-label {
+	float:left;
+}
+
+.staff-profile-label {
+	margin-left: 20px;
+	margin-top: 3px;
+	color: #444;
+	font-size: 20px;
+	font-weight: 700;
+}
+.staff-profile-label .label{
+	color: #ffffff;
+	background-color: #CCCCCC;
+}
+
+.staff-profile-label .label-success{
+	color: #ffffff;
+	background-color: #3CAA4E;
+}
+
+.staff-profile-header {
+	height:50px;
+	line-height: 20px !important;
+}
+
+.staff-profile-status {
+	font-size:12px !important;
+}
+
+.table-prefences{
+	max-width:600px;
+}
+
+.preference-switch {
+	z-index: 3;
+	display: block;
+}
+
+.preference-switches-chat {
+	display: none;
+}

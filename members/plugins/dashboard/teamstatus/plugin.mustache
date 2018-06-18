@@ -1,0 +1,24 @@
+{{#teamstatus}}
+<div id="teamStatus{{id}}" class="teamstatusmsg">
+    <table width="100%">
+        <tr>
+            <td style="font-size: 12px;padding-top: 10px; padding-left: 10px; padding-bottom: 10px">
+                <span style="font-weight:bold" title="Email: {{email}}">{{fullname}}</span>
+
+                {{#replyid}}
+                <span id="inreplyto{{id}}" style="color: green; font-weight:bold; display: {{displayInReplyTo}}" title="{{reply_details}}"> in reply to </span>
+                <span id="replieduser{{id}}" style="color: blue; font-weight:bold" title="Email: {{emailreplied}}">{{fullnamereplied}}</span>&nbsp;
+                {{/replyid}}
+
+                 (<span id="status_datetime{id}" style="color: green; font-size:12px" title="{{status_datetime}}">{{status_datetime_string}}</span>)
+                &nbsp;&nbsp;
+                <div style="margin-bottom:3px;padding-right:15px;">{{{userstatus}}}</div>
+                <div class="teamstatusmsgfooter">
+                    <a style="display: {{displayDelete}}" onClick="teamstatus.deleteTeamStatus('{{id}}','{{userid}}');"> <span style="color: red">delete</span>
+                </a><span style="display: {{displayDash}}" >&nbsp;-&nbsp;</span>
+                <a style="display: {{displayReply}}" onClick="teamstatus.addTeamStatus('{{id}}');"><span style="color: blue">reply</span></a></div>
+            </td>
+        </tr>
+    </table>
+</div>
+{{/teamstatus}}

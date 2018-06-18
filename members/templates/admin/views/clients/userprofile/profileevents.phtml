@@ -1,0 +1,68 @@
+<?php echo $this->profileheader($this->customer);?>
+
+<script data-cfasync="false" type="text/javascript">
+    var profileeventlist = profileeventlist || {};
+    profileeventlist.startDateValue = '<?php echo $this->startDateValue;?>';
+    profileeventlist.endDateValue = '<?php echo $this->endDateValue;?>';
+    profileeventlist.selectedUserId = '<?php echo $this->selectedUserId;?>';
+</script>
+
+<div class="alert alert-info" style="margin-bottom:5px;">
+    <div style="width: 165px;float: left;font-size: 12px;font-weight: 400;"><?php echo $this->user->lang('Start Date'); ?>:&nbsp;
+        <input class='datepicker' type='text' name="startdate" id="startdate" value='<?php echo $this->startDateValue; ?>' />
+    </div>
+    <div style="width: 165px;float: left;font-size: 12px;font-weight: 400;"><?php echo $this->user->lang('End Date'); ?>:&nbsp;
+        <input class='datepicker' type='text' name="enddate" id="enddate" value='<?php echo $this->endDateValue; ?>' />
+    </div>
+    <div>
+        <select name="eventtype" style="width:230px;" id="eventtype">
+            <option value="all"><?php echo $this->user->lang('All events'); ?></option>
+            <?php if ( isset($this->profileAndPackagesEvents) ) { ?>
+            <option value="profileandpackages"><?php echo $this->user->lang('Profile and Packages events'); ?></option>
+            <?php } ?>
+
+            <?php if ( isset($this->profileEvents) ) { ?>
+            <option value="profileandpackages"><?php echo $this->user->lang('Profile events'); ?></option>
+            <?php } ?>
+
+            <?php if ( isset($this->billingEvents) ) { ?>
+            <option value="billing"><?php echo $this->user->lang('Billing events'); ?></option>
+            <?php } ?>
+
+            <?php if ( isset($this->supportEvents) ) { ?>
+            <option value="support"><?php echo $this->user->lang('Support Tickets events'); ?></option>
+            <?php } ?>
+
+            <option value="note"><?php echo $this->user->lang('Client/Group Note'); ?></option>
+            <option value="emails"><?php echo $this->user->lang('Email events'); ?></option>
+            <option value="errors"><?php echo $this->user->lang('Process Errors'); ?></option>
+        </select>
+
+        <a class="rich-button white" id="btnSubmitSearch" style="margin-left: 5px;adding-top: 7px;"><span class="buttontext"><?php echo $this->user->lang("Search"); ?></span></a>
+    </div>
+</div>
+
+<br/>
+<span class="grid-meta" id="eventsList-grid-metadata"></span>
+<div class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+            	<td>
+                    <?php echo $this->user->lang("Event List");?>:
+                </td>
+                <td align="left" style="width:60px">
+                    <select id='events-grid-filter' class="change-grid-showrecords" style='width:60px;'><option value='5'>5</option><option value='10'>10</option><option value='25'>25</option><option value='50'>50</option><option value='150'>150</option><option value='300'>300</option></select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="eventsList-grid"></div>
+<div id="eventsList-footer">
+    <div id="eventsList-grid-buttons" style="float:left;display:none;">
+        <a class="rich-button white" disabled="disabled" id="delResponse"><span class="buttontext"><?php echo $this->user->lang("Delete Response(s)"); ?></span></a>
+    </div>
+    <div style="float:right;" id="eventsList-grid-pagination"></div>
+</div>

@@ -1,0 +1,117 @@
+<?php echo $this->profileheader($this->customer);?>
+<span class="grid-meta" id="invoicelist-grid-metadata"></span>
+<div id="invoicelist-grid-header" class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+                <td>
+                    <button class="rich-button" id="add-invoice-button"><?php echo $this->user->lang("Add Invoice");?></button>
+                    <?php if($this->user->hasPermission( 'billing_create' )){ ?>
+                        <button class="rich-button" id="generate-next-invoice-button"><?php echo $this->user->lang("Generate Next Recurring Invoice");?></button>
+                    <?php } ?>
+                </td>
+                <td align="right" width="50">
+                    &nbsp;&nbsp;<span><?php echo $this->user->lang("Show");?></span>:&nbsp;
+                </td>
+                <td align="left" style="width:150px;">
+                    <select style="width:150px;" id='invoicelist-grid-filterbystatus'>
+                        <option value='2'><?php echo $this->user->lang("All Invoices");?></option>
+                        <option value='4'><?php echo $this->user->lang("Pending Invoices");?></option>
+                        <option value='0'><?php echo $this->user->lang("Overdue Invoices");?></option>
+                        <option value='1'><?php echo $this->user->lang("Unpaid Invoices");?></option>
+                        <option value='5'><?php echo $this->user->lang("Draft Invoices");?></option>
+                    </select>
+                </td>
+                <td align="right" style="width:65px">
+                    <select id='invoicelist-grid-filter'  class="change-grid-showrecords" style='width:60px;'><<option value='5'>5</option><option value='10'>10</option><option value='25'>25</option><option value='50'>50</option><option value='150'>150</option><option value='300'>300</option></select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<input type="text" id="invoice-userid" name="invoice-userid" style="width:50px; display:none" value="<?php echo $this->customer->getId(); ?>" placeholder="<?php echo $this->user->lang("User Id");?>" />
+
+<div id="profileinvoicelist-grid"></div>
+<div id="invoicelist-footer">
+    <div id="invoicelist-grid-buttons" style="float:left;display:none;">
+        <!-- payment buttons -->
+        <span class="btn-group dropup" id="btnPayment">
+            <!-- either show mark paid or mark unpaid -->
+            <a class="btn rich-button" disabled="disabled"><span><?php echo $this->user->lang("Payment Btn");?></span></a>
+            <a class="btn rich-button dropdown-toggle" disabled="disabled" data-toggle="dropdown"><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li data-actionname="inv-markpaid"><a><?php echo $this->user->lang("Mark Paid"); ?></a><li>
+                <li data-actionname="inv-markunpaid"><a><?php echo $this->user->lang("Mark Un-Paid"); ?></a><li>
+                <li data-actionname="inv-process"><a><?php echo $this->user->lang("Process Invoice(s)"); ?></a><li>
+                <li data-actionname="inv-varpayment"><a><?php echo $this->user->lang("Add Payment"); ?></a><li>
+                <li data-actionname="inv-applycredit"><a><?php echo $this->user->lang("Apply Credit"); ?></a><li>
+            </ul>
+        </span>
+        <span class="btn-group dropup" id="btnSend">
+            <a class="btn rich-button" disabled="disabled"><span><?php echo $this->user->lang("Send Btn");?></span></a>
+            <a class="btn rich-button dropdown-toggle" disabled="disabled" data-toggle="dropdown"><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li data-actionname="inv-send"><a><?php echo $this->user->lang("Send Invoice"); ?></a><li>
+                <li data-actionname="inv-sendoverdue"><a><?php echo $this->user->lang("Send Overdue"); ?></a><li>
+                <li data-actionname="inv-sendreceipt"><a><?php echo $this->user->lang("Send Receipt"); ?></a><li>
+                <li data-actionname="inv-senddraft"><a><?php echo $this->user->lang("Send Draft"); ?></a><li>
+            </ul>
+        </span>
+
+        <span class="btn-group dropup" id="btnRefund">
+            <a class="btn rich-button" disabled="disabled"><span><?php echo $this->user->lang("Refund Btn");?></span></a>
+            <a class="btn rich-button dropdown-toggle" disabled="disabled" data-toggle="dropdown"><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li data-actionname="inv-refund"><a><?php echo $this->user->lang("Refund"); ?></a><li>
+                <li data-actionname="inv-credit"><a><?php echo $this->user->lang("Credit"); ?></a><li>
+                <li data-actionname="inv-markrefunded"><a><?php echo $this->user->lang("Mark Refunded"); ?></a><li>
+                <li data-actionname="inv-markcredited"><a><?php echo $this->user->lang("Mark Credited"); ?></a><li>
+            </ul>
+        </span>
+
+        <a class="btn rich-button" data-actionname="inv-recalculate" disabled="disabled"><span><?php echo $this->user->lang("Recalculate"); ?></span></a>
+
+        <a class="btn rich-button" data-actionname="inv-merge" disabled="disabled"><span><?php echo $this->user->lang("Merge"); ?></span></a>
+
+        <a class="btn rich-button" data-actionname="inv-clone" disabled="disabled"><span><?php echo $this->user->lang("Clone"); ?></span></a>
+
+        <span class="btn-group dropup" id="btnDelete">
+            <a class="btn rich-button" disabled="disabled"><span><?php echo $this->user->lang("Delete Btn");?></span></a>
+            <a class="btn rich-button dropdown-toggle" disabled="disabled" data-toggle="dropdown"><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li data-actionname="inv-deleteinvoices"><a><?php echo $this->user->lang("Delete"); ?></a><li>
+                <li data-actionname="inv-voidinvoices"><a><?php echo $this->user->lang("Void"); ?></a><li>
+            </ul>
+        </span>
+
+        <a class="btn rich-button" data-actionname="inv-cancelsub" disabled="disabled"><span><?php echo $this->user->lang("Cancel Subscription"); ?></span></a>
+
+    </div>
+</div>
+
+<div id="invoice" style="padding-top:30px;"></div>
+
+<script data-cfasync="false" type="text/javascript">
+    $(document).ready(function() {
+        viewinvoices.viewingFromProfile = true;
+
+        $('#add-invoice-button').click(function() {
+            window.location = 'index.php?controller=invoice&fuse=billing&frmClientID=<?php echo $this->customer->getId(); ?>&view=invoice&profile=1';
+        });
+
+        $('#generate-next-invoice-button').click(function() {
+            richgrid.disable();
+            RichHTML.msgBox(lang("Are sure you want to generate the next recurring invoice for this customer?"),{type:'yesno'},
+                function(ret) {
+                    if(ret.btn == lang("No")) {
+                        richgrid.enable();
+                        return;
+                    }
+                    viewinvoices.performaction('inv-generatenextinvoice', {customerid:<?php echo $this->customer->getId(); ?>});
+                });
+        });
+
+    });
+
+    gridEl = 'profileinvoicelist-grid';
+</script>

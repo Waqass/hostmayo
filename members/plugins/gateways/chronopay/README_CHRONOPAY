@@ -1,0 +1,96 @@
+What is this?
+-------------
+
+This is a payment module built for use in ClientExec (www.clientexec.com) to integrate 
+with the ChronoPay Credit card processor (www.chronopay.com).  It is based around a hosted payments page solution 
+that ChronoPay offers.  This payment module performs once off initial payment processing and does not cover re-occuring
+billing.  This function must be managed via the ChronoPay Client Interface.
+
+SUPPORT
+-------
+Please forward any queries on use of the ChronoPay Payment solution to the following:
+
+Email: sales@chronopay.com 
+Phone number: +31(0)20 79 40110
+
+
+REQUIREMENTS
+------------
+
+There are no additional system requirements to run this payment module that differ from the standard ClientExec 
+requirements.  The module has been tested on the ClientExec 2.7.4.
+
+All Packages must be set to the same currency that ChronoPay is set to process the credit card payment in.
+
+
+INSTALL
+-------
+
+SETTING UP CHRONOPAY
+---------------------
+Settings must be set in your ChronoPay account to interact with the ClientExec payment module.  
+
+Log into your ChronoPay clients area and configure the following:
+
+1. Login to https://clients.chronopay.com/.
+2. Setup your site.  
+	1. On the main menu go to setup.
+	2. Click to 'List your sites'.
+	3. Click 'Add new site'.
+	4. Complete the Add site form.  The main field that is important is the Site name as this is displayed
+		at the top of the payments form.
+3. Setup the main product.
+	1. On the main menu go to setup.
+	2. Click on 'List your products'.
+	3. Click 'Add new product'.
+	4. Complete the add product form.  This is the product that will be used for all orders.  The price of the 
+		product will be set dynamically via ClientExec.  The important fields are:
+
+		** Product Name - not so important.  Recommend that you use your site name or url as it is shown in 
+			payment form.
+		** Product Type - Standard
+		** Price - 1.00
+		** Period - 0
+		** Rebill Price - 0.00
+		** Rebill Period - 0
+		** Access URL - your site url + /plugins/gateways/chronopay/callback.php
+			i.e. http://somedomain.com/plugins/gateways/chronopay/callback.php
+			MOST IMPORTANT as this is the redirect on a successful CC processing.
+		** Product username/password management - unchecked.
+
+
+
+SETTING UP CLIENTEXEC
+----------------------
+1. UNZIP/UPLOAD all files contained in the ZIP package to your ClientExec installation root.  
+
+	i.e.  This will install the following files:
+
+		** <clientexec_root>/plugins/gateways/chronopay/callback.php
+		** <clientexec_root>/plugins/gateways/chronopay/callback_ipn.php
+		** <clientexec_root>/plugins/gateways/chronopay/plugin.chronopay.php
+		** <clientexec_root>/plugins/gateways/chronopay/index.html
+	
+2. Log into the ClientExec Admin and go to Admin > Plugins.  Click on the '3rd Party Billing' tab.  You will now 
+	see 'ChronoPay' in the gateway list.
+
+3. Turn 'In Signup' to 'Yes', and complete the fields:
+	
+	Product ID - Product ID of the product you set up in ChronoPay.
+	Product Name - Name that will be displayed on the ChronoPay Hosted Credit Card Page.
+	Language - Language of the ChronoPay Hosted Credit Card Page.
+	Signup Name - Name that will be displayed on the ClientExec signup page.
+
+4. Press "Update Settings"
+
+			
+Finished!!... your payment method should now be available for customers to use.
+
+
+TIP
+---
+
+ChronoPay will supply you with a test credit card number to verify your installation.
+
+----------
+

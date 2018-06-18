@@ -1,0 +1,320 @@
+<script data-cfasync="false" type="text/javascript">
+    var newFilterIndex = 0;
+    var calButtonIndex = 0;
+    var searchVisible = false;
+
+    function addFilter()
+    {
+        var newFilterRow = document.getElementById("filterRowTemplate").cloneNode(true);
+
+        newFilterRow.setAttribute('id', 'filterRow_N' + newFilterIndex);
+        newFilterIndex++;
+        newFilterRow.style.display = isIE? 'block' : 'table-row';
+
+        // have to insert the new node into the dom before we modify it, or else things won't work out as expected.
+        var newFilterRow = document.getElementById("filterTableBody").appendChild(newFilterRow);
+    }
+
+    function removeFilter(tr)
+    {
+        tr.parentNode.removeChild(tr);
+    }
+
+    function ActiveSelect(flag,tr)
+    {
+
+        if (flag == "") {
+            return;
+        }
+
+        var selects = tr.getElementsByTagName("select");
+        var inputs = tr.getElementsByTagName("input");
+        var divs = tr.getElementsByTagName("div");
+
+        for (var i = 0; i < divs.length; i++) {
+            //included: customFieldValueDiv, tstartdate, telapsed, telapsedLastReply, customFieldDiv, tcustomer
+            divs[i].style.display = 'none';
+        }
+        for (var i = 0; i < inputs.length-1; i++) {
+            //included: customFieldValue, content, startdate, timeelapsed, timeSinceLastReply, subject, customer
+            //excluded: remove (button)
+            inputs[i].disabled = true;
+            inputs[i].style.display = 'none';
+        }
+        // remove (button)
+        inputs[inputs.length - 1].style.display = "";
+        if(flag != ''){
+            // condition
+            selects[1].style.display = '';
+            selects[1].disabled = false;
+            selects[1].options[0].text = lang('Is');
+            selects[1].options[1].text = lang('Is Not');
+        } else{
+            // condition
+            selects[1].style.display = 'none';
+            selects[1].disabled = true;
+        }
+        for (var i = 2; i < selects.length; i++) {
+            // excluded: fieldId, condition
+            // included: staff, ticketstatus, priority, type, department, customField
+            if (selects[i].name == flag) {
+                selects[i].disabled = false;
+                selects[i].style.display = 'inline';
+            } else {
+                selects[i].disabled = true;
+                selects[i].style.display = 'none';
+            }
+        }
+        if (flag == "content[]"){
+            // content
+            inputs[1].style.display = 'inline';
+            inputs[1].disabled = false;
+
+            // condition
+            selects[1].options[0].text = lang('Contains');
+            selects[1].options[1].text = lang('Does Not Contain');
+        }
+        if (flag == "subject[]"){
+            // subject
+            inputs[5].style.display = 'inline';
+            inputs[5].disabled = false;
+
+            // condition
+            selects[1].options[0].text = lang('Contains');
+            selects[1].options[1].text = lang('Does Not Contain');
+        }
+        if (flag == 'customer[]') {
+            // tcustomer
+            divs[5].style.display = 'inline';
+
+            // customer
+            inputs[6].style.display = 'inline';
+            inputs[6].disabled = false;
+            $(inputs[6]).select2({
+                placeholder: lang("Search for a name") + " ...",
+                minimumInputLength: 3,
+                width: '198px',
+                formatResult: function(result) {
+                    return result.text;
+                },
+                //dropdownCssClass: 'globalsearch-dropdown-active',
+                maximumSelectionSize: 1,
+                id: function(obj) {
+                    return obj.text;
+                },
+                ajax: {
+                    url: "index.php?fuse=clients&action=searchbyname",
+                    dataType: 'json',
+                    quietMillis: 500,
+                    data: function (term, page) {
+                        return {
+                            query: term,
+                            limit: 10, // get 10 results at a time
+                            page: page
+                        };
+                    },
+                    results: function (data, page) {
+                        if (data.total) { ticketList.nameSearchObj.totalResults = data.total; }
+                        var more = (page * 10) < ticketList.nameSearchObj.totalResults;
+                        return {results: data.matches, more: more};
+                    }
+                }
+            });
+        }
+        if (flag == "startdate[]"){
+            // tstartdate
+            divs[1].style.display = 'inline';
+
+            // startdate
+            inputs[2].style.display = 'inline';
+            inputs[2].disabled = false;
+
+            // condition
+            selects[1].options[0].text = lang('Greater than');
+            selects[1].options[1].text = lang('Less than');
+
+            // startdate
+            $(inputs[2]).datepicker({
+                format: clientexec.dateFormat == 'm/d/Y'? 'mm/dd/yyyy' : 'dd/mm/yyyy',
+                autoclose: true
+            });
+        }
+        if (flag == "timeelapsed[]"){
+            // telapsed
+            divs[2].style.display = 'inline';
+
+            // timeelapsed
+            inputs[3].style.display = 'inline';
+            inputs[3].disabled = false;
+
+            // condition
+            selects[1].options[0].text = lang('Greater than');
+            selects[1].options[1].text = lang('Less than');
+        }
+        if (flag == "timeSinceLastReply[]"){
+            // telapsedLastReply
+            divs[3].style.display = 'inline';
+
+            // timeSinceLastReply
+            inputs[4].style.display = 'inline';
+            inputs[4].disabled = false;
+
+            // condition
+            selects[1].options[0].text = lang('Greater than');
+            selects[1].options[1].text = lang('Less than');
+        }
+        if ( flag == 'customField[]' ) {
+            // customFieldDiv
+            divs[4].style.display = 'inline';
+
+            // condition
+            selects[1].options[0].text = lang('Is');
+            selects[1].options[1].text = lang('Is Not');
+        }
+        if ( flag == 'customFieldValue[]' ) {
+            // customFieldValueDiv
+            divs[0].style.display = 'inline';
+
+            // customFieldValue
+            inputs[0].style.display = 'inline';
+            inputs[0].disabled = false;
+
+            // condition
+            selects[1].options[0].text = lang('Is');
+            selects[1].options[1].text = lang('Is Not');
+        }
+
+        // show next line accepting new conditions
+        //only show if we haven't already created the next node
+        var currentindex = tr.id.split("_N")[1];
+        var shouldbenextindex = ++currentindex;
+        if(shouldbenextindex == newFilterIndex){
+            if (newFilterIndex > 1) {
+                document.getElementById("tdMatchType").style.display = "";
+            }
+            addFilter();
+        }
+    }
+
+    $(document).ready(function(){
+        addFilter();
+    });
+
+</script>
+<table width="100%" border="0">
+    <tr>
+        <td>
+            <label><?php echo $this->user->lang("Create custom filters which can be saved for future searches"); ?>:</label>
+            <table border="0">
+                <tbody id="filterTableBody" >
+                    <tr id="filterRowTemplate" style="display:none;">
+                        <td align="left">
+                            <select class="disableSelect2AutoLoad" id="fieldId" name="fieldId[]" onchange="ActiveSelect(this.value,this.parentNode.parentNode);">
+                                <option value=''>--- <?php echo $this->user->lang("Select condition"); ?> ---</option>
+                                <option value='staff[]'><?php echo $this->user->lang("Assigned to"); ?></option>
+                                <option value='ticketstatus[]'><?php echo $this->user->lang("Status"); ?></option>
+                                <option value='priority[]'><?php echo $this->user->lang("Priority"); ?></option>
+                                <option value='type[]'><?php echo $this->user->lang("Ticked type"); ?></option>
+                                <option value='department[]'><?php echo $this->user->lang("Department"); ?></option>
+                                <option value='customer[]'><?php echo $this->user->lang("Customer"); ?></option>
+                                <option value=''>-----------------</option>
+                                <option value='startdate[]'><?php echo $this->user->lang("Creation Date"); ?></option>
+                                <option value='timeelapsed[]'><?php echo $this->user->lang("Time Elapsed"); ?></option>
+                                <option value='timeSinceLastReply[]'><?php echo $this->user->lang("Time Since Last Reply"); ?></option>
+                                <option value='customField[]'><?php echo $this->user->lang("Custom Field"); ?></option>
+                                <option value='customFieldValue[]'><?php echo $this->user->lang("Custom Field Value"); ?></option>
+                                <option value='subject[]'><?php echo $this->user->lang("Subject"); ?></option>
+                                <option value='content[]'><?php echo $this->user->lang("Content"); ?></option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="disableSelect2AutoLoad" name="condition[]" id="condition" style="display:none" disabled='disabled'>
+                                <option value="is"><?php echo $this->user->lang("Is"); ?></option>
+                                <option value="not"><?php echo $this->user->lang("Is Not"); ?></option>
+                            </select>
+                            <select class="disableSelect2AutoLoad"  name="staff[]" id="staff" style="display:none" disabled='disabled'>
+                                <option value="0"><?php echo $this->user->lang("Not Assigned"); ?></option>
+                                <?php
+                                    foreach ($this->admins as $admin) {
+                                        echo '<option value="'.$admin['staffId'].'">'.$admin['staffLabel'].'</option>';
+                                    }
+                                ?>
+                            </select>
+                            <select class="disableSelect2AutoLoad" id="ticketstatus" name="ticketstatus[]" style="display:none" disabled='disabled'>
+                                <?php foreach (StatusAliasGateway::getInstance($this->user)->getAllStatuses(ALIAS_STATUS_TICKET) as $alias): ?>
+                                    <?php if ($alias->getSystemStatus() != TICKET_STATUS_CLOSED || $this->user->hasPermission('support_view_closed_tickets')): ?>
+                                        <option value="<?php echo $alias->statusid ?>">
+                                            <?php echo $this->user->lang($alias->name) ?>
+                                        </option>
+                                    <?php endif ?>
+                                <?php endforeach ?>
+
+                            </select>
+                            <select class="disableSelect2AutoLoad" name="priority[]" id="priority" style="display:none" disabled='disabled'>
+                                <option value="3"><?php echo $this->user->lang("Low"); ?></option>
+                                <option value="2"><?php echo $this->user->lang("Medium"); ?></option>
+                                <option value="1"><?php echo $this->user->lang("High"); ?></option>
+                            </select>
+                            <select class="disableSelect2AutoLoad" name="type[]" id="type" style="display:none" disabled='disabled'>
+                                <?php
+                                    foreach ($this->types as $type) {
+                                        echo '<option value="'.$type['typeId'].'">'.$type['typeLabel'].'</option>';
+                                    }
+                                ?>
+                            </select>
+                            <select class="disableSelect2AutoLoad" name="department[]" id="department" style="display:none" disabled='disabled'>
+                                <option value="-1">-----</option>
+                                <?php
+                                    foreach ($this->departments as $departments) {
+                                        echo '<option value="'.$departments['depId'].'">'.$departments['depLabel'].'</option>';
+                                    }
+                                ?>
+                            </select>
+
+                            <div id="customFieldValueDiv" style="display:none">
+                                <input name="customFieldValue[]" id="customFieldValue"  value="" style="display:none;width: 100px;margin-top: -10px; " disabled='disabled'/>
+                            </div>
+
+                            <input name="content[]" id="content" value="" style="display:none; width: 220px; margin-bottom: 10px" disabled='disabled' />
+                            <div id="tstartdate" style="display:none; position:relative; top:-5px">
+                                <input class='datepicker hide' type='text' name="startdate[]" id="startdate" disabled="disabled" />
+                            </div>
+                            <div id="telapsed" style="display:none">
+                                <input name="timeelapsed[]" id="timeelapsed" size="4" value="3" style="display:none;width: 35px;width: 35px;margin-top: -10px; " disabled='disabled'/> <?php echo $this->user->lang("Hours"); ?>
+                            </div>
+                            <div id="telapsedLastReply" style="display:none">
+                                <input name="timeSinceLastReply[]" id="timeSinceLastReply" size="4" value="3" style="display:none;width: 35px;width: 35px;margin-top: -10px; " disabled='disabled'/> <?php echo $this->user->lang("Hours"); ?>
+                            </div>
+                            <div id="customFieldDiv" style="display:none">
+                                <select class="disableSelect2AutoLoad" name="customField[]" id="customField" style="display:none" disabled='disabled'>
+                                <option value="-1">-----</option>
+                                <?php
+                                    foreach ($this->customFields as $customField) {
+                                        echo '<option value="'.$customField['id'].'">'.$customField['name'].'</option>';
+                                    }
+                                ?>
+                                </select>
+                            </div>
+                            <input name="subject[]" id="subject" value="" style="display:none; width: 220px; margin-bottom: 10px" disabled='disabled' />
+                            <div id="tcustomer" style="display:none">
+                                <input type="text" id="customer" name="customer[]" style="display:none" disabled="disabled" />
+                            </div>
+                        </td>
+                        <td>&nbsp;&nbsp;<input style="margin-bottom: 10px;display: none" type="button" class="button_medium" name="remove" id="remove" value="-" onclick="removeFilter(this.parentNode.parentNode)" /></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <tr>
+                    <td id="tdMatchType" style="display:none">
+                        <label for="match"><?php echo $this->user->lang("Match type"); ?>:</label>
+                        <select class="disableSelect2AutoLoad" name="match" id="match">
+                            <option value="AND" selected="selected"><?php echo $this->user->lang("Against all conditions (AND)"); ?>&nbsp;&nbsp;&nbsp;</option>
+                            <option value="OR"><?php echo $this->user->lang("Against any condition (OR)"); ?>&nbsp;&nbsp;&nbsp;</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

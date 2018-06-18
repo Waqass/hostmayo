@@ -1,0 +1,25 @@
+# Please rename this file to .htaccess
+
+# This rule fixes CE's chat when using Apache and compressing all content
+# (in CPanel, when "Optimize Website" is set to "Compress all content")
+<IfModule mod_deflate.c>
+  SetEnvIfNoCase Accept ^text/event-stream$ no-gzip dont-vary
+</IfModule>
+
+# KB Rewrites for SEO
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteBase /
+    RewriteCond %{ENV:first_uri_path} ^$
+    RewriteCond %{REQUEST_URI} ^/([^/]+)/knowledge-base
+    RewriteRule ^ - [E=first_uri_path:%1]
+
+    RewriteRule ^knowledge-base/$ /%{ENV:first_uri_path}/index.php?fuse=knowledgebase&controller=articles&view=main [L]
+    RewriteRule ^knowledge-base/([^/]*)~([0-9]+)/$ /%{ENV:first_uri_path}/index.php?fuse=knowledgebase&controller=articles&view=main&categoryId=$2 [L]
+    RewriteRule ^knowledge-base/([^/]*)/([^/]*)~([0-9]+)$ /%{ENV:first_uri_path}/index.php?fuse=knowledgebase&controller=articles&view=article&articleId=$3 [L]
+
+    RewriteRule ^knowledge-base/([^/]*)~([0-9]+)/(.*)\.(.*)$ /%{ENV:first_uri_path}/$3.$4 [L,R]
+    RewriteRule ^knowledge-base/(.*)$ /%{ENV:first_uri_path}/$1 [L,R]
+</IfModule>
+# End of KB Rewrites

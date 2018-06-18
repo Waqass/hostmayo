@@ -1,0 +1,53 @@
+<?php echo $this->publicproductheader($this->user); ?>
+
+<div class="alert ce-alert ce-alert-info">
+	<table>
+	<tr>
+	<td>
+		<div style="margin-bottom:5px;margin-right:70px;padding:10px;">
+			<strong><?php echo $this->user->lang("Type");?></strong><br/>
+			<?php echo $this->cert['type']; ?><br/>
+		</div>
+	</td>
+	<td>
+		<div style="margin-bottom:5px;padding:10px;">
+			<strong><?php echo $this->user->lang("Status");?></strong><br/>
+			<?php echo $this->cert['status']; ?><br/>
+		</div>
+	</td>
+	</tr>
+	<tr>
+	<td>
+		<div style="margin-bottom:5px;margin-right:70px;padding:10px;">
+			<strong><?php echo $this->user->lang("Certificate ID");?></strong><br/>
+			<?php echo $this->cert['id']; ?><br/>
+		</div>
+	</td>
+	<td>
+		<div style="margin-bottom:5px;margin-right:70px;padding:10px;">
+			<strong><?php echo $this->user->lang("Domain");?></strong><br/>
+			<?php echO $this->cert['domain']; ?> <br/>
+		</div>
+	</td>
+	<td>
+	<div style="margin-bottom:5px;padding:10px;">
+		<strong><?php echo $this->user->lang("Expiration Date");?></strong><br/>
+		<?php echo $this->cert['expirationDate']; ?>
+	</div>
+	</td>
+	</tr>
+	<tr>
+	<td colspan="3">
+		<div style="margin-bottom:0;padding:10px;clear:both;">
+			<strong><?php echo $this->user->lang("Administration Email");?></strong><br/>
+			<input type="text" style="width:500px;" value="<?php echo $this->cert['adminEmail']; ?>" /><br/>
+		</div>
+	</td>
+	</tr>
+	</table>
+</div>
+
+<div style="margin-bottom:5px;padding:10px;">
+	<strong><?php echo $this->user->lang("CSR");?></strong><br/>
+	<textarea name="csr" style="width:530px;height:150px;"><?php echo $this->cert['csr']; ?></textarea><br/>
+</div>

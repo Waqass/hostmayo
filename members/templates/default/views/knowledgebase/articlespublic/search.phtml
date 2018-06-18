@@ -1,0 +1,27 @@
+<style>
+    ul.articles li {
+        height: 50px;
+    }
+</style>
+<?php if ( count($this->articles) > 0 ) { ?>
+<div class="alert ce-alert ce-alert-info">
+    <?php echo $this->user->lang('The following articles were found:'); ?>
+</div>
+<ul class="articles">
+    <?php foreach ( $this->articles as $article ) { ?>
+    <li>
+        <div class="article"></div>
+        <a class="articleName" href="<?php echo $article['href']; ?>">
+            <?php echo $this->escape($article['title']); ?>
+        </a>
+        <br/>
+            Added on <?php echo $article['created']; ?> by <?php echo $article['author']; ?>
+
+    </li>
+    <?php } ?>
+</ul>
+<?php } else { ?>
+<div class="alert ce-alert ce-alert-error">
+    <?php echo $this->user->lang('Sorry, no articles could be found.'); ?>
+</div>
+<?php } ?>

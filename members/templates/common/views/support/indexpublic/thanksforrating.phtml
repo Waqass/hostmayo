@@ -1,0 +1,20 @@
+<?php if ($this->showFeedback): ?>
+    <h1><?php echo $this->user->lang("Thank you for your feedback");?></h1>
+    <?php echo $this->user->lang("Additionally, you can enter any additional comments about your service below:");?>
+    <form action='index.php?fuse=support&action=savefeedback' name='formfeedback' method='post' style="margin-right:20px;">
+        <input type="hidden" name="ticketId" value="<?php echo $this->TICKETID; ?>">
+        <input type="hidden" name="hash" value="<?php echo $this->HASHCODE; ?>">
+        <textarea name="message" rows="4" style="width:100%;"></textarea>
+        <br />
+        <input type="submit" class="btn" name="send" value="<?php echo $this->user->lang("Send Additional Comment");?>">
+    </form>
+<?php elseif($this->showThanks): ?>
+    <h1><?php echo $this->user->lang("Thank you for your feedback");?></h1>
+    <div><?php echo $this->user->lang("Your comments have been submitted");?></div>
+<?php else:
+    echo "<h1>".$this->user->lang('There was an error with this request')."</h1>";
+    if (isset($this->badTicket)) { echo "<h2>".$this->user->lang("The referred ticket does not exist")."</h2>"; }
+    if (isset($this->alreadyRated)) { echo "<h2>".$this->user->lang("The service on that ticket has already been rated")."</h2>"; }    
+    if (isset($this->badHash)) { echo "<h2>".$this->user->lang("The hash provided was invalid")."</h2>"; }
+    if (isset($this->badRate)) { echo "<h2>".$this->user->lang("Nice try but that was an invalid rate")."</h2>"; }
+endif ?>

@@ -1,0 +1,147 @@
+<script data-cfasync="false" type="text/javascript">
+    var ticketview = {};
+    ticketview.ticket_id = <?php echo $this->metadata['id'];?>;
+</script>
+
+<div class="meta-ticket-id"><?php echo $this->user->lang("Ticket"); ?> #<?php echo $this->metadata['id'];?></div>
+<h1 class="pull-left"><?php echo $this->escape($this->metadata['subject']) ?></h1><span class="pull-right label ce-label ce-label-large <?php echo ($this->metadata['status_system'] == -1) ? "label-important" : "label-info";?> label-ticket-status"><?php echo $this->user->lang($this->metadata['statusName']);?></span>
+
+<div class="ticket-nav-tabs">
+    <ul class="nav nav-pills pull-left ce-nav-pills" id="filter-ul">
+      <li class="active"><a href="javascript:void(0)" onclick="ticketview.filterBy(this,'messages')"><?php echo $this->user->lang("Messages"); ?></a></li>
+      <li><a href="javascript:void(0)" onclick="ticketview.filterBy(this,'customfields')"><?php echo $this->user->lang("Custom Fields"); ?></a></li>
+    </ul>
+</div>
+
+<div class="ticket-custom-fields">
+    <form id="ticketCustomFieldsForm" method="post">
+    </form>
+    <div class="form-actions">
+        <div class="pull-right">
+            <button class="btn-primary btn" id="ticketCustomFieldsSubmit"><span><?php echo $this->user->lang("Save Custom Fields");?></span></button>
+        </div>
+    </div>
+</div>
+
+<div class="ticket-log">
+<?php foreach($this->comments as $comment) {
+        if ($comment['action'] == 1) continue;
+    ?>
+
+    <dl>
+        <dt>
+            <span class="avatar"><img class="usergravatar ce-default-avatar" src="<?php echo $comment['avatar_url'];?>" alt="Avatar"></span><div class="msgtime"><?php echo $comment['createdAt'];?></div>
+        </dt>
+        <dd class="log_id_<?php echo $comment['logid'];?>">
+            <strong class="nameofuser nameofotheruser"><?php echo $comment['authorName'];?></strong><br/>
+            <?php foreach ($comment['attachments'] as $attachment) { ?>
+            <a target="_blank" href='index.php?fuse=support&controller=ticket&view=getattachment&file_id=<?php echo $attachment['id'];?>' title=""><img title="<?php echo $this->escape($attachment['filename']);?>" class="attatchment-image" src='index.php?fuse=support&controller=ticket&view=getattachment&file_id=<?php echo $attachment['id'];?>' /></a><br/>
+            <?php } ?>
+
+            <?php if ( count($comment['hasAttachment']) > 0 ) { ?>
+                <?php foreach ( $comment['hasAttachment'] as $fileName ) { ?>
+                ** <?php echo $this->user->lang("File Attached"); ?>: <?php echo $fileName; ?>  ** <br/><br/>
+                <?php } ?>
+            <?php } ?>
+            <br/>
+            <div dir="auto">
+              <?php /* before v5 was released logs stored htmlentities, which need to be interpreted, so we don't escape them here */ ?>
+              <?php if ($comment['createdAt_unix'] < 1396587600): ?>
+                <?php echo nl2br(trim($this->linkify($comment['message'])));?>
+              <?php else: ?>
+                <?php echo nl2br(trim($this->linkify($this->escape($comment['message']))));?>
+              <?php endif ?>
+            </div>
+
+        </dd>
+    </dl>
+
+<?php } ?>
+</div>
+
+<?php if ($this->metadata['status_system'] != -1) { ?>
+    <form class="frm-ticket" enctype="multipart/form-data" action="index.php?action=savenewlog&fuse=support&controller=ticket" method="POST">
+        <input type="hidden" name="id" value="<?php echo $this->metadata['id'];?>" />
+        <input type="hidden" name="ticketstatus" value="2" />
+
+        <textarea dir="auto" rows="6" data-required="true" name="message" placeholder="<?php echo $this->user->lang("Add reply");?>..." class="ticket-comment span9"></textarea>
+
+    <?php if ($this->maxfilesize > 0 && $this->extns) { ?>
+        <fieldset>
+            <div class="share-upload-desc">
+            <?php echo $this->user->lang("Sharing a picture will help us understand your question even more.");?>. <?php echo $this->user->lang("Max file size");?>: <?php echo $this->maxfilesize; ?>
+            <?php if ($this->extns != '*'): ?>
+                - <a href="javascript:;" data-toggle="popover-hover" data-html=true data-placement="top" title="<?php echo $this->user->lang("Allowed file extensions");?>" data-content="<p><?php echo $this->extnsmessage; ?></p>"><?php echo $this->user->lang('See Allowed Extensions') ?></a>
+            <?php endif ?>
+            </div>
+            <div id="fileFieldsContainer">
+                <div id="fileFields_0" class="hide">
+                    <input class="file_upload_input" id="file_0" name="file_0" type="file" title="<?php echo $this->user->lang("Choose File");?>" />
+                    <a style="visibility:hidden; margin-left:10px;position: relative;top:-2px;"><?php echo $this->user->lang('Delete') ?></a><br/><br/>
+                </div>
+            </div>
+            <a id="new-file-button" href="#"><?php echo $this->user->lang('Add a New File') ?></a>
+            <input type="hidden" name="validExtns" value="<?php echo $this->extns; ?>" />
+        </fieldset>
+  <?php } //attach file ?>
+
+        <div class="form-actions">
+            <div class="btn-group pull-right dropup">
+              <button class="btn btn-reply btn-success" type="button" data-status="2" ><?php echo $this->user->lang("Reply");?></button>
+              <button class="btn dropdown-toggle btn-success" data-toggle="dropdown">
+                <span class="caret"></span>
+              </button>
+              <ul class="ce-dropdown-menu dropdown-menu">
+                <?php if ( $this->canCloseTicket == true ) { ?>
+                <li><a href="javascript:;" data-status="-1" class="btn-reply"><?php echo $this->user->lang("Reply and Close");?></a></li>
+                <?php } ?>
+                <li><a href="javascript:;" data-status="2" class="btn-reply"><?php echo $this->user->lang("Reply");?></a></li>
+              </ul>
+            </div>
+
+            <?php if ( $this->canCloseTicket == true ) { ?>
+            <button id="close-ticket-button" type="button" class="btn pull-left btn-danger"><?php echo $this->user->lang("Close Ticket");?></button>
+            <?php } ?>
+        </div>
+    </form>
+<?php } else if ($this->ticket_can_reopen) { ?>
+<br/>
+<div class="alert ce-alert ce-alert-info">
+    <?php echo $this->user->lang("This ticket has been closed but you may")." <a href='" . $this->urlCsrf(array(
+        'fuse' => 'support',
+        'controller' => 'ticket',
+        'status' => '1',
+        'action' => 'setstatus',
+        'id' => $this->metadata['id']
+    )) . "'>".$this->user->lang("reopen this ticket")."</a> ".$this->user->lang("if you wish to continue the discussion.");?>
+</div>
+<?php } else { ?><br/>
+<div class="alert ce-alert ce-alert-info">
+    <?php echo $this->user->lang("This ticket has been closed for some time and unable to be reopened.  You may")." <a href='index.php?fuse=support&controller=ticket&view=submitticket'>".$this->user->lang("create a new ticket")."</a> ".$this->user->lang("if you need assistance with an issue.");?>
+</div>
+<?php } ?>
+
+<?php if (count($this->metadata['attachments']) > 0) { ?>
+
+<div id="attachedfileblock" style="clear:both;">
+    <span style="font-weight:bold;"><?php echo $this->user->lang("Attachments");?></span>:<br/>
+    <?php foreach ($this->metadata['attachments'] as $attachment) { ?>
+        <div style="font-size:10px !important;padding:2px;">
+            <span>
+                <span class="ticket-attachment"><?php echo $this->dateRenderer($attachment['dateAdded']); ?></span> &nbsp;by:&nbsp;<?php echo $attachment['added_by_name']; ?> &nbsp;<?php echo $attachment['url']; ?>
+                <?php if ($attachment['removeUrl'] != "") { ?> &nbsp;&nbsp;[<span style="color:red">&nbsp;<?php echo $attachment['removeUrl']; ?>&nbsp;</span>]&nbsp; <?php } ?>
+            </span>
+        </div>
+    <?php } ?>
+</div>
+<?php } ?>
+
+<div class="spacer-bottom"></div>
+<script data-cfasync="false" type="text/javascript">
+    var closeTicketURL = "<?php echo $this->urlCsrf(array(
+                'fuse' => 'support',
+                'controller' => 'ticket',
+                'action' => 'setstatus',
+                'status' => -1,
+                'id' => $this->metadata['id'])); ?>";
+</script>

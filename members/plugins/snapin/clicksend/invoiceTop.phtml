@@ -1,0 +1,29 @@
+<style>
+    .snapin_view.snapin_view_invoiceTop {
+        margin-top: -10px;
+        margin-bottom: 20px;
+
+    }
+</style>
+<?php if (isset($_GET['invoiceid'])) { ?>
+<button class="btn" id="send-button">
+    Send Invoice via ClickSend
+</button>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#send-button").on("click", function(e){
+        RichHTML.mask();
+        e.preventDefault();
+        $.post("index.php?fuse=admin&controller=plugin&action=doplugin&type=snapin", {
+            plugin: "clicksend",
+            pluginaction: "sendInvoice",
+            invoiceId: invoiceview.invoiceid
+        }, function(response) {
+            response = ce.parseResponse(response);
+            RichHTML.unMask();
+        }, "json");
+    });
+});
+
+</script>
+<?php } ?>

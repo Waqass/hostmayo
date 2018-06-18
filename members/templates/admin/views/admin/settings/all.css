@@ -1,0 +1,78 @@
+@font-face
+{
+    font-family:'setup';
+    src:url(../../../fonts/setup.eot);
+    src:url(../../../fonts/setup.eot?#iefix) format("embedded-opentype"),url(../../../fonts/setup.svg#setup) format("svg"),url(../../../fonts/setup.woff) format("woff"),url(../../../fonts/setup.ttf) format("truetype");
+    font-weight:400;
+    font-style:normal;
+}
+
+/* Use the following CSS code if you want to use data attributes for inserting your icons */
+[data-icon]:before
+{
+    font-family:'setup';
+    content:attr(data-icon);
+    speak:none;
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+}
+
+.setting-wrapper {
+	margin: 20px;
+}
+
+.setting-type-name {
+	width: 90px;
+	font-weight: 600;
+	font-size: 25px;
+	color: #333;
+	text-transform: uppercase;
+}
+
+.setting-type-name-description {
+	margin-top: 5px;
+	/*color: #f90;*/
+	font-size: 15px;
+}
+
+.setting-type-container {
+	clear:both;
+	padding-top: 35px;
+}
+
+.setting-type-items {
+	margin-left: -10px;
+	margin-top: 10px;
+}
+
+.setting-type-items div.setting-group {
+	font-size: 40px;
+	text-align: center;
+	float:left;
+	width: 100px;
+	margin-left: 10px;
+	height: 67px;
+	background-color: #f4f4f4;
+	border: 2px solid #ddd;
+	border-radius: 8px;
+	padding-top: 34px;
+	margin-bottom: 10px;
+}
+
+.setting-type-items div.setting-group:hover {
+	background-color: #fff;
+	border: 2px solid #f90;
+	cursor:pointer;
+}
+
+.setting-type-items label {
+	color: #333;
+	line-height: 13px;
+	cursor: pointer;
+	text-align: center;
+	padding: 15px;
+}
+
+.setting-description {
+	border-top: 1px solid #FFEBD5;
+}

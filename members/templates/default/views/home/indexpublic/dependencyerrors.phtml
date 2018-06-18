@@ -1,0 +1,29 @@
+<link rel="stylesheet" type="text/css" href="templates/default/views/home/indexpublic/dependencyerrors.css" />
+
+<?php if (count($errors) > 0) {?>
+<div class="invalid-license">
+    <h1>Fatal Errors:<br>
+    <?php foreach ( $errors as $error ) { ?>
+        <span class="invalid-license-domain"><i><?php echo $error;?></i></span><br/>
+    <?php } ?>
+    </h1>
+
+
+</div>
+<?php } ?>
+
+<?php if (count($missingExtensions) > 0) {?>
+<div class="invalid-license">
+    <h1>Missing PHP Extensions:<br>
+    <?php foreach ( $missingExtensions as $extension ) { ?>
+        <span class="invalid-license-domain"><i><?php echo $extension;?></i></span><br/>
+    <?php } ?>
+    </h1>
+</div>
+<?php } ?>
+<div class="invalid-license">
+    <div class="invalid-contact-info">
+       You may need to contact your web host or systems administrator to address this issue.
+    </div>
+    <a href="http://www.clientexec.com?source=poweredby" target="_new"><img class="brand-logo" src="templates/default/img/logo_text.png"></a>
+</div>

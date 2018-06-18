@@ -1,0 +1,746 @@
+#view-viewticket{
+    padding: 8px;
+}
+
+.ticket-right-bar {
+    margin:10px;
+    margin-top:5px;
+}
+
+.ticket-right-bar label {
+    margin-top:10px;
+    margin-bottom:0px;
+    font-weight: bold;
+}
+
+a:hover#view-package-link {
+    border-bottom: none !important;
+}
+
+/*ticket view */
+.btn-ticket-actions-group {
+    margin-left:5px
+}
+
+.btn-ticket-actions {
+    width: 50px;
+    text-decoration: none;
+}
+
+.btn-ticket-actions-group .caret {
+    margin-top: 7px;
+    margin-left: 2px;
+}
+
+.ticket-top-bar {
+    margin-top: -8px;
+    left: 73px;
+    position: absolute;
+    top: 49px;
+    border-top: 1px solid #888;
+    right: 16px;
+}
+
+.ticket-top-bar.with_also_viewing {
+    height: 55px;
+}
+
+.withpluginpanel .ticket-top-bar
+{
+    left: 295px;
+}
+
+.mac-os .ticket-top-bar {
+    right: 0;
+}
+
+.with-active-cutomer-panel .ticket-top-bar {
+    right: 220px;
+}
+
+.mac-os.with-active-cutomer-panel .ticket-top-bar {
+    right: 204px;
+}
+
+
+
+.ticket-top-bar-buttons
+{
+    position: relative;
+    top: 4px;
+    left: 10px;
+    margin-right: 20px;
+}
+
+
+.ticket-top-bar-divide,
+.ticket-top-bar-type,
+.ticket-top-bar-assignedto,
+.ticket-top-bar-assignedtopackage,
+.ticket-top-bar-num
+{
+    position: relative;
+    top: 3px;
+    color: #888;
+    display:inline;
+    margin-left:10px;
+}
+
+.ticket-top-bar-status .dropdown,
+.ticket-top-bar-assignedto .dropdown,
+.ticket-top-bar-assignedtopackage .dropdown,
+.ticket-top-bar-type .dropdown {
+    display: inline-table;
+}
+
+.ticket-top-bar-status .dropdown-menu {
+    left: -10px;
+    text-transform: none;
+}
+
+.ticket-top-bar-rating {
+    color: #fff;
+}
+
+.ticket-top-bar-rating .rating-hastext {
+    border-bottom: 1px dotted #fff;
+}
+
+.ticket-top-bar-rating .popover {
+    text-transform: none;
+}
+
+.ticket-top-bar-priority {
+    position: relative;
+    top: 3px;
+}
+
+.ticket-top-bar-priority .dropdown-menu{
+    min-width: 100px;
+    width: 100px;
+    left: -45px;
+    text-transform: none;
+}
+
+.ticket-top-bar-priority .dropdown-toggle{
+    color: #ccc;
+    text-decoration: none
+}
+
+.ticket-top-bar-priority-1 {
+    color: #DF4A10 !important;
+}
+
+.ticket-top-bar-priority-2 {
+    color: #f90 !important;
+}
+
+
+.ticket-top-bar-status,
+.ticket-top-bar-rating {
+    position: relative;
+    top: 2px;
+    text-transform: uppercase;
+    margin-left: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    display: inline;
+
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #7fd397;
+}
+
+.ticket-top-bar-status-closed {
+    background-color: #ccc;
+}
+
+.ticket-top-bar-status .dropdown-toggle {
+    text-decoration: none !important;
+}
+
+.ticket-top-bar-status a.dropdown-toggle {
+    color: #fff;
+}
+
+.ticket-top-bar-status-closed a.dropdown-toggle{
+    color: #888;
+}
+
+.ticket-notes-author{
+    font-size: 12px;
+    font-weight: 400;
+    padding-top:5px;
+}
+
+.msgEntry{
+    background-color: #F4F4F4;
+    padding: 12px;
+    padding-left:0px;
+    border: 1px solid #DDDADA;
+    margin-bottom: 12px;
+}
+
+.msgEntryHeader {
+    background-color: #E4E4E4;
+    height:26px;
+    padding:15px 0 15px 0;
+    margin-left: 12px;
+}
+
+.editLinks_log{
+    float: right;
+    position: relative;
+    top: -14px;
+}
+
+.editLinks_log a{
+    color: #3299BB;
+}
+
+.msgEntry-right {
+    padding-left: 13px;
+    padding-right: 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: 13px;
+}
+
+.ticket-user-email{
+    font-size:smaller;
+    color:#888;
+    position: relative;
+    top: -3px;
+}
+
+.msgEntryHeader .elapsed-time{
+    font-size:smaller;
+    color:#3299BB;
+}
+
+.msgEntryHeader-ownerdiv.submitted-by-user .elapsed-time {
+    position: relative;
+    top: -5px;
+}
+
+.msgEntryHeader-ownerdiv {
+    padding-left:1px;
+    float:left;
+    top: -5px;
+    position: relative;
+
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.msgEntryHeader-ownerdiv.submitted-by-user{
+    top: -13px;
+    position: relative;
+}
+
+.msgEntryHeader-actiondiv{
+    text-align:right;
+
+    -moz-border-radius: 3px 3px 3px 3px;
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    font-weight: bold;margin-bottom: 0;margin-right: 6px;margin-top: 0;
+    padding: 3px 8px 3px 9px;
+}
+
+.msgEntry-left-profile-icon{
+    border: 4px solid #fff;
+    float: left;
+    position: relative;
+    top: -13px;
+    margin-right: 9px;
+    margin-left: 3px;
+    height: 44px;
+    width: 44px;
+}
+
+.metalog {
+    margin: 20px 0 20px 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eee;
+}
+
+.metalog i {
+    margin-right: 10px;
+}
+
+.ticket-msg-textbox{
+    width: 100%;
+    padding-right: 0;
+    margin-left: -4px;
+}
+
+
+.ticket-reply{
+    padding-top:10px;
+}
+
+.ticket-reply textarea {
+    color: #3f4549;
+    cursor: text;
+    resize: none;
+    border: 0;
+    display: block;
+    padding: 6px 10px 8px;
+    margin: 0;
+    width: 100%;
+    height: 70px;
+    -webkit-transition: all .15s ease-in-out;
+    transition: all .15s ease-in-out;
+    margin-bottom:5px;
+}
+
+
+.ticket-tags-wrapper {
+    position: absolute;
+    top: 11px;
+    left: 176px;
+    color: #888;
+    font-size: 14px;
+}
+
+.ticket-reply .post-actions {
+    background: #F3F3F3;
+    border-radius: 0 0 2px 2px;
+    border: solid 2px rgba(16,48,68,.2);
+    position: absolute;
+    bottom: -35px;
+    left: 0px;
+    right: 0px;
+    height: 36px;
+}
+
+.btn-group.btn-group-submit {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.btn-add-attachment {
+    position: absolute;
+    top: 0;
+    right: 121px;
+}
+
+.btn-add-attachment .btn {
+    height: 13px;
+}
+
+.file-upload-meta {
+    float: right;
+    font-size: 10px;
+    margin-bottom: 20px;
+    color: #999;
+}
+
+.btn-group-submit .btn {
+    white-space: nowrap;
+    border-radius: 0 0 3px;
+    font-size: 12px;
+    padding: 11px 14px 12px;
+    font-weight: 700;
+    line-height: 1.1;
+    border-color: #c5c5c5;
+    text-shadow: none;
+    -webkit-font-smoothing: antialiased;
+    border-top: 0;
+}
+
+.btn-group-submit .dropdown-menu {
+    left: -82px;
+    text-align: left;
+}
+
+.ticket-reply-bottom {
+    margin-bottom:50px;
+}
+
+.ticket-reply-option {
+    margin-bottom: 8px;
+    margin-left: -10px;
+}
+
+.ticket-reply-option a{
+    text-decoration: none;
+    background-color: #f4f4f4;
+}
+
+.ticket-reply-option li.active a{
+    background-color: #858585;
+}
+
+.ticket-reply-option li.active a:hover{
+    background-color: #858585;
+}
+
+.ticket-reply-option li {
+    margin-right:5px;
+}
+
+.btn-add-attachment .btn,
+.post-actions .btn-group .btn {
+    -webkit-border-top-left-radius: 0;
+    -moz-border-radius-topleft: 0;
+    border-top-left-radius: 0;
+    -webkit-border-bottom-left-radius: 0;
+    -moz-border-radius-bottomleft: 0;
+    border-bottom-left-radius: 0;
+
+    -webkit-border-top-right-radius: 0;
+    -moz-border-radius-topright: 0;
+    border-top-right-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
+    -moz-border-radius-bottomright: 0;
+    border-bottom-right-radius: 0;
+}
+
+.btn-group.btn-group-submit .btn:hover {
+    border-right: 1px solid #585858;
+}
+
+.post-actions .btn-group .caret {
+    margin-top: 5px;
+}
+
+.btn-group.btn-group-submit .dropdown-toggle {
+    margin-right:0;
+    border-left:none;
+    border-right: 1px solid #585858;
+}
+
+.ticket-reply .post-actions li {
+    list-style: none;
+}
+
+.ticket-reply textarea.expanded {
+    height:150px;
+}
+
+#secondOptionsPanel {
+    position: relative;
+    top: 15px;
+}
+
+.ticket-reply .textarea-wrapper {
+    clear:both;
+    position: relative;
+    margin-left: -10px;
+    margin-right: -10px;
+    -webkit-appearance: none;
+    background: #fff;
+    background: rgba(255,255,255,.95);
+    box-shadow: inset 0 0 0 2px rgba(16,48,68,.2);
+    border-radius: 4px;
+    padding: 2px;
+    padding-right: 22px;
+}
+
+.new-attachment-files {
+    float:left;
+}
+
+/*
+.expanded .postbox .textarea {
+    margin-bottom: 36px;
+}*/
+
+.ticket-tabs {
+    position:relative;
+    clear:both;
+    padding-top:5px;
+}
+
+.ticket-tabs sup {
+  visibility: hidden;
+  font-weight: bold;
+  color: red;
+}
+
+.ticket-right-bar hr {
+  -moz-border-bottom-colors: none;
+  -moz-border-image: none;
+  -o-border-image:none;
+  -webkit-border-image: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  border-color: #EEEEEE -moz-use-text-color #FFFFFF;
+  border-style: solid none;
+  border-width: 1px 0;
+  margin: 18px 0;
+}
+
+.ticket-opened-by a{
+    color: #fff !important;
+}
+
+#content-header-title {
+    position:relative;
+    width:98%;
+    margin-left:5px;
+    margin-top:30px;
+}
+
+#content-header-title.with_also_viewing {
+    margin-top: 50px;
+}
+
+#content-header-title .ticket_subject_name{
+    font-size: 20px;
+    font-weight: 600;
+
+    width: 100%;
+    background-color: transparent;
+    border: 0;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition: none;
+    -o-transition: none;
+    -ms-transition: none;
+    -moz-transition: none;
+    border: 1px solid transparent;
+    padding: 7px;
+    padding-right: 0;
+}
+
+#content-header-title .ticket_subject_name:focus{
+    border: 1px solid #cfcfcf;
+}
+
+.ticket-reply {
+    padding: 10px;
+}
+
+.ticket-header-rating {
+    font-size:12px;
+    color: #999;
+    margin-left: 8px;
+    position: relative;
+    top:-1px;
+}
+
+.ticket-maincontent {
+    /* to give space for the "submit reply" dropdown which can contain several status aliases */
+    margin-bottom: 100px;
+
+    padding: 10px;
+}
+
+.ticket-header {
+    padding:5px;
+    padding-bottom: 15px;
+}
+
+.ticket-header table{
+    margin-left: -11px;
+}
+
+.ticket-header-block-title{
+    padding-bottom:4px;
+}
+
+.ticket-header-block {
+    margin: 7px 0 7px 0;
+    color: #666666;
+    width: auto;
+    height: 40px;
+    text-align:center;
+}
+
+.ticket-meta-data-box {
+    -moz-background-inline-policy: continuous;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border-radius: 5px 5px 5px 5px;
+    height: 18px;
+    margin-bottom: -3px;
+    padding-left: 2px;
+}
+
+.ticket-meta-data-box a{
+    border-bottom: 1px solid #bd5a35;
+    text-decoration: none;
+}
+
+#ticketdetails-customfields-min .ticket-meta-data-box {
+    height: auto;
+    margin-bottom:20px;
+    margin-top: -3px;
+    padding-left:0px;
+    overflow:auto;
+}
+
+.ticket-collapsed-divider {
+    height: 20px;
+    background: -moz-linear-gradient(270deg, #fff, #f1f1f1) repeat scroll 0 0 transparent;
+    background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#f1f1f1));
+    margin-left: 1px;
+
+}
+
+.ticket-attachment {
+    -moz-background-inline-policy: continuous;
+    -moz-border-radius: 3px 3px 3px 3px;
+    background: none repeat scroll 0 0 #5a91e7;
+    color: white;
+    padding: 2px 5px;
+
+    border-bottom-left-radius:3px 3px;
+    border-bottom-right-radius:3px 3px;
+    border-top-left-radius:3px 3px;
+    border-top-right-radius:3px 3px;
+
+}
+
+#messages_loading {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0 10px 0;
+}
+
+#reply-footer{
+    padding-top:8px;
+}
+
+.ticket-customfields, .ticket-package {
+    display:none;
+    margin-bottom:20px;
+    margin-top:10px;
+}
+
+.ticket-customfields h1 {
+    padding-left:12px;
+    font-size: 14px;
+    padding-bottom:8px;
+    padding-top:5px;
+}
+
+#ticketdetails-customfields-min{
+    display:none;
+}
+
+#ticketdetails-customfields-min .customfield{
+    float:left;
+    padding-left:7px;
+}
+
+#ticketCustomFieldsEditLink{
+    font-size:10px;
+    color:#ccc;
+    padding-left:10px;
+    font-weight:normal;
+}
+
+#ticketCustomFieldsEditLink:hover{
+    color:#555;
+}
+
+/* custom field styles */
+#ticketCustomFieldsSubmit {
+    display:none;
+    margin-top:20px;
+    margin-bottom:10px;
+}
+
+#ticketCustomFieldsForm label {
+    margin-top: 10px;
+    margin-bottom: 0px;
+    font-weight: bold;
+}
+
+#ticketCustomFieldsForm input[type="text"] {
+    display:block;
+}
+
+.ticket-package label {
+    display: inline;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.ticket-time-elapsed {
+    font-size: 12px;
+    clear:both;
+}
+
+.ticket-meta-data {
+    margin-top: 10px;
+    padding:10px;
+    padding-bottom:20px;
+    background: #fff;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
+.ticket-meta-header {
+    color: white;
+    padding: 15px;
+    font-size: 16px;
+    line-height: 25px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+
+    background: #757575;
+    border: 1px solid #F1F1F1;
+    -moz-box-shadow: inset 0 0 45px #333333;
+    -webkit-box-shadow: inset 0 0 45px #333333;
+    box-shadow: inset 0 0 45px #333333;
+
+}
+
+.ticket-meta-header .ticket-number {
+    font-size: 20px;
+}
+
+#ticket-top-bar-alsoviewing {
+    color: #666;
+    font-size: 10px;
+    position: relative;
+    top: 9px;
+    left: 10px;
+    width: 100%;
+    background-color: rgb(255, 245, 205);
+    margin-left: -10px;
+    padding-left: 10px;
+    border-top: 1px solid #FFE976;
+}
+
+
+/* file upload style */
+.fileinput-button {
+  position: relative;
+  overflow: hidden;
+}
+.fileinput-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+  -ms-filter: 'alpha(opacity=0)';
+  font-size: 200px;
+  direction: ltr;
+  cursor: pointer;
+}
+
+/* Fixes for IE < 8 */
+@media screen\9 {
+  .fileinput-button input {
+    filter: alpha(opacity=0);
+    font-size: 100%;
+    height: 100%;
+  }
+}

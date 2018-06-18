@@ -1,0 +1,51 @@
+<div class="alert alert-info ce-page-header">
+    <div class="alert-header">
+        <?php echo $this->user->lang("Ticket Feedback"); ?>
+    </div>
+    <p class="alert-content">
+        <?php echo $this->user->lang("List of ticket feedback"); ?>
+    </p>
+</div>
+
+<span class="grid-meta" id="feedback-grid-metadata"></span>
+<div id="gridheader" class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+                <td align="right"><label><?php echo $this->user->lang("Show"); ?></label></td>
+                <td align="left" style="width:130px;">
+                    <select id='feedback-grid-filterby' style='width:120px;'>
+                        <option <?php if ( $this->filter == 'all' ) { ?> selected='selected' <?php } ?> value='all'>
+                            <?php echo $this->user->lang("All");?>
+                        </option>
+                        <option <?php if ( $this->filter == TICKET_RATE_POOR ) { ?> selected='selected' <?php } ?> value='<?php echo TICKET_RATE_POOR; ?>'>
+                            <?php echo $this->user->lang("Poor");?>
+                        </option>
+                        <option <?php if ( $this->filter == TICKET_RATE_MEDIOCRE ) { ?> selected='selected' <?php } ?> value='<?php echo TICKET_RATE_MEDIOCRE; ?>'>
+                            <?php echo $this->user->lang("Not Great");?>
+                        </option>
+                        <option <?php if ( $this->filter == TICKET_RATE_GOOD ) { ?> selected='selected' <?php } ?> value='<?php echo TICKET_RATE_GOOD; ?>'>
+                            <?php echo $this->user->lang("Good");?>
+                        </option>
+                         <option <?php if ( $this->filter == TICKET_RATE_OUTSTANDING ) { ?> selected='selected' <?php } ?> value='<?php echo TICKET_RATE_OUTSTANDING; ?>'>
+                            <?php echo $this->user->lang("Excellent");?>
+                        </option>
+                    </select>
+                </td>
+                <td align="left" style="width:60px">
+                    <select id='feedback-grid-filter' class="change-grid-showrecords" style='width:60px;'>
+                        <option value='5'>5</option>
+                        <option value='10'>10</option>
+                        <option value='25'>25</option>
+                        <option value='50'>50</option>
+                        <option value='150'>150</option>
+                        <option value='300'>300</option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="feedback-grid"></div>
+<div id="feedback-grid-footer" style="display:none;"></div>

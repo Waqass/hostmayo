@@ -1,0 +1,26 @@
+<?php echo $this->profileheader($this->customer);?>
+<span class="grid-meta" id="profileNotes-grid-metadata"></span>
+<div id="gridheader" class="blue-box">
+    <table class="automation">
+        <tbody>
+            <tr>
+                <?php if ($this->canAddButton) { ?>
+                <td><button id="addNoteButton" class="rich-button"><span><?php echo $this->user->lang("Add Note");?></span></button></td>
+                <?php } ?>
+                <td align="right"><label><?php echo $this->user->lang("Show");?></label></td>
+                <td align="left" style="width:150px;">
+                    <select class="dropdown-select" style="width:140px;" id='profileNotes-grid-filterbystatus'>
+                        <option value='1'><?php echo $this->user->lang("Archived"); ?></option>
+                        <option value='0' selected><?php echo $this->user->lang("Un-Archived"); ?></option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="profileNotes-grid"></div>
+<div id="profileNotes-grid-footer" style="display:none;">
+            <button class="rich-button" id="deleteButton"><span><?php echo $this->user->lang("Delete"); ?></span></button>
+            <button class="rich-button" id="archiveButton"><span><?php echo $this->user->lang("Archive"); ?></span></button>
+</div>

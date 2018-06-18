@@ -1,0 +1,9 @@
+<?php foreach ($this->articles as $article) {?>
+<div style="margin-bottom: 10px; margin-top: 10px;" class="table-summary">
+    <h2>
+    <a href="#" onclick="window.open('<?php echo $article['url']; ?><?php echo $article['articleId']; ?>','Article','scrollbars=yes,menubar=no,location=no,width=760,height=520,resizable=yes');"><?php echo $article['articleTitle']; ?></a>
+    </h2>
+    <span style="font-size:10px;"><?php echo $article['articleCreated']; ?> <?php echo $this->user->lang("by");?> <?php echo $article['articleAuthor']; ?></span><br/>
+    <?php echo $this->user->lang("Excerpt");?>: <?php echo $article['articleExcerpt']; ?>
+</div>
+<?php } ?>

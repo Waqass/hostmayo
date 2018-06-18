@@ -1,0 +1,21 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo lang("Security")." ".lang("Settings")." - ".lang("Application Key"); ?></div>
+  <p class="alert-content"><?php echo $this->user->lang('Generate an API key for external integration with Clientexec.'); ?></p>
+</div>
+
+<form id="sitesettings" name="settings" method="post" action="index.php?fuse=admin&amp;action=update&amp;controller=settings&amp;group=security&amp;setting=">
+    <dl class="form noborder automation-options">
+        <dt><label>Generating your Application Key</label></dt>
+            <dd class="full desc">
+                <span>
+                <?php echo $this->user->lang('This Application Key lets you easily integrate Clientexec with 3rd party providers via webhooks to different callbacks.'); ?><!--Full API docs at
+                <a style="color: #A80000;text-decoration: underline;" href="https://www.clientexec.com/documentation/api/introduction.php" target="_blank">https://www.clientexec.com/documentation/api/introduction.php</a>-->
+
+                </span>
+            </dd>
+            <dd class="nextline">
+                <input type="text" id="apikeystring"  name="value_5199" style="width: 507px;" value="<?php echo $this->apikey; ?>" readonly>
+            </dd>
+    </dl>
+    <button id="generateKeyButton" style="margin-left: 364px;" class="btn"><?php echo $this->user->lang('Generate my API key'); ?></button>
+</form>

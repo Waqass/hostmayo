@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><?php echo $this->user->lang('Clientexec Installer') ?></title>
+    <link rel="Shortcut Icon" href="favicon.ico" />
+    <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Quattrocento+Sans:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="templates/admin/style/install.css" />
+    <script type="text/javascript">
+        var gHash = "<?php echo $this->gHash; ?>";
+    </script>
+    <script type="text/javascript" src="library/utilities/min/index.php?g=installer"></script>
+
+</head>
+<body>
+<div class="install-header"><?php echo $this->user->lang("Client portal");?></div>
+
+<center>
+<div id="main" style="width:80%;min-width:900px">
+
+    <div class="well">
+        <form action="index.php?fuse=admin&amp;action=authenticateadmin&amp;controller=installer" method="POST">
+        <table border=0 cellspacing=1 cellpadding=4 width="100%">
+            <tr>
+                <td style="text-align:center">
+                    <?php if ($this->showMaintenanceWarning): ?>
+                        <h4 style="color:red">
+                            <?php echo $this->user->lang('This site is currently under maintenance. Please come back later.'); ?>
+                        </h4>
+                    <?php endif ?>
+                    <div style="margin: 20px 0">
+                        <?php echo $this->user->lang('If you\'re the site administrator, please log-in to perform the system upgrade:'); ?>
+                    </div>
+
+                    <?php if ( isset($this->gMessages)) { ?>
+                      <?php foreach ( $this->gMessages as $message ) { ?>
+                      <label class="alert"><?php echo $message; ?></label> <br/>
+                      <?php } ?>
+                    <?php } ?>
+                    <table border=0 cellspacing=0 cellpadding=3 align="center">
+                        <tr>
+                            <td align="right"><b style="position:relative; top:-3px;"><?php echo $this->user->lang('Super Administrator Email'); ?></b></td>
+                            <td><input type=text name="email" value=""></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><b style="position:relative; top:-3px;"><?php echo $this->user->lang('Password'); ?></b><br/></td>
+                            <td><input type=password name="password"></td>
+                        </tr>
+                        <tr><td height="10"></td></tr>
+                    </table>
+                    <div style="font-style:italic; font-weight:bold">
+                      ** <?php echo $this->user->lang("Please close any other Clientexec browser tabs/windows before proceeding") ?> **
+                    </div>
+                    <input type=submit class="btn" value="<?php echo $this->user->lang("Continue");?>" style="margin-top:10px" />
+                </td>
+            </tr>
+        </table>
+         </form>
+    </div>
+
+</div>
+</center>
+
+</body>
+</html>

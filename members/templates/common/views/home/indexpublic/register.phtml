@@ -1,0 +1,57 @@
+<div class="ce-container">
+
+    <div class="alert register-description"><?php echo $this->user->lang("Access the client portal by registering below.");?></div>
+
+    <table cellspacing="0">
+        <tr>
+            <td>
+                <label><?php echo $this->user->lang("First Name");?></label>
+            </td>
+            <td>
+                <label><?php echo $this->user->lang("Last Name");?></label>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <input type="text" class="guestFirstName required" name="guestFirstName" value="">
+            </td>
+            <td valign="top">
+                <input type="text" class="guestLastName required" name="guestLastName" value="">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <label><?php echo $this->user->lang("Email");?></label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="text" class="guestEmail" data-required="true" data-type="email" name="guestEmail" value="">
+            </td>
+        </tr>
+        <?php if ($this->showCaptcha) { ?>
+            <tr>
+                <td colspan="2">
+                    <label><?php echo $this->user->lang("Enter the code");?></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                  <div id="captcha"></div>
+                  <?php /* can't use the recaptcha PHP lib cuz it uses document.write() which is forbidden in an async callback context */ ?>
+                  <script>
+                    $.getScript(
+                      '//www.google.com/recaptcha/api/js/recaptcha_ajax.js',
+                      function() {
+                          Recaptcha.create("<?php echo $this->captchaPublicKey ?>", "captcha", {
+                                theme: "red",
+                                callback: Recaptcha.focus_response_field
+                              }
+                            );                    
+                      });
+                  </script>
+                </td>
+            </tr>
+        <?php } ?>
+    </table>
+</div>

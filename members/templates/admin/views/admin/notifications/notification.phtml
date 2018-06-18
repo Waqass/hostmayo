@@ -1,0 +1,457 @@
+<style type="text/css">
+    .window-description {
+        overflow: hidden;
+    }
+
+    .window-description label{
+        margin-bottom: 0;
+    }
+    .window-description input[type="text"],
+    .window-description .select2-container,
+    .window-description textarea {
+        margin: 0 0 10px 0;
+    }
+    .window-description .redactor_box {
+        margin: 0 6px 10px 6px;
+    }
+    .window-description .first-row {
+        display: inline-block;
+    }
+    .window-description input[type="checkbox"] {
+        vertical-align: top;
+        margin: 3px 0 0 0;
+    }
+    .window-description label.display-inline {
+        display: inline-block;
+        margin: 4px 5px 0 10px;
+        vertical-align: top;
+    }
+    .select2-results {
+        max-height: 135px;
+    }
+
+    .remove-button {
+        position:relative;
+        top: -5px
+    }
+
+    .rules_title {
+        font-weight: 600;
+        font-size: 15px;
+        margin-bottom:10px;
+    }
+
+    .label-ago-notifications {
+        padding: 6px;
+        position: relative;
+        top: -5px;
+        text-transform: uppercase;
+    }
+</style>
+
+<script data-cfasync="false" type="text/javascript">
+    var newEventIndex = 0;
+
+    function addEvent(object)
+    {
+        var newEventRow = document.getElementById("eventRowTemplate").cloneNode(true);
+        newEventRow.setAttribute('id', 'filterRow_N' + newEventIndex);
+        newEventRow.style.display = isIE? 'block' : 'table-row';
+        var newEventRow = document.getElementById("eventTableBody").appendChild(newEventRow);
+
+        $('#filterRow_N' + newEventIndex + ' select').select2({
+            minimumResultsForSearch: 10,
+            width:'resolve'
+        });
+
+        if ( typeof(object) !== 'undefined' ) {
+            $("#filterRow_N" + newEventIndex + " select[name=event\\[\\]]").select2('val', object.event);
+
+            var operator = $("#filterRow_N" + newEventIndex + " select[name=operator\\[\\]]");
+            var operator_dates = $("#filterRow_N" + newEventIndex + " select[name=operator_dates\\[\\]]");
+            var operator_dates_units = $("#filterRow_N" + newEventIndex + " select[name=operator_dates_units\\[\\]]");
+            var invoice_status = $("#filterRow_N" + newEventIndex + " select[name=invoice_status\\[\\]]");
+            var user_status = $("#filterRow_N" + newEventIndex + " select[name=user_status\\[\\]]");
+            var package_status = $("#filterRow_N" + newEventIndex + " select[name=package_status\\[\\]]");
+            var value = $("#filterRow_N" + newEventIndex + " input[name=value\\[\\]]");
+            var ago = $("#filterRow_N" + newEventIndex + " span.ago");
+
+            operator.select2('val', object.operator);
+            if (object.is_date) {
+                operator.select2('container').hide();
+                operator_dates.select2('val', object.operator_dates);
+                operator_dates.select2('container').show();
+                operator_dates_units.select2('val', object.operator_dates_units);
+                operator_dates_units.select2('container').show();
+                value.css('width', 70);
+                if (shouldShowAgo(object.operator_dates)) {
+                    ago.show();
+                } else {
+                    ago.hide();
+                }
+            } else {
+                operator.select2('container').show();
+                operator_dates.select2('container').hide();
+                operator_dates_units.select2('container').hide();
+                value.css('width', 140);
+                ago.hide();
+            }
+
+            if (object.event == 'i_status') {
+                user_status.select2('val', <?php echo USER_STATUS_ACTIVE ?>);
+                user_status.select2('container').hide();
+                package_status.select2('val', <?php echo PACKAGE_STATUS_ACTIVE ?>);
+                package_status.select2('container').hide();
+                value.hide();
+
+                $("#filterRow_N" + newEventIndex + " input[name=value\\[\\]]").val('');
+                invoice_status.select2('val', object.value);
+                invoice_status.select2('container').show();
+                operator.select2('val', '=');
+                operator.select2('disable', true);
+            } else if (object.event == 'u_status') {
+                package_status.select2('val', <?php echo PACKAGE_STATUS_ACTIVE ?>);
+                package_status.select2('container').hide();
+                invoice_status.select2('val', <?php echo Notification::INVOICE_STATUS_NOT_PAID_PROCESSED ?>);
+                invoice_status.select2('container').hide();
+                value.hide();
+
+                $("#filterRow_N" + newEventIndex + " input[name=value\\[\\]]").val('');
+                user_status.select2('val', object.value);
+                user_status.select2('container').show();
+                operator.select2('val', '=');
+                operator.select2('disable', true);
+            } else if (object.event == 'p_status') {
+                user_status.select2('val', <?php echo USER_STATUS_ACTIVE ?>);
+                user_status.select2('container').hide();
+                invoice_status.select2('val', <?php echo Notification::INVOICE_STATUS_NOT_PAID_PROCESSED ?>);
+                invoice_status.select2('container').hide();
+                value.hide();
+
+                $("#filterRow_N" + newEventIndex + " input[name=value\\[\\]]").val('');
+                package_status.select2('val', object.value);
+                package_status.select2('container').show();
+                operator.select2('val', '=');
+                operator.select2('disable', true);
+            } else {
+                invoice_status.select2('val', <?php echo Notification::INVOICE_STATUS_NOT_PAID_PROCESSED ?>);
+                invoice_status.select2('container').hide();
+                user_status.select2('val', <?php echo USER_STATUS_ACTIVE ?>);
+                user_status.select2('container').hide();
+                package_status.select2('val', <?php echo PACKAGE_STATUS_ACTIVE ?>);
+                package_status.select2('container').hide();
+
+                $("#filterRow_N" + newEventIndex + " input[name=value\\[\\]]").val(object.value);
+                operator.select2('enable', true);
+                value.show();
+            }
+        } else {
+            $("#filterRow_N" + newEventIndex + ' select[name=operator\\[\\]]').select2('container').show();
+            $("#filterRow_N" + newEventIndex + ' select[name=operator_dates\\[\\]]').select2('container').hide();
+            $("#filterRow_N" + newEventIndex + ' select[name=operator_dates_units\\[\\]]').select2('container').hide();
+            $("#filterRow_N" + newEventIndex + ' select[name=invoice_status\\[\\]]').select2('container').hide();
+            $("#filterRow_N" + newEventIndex + ' select[name=user_status\\[\\]]').select2('container').hide();
+            $("#filterRow_N" + newEventIndex + ' select[name=package_status\\[\\]]').select2('container').hide();
+        }
+
+        $('.remove-button').click(function(e) {
+            e.preventDefault();
+            removeEvent(this.parentNode.parentNode)
+        });
+
+        $('select[name=event\\[\\]]').change(function() {
+            if ($(this).find('option:selected').data('date')) {
+                $(this).siblings('select[name=operator\\[\\]]').select2('container').hide();
+                $(this).siblings('select[name=operator_dates\\[\\]]').select2('container').show();
+                $(this).siblings('select[name=operator_dates_units\\[\\]]').select2('container').show();
+                $(this).siblings('input[name=value\\[\\]]').css('width', 70);
+                $(this).siblings('.ago').show();
+            } else {
+                $(this).siblings('select[name=operator\\[\\]]').select2('container').show();
+                $(this).siblings('select[name=operator_dates\\[\\]]').select2('container').hide();
+                $(this).siblings('select[name=operator_dates_units\\[\\]]').select2('container').hide();
+                $(this).siblings('input[name=value\\[\\]]').css('width', 140);
+                $(this).siblings('.ago').hide();
+            }
+
+            if ($(this).val() == 'i_status') {
+                $(this).siblings('select[name=user_status\\[\\]]').select2('container').hide();
+                $(this).siblings('select[name=package_status\\[\\]]').select2('container').hide();
+                $(this).siblings('input[name=value\\[\\]]').hide();
+
+                $(this).siblings('select[name=invoice_status\\[\\]]').select2('container').show();
+                $(this).siblings('select[name=operator\\[\\]]').select2('val', '=');
+                $(this).siblings('select[name=operator\\[\\]]').select2('disable', true);
+            } else if ($(this).val() == 'u_status') {
+                $(this).siblings('select[name=package_status\\[\\]]').select2('container').hide();
+                $(this).siblings('select[name=invoice_status\\[\\]]').select2('container').hide();
+                $(this).siblings('input[name=value\\[\\]]').hide();
+
+                $(this).siblings('select[name=user_status\\[\\]]').select2('container').show();
+                $(this).siblings('select[name=operator\\[\\]]').select2('val', '=');
+                $(this).siblings('select[name=operator\\[\\]]').select2('disable', true);
+            } else if ($(this).val() == 'p_status') {
+                $(this).siblings('select[name=user_status\\[\\]]').select2('container').hide();
+                $(this).siblings('select[name=invoice_status\\[\\]]').select2('container').hide();
+                $(this).siblings('input[name=value\\[\\]]').hide();
+
+                $(this).siblings('select[name=package_status\\[\\]]').select2('container').show();
+                $(this).siblings('select[name=operator\\[\\]]').select2('val', '=');
+                $(this).siblings('select[name=operator\\[\\]]').select2('disable', true);
+            } else  {
+                $(this).siblings('select[name=invoice_status\\[\\]]').select2('container').hide();
+                $(this).siblings('select[name=user_status\\[\\]]').select2('container').hide();
+                $(this).siblings('select[name=package_status\\[\\]]').select2('container').hide();
+
+                $(this).siblings('input[name=value\\[\\]]').show();
+                $(this).siblings('select[name=operator\\[\\]]').select2('val', '=');
+                $(this).siblings('select[name=operator\\[\\]]').select2('enable', true);
+            }
+        });
+
+        $('select[name=operator_dates\\[\\]]').change(function() {
+           if (shouldShowAgo($(this).val())) {
+                $(this).siblings('.ago').show();
+           } else {
+                $(this).siblings('.ago').hide();
+           }
+        });
+
+        newEventIndex++;
+    }
+
+    function removeEvent(tr)
+    {
+        tr.parentNode.removeChild(tr);
+    }
+
+    function manageRules(custom)
+    {
+        if(custom){
+            $('.wrapper_match').show();
+            $('#systemEventRowTemplate').hide();
+            $("#customEvent").show();
+        }else{
+            $('.wrapper_match').hide();
+            $("#customEvent").hide();
+            $("#systemEventRowTemplate").show();
+        }
+    }
+
+    function shouldShowAgo(val)
+    {
+       return ($.inArray(val, [<?php echo "'".Notification::DATE_OPERATOR_WAS_EXACTLY."','".Notification::DATE_OPERATOR_WAS_LESS_THAN."','".Notification::DATE_OPERATOR_WAS_MORE_THAN."'" ?>]) > -1);
+    }
+</script>
+
+<?php if ( count($this->templateOptions ) == 0 ) { ?>
+<div class="alert alert-error"><strong><a href="index.php?fuse=admin&controller=settings&view=emailtemplates&settings=mail"><?php echo $this->user->lang('No email templates are defined.  Please create one here'); ?></a></strong></div>
+<?php } ?>
+
+<div style="height: 60px; margin-right: 5px;">
+    <label for="inputName"><?php echo $this->user->lang('Event Name');?>:</label>
+    <input name="name" class="required"  style="width: 645px;" id="inputName" type="text" value="<?php echo $this->name; ?>" />
+</div>
+<div style="height: 60px; margin-right: 5px;">
+    <label for="selectTemplateTarget"><?php echo $this->user->lang('Email Template'); ?>:</label>
+    <select id="selectTemplateTarget" name="templateid" class="required" style="width: 660px;" id="">
+        <?php foreach ( $this->templateOptions as $option ) { ?>
+        <option value="<?php echo $option['id']; ?>"><?php echo $option['text']; ?></option>
+        <?php } ?>
+    </select>
+</div>
+<hr style="margin-bottom:10px;">
+<div class="rules_title"><?php echo $this->user->lang("Rules defining this notification");?></div>
+<table>
+    <tr>
+        <td>
+            <input style="margin-right:5px;" type="checkbox" name="buildCustomRule" id="buildCustomRule" onclick="manageRules(this.checked);" <?php echo $this->buildCustomRule? 'checked':''; ?> /><?php echo $this->user->lang('Build custom rule');?>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+        <td>
+            <label for="overrideOptOut" id="labelOverrideOptOut" style="width: 140px;" data-toggle="tooltip" title="<?php echo $this->user->lang('Use this to force the emailing of this notification to customers who have opted out of announcements.');?>" data-placement="right">
+                <input style="margin-right:5px;" type="checkbox" name="overrideOptOut" id="overrideOptOut" <?php echo $this->overrideOptOut? 'checked':''; ?> /><span class="tip-target"><?php echo $this->user->lang('Override Opt-Out?');?></span>
+            </label>
+        </td>
+    </tr>
+</table>
+<div style="height: 65px; margin-top:-5px;margin-right: 5px; <?php echo ($this->buildCustomRule) ? "display:none;" : ""; ?>"  class="wrapper_match">
+    <label for="selectMatchTarget"><?php echo $this->user->lang('Accounts will be notified if'); ?>:</label>
+    <select id="selectMatchTarget" name="match" class="required" style="width: 160px;" id="">
+        <?php foreach ( $this->matchOptions as $option ) { ?>
+        <option value="<?php echo $option['id']; ?>"><?php echo $option['text']; ?></option>
+        <?php } ?>
+    </select>
+</div>
+<table border="0">
+    <tbody id="systemEventTableBody" >
+        <tr id="systemEventRowTemplate" style="display:none;">
+            <td align="left">
+                <select name="systemEvent" class="required selectEventTarget disableSelect2AutoLoad" style="width: 325px;" id="systemEvent">
+                <?php foreach ( $this->systemRuleFieldOptions as $option ) { ?>
+                    <option value="<?php echo $option['id']; ?>"><?php echo $option['text']; ?></option>
+                <?php } ?>
+                </select>
+                <select name="systemOperator" class="required selectOperatorTarget disableSelect2AutoLoad" style="width: 160px;" id="systemOperator">
+                <?php foreach ( $this->systemOperatorOptions as $option ) { ?>
+                    <option value="<?php echo $option['id']; ?>"><?php echo $option['text']; ?></option>
+                <?php } ?>
+                </select>
+                <input name="systemValue" class="required inputValue"  style="width: 140px;" id="systemValue" type="text" value="" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+<span id="customEvent">
+    <table border="0">
+        <tbody id="eventTableBody" >
+            <tr id="eventRowTemplate" style="display:none;">
+                <td align="left">
+                    <button class="rich-button rich-button-small remove-button">-</button>
+                    <select name="event[]" class="required selectEventTarget disableSelect2AutoLoad" style="width: 300px;" id="">
+                        <optgroup label="Invoice Fields">
+                        <?php foreach ( $this->customRuleInvoiceFieldOptions as $option ) { ?>
+                            <option value="<?php echo $option['id']; ?>" data-date="<?php echo $option['date']? 1 : 0 ?>"><?php echo $option['text']; ?></option>
+                        <?php } ?>
+                        </optgroup>
+                        <optgroup label="Package Fields">
+                        <?php foreach ( $this->customRulePackageFieldOptions as $option ) { ?>
+                            <option value="<?php echo $option['id']; ?>" data-date="<?php echo $option['date']? 1 : 0 ?>"><?php echo $option['text']; ?></option>
+                        <?php } ?>
+                        </optgroup>
+                        <optgroup label="User Fields">
+                        <?php foreach ( $this->customRuleUserFieldOptions as $option ) { ?>
+                            <option value="<?php echo $option['id']; ?>" data-date="<?php echo $option['date']? 1 : 0 ?>"><?php echo $option['text']; ?></option>
+                        <?php } ?>
+                        </optgroup>
+                    </select>
+
+                    <select name="operator[]" class="required selectOperatorTarget disableSelect2AutoLoad" style="width: 160px;">
+                    <?php foreach ( $this->customOperatorOptions as $option ) { ?>
+                        <option value="<?php echo $option['id']; ?>"><?php echo $option['text']; ?></option>
+                    <?php } ?>
+                    </select>
+
+                    <select name="operator_dates[]" class="required disableSelect2AutoLoad" style="display:none; width: 160px;">
+                        <option value="<?php echo Notification::DATE_OPERATOR_WAS_EXACTLY ?>"><?php echo $this->user->lang('was exactly') ?></option>
+                        <option value="<?php echo Notification::DATE_OPERATOR_WAS_LESS_THAN ?>"><?php echo $this->user->lang('was less than') ?></option>
+                        <option value="<?php echo Notification::DATE_OPERATOR_WAS_MORE_THAN ?>"><?php echo $this->user->lang('was more than') ?></option>
+                        <option value="<?php echo Notification::DATE_OPERATOR_WILL_OCCUR_IN ?>"><?php echo $this->user->lang('will occur exactly in') ?></option>
+                        <option value="<?php echo Notification::DATE_OPERATOR_WILL_OCCUR_WITHIN ?>"><?php echo $this->user->lang('will occur within') ?></option>
+                    </select>
+
+                    <input name="value[]" class="required inputValue"  style="width: 140px;" id="" type="text" value="" />
+
+                    <select name="operator_dates_units[]" class="required disableSelect2AutoLoad" style="width: 100px;">
+                        <option value="<?php echo Notification::DATE_UNIT_HOURS ?>"><?php echo $this->user->lang('hours') ?></option>
+                        <option value="<?php echo Notification::DATE_UNIT_DAYS ?>"><?php echo $this->user->lang('days') ?></option>
+                        <option value="<?php echo Notification::DATE_UNIT_WEEKS ?>"><?php echo $this->user->lang('weeks') ?></option>
+                        <option value="<?php echo Notification::DATE_UNIT_MONTHS ?>"><?php echo $this->user->lang('months') ?></option>
+                    </select>
+
+                    <select name="invoice_status[]" class="required disableSelect2AutoLoad" style="width:200px; margin-bottom:10px">
+                        <?php /* these two correspond to INVOICE_STATUS_UNPAID AND INVOICE_STATUS_PARTIALLY_PAID */ ?>
+                        <option value="<?php echo Notification::INVOICE_STATUS_NOT_PAID_PROCESSED ?>"><?php echo $this->user->lang('Failed') ?></option>
+                        <option value="<?php echo Notification::INVOICE_STATUS_NOT_PAID ?>"><?php echo $this->user->lang('Not Paid') ?></option>
+
+                        <option value="<?php echo INVOICE_STATUS_PAID  ?>"><?php echo $this->user->lang('Paid') ?></option>
+                        <option value="<?php echo INVOICE_STATUS_VOID  ?>"><?php echo $this->user->lang('Void') ?></option>
+                        <option value="<?php echo INVOICE_STATUS_REFUNDED  ?>"><?php echo $this->user->lang('Refunded') ?></option>
+                        <option value="<?php echo INVOICE_STATUS_PENDING  ?>"><?php echo $this->user->lang('Pending') ?></option>
+                        <option value="<?php echo INVOICE_STATUS_CREDITED  ?>"><?php echo $this->user->lang('Credited') ?></option>
+                    </select>
+
+                    <select name="user_status[]" class="required disableSelect2AutoLoad" style="width:200px; margin-bottom:10px">
+                        <?php $it = StatusAliasGateway::getInstance($this->user)->getUserAliases();
+                            while ($status = $it->fetch()) {
+                                echo '<option value="'.$status->statusid.'">'.$this->user->lang($status->name).'</option>';
+                            }
+                        ?>
+                    </select>
+
+                    <select name="package_status[]" class="required disableSelect2AutoLoad" style="width:200px; margin-bottom:10px">
+                        <?php $it = StatusAliasGateway::getInstance($this->user)->getPackageAliases();
+                            while ($status = $it->fetch()) {
+                                echo '<option value="'.$status->statusid.'">'.$this->user->lang($status->name).'</option>';
+                            }
+                        ?>
+                    </select>
+
+                    <span class="label ago hide label-ago-notifications"><?php echo $this->user->lang('ago') ?></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button id="add-button" class="btn btn-danger" name="add"><i class="icon-plus"></i>&nbsp;&nbsp;&nbsp;<?php echo $this->user->lang("Add new rule");?></button>
+</span>
+<script data-cfasync="false" type="text/javascript">
+$(document).ready(function(){
+
+    $('#add-button').click(function(e) {
+        e.preventDefault();
+        addEvent();
+        document.getElementById('add-button').scrollIntoView();
+    });
+
+    notifications.selectTemplateTarget = $('#selectTemplateTarget');
+    notifications.selectMatchTarget = $('#selectMatchTarget');
+    notifications.selectEventTarget    = $('.selectEventTarget');
+    notifications.selectOperatorTarget = $('.selectOperatorTarget');
+
+    $(notifications.selectTemplateTarget)
+    .add(notifications.selectMatchTarget)
+    .add(notifications.selectEventTarget)
+    .add(notifications.selectOperatorTarget)
+    .focus(function() {
+    });
+
+    notifications.window.options.beforeSubmit = function() {
+    }
+
+    notifications.window.options.beforeCancel = function() {
+    }
+
+    notifications.selectTemplateTarget.select2({
+        placeholder: lang('Select Email Template'),
+        minimumResultsForSearch: 10,
+    });
+
+    notifications.selectMatchTarget.select2({
+        minimumResultsForSearch: 10,
+        placeholder: lang('Select Rule Option'),
+    });
+
+    var systemEventRow = document.getElementById("systemEventRowTemplate");
+    $('#systemEventRowTemplate select').select2({
+        minimumResultsForSearch: 10,
+        width:'resolve'
+    });
+
+    <?php if ( $this->id > 0 ) { ?>
+        notifications.selectTemplateTarget.select2("val", '<?php echo $this->templateid; ?>');
+        notifications.selectMatchTarget.select2("val", '<?php echo $this->match; ?>');
+        <?php if($this->buildCustomRule){ ?>
+            <?php foreach ( $this->rows as $key => $row ) { ?>
+            var tempObject_<?php echo $key; ?> =  {};
+            tempObject_<?php echo $key; ?>.event = '<?php echo $row['event']; ?>';
+            tempObject_<?php echo $key; ?>.is_date = <?php echo @$row['is_date']? 'true' : 'false' ?>;
+            tempObject_<?php echo $key; ?>.operator = '<?php echo $row['operator']; ?>';
+            tempObject_<?php echo $key; ?>.operator_dates = '<?php echo $row['operator_dates']; ?>';
+            tempObject_<?php echo $key; ?>.operator_dates_units = '<?php echo $row['operator_dates_units']; ?>';
+            tempObject_<?php echo $key; ?>.value = '<?php echo $row['value']; ?>';
+            addEvent(tempObject_<?php echo $key; ?>);
+            manageRules(true);
+            <?php } ?>
+        <?php }else{ ?>
+            $("#systemEventRowTemplate input[name^='systemValue']").val('<?php echo $this->rows[0]['value']; ?>');
+            $("#systemEventRowTemplate select[name^='systemEvent']").select2('val', '<?php echo $this->rows[0]['event']; ?>');
+            $("#systemEventRowTemplate select[name^='systemOperator']").select2('val', '<?php echo $this->rows[0]['operator']; ?>');
+            addEvent();
+            manageRules(false);
+        <?php } ?>
+    <?php } else { ?>
+        addEvent();
+        manageRules(false);
+    <?php } ?>
+});
+</script>
+<input type="hidden" name="id" value="<?php echo $this->id; ?>" />

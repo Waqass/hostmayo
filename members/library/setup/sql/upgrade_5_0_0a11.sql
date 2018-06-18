@@ -1,0 +1,1 @@
+ALTER TABLE  `promotion` ADD  `advanced` TEXT NOT NULL;

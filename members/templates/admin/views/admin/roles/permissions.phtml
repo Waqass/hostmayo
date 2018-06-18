@@ -1,0 +1,93 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->user->lang("User Role");?> - <?php echo $this->groupName;?></div>
+  <p class="alert-content"><?php echo $this->user->lang("Customize the roles of the staff you allow in your Clientexec installation.");?></p>
+</div>
+
+<?php if ($this->from_customer_group == 1) { ?>
+  <div style="margin-top:-8px;margin-bottom:10px;"><i class="icon-level-up icon-flip-horizontal icon-back-to-parent-list"></i> <a href="index.php?fuse=admin&controller=groups&view=viewgroups"><?php echo $this->user->lang("Customer Groups");?></a></div>
+<?php } else { ?>
+  <div style="margin-top:-8px;margin-bottom:10px;"><i class="icon-level-up icon-flip-horizontal icon-back-to-parent-list"></i> <a href="index.php?fuse=admin&controller=staff&view=adminlist"><?php echo $this->user->lang("Staff Roles");?></a></div>
+<?php } ?>
+
+
+<form id="groupForm" method="post" />
+<input type="hidden" name="groupId" value="<?php echo $this->groupId;?>" />
+
+<div class="accordion" id="accordion2">
+
+  <?php
+
+  $module_count = 0;
+  foreach ($this->modules as $module) {
+    $module_count++;
+    $module_href = "collapse".$module_count;
+    $padding = 1;
+    $last_entry_id = 0;
+    $last_entry_parent_id = 0;
+    ?>
+
+    <div class="acoordion-permissions accordion-group">
+
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#<?php echo $module_href;?>">
+          <?php echo $module['groupname_translated']." ".$this->user->lang("Permissions")." (".count($module['permissions']).")";?>
+        </a>
+      </div>
+
+        <div id="<?php echo $module_href;?>" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <table class="table">
+
+                <?php foreach ($module['permissions'] as $permission) {
+                  $internal_id = $permission['internal_id'];
+                  $parent_id = $permission['parent_id'];
+                  $hidden = false;
+                  if ( ($parent_id != 0) && (!$module['permissions'][$parent_id]['checked']) ) {
+                    $hidden = true;
+                  }
+
+                  //let's determine padding
+                  if ($parent_id == 0 || $parent_id == 1) {
+                    $padding = 1;
+                  } else if($last_entry_id == $parent_id) {
+                    $padding++;
+                  } else if($last_entry_parent_id != $parent_id) {
+                    $padding--;
+                  }
+
+                  ?>
+                  <tr style="display:<?php echo ($hidden) ? "none": "";?>" data-permission-id="<?php echo $module_count."_".$internal_id;?>" data-child-of-id="<?php echo $module_count."_".$parent_id;?>" >
+                    <td>
+                    <?php
+                      $repeat_arg = ($padding === 1) ? 1 : ($padding*4);
+                      echo str_repeat("&nbsp;", $repeat_arg )." ".$permission['permission'];
+                    ?> <?php if (isset($permission['has_children'])) { ?><i class="has-sub-permissions icon-sort-by-attributes-alt"></i><?php } ?> </td>
+                    <td width="100">
+
+                      <div class="permission-switch-text">
+                        <div class="permission-switch switch switch-small" tabindex="0" data-on-label="<i class='icon-ok icon-white'></i>" data-off-label="<i class='icon-remove'></i>">
+                          <input name="permission_<?php echo $permission['internal_name'];?>" type="checkbox" <?php echo ($permission['checked'] == 1) ? "checked" : "";?> />
+                        </div>
+                      </div>
+
+                    </td>
+                  </tr>
+                <?php
+                    $last_entry_id = $internal_id;
+                    $last_entry_parent_id = $parent_id;
+                  }
+                ?>
+
+              </table>
+            </div>
+          </div>
+
+
+    </div>
+
+  <?php } ?>
+
+</div>
+
+<input type="button" class="update-permission-btn btn" value="<?php echo $this->user->lang("Update Permissions");?>"  />
+</form>

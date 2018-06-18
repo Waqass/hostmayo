@@ -1,0 +1,1 @@
+DELETE from setting where name = 'Force Admin To Login From Admin Directory';

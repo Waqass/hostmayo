@@ -1,0 +1,49 @@
+#selectedproductlogo{
+    padding-bottom: 7px;
+}
+
+#accountwarning{
+     display: none;
+     margin-bottom: 10px;
+     margin-top: 10px;
+     display: none;
+}
+
+#divpluginactiondropdown{
+    top:-30px;
+    display:none;
+}
+
+#paneldescriptiondiv {
+    display:none;
+    width: 440px;
+}
+
+#selectedproduct-view label {
+    font-weight: bold;
+    margin-top: 12px;
+    margin-bottom: 0;
+}
+
+#productheaderbox{
+    padding-top:9px;
+    margin-bottom: 3px;
+}
+
+.productheader {
+    padding: 8px 14px 8px 14px;
+}
+
+#btnoptionsseperator{
+    border-top-style:solid;
+    border-color:#CDCDCD;
+    padding-top:10px;
+    margin-top: 15px;
+    width:340px;
+}
+
+#performonserver_wrapper{
+    float:left;
+    padding-top: 5px;
+    display: none;
+}

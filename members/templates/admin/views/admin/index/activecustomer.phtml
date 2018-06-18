@@ -1,0 +1,218 @@
+<i class="pin-active-profile icon-pushpin icon-muted"></i>
+<div class="active-profile-container">
+		<span class="avatar-overlay"></span>
+            <img class="ce-default-avatar-dark active-user-profile" src="<?php echo $this->customerProfileURL;?>" />
+            <span class="kflag <?php echo $this->score_class;?>">
+              <span class="kscore"><?php echo $this->customer->getPlusScore();?></span>
+        </span>
+		<header class="bg">
+			<div class="active-user-meta">
+    			<div class="active-profile-name">
+                    <?php echo $this->escape($this->customer->getFirstName())  . ' ' . $this->escape($this->customer->getLastName()) ?>
+                    <?php if ($this->customer->isOrganization()): ?>
+                        <br>- <?php echo $this->escape($this->customer->getOrganization()) ?> -
+                    <?php endif ?>
+                </div>
+    			<?php if ($this->customer->isGuest()) { ?>
+    				<div class="active-profile-group">(<?php echo $this->customer->getEmail();?>)</div>
+    				<div class="active-profile-status active-profile-status-guest"><?php echo $this->user->lang("Guest");?></div>
+    			<?php } else {?>
+    				<div class="active-profile-group">
+    				<?php
+    					echo ($this->customer->getCustomerGroup()->fields['name'] == "") ? "Registered" : $this->customer->getCustomerGroup()->fields['name'];
+    				?></div>
+    				<div class="active-profile-status active-profile-status-<?php echo $this->customer->getStatus();?>"><?php echo $this->customer->convertStatus($this->customer->getStatus());?></div>
+    			<?php } ?>
+			</div>
+			<div class="action_buttons">
+    			<?php if ($this->can_email_customers) { ?>
+    				<span data-toggle="tooltip" title="<?php echo $this->user->lang('Email Customer'); ?>" class="btn-action" onclick="ce.addEmailCustomer();"><i class="icon-envelope"></i></span>
+    			<?php } ?>
+
+    			<?php if ($this->supports_billing && !$this->customer->isGuest()) { ?>
+    			<a href="index.php?controller=invoice&fuse=billing&frmClientID=<?php echo $this->customer->getId();?>&view=invoice" class="btn-action" data-toggle="tooltip" title="<?php echo $this->user->lang('Create Invoice'); ?>">
+    				<i class="icon-credit-card"></i>
+    			</a>
+    			<?php } ?>
+
+          <?php if ($this->user->hasPermission('support_submit_ticket')): ?>
+            <span data-toggle="tooltip" title="<?php echo $this->user->lang('Add Support Ticket'); ?>" class="btn-action" onclick='ce.addSupportTicket(<?php echo $this->user->getId();?> ,<?php echo $this->customer->getId();?>);'>
+              <i class="icon-ticket"></i>
+            </span>
+          <?php endif ?>
+
+    			<span data-toggle="tooltip" title="<?php echo $this->user->lang('Add Staff Note'); ?>" class="btn-action" onclick="ce.addNote();">
+    				<i class="icon-edit"></i>
+    			</span>
+
+    			<a data-toggle="tooltip" title="<?php echo $this->user->lang('View As Customer'); ?>" class="btn-action" href="index.php?fuse=clients&controller=index&view=viewasclient">
+    				<i class="icon-eye-open"></i>
+    			</a>
+
+			</div>
+
+		</header>
+
+		<div class="content">
+
+			<div class="dropdown">
+				<div class="follow"><a class="active-profile" href="index.php?fuse=clients&controller=userprofile&view=profilecontact"><?php echo $this->user->lang("Profile");?></a></div><div class="dropdown-toggle active-profile-dropdown-wrapper" data-toggle="dropdown"><i class="icon-reorder"></i></div>
+			  <ul class="pull-right dropdown-menu dropdown-inverse" style="right: 10px;top: 34px;" role="menu" aria-labelledby="dLabel">
+			  	<li><a href="index.php?fuse=clients&controller=userprofile&view=profilecontact"><?php echo $this->user->lang("Profile");?></a></li>
+			  	<?php if (!$this->customer->isGuest()) { ?>
+                <li><a href="index.php?fuse=clients&controller=userprofile&view=profileproducts"><?php echo $this->user->lang("Packages");?></a></li>
+                <?php } ?>
+			  	<?php if (!$this->customer->isGuest()) { ?>
+                <?php if ( $this->user->hasPermission('billing_view')) { ?>
+                <li><a href="index.php?fuse=clients&controller=userprofile&view=profilebilling"><?php echo $this->user->lang("Billing");?></a></li>
+                <?php } ?>
+                <?php } ?>
+			  	<?php if (!$this->customer->isGuest()) { ?>
+                <?php if ( $this->user->hasPermission('billing_recurring_overview')) { ?>
+                <li><a href="index.php?fuse=clients&controller=userprofile&view=profilerecurringcharges"><?php echo $this->user->lang("Recurring");?></a></li>
+                <?php } ?>
+                <?php } ?>
+			  	<?php if (!$this->customer->isGuest()) { ?>
+                <?php if ( $this->user->hasPermission('billing_view')) { ?>
+                <li><a href="index.php?fuse=clients&controller=userprofile&view=profileinvoices"><?php echo $this->user->lang("Invoices");?></a></li>
+                <?php } ?>
+                <?php } ?>
+			  	<li><a href="index.php?fuse=clients&controller=userprofile&view=profiletickets">Tickets</a></li>
+			  	<?php if (!$this->customer->isGuest()) { ?>
+                <li><a href="index.php?fuse=clients&controller=userprofile&view=profileaccounts"><?php echo $this->user->lang("Alt. Accounts");?></a></li>
+                <?php } ?>
+			  	<li><a href="index.php?fuse=clients&controller=userprofile&view=profilenotes"><?php echo $this->user->lang("Notes");?></a></li>
+			  	<li><a href="index.php?fuse=clients&controller=userprofile&view=profileevents"><?php echo $this->user->lang("Events");?></a></li>
+			  </ul>
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="full-contact full-contact-active text-center" style="<?php echo ($this->count_social_profiles > 0) ? "display:block" : "" ?>">
+		<?php
+			if ($this->count_social_profiles > 0) {
+		?>
+				<div class='contact-card'>
+					<div class='box'>
+						<div class='column'>
+					        <ul class='social'>
+					        <?php
+								foreach ($this->socialProfiles as $socialprofile) {
+									echo "<li class='social-profile'><a target='_blank' href='".$socialprofile['url']."'><img src='https://api.fullcontact.com/images/socialProfileIcons/".$socialprofile['type'].".png'></a></li>";
+								}
+							?>
+					        </ul>
+				        </div>
+			        </div>
+		        </div>
+		<?php
+			}
+		?>
+	</div>
+
+	<ul class="nav nav-list" style="clear:both;margin-top:30px;">
+
+		<?php if ($this->top_active_panel_html != "") { ?>
+			<li class="divider"></li>
+			<!-- html for top-active-panel -->
+			<?php echo $this->unescape($this->top_active_panel_html);?>
+			<!-- end html for top-active-panel -->
+		<?php } ?>
+
+		<li class="divider"></li>
+		<li class="nav-header"><i class="icon-time"></i>&nbsp;<?php echo $this->user->lang("Account Dates");?></li>
+		<li>
+	        <?php echo $this->user->lang("Created");?>
+	        <span class="nav-counter"><?php echo $this->dateRenderer($this->customer->getDateActivated()) ?></span>
+	    </li>
+
+        <?php if (!$this->customer->isGuest()) { ?>
+	        <?php if ( $this->customer->getLastLogin() != '' ) { ?>
+	        <li>
+	        	<?php echo $this->user->lang("Last Login");?>
+	        	<span class="nav-counter"><?php echo $this->dateRenderer($this->customer->getLastLogin());?></span>
+	        </li>
+	        <?php } ?>
+        <?php } ?>
+
+		<?php if ($this->tickets_closed > 0 || $this->openticket_count >0) { ?>
+		<li class="nav-header"><?php echo $this->user->lang("Tickets");?></li>
+		<?php } ?>
+		<?php if ($this->tickets_closed > 0) { ?>
+	    <li>
+	      <a href="index.php?fuse=support&view=viewtickets&controller=ticket&filter=closed&customerid=<?php echo $this->customer->getId();?>">
+	        <?php echo $this->user->lang("Closed Tickets");?>
+	        <span data-toggle="tooltip" title="<?php echo $this->user->lang('assigned to you / total') ?>" class="nav-counter"><?php echo $this->tickets_i_closed." / ".$this->tickets_closed;?></span>
+	      </a>
+	    </li>
+		<?php } ?>
+            <?php if ($this->openticket_count == 1) { ?>
+	    <li>
+	      <a href="index.php?fuse=support&view=viewtickets&controller=ticket&searchfilter=open&id=<?php echo $this->ticketId;?>">
+	        <?php echo $this->user->lang("Open Ticket");?>
+	        <span class="nav-counter"><?php echo $this->openticket_count;?></span>
+	      </a>
+	    </li>
+		<?php } elseif ($this->openticket_count > 1) { ?>
+	    <li>
+	      <a href="index.php?fuse=clients&controller=userprofile&view=profiletickets">
+	        <?php echo $this->user->lang("Open Tickets");?>
+	        <span class="nav-counter"><?php echo $this->openticket_count;?></span>
+	      </a>
+	    </li>
+		<?php } ?>
+
+		<?php if ($this->show_billing_options) { ?>
+		    <li class="divider"></li>
+            <li class="nav-header">
+                <?php echo $this->user->lang("Credit Balance").": ".$this->unescape($this->credit_balance); ?>
+            </li>
+            <li class="nav-header">
+                <?php echo $this->user->lang("Invoices");?>
+                <div style="float: right; text-transform: none">
+                    <font color="#55B14D" data-toggle="tooltip" title="<?php echo $this->user->lang('Paid Invoices'); ?>">
+                        <?php echo $this->unescape($this->totalPaid);?>
+                    </font> |
+                    <font color="#FF7E7E" data-toggle="tooltip" title="<?php echo $this->user->lang('Unpaid Invoices'); ?>">
+                        <?php echo $this->unescape($this->totalUnPaid);?>
+                    </font>
+                </div>
+            </li>
+
+		    <li>
+		      <a href="index.php?fuse=clients&controller=userprofile&view=profileinvoices">
+	        <?php echo $this->user->lang("Paid Invoices");?>
+		        <span class="nav-counter"><?php echo $this->invoices_paid;?></span>
+		      </a>
+		    </li>
+		    <?php if ($this->invoices_due > 0) { ?>
+		    <li>
+		      <a href="index.php?fuse=clients&controller=userprofile&view=profileinvoices">
+		        <?php echo $this->user->lang("Unpaid Invoices");?>
+		        <span class="nav-counter"><?php echo $this->invoices_due;?></span>
+		      </a>
+		    </li>
+			<?php } ?>
+		<?php } ?>
+
+		<?php if ($this->bottom_active_panel_html != "") { ?>
+			<li class="divider"></li>
+			<!-- html for bottom-active-panel -->
+			<?php echo $this->unescape($this->bottom_active_panel_html);?>
+			<!-- end html for bottom-active-panel -->
+		<?php } ?>
+
+
+	</ul>
+
+	<script data-cfasync="false" type="text/javascript">
+	    $(document).ready(function(){
+	        //below is used when we should ASK before leaving present page
+	        clientexec.bindLinksIfLeavingInvoiceViewIsPrevented();
+	        <?php if ($this->force_plus_check) { ?>
+	        	clientexec.getfullcontact_active();
+	        <?php } ?>
+	    });
+	</script>

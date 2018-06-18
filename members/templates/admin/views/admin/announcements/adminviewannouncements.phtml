@@ -1,0 +1,36 @@
+<script data-cfasync="false" type="text/javascript">
+    $(document).ready(function() {
+        announcements.postDateValue = '<?php echo $this->serverDate; ?>';
+        announcements.postTimeValue = '<?php echo $this->serverTime; ?>';
+        $('#foo').redactor();
+    });
+</script>
+
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->user->lang("Announcements"); ?></div>
+  <p class="alert-content"><?php echo $this->user->lang("List of all company announcements."); ?></p>
+</div>
+
+<span id="divAnnouncementsGrid-metadata" class="grid-meta"></span>
+<div class="blue-box">
+    <button id="buttonAdd" class="rich-button" style="float:left;">
+        <span><?php echo $this->user->lang("Add Announcement");?></span>
+    </button>
+    <div style="float: right;">
+        <label for="selectAnnouncementsGridFilter" style="display:inline;margin-top: 3px;"><?php echo $this->user->lang('Display');?>:</label>
+        <select id="selectAnnouncementsGridFilter" class="change-grid-showrecords" style="width:60px;">
+            <option value='5'>5</option>
+            <option value='10'>10</option>
+            <option value='25'>25</option>
+            <option value='50'>50</option>
+            <option value='150'>150</option>
+            <option value='300'>300</option>
+        </select>
+    </div>
+</div>
+<div id="divAnnouncementsGrid"></div>
+<div id="divAnnouncementsGrid-footer" style="display:none;">
+    <button id="buttonPublish" class="rich-button"><span><?php echo $this->user->lang("Publish");?></span></button>
+    <button id="buttonUnpublish" class="rich-button"><span><?php echo $this->user->lang("Unpublish");?></span></button>
+    <button id="buttonDelete" class="rich-button"><span><?php echo $this->user->lang("Delete");?></span></button>
+</div>

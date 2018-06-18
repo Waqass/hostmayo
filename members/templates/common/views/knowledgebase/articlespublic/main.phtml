@@ -1,0 +1,55 @@
+<form action="index.php" method="GET" id="support-search" class="support-search-big">
+    <input type="hidden" name="fuse" value="knowledgebase" />
+    <input type="hidden" name="controller" value="articles" />
+    <input type="hidden" name="view" value="search" />
+    <input type="hidden" name="subject" value ="" />
+  <div class="outer">
+    <div class="inner support-search-inner">
+      <input type="text" id="query" name="query" maxlength="100" value="" placeholder="<?php echo $this->user->lang("Have a question? Ask or enter a search term here.");?>" class="support-search-kb" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" />
+      <button type="submit" class="btn btn-inverse support-search-submit" style=""><span><?php echo $this->user->lang("Search");?></span></button>
+    </div>
+  </div>
+</form>
+
+
+<?php if(count($this->category) > 0 && count($this->category['articles']) > 0) { ?>
+<div class=" categoryarticles">
+    <div class="articles_header">
+        <h1><?php echo $this->user->lang("Articles for")." ".$this->category['categoryName'];?></h1>
+    </div>
+
+    <ul class="articles">
+    <?php foreach($this->category['articles'] as $article) { ?>
+        <li><div class="article"><i class="icon-file-text-alt"></i></div><a class="articleName" data-order="<?php echo $article['myorder'];?>" href="<?php echo $article['href']; ?>"><?php echo $this->escape($article['title']); ?></a>
+        <br/><?php echo "<div class='articleMeta'>".$this->user->lang("Last modified");?><span class="delim2">•</span><?php echo $article['modified']."</div>"; ?></li>
+    <?php } ?>
+    </ul>
+</div>
+<?php } ?>
+
+
+<?php if(count($this->categories) > 0 &&  count($this->category) > 0) { ?>
+    <div class="subcategory-header">
+        <h2><?php echo $this->user->lang("Subcategories of")." ".$this->category['categoryName'];?></h2>
+    </div>
+<?php } ?>
+<div id="kbcatergories" class="row-fluid">
+    <?php foreach ($this->categories as $category) { ?>
+
+    <div class="category span6 <?php echo $category['categoryDivClass']; ?>">
+        <h2><a class="categoryName" href="<?php echo $category['href']; ?>"><?php echo $category['categoryName']; ?> (<?php echo $category['categoryCounter'];?>) &raquo;</a></h2>
+        <ul class="articles">
+        <?php foreach ($category['articles'] as $article) { ?>
+            <li>
+                <?php if ($category['categoryDivClass'] === "categories_wrap-second") { echo "<div class='fade_title'></div>"; } ?>
+                <div class="article"><i class="icon-file-text-alt"></i></div><a class="articleName" href="<?php echo $article['href']; ?>"><?php echo $this->escape($article['title']); ?></a>
+                <?php if ($category['categoryDivClass'] === "categories_wrap") { echo "<div class='fade_title'></div>"; } ?>
+            </li>
+        <?php } ?>
+        <?php if (count($category['articles'])==0) { ?>
+            <li class="noarticles"><?php echo $this->user->lang("There are no articles for this category"); ?></li>
+        <?php } ?>
+        </ul>
+    </div>
+    <?php } ?>
+</div>

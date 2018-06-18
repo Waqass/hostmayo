@@ -1,0 +1,62 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->user->lang("Public Style"); ?></div>
+  <p class="alert-content"><?php echo $this->user->lang('Customize the public portal style.  Each template might have their own custom settings.'); ?></p>
+</div>
+
+<script data-cfasync="false" type="text/javascript">
+    templateOptions = {};
+    templateOptions.defaultTemplate = "<?php echo $this->default;?>";
+</script>
+
+<form id="sitesettings" name="settings" method="post" action="index.php?fuse=admin&amp;action=savetemplateoptions">
+
+<dl class="form noborder automation-options">
+    <dt><label><?php echo $this->user->lang("Template");?></label></dt>
+    <dd>
+        <select id="templateselector" name="templateselector">
+            <?php
+            foreach ($this->templates as $template) {
+                if ($this->default === $template['name']) {
+                    $checked = "selected='selected'";
+                } else {
+                    $checked = "";
+                }
+                echo "<option value='".$template["name"]."' ".$checked.">".$template['name']."</option>";
+            }
+            ?>
+        </select>
+    </dd>
+
+    <dd class="full desc">
+        <span>
+            <?php echo $this->user->lang("Select the template you wish to set options for.   These options are template specific, so make sure you set the options for all the templates you are making available to your customers.");?>
+        </span>
+    </dd>
+    <dt><label><?php echo $this->user->lang("Primary");?></label></dt>
+    <dd>
+        <select id="setDefault" name="setDefault">
+            <option value="yes"><?php echo $this->user->lang("Yes");?></option>
+            <option value="no"><?php echo $this->user->lang("No");?></option>
+        </select>
+    </dd>
+    <dd class="full desc">
+        <span>
+            <?php echo $this->user->lang("Set the selected template as the primary customer portal template.  If no template is selected as the primary template then the <b>default</b> template will be used.");?>
+        </span>
+    </dd>
+
+      <dt><label><?php echo $this->user->lang("JavaScript Source");?></label></dt>
+    <dd>
+        <select id="jsSources" name="jsSources">
+            <option <?php if ( $this->jsSource == 'cdn' ) { ?> selected="selected" <?php } ?> value="cdn"><?php echo $this->user->lang("Content Delivery Network");?></option>
+            <option <?php if ( $this->jsSource == 'local' ) { ?> selected="selected" <?php } ?> value="local"><?php echo $this->user->lang("Local");?></option>
+        </select>
+    </dd>
+    <dd class="full desc">
+        <span>
+            <?php echo $this->user->lang("Controls the source of some core JavaScript Libraries.");?>
+        </span>
+    </dd>
+</dl>
+<button id="updatesettingbtn" class="btn" data-loading-text="<?php echo $this->user->lang("Saving");?>..."><?php echo $this->user->lang("Update Settings");?></button>
+</form>

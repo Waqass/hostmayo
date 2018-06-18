@@ -1,0 +1,23 @@
+<?php if ( isset($this->error) ) { ?>
+<div class="alert alert-danger">
+    <?php echo $this->user->lang('File upload failed.'); ?>
+</div>
+<?php } ?>
+
+<?php if ( isset($this->results) ) { ?>
+<div class="alert alert-warning">
+    <span class="bold-item"><?php echo $this->user->lang('Import Results'); ?>:</span>
+    <ul>
+        <li><?php echo $this->numAccounts; ?> <?php echo $this->user->lang('accounts added.'); ?></li>
+        <li><?php echo $this->numPackages; ?> <?php echo $this->user->lang('packages added.'); ?></li>
+        <li><?php echo $this->numHosting; ?> <?php echo $this->user->lang('client packages added.'); ?></li>
+        <li><?php echo $this->numInvoices; ?> <?php echo $this->user->lang('invoices added.'); ?></li>
+        <li><?php echo $this->numTickets; ?> <?php echo $this->user->lang('tickets added.'); ?></li>
+    </ul>
+</div>
+<?php } ?>
+
+<h6><?php echo $this->user->lang('Import File'); ?></h6>
+<div><br /><?php echo $this->user->lang('Upload File'); ?>: <input type="file" name="importfile" /></div>
+<br/>
+<button class="rich-button" id="importButton"><span><?php echo $this->user->lang("Import"); ?></span></button>

@@ -1,0 +1,52 @@
+<?php if ( $this->showCountsHeader ) { ?>
+<ul class="breadcrumb"><?php echo $this->user->lang("Daily counts");?></ul>
+<?php } ?>
+<div style="margin-left:10px;margin-top: -15px;">
+	<?php if ( $this->showAccounts) { ?>
+	<label class="checkbox inline">
+	  <input type="checkbox" name ="include_new_accounts" value="1" <?php echo ($this->settings['include_new_accounts']) ? "checked" : "";?>> <?php echo $this->user->lang("Include Accounts");?>
+	</label><br/>
+	<?php }  ?>
+	<?php if ( $this->showBilling ) { ?>
+	<label class="checkbox inline">
+	  <input type="checkbox" name="include_billing" value="1" <?php echo ($this->settings['include_billing']) ? "checked" : "";?>> <?php echo $this->user->lang("Include Billing");?>
+	</label><br/>
+	<?php } ?>
+	<?php if ( $this->showTickets ){ ?>
+	<label class="checkbox inline">
+	  <input type="checkbox" name="include_tickets" value="1" <?php echo ($this->settings['include_tickets']) ? "checked" : "";?>> <?php echo $this->user->lang("Include Support");?>
+	</label>
+	<?php } ?>
+</div>
+
+<ul class="breadcrumb" style="margin-top:20px;"><?php echo $this->user->lang("Include Sections");?></ul>
+<div style="margin-left:10px;margin-top: -15px;">
+	<?php if ( $this->showCountsHeader) {?>
+	<label class="checkbox inline">
+	  <input type="checkbox" name="section_counts" value="1" <?php echo ($this->settings['section_counts']) ? "checked" : "";?>> <?php echo $this->user->lang("Counts");?>
+	</label><br/>
+	<?php } ?>
+	<?php if ($this->showReports) {?>
+	<label class="checkbox inline">
+	  <input type="checkbox" name="section_reports" value="1" <?php echo ($this->settings['section_reports']) ? "checked" : "";?>> <?php echo $this->user->lang("Reports");?>
+	</label><br/>
+	<?php } ?>
+	<label class="checkbox inline">
+	  <input type="checkbox" name="section_tickets" value="1" <?php echo ($this->settings['section_tickets']) ? "checked" : "";?>> <?php echo $this->user->lang("Favorite Ticket Filter");?>
+	</label><br/>
+	<?php if ( $this->showAutomation ) { ?>
+	<label class="checkbox inline">
+	  <input type="checkbox" name="section_automation" value="1" <?php echo ($this->settings['section_automation']) ? "checked" : "";?>> <?php echo $this->user->lang("Automation Information");?>
+	</label><br/>
+	<?php } ?>
+	<?php if ( $this->showWarnings ) { ?>
+	<label class="checkbox inline">
+	  <input type="checkbox" name="section_warnings" value="1" <?php echo ($this->settings['section_warnings']) ? "checked" : "";?>> <?php echo $this->user->lang("Recent Warnings");?>
+	</label><br/>
+	<?php } ?>
+	<?php if ( $this->showPendingOrders ) { ?>
+	<label class="checkbox inline">
+	  <input type="checkbox" name="section_orders" value="1" <?php echo ($this->settings['section_orders']) ? "checked" : "";?>> <?php echo $this->user->lang("Pending Orders");?>
+	</label>
+	<?php } ?>
+</div>

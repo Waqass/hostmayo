@@ -1,0 +1,199 @@
+#public_room_page {
+	position: relative;
+}
+
+section#public_room_page {
+	position: relative;
+	padding-bottom: 250px;
+	min-height: 900px;
+}
+
+#public_room_page .content {
+	width: 880px !important;
+}
+
+#public_room_page div.content, 
+#public_room_page section.content {
+	width: 880px;
+	margin: 0 auto;
+}
+
+#public_room_page section.content {
+	width: 960px;
+	margin: 0 auto;
+}
+
+#public_room_page section.sidebar {
+	width: 215px;
+	padding-right: 30px;
+	float: left;
+}
+
+#public_room_page section.non-sidebar {
+	margin-left: 240px;
+	margin-right: 0;
+	min-height: 700px;
+	position: relative;
+}
+
+
+#public_room_page table.form td p {
+	color: #808080;
+	font-size: 11px;
+	margin: 3px 0 0 0;
+}
+
+#public_room_page .icon-certificate {
+	color: #8FBBFD;
+}
+
+#public_room_page .room_description {
+	font-weight: 300;
+	font-size: 15px;
+	margin-top:0;
+	margin-bottom: 30px;
+	height:20px;
+}
+
+#public_room_page .msgs-wrapper {
+	display:none;
+	margin-left: 5px;
+	border-top: 3px solid #ddd;
+	width: 640px;
+}
+
+.choose-room-title {
+	position: relative;
+	top: -10px;
+}
+
+.choose-room-subtitle {
+	font-weight: 300;
+	position: relative;
+	top: -10px;
+}
+
+.room-status-message {
+	font-size: 15px;
+}
+
+#public_room_page #messageform {
+	border-top: 4px solid #0088cc;
+	padding-top: 1px;
+}
+
+#public_room_page #messageform input{
+	width: 625px;
+	height: 25px;
+	padding: 5px;
+	font-size: 16px;
+	border: 3px solid #ddd;
+}
+
+.btn-log-out-room {
+	position: relative;
+	top: -5px;
+	right: -15px;
+}
+
+.btn-log-out-room a {
+	font-weight: 300;
+	font-size: 12px;
+}
+
+.btn-log-out-room a:hover {
+	text-decoration: none;
+}
+
+.room-user-list {
+	position: relative;
+	top: -13px;
+}
+
+/* shared between public */
+
+
+#log {
+
+	min-height: 300px;
+	max-height: 600px;
+    z-index              : 200;
+    overflow-y           : scroll;
+    border: 1px solid #DFDFDF;
+	padding: 2px;
+}
+
+/* Log */
+
+#log dl {
+    display : block;
+    position: relative;
+    margin  : 0;
+    /*padding : 10px 20px;*/
+    overflow: hidden;
+    border-bottom: 1px solid #ccc;
+    padding: 20px 20px 20px 20px;
+}
+
+#log dl:nth-child(even) {
+    -webkit-box-shadow: inset 0 1px 0 #fff;
+    -moz-box-shadow: inset 0 1px 0 #fff;
+    -ms-box-shadow: inset 0 1px 0 #fff;
+    -o-box-shadow: inset 0 1px 0 #fff;
+    box-shadow: inset 0 1px 0 #fff;
+    background    : url(../assets/bg.png) repeat-y #f4f4f4;
+}
+#log dl:nth-child(odd) {
+    background    : url(../assets/bg.png) repeat-y #FFF;
+}
+
+#log dl dt {
+    display       : block;
+    float         : left;
+    width         : 40px;
+    padding-right : 10px;
+    vertical-align: bottom;
+}
+
+#log dl dt .avatar {
+    border-radius: 50%;
+    display      : block;
+    width        : auto;
+    height       : auto;
+    float        : left;
+    padding      : 4px;
+    border       : 1px solid #ccc;
+}
+
+
+#log dl dt img {
+    border-radius: 50%;
+    border       : none;
+    padding      : 0;
+    width        : 50px;
+    display      : block;
+    max-width: 50px;
+}
+#log dl dd {
+    margin-left : 30px;
+    display     : block;
+    position    : relative;
+    padding     : 0;
+    padding-left: 45px;
+    white-space : pre-wrap;
+    color       : #333;
+    font-size   : 13px;
+}
+
+
+#log dl dd:last-child {
+    margin-bottom: 0;
+}
+
+#log dl.operator {
+    background-color: #e8f9ff;
+}
+
+#log dl.operator dd {
+    color: #00445c;
+}

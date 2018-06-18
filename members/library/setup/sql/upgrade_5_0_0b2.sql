@@ -1,0 +1,1 @@
+UPDATE `setting` SET `value`='default' WHERE name='Template';

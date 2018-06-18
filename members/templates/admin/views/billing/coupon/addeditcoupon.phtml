@@ -1,0 +1,169 @@
+<style>
+    input.datepicker{
+        width: 206px;
+    }
+    label.error {
+        top: 0px;
+    }
+</style>
+<div class="alert alert-info ce-page-header">
+    <div class="alert-header"><?php echo $this->addOrEdit; ?></div>
+  <p><?php echo $this->user->lang("Configure coupons that will be available to use on sign up.");?></p>
+</div>
+
+<div style="margin-top:-8px;margin-bottom:10px;">
+    <i class="icon-level-up icon-flip-horizontal icon-back-to-parent-list"></i>
+    <a href="index.php?fuse=admin&controller=settings&view=coupons&settings=billing">Coupon list</a>
+</div>
+
+<div id="server-content">
+    <div class="fieldwrapper withcolor">
+        <form method="post" id="saveCouponForm" action="index.php?fuse=billing&controller=coupon&action=save">
+        <input type="hidden" name="couponid" value="<?php echo $this->id; ?>" />
+        <input type="hidden" name="archive" value="<?php echo $this->archive; ?>" />
+        <input type="hidden" name="viewingArchived" value="<?php echo $this->viewingArchived; ?>" />
+
+        <dl class="form">
+            <dt><label><?php echo $this->user->lang('Coupon Name'); ?>:</label></dt>
+            <dd><input class="required" type="text" name="name" value="<?php echo $this->name; ?>" /></dd>
+
+            <dt><label><?php echo $this->user->lang('Description'); ?>:</label></dt>
+            <dd><textarea name="description"><?php echo $this->description; ?></textarea></dd>
+
+            <dt><label><span class="tip-target tooltip-inner-wide" data-toggle="tooltip" data-placement="right" data-html="true" title="<?php echo $this->user->lang('Leave empty to autogenerate'); ?>"><?php echo $this->user->lang('Code'); ?>:</span></label></dt>
+            <dd><input type="text" name="code" value="<?php echo $this->code; ?>" /></dd>
+
+            <dt><label class="tooltip-inner-wide"><span class="tip-target" data-toggle="tooltip" data-placement="right" data-html="true" title="<?php echo $this->user->lang('Leave empty for an unlimited number of coupons'); ?>"><?php echo $this->user->lang('Quantity'); ?>:</span></label></dt>
+            <dd><input type="text" name="quantity" value="<?php echo $this->quantity; ?>" /></dd>
+
+            <dt><label><?php echo $this->user->lang('Discount Type'); ?>:</label></dt>
+            <dd>
+                <select id="discountType" name="discount_type" style="display:none">
+                    <option value="amount">Amount</option>
+                    <option value="percentage">Percentage</option>
+                </select>
+            </dd>
+
+            <div id="discountAmountDiv">
+                <dt><label><?php echo $this->user->lang('Discount'); ?> (<?php echo $this->unescape($this->currencySymbol); ?>):</label></dt>
+                <dd><input class="required" type="text" name="discount" value="<?php echo $this->discount; ?>" /></dd>
+            </div>
+
+            <div id="applyToDiv" style="display: none">
+                <dt><label><?php echo $this->user->lang('Apply coupon to'); ?>:</label></dt>
+                <dd>
+                    <select multiple="multiple" name="applyTo[]">
+                        <option <?php echo ( in_array('package', $this->applicableTo) ? 'selected="selected"' : '' ); ?>  value="package">Package</option>
+                        <option <?php echo ( in_array('packageSetup', $this->applicableTo) ? 'selected="selected"' : '' ); ?>  value="packageSetup">Package Setup</option>
+                        <option <?php echo ( in_array('addons', $this->applicableTo) ? 'selected="selected"' : '' ); ?>  value="addons">Package Add-ons</option>
+                        <option <?php echo ( in_array('addonsSetup', $this->applicableTo) ? 'selected="selected"' : '' ); ?>  value="addonsSetup">Package Add-ons Setup</option>
+                        <option <?php echo ( in_array('other', $this->applicableTo) ? 'selected="selected"' : '' ); ?>  value="other">Other invoice items</option>
+                    </select>
+
+            </div>
+
+            <div id="discountPercentDiv" style="display: none">
+                <dt><label><?php echo $this->user->lang('Discount'); ?> (%):</label></dt>
+                <dd><input class="required" type="text" name="discount_percent" value="<?php echo $this->discount_percent; ?>" /></dd>
+            </div>
+
+            <dt><label><?php echo $this->user->lang('Start Date'); ?>:</label></dt>
+            <dd><input class="datepicker" type="text" name="start_date" value="<?php echo $this->start; ?>" /></dd>
+
+            <dt><label class="tooltip-inner-wide"><span class="tip-target" data-toggle="tooltip" data-placement="right" data-html="true" title="<?php echo $this->user->lang('Leave empty for a coupon that never expires'); ?>"><?php echo $this->user->lang('Expiration Date'); ?>:</span<</label></dt>
+            <dd><input class="datepicker" type="text" name="expires" value="<?php echo $this->expires; ?>" /></dd>
+
+            <dt><label class="tooltip-inner-wide"><span class="tip-target" data-toggle="tooltip" data-placement="right" data-html="true" title="<?php echo $this->user->lang('Recurring coupons will be applied on every periodic payment') . '<br/><br/>' . $this->user->lang('NOTICE: Recurring coupons will use the same billing cycle of the package, and will not be applied to any addons or domains registration with different billing cycles from the package, in future invoices.');?>"><?php echo $this->user->lang('Recurring'); ?>:</span></label></dt>
+            <dd>
+                <select id="recurringSelect" name="recurring" style="display:none">
+                    <option value="0">No</option>
+                    <option selected="selected" value="1">Yes</option>
+                </select>
+            </dd>
+
+            <div id="durationDiv" style="display:none">
+                <dt><label><?php echo $this->user->lang('Duration (months)'); ?>:</label></dt>
+                <dd><input type="text" name="recurringmonths" value="<?php echo $this->recurringmonths; ?>" /></dd>
+            </div>
+
+            <dt><label><?php echo $this->user->lang('Apply coupon'); ?>:</label></dt>
+            <dd>
+                <select id="taxableSelect" name="taxable" style="display:none">
+                    <option value="1">Before taxes</option>
+                    <option value="0">After taxes</option>
+                </select>
+            </dd>
+
+            <dt><label><?php echo $this->user->lang('Packages'); ?>:</label></dt>
+            <dd>
+                <select class="required" multiple="multiple" name="applies_to[]" style="display:none">
+                    <?php foreach ( $this->availablePackages['packages'] as $package ) { ?>
+                    <option <?php echo ( in_array($package['packageId'], $this->selectedPackages) ? 'selected="selected"' : '' ); ?> value="<?php echo $package['packageId']; ?>"><?php echo $package['packageName']; ?></option>
+                    <?php } ?>
+                </select>
+            </dd>
+
+            <dt><label><?php echo $this->user->lang('Billing Cycles'); ?>:</label></dt>
+            <dd>
+                <select multiple="multple" name="bcycle[]" style="display:none">
+                    <option <?php echo ( in_array('all', $this->billingcycles) ? 'selected="selected"' : '' ); ?> value="all">All</option>
+                    <option <?php echo ( in_array('1', $this->billingcycles) ? 'selected="selected"' : '' ); ?> value="1">Monthly</option>
+                    <option <?php echo ( in_array('3', $this->billingcycles) ? 'selected="selected"' : '' ); ?> value="3">Quarterly</option>
+                    <option <?php echo ( in_array('6', $this->billingcycles) ? 'selected="selected"' : '' ); ?> value="6">Semiannually</option>
+                    <option <?php echo ( in_array('12', $this->billingcycles) ? 'selected="selected"' : '' ); ?> value="12">Yearly</option>
+                    <option <?php echo ( in_array('24', $this->billingcycles) ? 'selected="selected"' : '' ); ?> value="24">Every 2 Years</option>
+                    <option <?php echo ( in_array('0', $this->billingcycles) ? 'selected="selected"' : '' ); ?> value="0">One-Time Fees</option>
+                </select>
+            </dd>
+        </dl>
+
+        <div class="form-actions">
+           <div class="pull-right">
+               <button id="saveButton" class="submit-general btn btn-primary"><span>Save Changes</span></button>
+           </div>
+        </div>
+        </form>
+    </div>
+</div>
+
+<script data-cfasync="false" type="text/javascript">
+    $('#discountType').change(function() {
+        if ( $(this).val() == 'amount' ) {
+            $('#applyToDiv').hide();
+            $('#discountPercentDiv').hide();
+            $('#discountAmountDiv').show();
+        } else if ( $(this).val() == 'percentage' ) {
+            $('#applyToDiv').show();
+            $('#discountPercentDiv').show();
+            $('#discountAmountDiv').hide();
+        }
+    });
+
+    $('#recurringSelect').change(function() {
+        if ( $(this).val() == 1 ) {
+            $('#durationDiv').show();
+        } else {
+            $('#durationDiv').hide();
+        }
+    });
+
+
+    $('#discountType').val('<?php echo $this->type; ?>');
+    $('#recurringSelect').val(<?php echo $this->recurring; ?>);
+    $('#taxableSelect').val(<?php echo $this->taxable; ?>);
+
+    $('#discountType').trigger('change');
+    $('#recurringSelect').trigger('change');
+
+    $(document).ready( function() {
+
+        $('#saveCouponForm').validate({
+            rules: {
+                ignore: ":not(:visible)",
+                required: {
+                    required: true
+                }
+            }
+        });
+    });
+</script>

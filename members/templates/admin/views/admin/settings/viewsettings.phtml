@@ -1,0 +1,112 @@
+<div class="alert alert-info ce-page-header">
+  <div class="alert-header"><?php echo $this->settingName;?></div>
+  <p class="alert-content"><?php echo $this->settingDescription;?></p>
+</div>
+
+<?php if ($this->description != "") { ?>
+    <div class="alert alert-warning" style="width: 560px;"><?php echo $this->description;?></div>
+<?php } ?>
+
+<form id="sitesettings" name="settings" method="post" action="index.php?fuse=admin&controller=settings&action=update" autocomplete="off">
+    <input type="hidden" name="settingType" value="<?php echo $this->settingType;?>" />
+    <input type="hidden" name="pluginName" value="<?php echo $this->selectedPlugin; ?>" />
+
+    <?php $languages = CE_Lib::getEnabledLanguages();
+    if($this->settingIsLanguages && count($languages) > 1){
+        $active = true; ?>
+        <ul class="nav nav-pills">
+        <?php foreach($languages as $languageKey => $language){ ?>
+            <li <?php if($active){echo 'class="active"';} ?> >
+                <a <?php if($active){$active = false; echo 'class="default-language-tab"';} ?> href="javascript:void(0)" onclick="settingsObject.filterBy(this,'<?php echo $languageKey; ?>')"><?php echo $languageKey; ?></a>
+            </li>
+        <?php } ?>
+        </ul>
+    <?php } ?>
+
+    <dl class="form noborder automation-options">
+        <?php echo $this->settingsfields($this->settings);?>
+        <dd style="margin-top: 10px">
+            <button style="margin-right: 0px" id="updatesettingbtn" class="rich-button pull-right" data-loading-text="<?php echo $this->user->lang("Saving");?>..."><span><?php echo $this->user->lang("Update Settings");?></span></button>
+
+            <?php if ($this->settingsGroup == 'admin_email') { ?>
+            <button  id="testmailsettings" class="rich-button" data-loading-text="<?php echo $this->user->lang("Testing");?>..."><span><?php echo $this->user->lang("Test Configuration");?></span></button>
+            <?php } ?>
+        </dd>
+    </dl>
+</form>
+
+<script data-cfasync="false" type="text/javascript">
+    $(function() {
+
+        <?php if ($this->settingsGroup == 'admin_email') { ?>
+
+        $('#testmailsettings').click(function(e) {
+            e.preventDefault();
+            <?php foreach ($this->settings as $key => $settings) { ?>
+                <?php if ($settings['settingName'] == $this->user->lang('Mail Type')) { ?>
+            var mail<?php echo $key; ?> = $('select[name=value_<?php echo $settings['settingId']; ?>]').val();
+            <?php } else if ($settings['settingName'] == $this->user->lang('Ignore Invalid Mail Server SSL')) { ?>
+            var mail<?php echo $key; ?> = $('input[name=value_<?php echo $settings['settingId']; ?>]:checked').val();
+            <?php } else { ?>
+            var mail<?php echo $key; ?> = $('input[name=value_<?php echo $settings['settingId']; ?>]').val();
+                <?php } ?>
+            <?php } ?>
+
+            $('#testmailsettings').button('loading');
+            $.ajax({
+                url: 'index.php?fuse=admin&controller=settings&action=emailtest',
+                type: 'POST',
+                data: {
+                    type: mail0,
+                    host: mail1,
+                    username: mail2,
+                    password: mail3,
+                    port: mail4,
+                    ignoreSSL: mail5
+                },
+                success: function (json) {
+                    $('#testmailsettings').button('reset');
+                    if (json.error == true) {
+                        RichHTML.error(lang('Test email failed.'));
+                    } else {
+                        RichHTML.info(lang('Test email sent successfully.'));
+                    }
+                }
+            });
+        });
+        <?php } ?>
+
+        $("#updatesettingbtn").click(function() {
+            if(!$(".nav-pills li:first").hasClass("active")){
+                $(".default-language-tab").click();
+            }
+
+            $('#updatesettingbtn').button('loading');
+            if (check($("#sitesettings").get(0),$("#sitesettings").get(0).elements.length,false)) {
+                var contactForm = $("#sitesettings");
+                $.ajax({
+                    url: contactForm.attr( 'action' ),
+                    type: contactForm.attr( 'method' ),
+                    data: contactForm.serialize(),
+                    success: function (){
+                        $('#updatesettingbtn').button('reset');
+                        ce.msg("Settings Updated");
+                        <?php if ( $this->settingsGroup == 'admin_localization' ) { ?>
+                        location.reload();
+                        <?php } ?>
+                    }
+                });
+            }
+            return false;
+        });
+    });
+
+    settingsObject = {};
+    settingsObject.filterBy = function(el,filter) {
+        $(el).closest('.nav-pills').find('li').removeClass('active')
+        $(el).closest('li').addClass('active');
+
+        $('.language').hide();
+        $('.'+filter).show();
+    }
+</script>

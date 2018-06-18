@@ -1,0 +1,146 @@
+<?php
+    $count_defined_packages = 0;
+?>
+
+<?php if (!in_array(trim($this->group['descriptionlanguage']), array("", "<p><br></p>"))) { ?>
+	<div class="alert ce-alert ce-alert-info">
+	    <?php echo $this->group['descriptionlanguage'];?>
+	</div>
+<?php } ?>
+
+<h1><?php echo $this->user->lang("Select a Package");?></h1>
+<div class="accordion selectedproduct-configuration-accordion" id="product-accordion" style="display: block;">
+
+	  <?php foreach($this->packages as $package) {
+
+	  	if (!is_array($package['pricing']) || count($package['pricing']) ==0 ) {
+	  		continue;
+	  	}
+  		$count_defined_packages++;
+
+	  	?>
+	  <div class="accordion-group">
+	    <div class="accordion-heading">
+	      <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#product-accordion" href="#collapse<?php echo $package['id'];?>"><b><?php echo $package['plannamelanguage'];?></b><?php
+            if($package['stockLevel'] >= 0){
+                if($package['stockControl'] == 1){
+                    echo '&nbsp;&nbsp;[ '.$this->user->lang("not available").' ]';
+                }else{
+                    echo '&nbsp;&nbsp;[ '.$package['stockLevel'].' '.$this->user->lang("available").' ]';
+                }
+            }
+          ?></a>
+	    </div>
+	    <div id="collapse<?php echo $package['id'];?>" class="accordion-body <?php echo ($package['selected']) ? "in" : "collapse" ;?>">
+	      <div class="accordion-inner">
+
+	      	 <?php echo $this->unescape($package['descriptionlanguage']);?>
+
+	      	<!-- if there is only one payment term just show configure button -->
+			<table class="table ce-table table-striped table-hover pricing-options">
+		        <thead>
+		        <tr class="caption">
+		        	<th align="center" width="15"></th>
+		            <th align="center" width="300"><?php echo $this->user->lang("Term Length");?></th>
+		            <th><?php echo $this->user->lang("Price Per Term");?></th>
+                    <?php if (!$this->hideSetupFees): ?>
+                        <th class="text-right"><?php echo $this->user->lang("Setup Fee");?></th>
+                    <?php endif ?>
+                    <th class="text-right" <?php if (!$this->showSaved) {?>style="display:none"<?php } ?>><?php if($this->showSaved) { echo $this->user->lang("You Save");}?></th>
+		        </tr>
+		        </thead>
+		        <tbody>
+		        	<?php foreach ($package['pricing'] as $pricing) { ?>
+			        <tr>
+			        	<td align="center">
+			        		<label class="radio">
+			        		  <input class="priceTerm_<?php echo $package['id'];?>" name="priceTerm_<?php echo $package['id'];?>" type="radio" value="<?php echo $pricing['termId'];?>" <?php if($package['stockControl'] == 0 && $pricing['selected'] == 1) { echo " checked";} elseif($package['stockControl'] == 1){ echo " disabled";}?> />
+							</label>
+			        	</td>
+			            <td align="center"><?php echo $pricing['term'];?></td>
+			            <td><?php echo $pricing['price'];?></td>
+                        <?php if (!$this->hideSetupFees): ?>
+                            <td class="text-right"><?php echo $pricing['setup'];?></td>
+                        <?php endif ?>
+                        <td class="text-right" <?php if (!$this->showSaved) {?>style="display:none"<?php } ?>><?php if($this->showSaved) { echo $pricing['save'];}?></td>
+			        </tr>
+			        <?php } ?>
+                </tbody>
+		    </table>
+
+			<div class="configuration-update-wrap">
+				<div class="form-actions">
+			  		<a type="submit" href="<?php echo $package['nextUrl'];?>" data-package-id="<?php echo $package['id'];?>" class="pull-right btn btn-gotosetp2-submit"><?php echo $this->user->lang('Continue') ?></a>
+				</div>
+			</div>
+
+
+	      </div>
+	    </div>
+	  </div>
+
+    <?php } ?>
+
+
+	<?php if ($count_defined_packages == 0) { ?>
+        <div class="alert ce-alert ce-alert-error">
+            <?php echo $this->user->lang("There are no packages configured for this package type"); ?>
+        </div>
+	<?php } ?>
+
+
+</div>
+
+<?php if ( $this->bundled ) { ?>
+<script data-cfasync="false" type="text/javascript">
+    $(document).ready(function() {
+        $('a:not(.button, .btn, .accordion-toggle, .dropdown-toggle)').click(function(e){
+            e.stopImmediatePropagation();
+            var selectedLink = this;
+            if ($(this).hasClass('showcancelalert')) {
+                RichHTML.msgBox(lang('Are you sure you want to cancel this item?'),
+                {
+                    type: 'yesno'
+                },
+                function(result) {
+                    if ( result.btn == lang('Yes') ) {
+                        confirmDleteItemFromCart(selectedLink);
+                    }
+                });
+                return false;
+            } else if ($(this).hasClass('nopopupalert')) {
+                confirmDeleteItemFromCart(selectedLink);
+            } else {
+                RichHTML.msgBox(lang('Leaving now will cancel this item.  Are you sure you want to leave?'),
+                {
+                    type: 'yesno'
+                },
+                function(result) {
+                    if ( result.btn == lang('Yes') ) {
+                        confirmDleteItemFromCart(selectedLink);
+                    }
+                });
+                return false;
+            }
+        });
+    });
+
+
+    confirmDleteItemFromCart = function(link)
+    {
+        var cartItem = "<?php echo $this->cartParentPackage;?>";
+        if(cartItem != ''){
+            $.ajax({
+            url: 'index.php?fuse=admin&controller=signup&action=deletecartitem',
+                success: function () {
+                    window.location = link;
+            },
+            data: { cartItem: cartItem },
+            dataType: 'json'
+        });
+      } else {
+        window.location = link;
+      }
+    }
+</script>
+<?php } ?>

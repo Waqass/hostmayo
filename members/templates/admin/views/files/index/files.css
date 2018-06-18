@@ -1,0 +1,226 @@
+@CHARSET "UTF-8";
+
+#actionBar {
+	padding: 5px;
+}
+
+#divFileListWrapper {
+	position: relative;
+    min-height: 481px;
+}
+
+#fileList {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+}
+
+#divEntryInfo {
+	position: absolute;
+	width: 300px;
+	margin: 0;
+	padding: 5px;
+    top: 0;
+    right: 0;
+}
+
+#divUploadFile {
+	position: absolute;
+	width: 500px;
+	height: 700px;
+	display: none;
+	z-index: 100;
+}
+
+#divUploadFile .window-bg {
+	height: 100%;
+}
+
+#divUploadFile .window-bg .window-description {
+	height: 100%;
+}
+
+#saveFile, #deleteFile {
+	float: right;
+}
+
+input[type="checkbox"].inline-checkbox {
+	vertical-align: top;
+	margin: 3px 5px 0 0;
+}
+
+.tip {
+	font-style: italic;
+	font-size: 80%;
+}
+
+input[type="text"], textarea {
+	width: 264px;
+}
+
+#divInfoLoadingScreen {
+	display: none;
+	position: absolute;
+	background-color: #ffffff;
+	background-color: rgba(255, 255, 255, 0.7);
+	padding: 100px 0 0 0;
+	text-align: center;
+	z-index: 1;
+}
+
+#divEntryInfo .nav {
+	margin-bottom: 0;
+}
+
+#divEntryInfo .nav span {
+	font-weight: bold;
+}
+
+#divEntryInfo .tab-content {
+	margin-bottom: 10px;
+}
+
+#divEntryInfo .tab-content .tab-pane {
+	border: 1px solid #dddddd;
+	border-width: 0 1px 1px 1px;
+	border-radius: 0 0 4px 4px;
+	padding: 10px;
+}
+
+.information-hover {
+	float: right;
+}
+
+.permissions {
+	margin-bottom: 20px;
+	width: 278px;
+}
+
+#rootNode > ins {
+	display: none;
+}
+
+#rootNode > ul > li {
+	margin-left: 0;
+}
+
+li.jstree-open a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -16px -16px no-repeat !important; }
+li.jstree-closed a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -64px 0 no-repeat !important; }
+li.jstree-leaf[rel=app] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") 0 0 no-repeat !important; }
+li.jstree-leaf[rel=code] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -16px 0 no-repeat !important; }
+li.jstree-leaf[rel=css] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -32px 0 no-repeat !important; }
+li.jstree-leaf[rel=db] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -48px 0 no-repeat !important; }
+li.jstree-leaf[rel=word] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -80px 0 no-repeat !important; }
+li.jstree-leaf[rel=default] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -96px 0 no-repeat !important; }
+li.jstree-leaf[rel=video] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -112px 0 no-repeat !important; }
+li.jstree-leaf[rel=flash] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") 0 -16px no-repeat !important; }
+li.jstree-leaf[rel=webPage] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -32px -16px no-repeat !important; }
+li.jstree-leaf[rel=java] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -48px -16px no-repeat !important; }
+li.jstree-leaf[rel=linux] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -64px -16px no-repeat !important; }
+li.jstree-leaf[rel=audio] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -80px -16px no-repeat !important; }
+li.jstree-leaf[rel=pdf] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -96px -16px no-repeat !important; }
+li.jstree-leaf[rel=php] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -112px -16px no-repeat !important; }
+li.jstree-leaf[rel=image] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") 0 -32px no-repeat !important; }
+li.jstree-leaf[rel=ppt] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -16px -32px no-repeat !important; }
+li.jstree-leaf[rel=psd] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -32px -32px no-repeat !important; }
+li.jstree-leaf[rel=ruby] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -48px -32px no-repeat !important; }
+li.jstree-leaf[rel=script] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -64px -32px no-repeat !important; }
+li.jstree-leaf[rel=text] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -80px -32px no-repeat !important; }
+li.jstree-leaf[rel=excel] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -96px -32px no-repeat !important; }
+li.jstree-leaf[rel=zip] a ins.jstree-icon { background: url("../../../../default/js/jquery-jstree/file-icons/sprite.png") -112px -32px no-repeat !important; }
+
+.fileupload-buttonbar .btn-group {
+	text-align: center;
+}
+
+#download-link {
+	position: absolute;
+	z-index: 10;
+	display: none;
+}
+
+#fileupload {
+	display: inline;
+}
+
+.fileinput-button {
+  position: relative;
+  overflow: hidden;
+  float: left;
+  margin-right: 4px;
+}
+.fileinput-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  transform: translate(-300px, 0) scale(4);
+  font-size: 23px;
+  direction: ltr;
+  cursor: pointer;
+}
+
+.fileupload-progress {
+	width: 100%;
+	margin-top: 10px;
+}
+.fileupload-progress .progress {
+	margin-bottom: 5px;
+}
+.fileupload-progress .progress-extended {
+	font-size: 85%;
+	width: 100%;
+}
+.fileupload-progress .progress-extended thead tr th {
+	font-weight: bold;
+}
+.fileupload-progress .progress-extended tbody tr td {
+	text-align: center;
+}
+.progress-animated .bar {
+  background: url(../img/progressbar.gif) !important;
+  filter: none;
+}
+.fileupload-queue-item {
+	margin: 0 0 10px 0;
+	font-size: 90%;
+}
+.fileupload-queue .filename {
+	width: 190px;
+	display: inline-block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	vertical-align: top;
+	white-space: nowrap;
+}
+.fileupload-queue .filesize {
+	width: 70px;
+	display: inline-block;
+	vertical-align: top;
+	text-align: right;
+}
+.fileupload-queue .progress {
+	width: 95px;
+	display: inline-block;
+	vertical-align: top;
+	margin: 1px 0 0 5px;
+	height: 15px;
+}
+
+.fileupload-queue .progress .bar, .fileupload-progress .progress .bar {
+	background-color: #3299BB;
+}
+
+/* Fix for IE 6: */
+* html .fileinput-button {
+  line-height: 24px;
+  margin: 1px -3px 0 0;
+}
+
+/* Fix for IE 7: */
+* + html .fileinput-button {
+  line-height: 22px;
+  margin: 1px 0 0 0;
+}

@@ -1,0 +1,48 @@
+<?php if ( isset($this->error) ) { ?>
+<div>Error: <?php echo $this->error; ?></div>
+<?php } else { ?>
+
+<?php if ( isset($this->CSRInfo['non_csr']) && $this->CSRInfo['non_csr'] == true ) { ?>
+<table width="100%">
+    <?php foreach ( $this->CSRInfo['info'] as $key => $value ) {
+        if ( $value == '' ) $value = 'N/A';
+    ?>
+    <tr>
+        <td><strong><?php echo $key;?>:</strong</td>
+        <td><?php echo $value;?></td>
+    </tr>
+    <?php } ?>
+</table>
+<?php } else { ?>
+<table>
+    <tr>
+        <td><strong><?php echo $this->user->lang('Domain'); ?>:</strong></td>
+        <td><?php echo $this->CSRInfo['domain']; ?></td>
+    </tr>
+    <tr>
+        <td><strong><?php echo $this->user->lang('City'); ?>:</strong></td>
+        <td><?php echo $this->CSRInfo['city']; ?></td>
+    </tr>
+    <tr>
+        <td><strong><?php echo $this->user->lang('State'); ?>:</strong></td>
+        <td><?php echo $this->CSRInfo['state']; ?></td>
+    </tr>
+    <tr>
+        <td><strong><?php echo $this->user->lang('Country'); ?>:</strong></td>
+        <td><?php echo $this->CSRInfo['country']; ?></td>
+    </tr>
+    <tr>
+        <td><strong><?php echo $this->user->lang('Organization'); ?>:</strong></td>
+        <td><?php echo $this->CSRInfo['organization']; ?></td>
+    </tr>
+    <tr>
+        <td><strong><?php echo $this->user->lang('Organization Unit'); ?>:</strong></td>
+        <td><?php echo $this->CSRInfo['ou']; ?></td>
+    </tr>
+    <tr>
+        <td><strong><?php echo $this->user->lang('Email'); ?>:</strong></td>
+        <td><?php echo $this->CSRInfo['email']; ?></td>
+    </tr>
+</table>
+<?php } ?>
+<?php } ?>

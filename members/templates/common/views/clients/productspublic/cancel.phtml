@@ -1,0 +1,21 @@
+<div class="alert ce-alert ce-alert-info">
+    Requesting cancellation for: <?php echo $this->packageName; ?>
+</div>
+
+<form id="cancel-form" action="index.php?fuse=clients&controller=products&action=requestcancellation" method="POST">
+    <input type="hidden" name="id" value="<?php echo $this->packageId; ?>" />
+
+    <?php echo $this->user->lang('Please describe your reason for this cancellation request'); ?>:<br/>
+    <textarea data-required="true" name="reason" rows='10' style="width: 95%"></textarea>
+
+    Cancellation Type: <br/>
+    <select name="type" id="type">
+        <option value="<?php echo PACKAGE_CANCELLATION_TYPE_IMMEDIATE; ?>">Immediate</option>
+        <option value="<?php echo PACKAGE_CANCELLATION_TYPE_END_BILLING; ?>">End of Billing Period (<?php echo $this->nextDueDate; ?>)</option>
+    </select>
+
+    <div class="form-actions">
+        <input id="submit-button" type="submit" value="Submit" class="btn btn-danger" />
+        <input id="cancel-button" type="button" value="Cancel" class="btn" />
+    </div>
+</div>
