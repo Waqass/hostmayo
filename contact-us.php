@@ -12,15 +12,19 @@
                     <h2 class="section-heading">Contact US</h2>
                     <p>Ready to start your next Web site with us! or need a help? That's great! Just send us an email or open a support ticket and we will get back to you as soon as possible!</p>
                 </div>
-                <div class="col-lg-4 text-center">
+                <div class="col-lg-3 text-center">
                     <i class="far fa-life-ring fa-3x wow bounceIn"></i>
-                       <a rel=”nofollow” href="./members/index.php?fuse=support&controller=ticket&view=submitticket"><p>Submit Ticket</p></a>
+                       <a href="./members/index.php?fuse=support&controller=ticket&view=submitticket"><p>Submit Ticket</p></a>
                 </div>
-                <div class="col-lg-4 text-center">
+                <div class="col-lg-3 text-center">
                     <i class="far fa-envelope fa-3x wow bounceIn" data-wow-delay=".1s"></i>
                     <p><a href="mailto:admin@hostmayo.com">admin@hostmayo.com</a></p>
                 </div>
-                <div class="col-lg-4 text-center">
+                <div class="col-lg-3 text-center">
+                    <i class="fab fa-wpforms fa-3x wow bounceIn" data-wow-delay=".1s"></i>
+                    <p><a href="https://hostmayo.com/blog/forum/host-mayo/support/">Forum Support</a></p>
+                </div>
+                <div class="col-lg-3 text-center">
                     <i class="fab fa-skype fa-3x wow bounceIn" data-wow-delay=".1s"></i>
                     <p><a href="skype:hostmayo?add">Skype Support: HostMayo</a></p>
                 </div>
